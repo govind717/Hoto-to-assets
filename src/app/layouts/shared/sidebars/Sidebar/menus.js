@@ -1,0 +1,46 @@
+import React from "react";
+import PeopleIcon from '@mui/icons-material/People';
+import PaidIcon from '@mui/icons-material/Paid';
+import StoreIcon from '@mui/icons-material/Store';
+
+const menus = [
+    {
+        label: 'Hoto Servey',
+        type: "section",
+        children: [
+            {
+                // uri: "/dashboards/users",
+                uri: "/dashboards/hoto-servey-data",
+                label: 'Hoto Servey Data',
+                type: "nav-item",
+                icon: <PeopleIcon sx={{ fontSize: 20 }} />
+            },
+        ]
+    },
+    // {
+    //     label: 'sidebar.menu.store',
+    //     type: "section",
+    //     children: [
+    //         {
+    //             uri: "/dashboards/myStore",
+    //             label: 'sidebar.menuItem.myStore',
+    //             type: "nav-item",
+    //             icon: <StoreIcon sx={{ fontSize: 20 }} />
+    //         },
+    //     ]
+    // },
+    // {
+    //     label: 'sidebar.menu.history',
+    //     type: "section",
+    //     children: [
+    //         {
+    //             uri: "/dashboards/transactionHistory",
+    //             label: 'sidebar.menuItem.transactionHistory',
+    //             type: "nav-item",
+    //             icon: <PaidIcon sx={{ fontSize: 20 }} />
+    //         },
+    //     ]
+    // },
+];
+
+export default menus;

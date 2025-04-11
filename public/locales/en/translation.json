@@ -1,0 +1,14 @@
+{
+  "sidebar": {
+    "menu": {
+      "profile": "Profile",
+      "store":"Store",
+      "history":"History"
+    },
+    "menuItem": {
+      "myProfile": "My Profile",
+      "myStore":"My Stores",
+      "transactionHistory":"Transaction History"
+    }
+  }
+}
