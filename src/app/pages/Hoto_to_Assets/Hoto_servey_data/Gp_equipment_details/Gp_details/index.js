@@ -13,7 +13,7 @@ const TypographyLabel = function ({ label, value }) {
 const Gp_details = ({ gp_details }) => {
     const gp = gp_details?.gp
     return (
-        <Grid container>
+        <Grid container rowGap={3}>
             <Grid item xl={6} md={6} sm={12}>
                 <TypographyLabel label={"GP"} value={gp?.name || "-"} />
                 <TypographyLabel label={"Block"} value={gp?.block?.name || "-"} />
