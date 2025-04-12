@@ -16,6 +16,8 @@ import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import EquipmentModal from "../Gp_equipment_details/Gp_equipments/Equipment_details_models";
 import Gp_details from "../Gp_equipment_details/Gp_details";
+import AddTransfer from "../Transfer/Add_transfer";
+import AddRepair from "../Transfer/Add_repair";
 
 
 const tableCellSx = {
@@ -132,41 +134,47 @@ const Assets_Portfolio_List = () => {
     return (
         <>
             {hotoServeyDataReducer?.loading && <FullScreenLoader />}
-            <Div sx={{ display: "flex", justifyContent: "space-between" }}>
-                <TextField
-                    id="search"
-                    type="search"
-                    label="Search"
-                    value={searchTerm}
-                    size="small"
-                    onChange={(e) => {
-                        setSearchTerm(e.target.value);
-                        if (e.target.value === "") {
-                            dispatch(hoto_servey_data_disptach({
-                                sortBy: sortBy,
-                                search_value: "",
-                                sort: sort,
-                                page: page,
-                            }));;
-                        }
-                    }}
-                    sx={{ width: 300, my: "2%" }}
-                    InputProps={{
-                        endAdornment: (
-                            <Div sx={{ cursor: "pointer" }}>
-                                <InputAdornment position="end">
-                                    <SearchIcon />
-                                </InputAdornment>
-                            </Div>
-                        ),
-                    }}
-                />
-            </Div>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", my: "2%" }}>
+                <Div >
+                    <TextField
+                        id="search"
+                        type="search"
+                        label="Search"
+                        value={searchTerm}
+                        size="small"
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            if (e.target.value === "") {
+                                dispatch(hoto_servey_data_disptach({
+                                    sortBy: sortBy,
+                                    search_value: "",
+                                    sort: sort,
+                                    page: page,
+                                }));;
+                            }
+                        }}
+                        sx={{ width: 300 }}
+                        InputProps={{
+                            endAdornment: (
+                                <Div sx={{ cursor: "pointer" }}>
+                                    <InputAdornment position="end">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                </Div>
+                            ),
+                        }}
+                    />
+                </Div>
+                <Div>
+                    <AddTransfer />
+                    <AddRepair />
+                </Div>
+            </Box>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" >
                     <TableHead>
                         <TableRow sx={{ bgcolor: "#53B8CA" }}>
-                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
                                     direction={sort}
@@ -201,7 +209,7 @@ const Assets_Portfolio_List = () => {
                                     sx={{ ...tableCellSort }}
                                 >GP Status</TableSortLabel>
                             </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"160px" }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.commissionPercentage`)}
                                     direction={sort}
