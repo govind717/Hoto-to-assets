@@ -7,6 +7,8 @@ import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Assets_Portfolio_List from "./Assets_Portfolio/Assets_Portfolio"
+import Transfer_list from './Transfer';
+import Rectification_list from './Rectification';
 
 const Hoto_servey_data = () => {
     const [value, setValue] = React.useState('1');
@@ -25,13 +27,15 @@ const Hoto_servey_data = () => {
                             <Tab label="Assets" value="1" />
                             <Tab label="Assets Portfolio" value="2" />
                             <Tab label="Transfer" value="3" />
+                            <Tab label="Rectification" value="4" />
                         </TabList>
                     </Box>
                     <TabPanel value="1" sx={{ p: 0 }}>
                         <Gp_list />
                     </TabPanel>
-                    <TabPanel value="2" sx={{ p: 0 }}><Assets_Portfolio_List/></TabPanel>
-                    <TabPanel value="3" sx={{ p: 0 }}>Item Three</TabPanel>
+                    <TabPanel value="2" sx={{ p: 0 }}><Assets_Portfolio_List /></TabPanel>
+                    <TabPanel value="3" sx={{ p: 0 }}><Transfer_list /></TabPanel>
+                    <TabPanel value="4" sx={{ p: 0 }}><Rectification_list /></TabPanel>
                 </TabContext>
             </Box>
         </Box>
