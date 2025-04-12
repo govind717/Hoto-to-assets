@@ -10,8 +10,6 @@ const Hoto_servey_data = () => {
     const { hotoServeyDataReducer } = useSelector((state) => state);
     const dispatch = useDispatch();
 
-    console.log(hotoServeyDataReducer)
-
     useEffect(() => {
         dispatch(hoto_servey_data_disptach());
     }, [dispatch])

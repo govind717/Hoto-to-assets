@@ -3,7 +3,7 @@ import Div from '@jumbo/shared/Div';
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from '@mui/icons-material/Search';
-import { IconButton, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField } from '@mui/material';
+import { Button, IconButton, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField } from '@mui/material';
 import { hoto_servey_data_disptach } from 'app/redux/actions/Hoto_to_servey';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import MapIcon from '@mui/icons-material/Map';
 import ShareLocationIcon from '@mui/icons-material/ShareLocation';
 import MapLocation from "../../MapLocation";
+import FullScreenLoader from "app/pages/Components/Loader";
 
 
 const tableCellSx = {
@@ -39,7 +40,7 @@ const Gp_list = () => {
     const [page, setPage] = useState(1);
     const [coordinate, setCoordinate] = useState({
         open: false,
-        gp_name:null,
+        gp_name: null,
         lat: null,
         log: null
     })
@@ -55,25 +56,33 @@ const Gp_list = () => {
         setPage(1);
     };
 
-    const handleItemAction = function (menuItems) {
-        const data = menuItems?.data;
-        switch (menuItems.action) {
-            case "equipmentDetails":
-                navigate("/dashboards/hoto-servey-data/equipment-details", {
-                    state: {
-                        gp_data: data
-                    }
-                })
-                break;
-            default:
-                break;
-        }
+    // const handleItemAction = function (menuItems) {
+    //     const data = menuItems?.data;
+    //     switch (menuItems.action) {
+    //         case "equipmentDetails":
+    //             navigate("/dashboards/hoto-servey-data/equipment-details", {
+    //                 state: {
+    //                     gp_data: data
+    //                 }
+    //             })
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
+
+    const handleEquipmentDetails = function (data) {
+        navigate("/dashboards/hoto-servey-data/equipment-details", {
+            state: {
+                gp_data: data
+            }
+        })
     }
 
-    const handleCloseCoordinate = function(){
+    const handleCloseCoordinate = function () {
         setCoordinate({
             open: false,
-            gp_name:null,
+            gp_name: null,
             lat: null,
             log: null
         })
@@ -116,6 +125,7 @@ const Gp_list = () => {
 
     return (
         <>
+            {hotoServeyDataReducer?.loading && <FullScreenLoader />}
             <Div sx={{ display: "flex", justifyContent: "space-between" }}>
                 <TextField
                     id="search"
@@ -192,13 +202,13 @@ const Gp_list = () => {
                                     sx={{ ...tableCellSort }}
                                 >District Code</TableSortLabel>
                             </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            {/* <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.commissionPercentage`)}
                                     direction={sort}
                                     sx={{ ...tableCellSort }}
                                 >Package</TableSortLabel>
-                            </TableCell>
+                            </TableCell> */}
                             <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.commissionPercentage`)}
@@ -258,13 +268,13 @@ const Gp_list = () => {
                                         }}>
                                             {ele?.gp?.district?.code || "-"}
                                         </TableCell>
-                                        <TableCell align="left" sx={{
+                                        {/* <TableCell align="left" sx={{
                                             textAlign: "left",
                                             verticalAlign: "middle",
                                             textTransform: "capitalize"
                                         }}>
                                             {ele?.gp?.package?.name || "-"}
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell align="left" sx={{
                                             textAlign: "left",
                                             verticalAlign: "middle",
@@ -274,7 +284,7 @@ const Gp_list = () => {
                                             <IconButton aria-label="info" size="medium" onClick={() => {
                                                 setCoordinate({
                                                     open: true,
-                                                    gp_name:ele?.gp?.name,
+                                                    gp_name: ele?.gp?.name,
                                                     lat: ele?.gp?.latitude,
                                                     log: ele?.gp?.longitude
                                                 })
@@ -285,8 +295,20 @@ const Gp_list = () => {
                                                 <MyLocationIcon sx={{cursor:"pointer"}} onClick={()=>{}}/>
                                             </Div> */}
                                         </TableCell>
-
                                         <TableCell align="left" sx={{
+                                            textAlign: "left",
+                                            verticalAlign: "middle",
+                                            textTransform: "capitalize"
+                                        }}>
+                                            <Button variant="contained"
+                                                startIcon={<HomeRepairServiceIcon />}
+                                                onClick={() => handleEquipmentDetails(ele)}
+                                            >
+                                                Equipment
+                                            </Button>
+                                        </TableCell>
+
+                                        {/* <TableCell align="left" sx={{
                                             textAlign: "left",
                                             verticalAlign: "middle",
                                         }}>
@@ -302,7 +324,7 @@ const Gp_list = () => {
                                                 ]}
                                                 onClickCallback={handleItemAction}
                                             />
-                                        </TableCell>
+                                        </TableCell> */}
                                     </TableRow>
                                 )
                             })

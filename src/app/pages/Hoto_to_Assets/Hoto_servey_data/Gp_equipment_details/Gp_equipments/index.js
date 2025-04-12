@@ -1,4 +1,4 @@
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useState } from 'react'
 import InfoIcon from '@mui/icons-material/Info';
 import EquipmentModal from './Equipment_details_models';
@@ -232,9 +232,17 @@ const Gp_equipments = ({ gp_details }) => {
                                             verticalAlign: "middle",
                                             textTransform: "capitalize"
                                         }}>
-                                            <IconButton aria-label="info" size="small" onClick={() => handleOpen(ele)}>
-                                                <InfoIcon fontSize="small" color='primary' />
-                                            </IconButton>
+                                            <Button variant="contained"
+                                                sx={{
+                                                    "&:hover":{
+                                                        color:"red"
+                                                    }
+                                                }}
+                                                startIcon={<InfoIcon />}
+                                                onClick={() => handleOpen(ele)}
+                                            >
+                                                View
+                                            </Button>
                                         </TableCell>
                                     </TableRow>
                                 )
