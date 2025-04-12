@@ -218,7 +218,7 @@ const Gp_list = () => {
                                 >Coordinates</TableSortLabel>
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
-                                Action
+                                Details
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -311,7 +311,7 @@ const Gp_list = () => {
                                                     }
                                                 }}
                                             >
-                                                Equipment
+                                                View
                                             </Button>
                                         </TableCell>
 
