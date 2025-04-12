@@ -490,7 +490,7 @@ const Assets_Portfolio_List = () => {
                                         <Button variant="contained"
                                             size="small"
                                             startIcon={<HomeRepairServiceIcon />}
-                                            onClick={() => handleOpen(ele)}
+                                            onClick={() => handleOpen(equipment_details)}
                                             sx={{
                                                 "&:hover": {
                                                     backgroundColor: orangeSecondary
@@ -531,7 +531,7 @@ const Assets_Portfolio_List = () => {
                 <Box>
                     <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>Gp Details</Typography>
                     <Gp_details gp_details={{
-                        gp: equipment_show?.equipment_details?.gp
+                        gp: equipment_show?.equipment_details?.gp_details
                     }} />
                     <Typography variant="h4" sx={{ my: 2, fontWeight: 600 }}>Details</Typography>
                 </Box>
