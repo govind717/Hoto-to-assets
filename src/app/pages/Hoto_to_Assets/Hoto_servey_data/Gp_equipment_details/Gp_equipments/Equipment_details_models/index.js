@@ -378,7 +378,104 @@ export const CableDetails = function ({ equipment_data }) {
     </Box>
   );
 };
+export const SolarDetails = ({ equipment_data }) => {
+  return (
+    <Box width={"100%"}>
+      <Grid container spacing={3}>
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>Solar Panel Availability</Typography>
+          <Typography>{equipment_data?.solar_panel_avail || "-"}</Typography>
+        </Grid>
 
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>Solar Panel Count</Typography>
+          <Typography>{equipment_data?.solar_panel_count || "-"}</Typography>
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>Access to the terrace</Typography>
+          <Typography>{equipment_data?.terrace_access || "-"}</Typography>
+          {/* {renderIcon(<MapIcon />, equipment_data?.terrace_img)}
+          {renderIcon(<ImageIcon />, equipment_data?.terrace_img1)} */}
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>Solar Panel Condition</Typography>
+          <Typography>{equipment_data?.solar_panel_condition || "-"}</Typography>
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>Solar Panel Make</Typography>
+          <Typography>{equipment_data?.solar_panel_make || "-"}</Typography>
+          {/* {renderIcon(<MapIcon />, null)}
+          {renderIcon(<ImageIcon />, equipment_data?.solar_panel_img)}
+          {renderIcon(<PlayArrowIcon />, equipment_data?.solar_panel_img1)} */}
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>Solar Panel Serial No</Typography>
+          <Typography>{equipment_data?.solar_panel_serial_no || "-"}</Typography>
+          {/* {renderIcon(<ImageIcon />, equipment_data?.solar_panel_serial_img)} */}
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>Solar Panel Capacity</Typography>
+          <Typography>{equipment_data?.solar_panel_capacity || "-"}</Typography>
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>Solar Panel Warranty</Typography>
+          <Typography>{equipment_data?.solar_panel_warranty || "-"}</Typography>
+          {/* {renderIcon(<ImageIcon />, equipment_data?.solar_panel_warranty_img)} */}
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+export const UPSDetails = ({ equipment_data }) => {
+  return (
+    <Box width={"100%"}>
+      <Grid container spacing={3}>
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>UPS Availability</Typography>
+          <Typography>{equipment_data?.ups_avail || "-"}</Typography>
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>UPS Condition</Typography>
+          <Typography>{equipment_data?.ups_condition || "-"}</Typography>
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>UPS Make</Typography>
+          <Typography>{equipment_data?.ups_make || "-"}</Typography>
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>UPS Serial Number</Typography>
+          <Typography>{equipment_data?.ups_serial_no || "-"}</Typography>
+          {/* {renderIcon(<ImageIcon />, equipment_data?.ups_serial_img)} */}
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>UPS Capacity</Typography>
+          <Typography>{equipment_data?.ups_capacity || "-"}</Typography>
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>UPS Warranty</Typography>
+          <Typography>{equipment_data?.ups_warranty || "-"}</Typography>
+          {/* {renderIcon(<ImageIcon />, equipment_data?.ups_warranty_img)} */}
+        </Grid>
+
+        <Grid item xl={3} md={4} sm={6}>
+          <Typography sx={labelSxTypography}>UPS Battery No</Typography>
+          <Typography>{equipment_data?.ups_battery_no || "-"}</Typography>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
 
 
 export default function EquipmentModal({ equipment_show, handleClose, equipment_details }) {
@@ -417,6 +514,8 @@ export default function EquipmentModal({ equipment_show, handleClose, equipment_
           {equipment_name === "sfp" && <SfpDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
           {equipment_name === "fdms" && <FdmsDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
           {equipment_name === "cable" && <CableDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+          {equipment_name === "solar" && <SolarDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+          {equipment_name === "ups" && <UPSDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>

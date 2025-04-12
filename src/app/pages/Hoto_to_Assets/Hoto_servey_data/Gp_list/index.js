@@ -13,6 +13,7 @@ import MapIcon from '@mui/icons-material/Map';
 import ShareLocationIcon from '@mui/icons-material/ShareLocation';
 import MapLocation from "../../MapLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
 
 
 const tableCellSx = {
@@ -301,8 +302,14 @@ const Gp_list = () => {
                                             textTransform: "capitalize"
                                         }}>
                                             <Button variant="contained"
+                                                size="small"
                                                 startIcon={<HomeRepairServiceIcon />}
                                                 onClick={() => handleEquipmentDetails(ele)}
+                                                sx={{
+                                                    "&:hover":{
+                                                        backgroundColor:orangeSecondary
+                                                    }
+                                                }}
                                             >
                                                 Equipment
                                             </Button>

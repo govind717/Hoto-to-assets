@@ -2,6 +2,7 @@ import { Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer,
 import React, { useState } from 'react'
 import InfoIcon from '@mui/icons-material/Info';
 import EquipmentModal from './Equipment_details_models';
+import { orangeSecondary } from 'app/pages/Constants/colors';
 const tableCellSx = {
     textTransform: "capitalize",
     color: "white",
@@ -25,6 +26,7 @@ const Gp_equipments = ({ gp_details }) => {
         equipment_name: null
     });
     const gp_equipment = gp_details?.equipment
+    const gp_electrical = gp_details?.electrical
     const equipment_listing_data = {
         racks: {
             racks: gp_equipment?.racks,
@@ -80,6 +82,18 @@ const Gp_equipments = ({ gp_details }) => {
             warrenty_status: "",
             working_condition: "",
             remark: "",
+        },
+        solar: {
+            quantity: gp_electrical?.solar_panel_count || "",                       // Number of solar panels
+            warranty_status: gp_electrical?.solar_panel_warranty || "",             // Warranty info
+            working_condition: gp_electrical?.solar_panel_condition || "",          // Condition
+            remark: gp_electrical?.solar_panel_make || "",
+        },
+        ups: {
+            quantity: gp_electrical?.ups_battery_no || "",                         // No. of batteries
+            warranty_status: gp_electrical?.ups_warranty || "",                    // Warranty
+            working_condition: gp_electrical?.ups_condition || "",                 // Condition
+            remark: gp_electrical?.ups_make || "",
         }
     };
 
@@ -144,7 +158,35 @@ const Gp_equipments = ({ gp_details }) => {
         cable: {
             cable_ofc_type: gp_equipment?.cable_ofc_type,
             cable_fibre_no: gp_equipment?.cable_fibre_no,
-        }
+        },
+        solar: {
+            solar_panel_avail: gp_electrical?.solar_panel_avail,
+            solar_panel_count: gp_electrical?.solar_panel_count,
+            terrace_access: gp_electrical?.terrace_access,
+            solar_panel_condition: gp_electrical?.solar_panel_condition,
+            solar_panel_make: gp_electrical?.solar_panel_make,
+            solar_panel_serial_no: gp_electrical?.solar_panel_serial_no,
+            solar_panel_capacity: gp_electrical?.solar_panel_capacity,
+            solar_panel_warranty: gp_electrical?.solar_panel_warranty,
+            solar_panel_img: gp_electrical?.solar_panel_img,
+            solar_panel_img1: gp_electrical?.solar_panel_img1,
+            solar_panel_serial_img: gp_electrical?.solar_panel_serial_img,
+            solar_panel_warranty_img: gp_electrical?.solar_panel_warranty_img,
+            terrace_img: gp_electrical?.terrace_img,
+            terrace_img1: gp_electrical?.terrace_img1,
+        },
+        ups: {
+            ups_avail: gp_electrical?.ups_avail,
+            ups_condition: gp_electrical?.ups_condition,
+            ups_make: gp_electrical?.ups_make,
+            ups_serial_no: gp_electrical?.ups_serial_no,
+            ups_capacity: gp_electrical?.ups_capacity,
+            ups_warranty: gp_electrical?.ups_warranty,
+            ups_battery_no: gp_electrical?.ups_battery_no,
+            ups_serial_img: gp_electrical?.ups_serial_img,
+            ups_warranty_img: gp_electrical?.ups_warranty_img,
+        },
+
     };
 
     const handleOpen = (equipment_name) => {
@@ -232,10 +274,10 @@ const Gp_equipments = ({ gp_details }) => {
                                             verticalAlign: "middle",
                                             textTransform: "capitalize"
                                         }}>
-                                            <Button variant="contained"
+                                            <Button variant="contained" size='small'
                                                 sx={{
-                                                    "&:hover":{
-                                                        color:"red"
+                                                    "&:hover": {
+                                                        backgroundColor: orangeSecondary
                                                     }
                                                 }}
                                                 startIcon={<InfoIcon />}
