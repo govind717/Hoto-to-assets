@@ -20,7 +20,7 @@ const ProductSalesList = ({products}) => {
             autoHide={true}
             hideTracksWhenNotNeeded
         >
-            <Table>
+            <Table size="small">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell sx={{pl: 3}}>Product</StyledTableCell>
@@ -31,7 +31,7 @@ const ProductSalesList = ({products}) => {
                 </TableHead>
                 <TableBody>
                     {
-                        products.map((product, index) => (
+                        products?.map((product, index) => (
                             <ProductSaleItem item={product} key={index}/>
                         ))
                     }

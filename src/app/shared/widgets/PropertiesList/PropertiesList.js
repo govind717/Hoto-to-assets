@@ -7,7 +7,6 @@ import JumboRqList from "@jumbo/components/JumboReactQuery/JumboRqList";
 import JumboScrollbar from "@jumbo/components/JumboScrollbar";
 import PropertyItem from "./PropertyItem";
 import {useTranslation} from "react-i18next";
-import {propertyServices} from "../../../services/property-services";
 import useJumboTheme from "@jumbo/hooks/useJumboTheme";
 
 const PropertiesList = () => {
@@ -52,17 +51,6 @@ const PropertiesList = () => {
                     >
                         {t("widgets.title.properties1")}
                     </Typography>
-                    <JumboRqTabs
-                        service={propertyServices.getPropertyCategories}
-                        queryOptions={{
-                            queryKey: "property-category",
-                            dataKey: "propertiesCategory",
-                        }}
-                        map={{label: 'name'}}
-                        primaryKey={"id"}
-                        onChange={handleCategory}
-                        sx={{m: {md: '0 auto'}}}
-                    />
                 </Typography>
             }
             action={
@@ -94,22 +82,6 @@ const PropertiesList = () => {
                 }
             }}
         >
-            <JumboScrollbar
-                autoHeight
-                autoHeightMin={554}
-                autoHide
-                autoHideDuration={200}
-                autoHideTimeout={500}
-            >
-                <JumboRqList
-                    queryOptions={queryOptions}
-                    primaryKey={"id"}
-                    service={propertyServices.getProperties}
-                    renderItem={renderPropertyItem}
-                    componentElement={"div"}
-                    wrapperSx={{pb: 1}}
-                />
-            </JumboScrollbar>
         </JumboCardQuick>
     );
 };

@@ -1,5 +1,8 @@
 import {ASSET_AVATARS} from "../../../utils/constants/paths";
 import {getAssetPath} from "../../../utils/appHelpers";
+import { useEffect } from "react";
+
+
 
 export const authUser = {
     email: "harmaynicroft@example.com",
