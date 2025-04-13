@@ -31,7 +31,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 // import { getAssetPath } from "../../../utils/appHelpers";
 import OTPInput from "react-otp-input";
 import FullViewContent from "app/Components/FullViewContent";
-import { orangeSecondary } from "app/pages/Constants/colors";
+import { bluePrimary, orangeSecondary } from "app/pages/Constants/colors";
 import Swal from "sweetalert2";
 
 const validationSchema = yup.object({
@@ -135,7 +135,7 @@ const LoginAndForgotPassword = ({ setResetPassword }) => {
                 justifyContent:"center",
                 alignItems: "center",
                 textAlign:"center",
-                backgroundColor: (theme) => alpha("#5a9cc1", 1),
+                backgroundColor: (theme) => alpha(bluePrimary, 1),
                 p: (theme) => theme.spacing(3),
               }}
             >
@@ -155,8 +155,8 @@ const LoginAndForgotPassword = ({ setResetPassword }) => {
             <Formik
               validateOnChange={true}
               initialValues={{
-                email: "inventorymanager@gmail.com",
-                password: "password",
+                email: "",
+                password: "",
               }}
               validationSchema={validationSchema}
               onSubmit={(data, { setSubmitting }) => {
@@ -265,7 +265,9 @@ const LoginAndForgotPassword = ({ setResetPassword }) => {
                       />
                     </Box>
                   )}
-                  {!forgetPassword?.open && (
+                  
+                  {/* //forgot password */}
+                  {/* {!forgetPassword?.open && (
                     <Typography textAlign={"right"} variant={"body1"}>
                       <Button
                         size="small"
@@ -287,9 +289,8 @@ const LoginAndForgotPassword = ({ setResetPassword }) => {
                       >
                         Forgot your password?
                       </Button>
-                      {/* <Link underline="none" href="/forget-password">Forgot your password?</Link> */}
                     </Typography>
-                  )}
+                  )} */}
                   {!forgetPassword?.open ? (
                     <LoadingButton
                       fullWidth
