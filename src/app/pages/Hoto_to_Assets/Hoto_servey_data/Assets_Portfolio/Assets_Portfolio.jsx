@@ -164,7 +164,7 @@ const Assets_Portfolio_List = () => {
             </Div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" >
-                    <TableHead>
+                    {/* <TableHead>
                         <TableRow sx={{ bgcolor: "#53B8CA" }}>
                             <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
                                 <TableSortLabel
@@ -226,7 +226,70 @@ const Assets_Portfolio_List = () => {
                                 Details
                             </TableCell>
                         </TableRow>
-                    </TableHead>
+                    </TableHead> */}
+                    <TableHead>
+  <TableRow sx={{ bgcolor: "#53B8CA" }}>
+    {/* Equipment column with dropdown */}
+    <TableCell align="left" sx={{ ...tableCellSx }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+        Equipment
+        <IconButton size="small" onClick={handleFilterClick}>
+          <FilterListIcon />
+        </IconButton>
+      </Box>
+
+      {/* Filter popper only for Equipment */}
+      <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
+        <ClickAwayListener onClickAway={handleCancel}>
+          <Box
+            sx={{
+              p: 2,
+              bgcolor: "white",
+              boxShadow: 3,
+              borderRadius: 2,
+              minWidth: 200,
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+              zIndex: 10
+            }}
+          >
+            {Object.keys(equipment_types).map((option) => (
+              <Box key={option}>
+                <Checkbox
+                  checked={selectedFilters.includes(option)}
+                  onChange={() => handleCheckboxChange(option)}
+                />
+                {option}
+              </Box>
+            ))}
+            <Box display="flex" justifyContent="space-between" mt={1}>
+              <Button variant="contained" onClick={handleApply}>Apply</Button>
+              <Button variant="outlined" onClick={handleCancel}>Cancel</Button>
+            </Box>
+          </Box>
+        </ClickAwayListener>
+      </Popper>
+    </TableCell>
+
+    {/* All other columns – icon only (no dropdown) */}
+    {["Vendor", "Serial No.", "GP Name", "GP Status", "Warranty Status", "Condition", "Status", "Details"].map((label) => (
+      <TableCell key={label} align="left" sx={{ ...tableCellSx }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <TableSortLabel
+            onClick={() => handleSort(label)}
+            direction={sort}
+            sx={{ ...tableCellSort }}
+          >
+            {label}
+          </TableSortLabel>
+          <FilterListIcon fontSize="small" color="action" />
+        </Box>
+      </TableCell>
+    ))}
+  </TableRow>
+</TableHead>
+
                     <TableBody>
                         {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
                             const gp_equipment = ele?.equipment
