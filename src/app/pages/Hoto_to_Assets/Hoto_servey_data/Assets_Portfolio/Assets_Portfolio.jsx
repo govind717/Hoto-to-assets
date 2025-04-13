@@ -162,40 +162,116 @@ const Assets_Portfolio_List = () => {
   return (
     <>
       {hotoServeyDataReducer?.loading && <FullScreenLoader />}
-      <Div sx={{ display: "flex", justifyContent: "space-between" }}>
-        <TextField
-          id="search"
-          type="search"
-          label="Search"
-          value={searchTerm}
-          size="small"
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            if (e.target.value === "") {
-              dispatch(
-                hoto_servey_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                })
-              );
-            }
-          }}
-          sx={{ width: 300, my: "2%" }}
-          InputProps={{
-            endAdornment: (
-              <Div sx={{ cursor: "pointer" }}>
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              </Div>
-            ),
-          }}
-        />
-      </Div>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          my: "2%",
+        }}
+      >
+        <Div>
+          <TextField
+            id="search"
+            type="search"
+            label="Search"
+            value={searchTerm}
+            size="small"
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              if (e.target.value === "") {
+                dispatch(
+                  hoto_servey_data_disptach({
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                  })
+                );
+              }
+            }}
+            sx={{ width: 300 }}
+            InputProps={{
+              endAdornment: (
+                <Div sx={{ cursor: "pointer" }}>
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                </Div>
+              ),
+            }}
+          />
+        </Div>
+        <Div>
+          <AddTransfer />
+          <AddRepair />
+        </Div>
+      </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
+          {/* <TableHead>
+                        <TableRow sx={{ bgcolor: "#53B8CA" }}>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >Equipment</TableSortLabel>
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.companyType`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >Vendor</TableSortLabel>
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.companyType`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >Serial No.</TableSortLabel>
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.companyType`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >GP Name</TableSortLabel>
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.commissionPercentage`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >GP Status</TableSortLabel>
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"160px" }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.commissionPercentage`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >Warranty Status</TableSortLabel>
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.commissionPercentage`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >Condition</TableSortLabel>
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.commissionPercentage`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >Status</TableSortLabel>
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
+                                Details
+                            </TableCell>
+                        </TableRow>
+                    </TableHead> */}
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               {/* Equipment column with dropdown */}
@@ -271,6 +347,7 @@ const Assets_Portfolio_List = () => {
               ))}
             </TableRow>
           </TableHead>
+
           <TableBody>
             {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map(
               (ele, index) => {
@@ -514,17 +591,6 @@ const Assets_Portfolio_List = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      {equipment_listing_data?.[equipmentFilterName]
-                        ?.quantity || "-"}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
                       {ele?.gp?.name || "-"}
                     </TableCell>
                     <TableCell
@@ -582,7 +648,7 @@ const Assets_Portfolio_List = () => {
                         variant="contained"
                         size="small"
                         startIcon={<HomeRepairServiceIcon />}
-                        onClick={() => handleOpen(ele)}
+                        onClick={() => handleOpen(equipment_details)}
                         sx={{
                           "&:hover": {
                             backgroundColor: orangeSecondary,
@@ -630,7 +696,7 @@ const Assets_Portfolio_List = () => {
             </Typography>
             <Gp_details
               gp_details={{
-                gp: equipment_show?.equipment_details?.gp,
+                gp: equipment_show?.equipment_details?.gp_details,
               }}
             />
             <Typography variant="h4" sx={{ my: 2, fontWeight: 600 }}>
