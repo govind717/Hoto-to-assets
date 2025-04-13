@@ -7,7 +7,7 @@ import { storeRoute } from "./Store";
 import { historyRoute } from "./History";
 import Login from "app/pages/Auth/Login";
 import SoloPage from "app/layouts/solo-page/SoloPage";
-import { hotoToAssetsRoute } from "./Hoto_to_assets";
+import { blockRoute, hotoToAssetsRoute, rkmRoute } from "./Hoto_to_assets";
 import Dashboard from "app/pages/Dashboard";
 import LoginPage from "app/pages/Auth/Login/LoginAndForgotPassword/LoginPage";
 
@@ -39,7 +39,9 @@ const routesForPublic = [
  routes only accessible to authenticated users
  **/
 const routesForAuthenticatedOnly = [
-    ...hotoToAssetsRoute
+    ...hotoToAssetsRoute,
+    ...blockRoute,
+    ...rkmRoute
     // ...profileRoute,
     // ...storeRoute,
     // ...historyRoute,

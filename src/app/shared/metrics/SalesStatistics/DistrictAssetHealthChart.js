@@ -57,7 +57,7 @@ const chartSeries = [
 
 // Custom legend with colored dots and black labels
 const CustomLegend = () => (
-  <Box display="flex" justifyContent="center" gap={3} mt={3} flexWrap="wrap">
+  <Box display="flex" justifyContent="center" gap={3} mt={1.5} flexWrap="wrap">
     {chartSeries.map((item, index) => (
       <Box key={index} display="flex" alignItems="center" gap={1}>
         <Box
@@ -83,7 +83,7 @@ const StylishAssetHealthChart = () => {
         <Typography variant="h6" gutterBottom>
           District-wise Asset Health Overview
         </Typography>
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={200}>
           <BarChart
             data={data}
             margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
