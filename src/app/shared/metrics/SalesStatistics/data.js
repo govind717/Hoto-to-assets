@@ -118,3 +118,11 @@ export const menuItems = [
         slug: "subscribe",
     }
 ]
+
+
+export const pieData = [
+    { name: 'Robust', value: 2900 },
+    { name: 'Semi-Damaged', value: 400 },
+    { name: 'Missing / Not Found', value: 150 },
+    { name: 'Damaged', value: 300 },
+  ];
