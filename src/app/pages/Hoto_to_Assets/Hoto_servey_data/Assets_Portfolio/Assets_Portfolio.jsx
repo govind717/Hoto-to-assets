@@ -569,7 +569,7 @@ const Assets_Portfolio_List = () => {
                                         <Button variant="contained"
                                             size="small"
                                             startIcon={<HomeRepairServiceIcon />}
-                                            onClick={() => handleOpen(equipment_details)}
+                                            onClick={() => handleOpen(equipment_details)} 
                                             sx={{
                                                 "&:hover": {
                                                     backgroundColor: orangeSecondary
