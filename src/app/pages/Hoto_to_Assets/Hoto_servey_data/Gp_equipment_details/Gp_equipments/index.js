@@ -31,55 +31,55 @@ const Gp_equipments = ({ gp_details }) => {
         racks: {
             racks: gp_equipment?.racks,
             quantity: gp_equipment?.no_of_racks,
-            warrenty_status: "",
+            warranty_status: "",
             working_condition: "",
             remark: "",
         },
         smps: {
             smps: gp_equipment?.smps,
             quantity: gp_equipment?.smps_capacity,
-            warrenty_status: gp_equipment?.smps_warranty,
+            warranty_status: gp_equipment?.smps_warranty,
             working_condition: gp_equipment?.smps_condition,
             remark: "",
         },
         ccu: {
             cuu: gp_equipment?.ccu,
             quantity: "",
-            warrenty_status: gp_equipment?.ccu_warranty,
+            warranty_status: gp_equipment?.ccu_warranty,
             working_condition: gp_equipment?.ccu_condition,
             remark: "",
         },
         splitter: {
             splitter: gp_equipment?.splitter,
             quantity: "",
-            warrenty_status: gp_equipment?.splitter_warranty,
+            warranty_status: gp_equipment?.splitter_warranty,
             working_condition: gp_equipment?.splitter_condition,
             remark: "",
         },
         ont: {
             ont: gp_equipment?.ont,
             quantity: "",
-            warrenty_status: gp_equipment?.ont_status,
+            warranty_status: gp_equipment?.ont_status,
             working_condition: gp_equipment?.ont_condition,
             remark: "",
         },
         sfp: {
             sfp: gp_equipment?.sfp,
             quantity: gp_equipment?.no_of_quantity,
-            warrenty_status: "",
+            warranty_status: "",
             working_condition: gp_equipment?.working_status,
             remark: "",
         },
         fdms: {
             fdms: gp_equipment?.fdms,
             quantity: gp_equipment?.no_fdms,
-            warrenty_status: "",
+            warranty_status: "",
             working_condition: "",
             remark: "",
         },
         cable: {
             quantity: "",
-            warrenty_status: "",
+            warranty_status: "",
             working_condition: "",
             remark: "",
         },
@@ -218,7 +218,7 @@ const Gp_equipments = ({ gp_details }) => {
                                 Quantity
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                Warrenty Status
+                                warranty Status
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 Working Condition
@@ -260,7 +260,7 @@ const Gp_equipments = ({ gp_details }) => {
                                             verticalAlign: "middle",
                                             textTransform: "capitalize"
                                         }}>
-                                            {equipment_data?.warrenty_status || "-"}
+                                            {equipment_data?.warranty_status || "-"}
                                         </TableCell>
                                         <TableCell align="left" sx={{
                                             textAlign: "left",

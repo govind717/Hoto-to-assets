@@ -41,7 +41,7 @@ export default function AddRepair() {
                 }}
                 size='small'
                 onClick={handleClickOpen}>
-                Send Repair
+                Rectification
             </Button>
             <BootstrapDialog
                 onClose={handleClose}

@@ -289,6 +289,7 @@ const Assets_Portfolio_List = () => {
                                                         value={equipment_types?.[option]}
                                                         control={<Radio size="small" />}
                                                         label={option}
+                                                        sx={{textTransform:"uppercase"}}
                                                     />
                                                 ))}
                                             </RadioGroup>
@@ -335,7 +336,7 @@ const Assets_Portfolio_List = () => {
                     status: "",
                     serial_no: "", // No serial number available in equipment_details
                     quantity: gp_equipment?.no_of_racks,
-                    warrenty_status: "",
+                    warranty_status: "",
                     working_condition: "",
                     remark: "",
                   },
@@ -345,7 +346,7 @@ const Assets_Portfolio_List = () => {
                     status: "",
                     serial_no: gp_equipment?.smps_serial_no,
                     quantity: gp_equipment?.smps_capacity,
-                    warrenty_status: gp_equipment?.smps_warranty,
+                    warranty_status: gp_equipment?.smps_warranty,
                     working_condition: gp_equipment?.smps_condition,
                     remark: "",
                   },
@@ -355,7 +356,7 @@ const Assets_Portfolio_List = () => {
                     status: "",
                     serial_no: gp_equipment?.ccu_serial_no,
                     quantity: "",
-                    warrenty_status: gp_equipment?.ccu_warranty,
+                    warranty_status: gp_equipment?.ccu_warranty,
                     working_condition: gp_equipment?.ccu_condition,
                     remark: "",
                   },
@@ -365,7 +366,7 @@ const Assets_Portfolio_List = () => {
                     status: "",
                     serial_no: gp_equipment?.splitter_serial_no,
                     quantity: "",
-                    warrenty_status: gp_equipment?.splitter_warranty,
+                    warranty_status: gp_equipment?.splitter_warranty,
                     working_condition: gp_equipment?.splitter_condition,
                     remark: "",
                   },
@@ -375,7 +376,7 @@ const Assets_Portfolio_List = () => {
                     status: "",
                     serial_no: gp_equipment?.ont_unique_id,
                     quantity: "",
-                    warrenty_status: gp_equipment?.ont_status,
+                    warranty_status: gp_equipment?.ont_status,
                     working_condition: gp_equipment?.ont_condition,
                     remark: "",
                   },
@@ -385,7 +386,7 @@ const Assets_Portfolio_List = () => {
                     status: "",
                     serial_no: "", // Not available
                     quantity: gp_equipment?.no_of_quantity,
-                    warrenty_status: "",
+                    warranty_status: "",
                     working_condition: gp_equipment?.working_status,
                     remark: "",
                   },
@@ -395,7 +396,7 @@ const Assets_Portfolio_List = () => {
                     status: "",
                     serial_no: gp_equipment?.fdms_serial_no,
                     quantity: gp_equipment?.no_fdms,
-                    warrenty_status: "",
+                    warranty_status: "",
                     working_condition: "",
                     remark: "",
                   },
@@ -404,7 +405,7 @@ const Assets_Portfolio_List = () => {
                     vendor: "",
                     status: "",
                     serial_no: "", // No serial available
-                    warrenty_status: "",
+                    warranty_status: "",
                     working_condition: "",
                     remark: "",
                   },
@@ -531,7 +532,7 @@ const Assets_Portfolio_List = () => {
                       sx={{
                         textAlign: "left",
                         verticalAlign: "middle",
-                        textTransform: "capitalize",
+                        textTransform: "uppercase",
                       }}
                     >
                       {equipmentFilterName}
@@ -587,7 +588,7 @@ const Assets_Portfolio_List = () => {
                       }}
                     >
                       {equipment_listing_data?.[equipmentFilterName]
-                        ?.warrenty_status || "-"}
+                        ?.warranty_status || "-"}
                     </TableCell>
                     <TableCell
                       align="left"

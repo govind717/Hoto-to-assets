@@ -42,7 +42,7 @@ export default function AddTransfer() {
                 }}
                 size='small'
                 onClick={handleClickOpen}>
-                Send Transfer
+                Transfer
             </Button>
             <BootstrapDialog
                 onClose={handleClose}
