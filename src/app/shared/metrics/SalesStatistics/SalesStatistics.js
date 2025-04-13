@@ -46,29 +46,29 @@ const SalesStatistics = () => {
                 <Grid container spacing={0}>
                     {/* Left: Bar Chart */}
                     <Grid item xs={12} md={6}>
-                        <Div sx={{ p: 2 }}>
+                        <Div sx={{ p: 2  ,pl:0}}>
                             <StylishAssetHealthChart />
                         </Div>
                     </Grid>
 
                     {/* Right: Pie Chart */}
                     <Grid item xs={12} md={6}>
-                        <Div sx={{ p: 2 }}>
+                        <Div sx={{ p: 2, pr:0 }}>
                             <ConditionStatusChart />
                         </Div>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Div sx={{ p: 2 }}>
+                    <Grid item xs={12} md={12}>
+                        <Div sx={{ p: 2, px:0 }}>
                             <AssetConditionByTypeChart />
                         </Div>
                     </Grid>
 
                     {/* Right: Pie Chart */}
-                    <Grid item xs={12} md={6}>
-                        <Div sx={{ p: 2 }}>
+                    {/* <Grid item xs={12} md={6}>
+                        <Div sx={{ p: 2, pr:0 }}>
                             <ChartOrderRevenue data={hotosurveyData}/>
                         </Div>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
     );
 };

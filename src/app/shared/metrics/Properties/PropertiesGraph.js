@@ -1,21 +1,18 @@
 import React from 'react';
-import {Area, AreaChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {statisticsGraphData} from "./data";
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { statisticsGraphData } from "./data";
 import Div from "@jumbo/shared/Div";
 
-const PropertiesGraph = ({color}) => {
+const PropertiesGraph = ({ color }) => {
     return (
         <ResponsiveContainer width="100%" height={95}>
-            <AreaChart data={statisticsGraphData} margin={{top: 0, right: 0, left: 0, bottom: 0}}>
+            <AreaChart data={statisticsGraphData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
                 <Tooltip
-                    labelStyle={{color: 'black'}}
+                    labelStyle={{ color: 'black' }}
                     cursor={false}
                     content={data => (
                         data.payload[0]
-                            ?
-                            <Div sx={{color: "common.white"}}>
-                                {`price: ${data.payload[0].value}`}
-                            </Div>
+                            ? <Div sx={{ color: "common.white" }}>{`price: ${data.payload[0].value}`}</Div>
                             : null
                     )}
                     wrapperStyle={{
@@ -26,7 +23,13 @@ const PropertiesGraph = ({color}) => {
                         boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
                     }}
                 />
-                <Area dataKey="price" strokeWidth={2} stroke="#c7a4ff" fill="#7e57c2" fillOpacity={1}/>
+                <Area
+                    dataKey="price"
+                    strokeWidth={2}
+                    stroke="#59C5D9"    // Much lighter stroke for visibility
+                    fill="#51B3C4"       // Darker fill
+                    fillOpacity={1}
+                />
             </AreaChart>
         </ResponsiveContainer>
     );

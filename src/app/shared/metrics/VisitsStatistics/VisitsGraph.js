@@ -26,7 +26,7 @@ const VisitsGraph = ({color}) => {
                         boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
                     }}
                 />
-                <Area dataKey="price" strokeWidth={2} stroke="#73cfce" fill="#00ada9" fillOpacity={1}/>
+                <Area dataKey="price" strokeWidth={2} stroke="#26E3C2" fill="#21C2A6" fillOpacity={1}/>
             </AreaChart>
         </ResponsiveContainer>
     );
