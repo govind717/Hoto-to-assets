@@ -3,7 +3,7 @@ import Div from '@jumbo/shared/Div';
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Button, IconButton, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Typography } from '@mui/material';
+import { Box, Button, IconButton, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Typography, Popper, ClickAwayListener, Checkbox, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { hoto_servey_data_disptach } from 'app/redux/actions/Hoto_to_servey';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -18,6 +18,8 @@ import EquipmentModal from "../Gp_equipment_details/Gp_equipments/Equipment_deta
 import Gp_details from "../Gp_equipment_details/Gp_details";
 import AddTransfer from "../Transfer/Add_transfer";
 import AddRepair from "../Transfer/Add_repair";
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { equipment_types } from "app/utils/constants/constants";
 
 
 const tableCellSx = {
@@ -46,6 +48,15 @@ const Assets_Portfolio_List = () => {
     const [searchTerm, setSearchTerm] = useState("")
     const [sort, setSort] = useState("desc");
     const [page, setPage] = useState(1);
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleFilterClick = (event) => {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+
+    const handleCancel = () => {
+        setAnchorEl(null);
+    };
     const [coordinate, setCoordinate] = useState({
         open: false,
         gp_name: null,
@@ -78,14 +89,6 @@ const Assets_Portfolio_List = () => {
         setSortBy(property);
         setPage(1);
     };
-
-    const handleEquipmentDetails = function (data) {
-        navigate("/dashboards/hoto-servey-data/equipment-details", {
-            state: {
-                gp_data: data
-            }
-        })
-    }
 
     const handleCloseCoordinate = function () {
         setCoordinate({
@@ -131,6 +134,10 @@ const Assets_Portfolio_List = () => {
         }));
     }, [sort, page, sortBy, dispatch])
 
+
+    const handleCheckboxChange = (event) => {
+        setEquipmentFilterName(event.target.value)
+    };
     return (
         <>
             {hotoServeyDataReducer?.loading && <FullScreenLoader />}
@@ -236,67 +243,68 @@ const Assets_Portfolio_List = () => {
                         </TableRow>
                     </TableHead> */}
                     <TableHead>
-  <TableRow sx={{ bgcolor: "#53B8CA" }}>
-    {/* Equipment column with dropdown */}
-    <TableCell align="left" sx={{ ...tableCellSx }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-        Equipment
-        <IconButton size="small" onClick={handleFilterClick}>
-          <FilterListIcon />
-        </IconButton>
-      </Box>
+                        <TableRow sx={{ bgcolor: "#53B8CA" }}>
+                            {/* Equipment column with dropdown */}
+                            <TableCell align="left" sx={{ ...tableCellSx }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                    Equipment
+                                    <IconButton size="small" onClick={handleFilterClick}>
+                                        <FilterListIcon sx={{color:"white"}} />
+                                    </IconButton>
+                                </Box>
 
-      {/* Filter popper only for Equipment */}
-      <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
-        <ClickAwayListener onClickAway={handleCancel}>
-          <Box
-            sx={{
-              p: 2,
-              bgcolor: "white",
-              boxShadow: 3,
-              borderRadius: 2,
-              minWidth: 200,
-              display: "flex",
-              flexDirection: "column",
-              gap: 1,
-              zIndex: 10
-            }}
-          >
-            {Object.keys(equipment_types).map((option) => (
-              <Box key={option}>
-                <Checkbox
-                  checked={selectedFilters.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
-                />
-                {option}
-              </Box>
-            ))}
-            <Box display="flex" justifyContent="space-between" mt={1}>
-              <Button variant="contained" onClick={handleApply}>Apply</Button>
-              <Button variant="outlined" onClick={handleCancel}>Cancel</Button>
-            </Box>
-          </Box>
-        </ClickAwayListener>
-      </Popper>
-    </TableCell>
+                                {/* Filter popper with RadioGroup */}
+                                <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
+                                    <ClickAwayListener onClickAway={handleCancel}>
+                                        <Box
+                                            sx={{
+                                                p: 2,
+                                                bgcolor: "white",
+                                                boxShadow: 3,
+                                                borderRadius: 2,
+                                                minWidth: 200,
+                                                zIndex: 10
+                                            }}
+                                        >
+                                            <RadioGroup
+                                                value={equipmentFilterName}
+                                                onChange={(e) => {
+                                                    console.log(e.target.value)
+                                                    setEquipmentFilterName(e.target.value);
+                                                    setAnchorEl(null); // auto-close popper
+                                                }}
+                                            >
+                                                {Object.keys(equipment_types).map((option) => (
+                                                    <FormControlLabel
+                                                        key={option}
+                                                        value={equipment_types?.[option]}
+                                                        control={<Radio size="small" />}
+                                                        label={option}
+                                                    />
+                                                ))}
+                                            </RadioGroup>
+                                        </Box>
+                                    </ClickAwayListener>
+                                </Popper>
+                            </TableCell>
 
-    {/* All other columns – icon only (no dropdown) */}
-    {["Vendor", "Serial No.", "GP Name", "GP Status", "Warranty Status", "Condition", "Status", "Details"].map((label) => (
-      <TableCell key={label} align="left" sx={{ ...tableCellSx }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <TableSortLabel
-            onClick={() => handleSort(label)}
-            direction={sort}
-            sx={{ ...tableCellSort }}
-          >
-            {label}
-          </TableSortLabel>
-          <FilterListIcon fontSize="small" color="action" />
-        </Box>
-      </TableCell>
-    ))}
-  </TableRow>
-</TableHead>
+                            {/* Other columns with sort icons */}
+                            {["Vendor", "Serial No.", "GP Name", "GP Status", "Warranty Status", "Condition", "Status", "Details"].map((label) => (
+                                <TableCell key={label} align="left" sx={{ ...tableCellSx }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                        <TableSortLabel
+                                            onClick={() => handleSort(label)}
+                                            direction={sort}
+                                            sx={{ ...tableCellSort }}
+                                        >
+                                            {label}
+                                        </TableSortLabel>
+                                    </Box>
+                                </TableCell>
+                            ))}
+                        </TableRow>
+
+                    </TableHead>
 
                     <TableBody>
                         {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
