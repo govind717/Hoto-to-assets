@@ -19,7 +19,7 @@ const Gp_equipment_details = () => {
                     <ArrowBackIcon
                         sx={{ cursor: "pointer" }}
                         onClick={() => {
-                            navigate('/dashboards/hoto-servey-data')
+                            navigate('/dashboards/hoto-survey-data')
                         }} />
                 </Div>
                 <Typography variant='h3'>Assets</Typography>

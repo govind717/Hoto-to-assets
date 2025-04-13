@@ -14,7 +14,7 @@ const QueriesStatistics = () => {
                     variant={"h6"}
                     mb={0}
                     sx={{fontSize: 12, color: "common.white", letterSpacing: 1.5}}
-                >{t("RKM HOTO Servey Status")}</Typography>
+                >{t("RKM HOTO Survey Status")}</Typography>
             }
             sx={{color: "common.white"}}
             bgColor={"#42a5f5"}

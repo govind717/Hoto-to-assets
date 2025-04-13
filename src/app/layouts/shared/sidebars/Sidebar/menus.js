@@ -12,12 +12,12 @@ const menus = [
         icon: <DashboardIcon sx={{ fontSize: 20 }} />
     },
     {
-        label: 'Hoto Servey',
+        label: 'Hoto Survey',
         type: "section",
         children: [
             {
-                uri: "/dashboards/hoto-servey-data",
-                label: 'Hoto Servey Data',
+                uri: "/dashboards/hoto-survey-data",
+                label: 'Hoto Survey Data',
                 type: "nav-item",
                 icon: <PeopleIcon sx={{ fontSize: 20 }} />
             },

@@ -14,7 +14,7 @@ const VisitsStatistics = () => {
                     variant={"h6"}
                     mb={0}
                     sx={{fontSize: 12, color: "common.white", letterSpacing: 1.5}}
-                >{t("Block HOTO Servey Status")}</Typography>
+                >{t("Block HOTO Survey Status")}</Typography>
             }
             sx={{color: "common.white"}}
             bgColor={"#23BCBA"}

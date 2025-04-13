@@ -61,7 +61,7 @@ const Gp_list = () => {
     //     const data = menuItems?.data;
     //     switch (menuItems.action) {
     //         case "equipmentDetails":
-    //             navigate("/dashboards/hoto-servey-data/equipment-details", {
+    //             navigate("/dashboards/hoto-survey-data/equipment-details", {
     //                 state: {
     //                     gp_data: data
     //                 }
@@ -73,7 +73,7 @@ const Gp_list = () => {
     // }
 
     const handleEquipmentDetails = function (data) {
-        navigate("/dashboards/hoto-servey-data/equipment-details", {
+        navigate("/dashboards/hoto-survey-data/equipment-details", {
             state: {
                 gp_data: data
             }
