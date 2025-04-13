@@ -1,5 +1,5 @@
 export const equipment_types = {
-    Rack :"rack",
+    Rack :"racks",
     CCU:"ccu",
     SMPS : "smps",
     Splitter :"splitter",

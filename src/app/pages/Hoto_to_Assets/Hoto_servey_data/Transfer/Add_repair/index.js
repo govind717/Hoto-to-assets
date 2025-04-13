@@ -41,7 +41,7 @@ export default function AddRepair() {
                 }}
                 size='small'
                 onClick={handleClickOpen}>
-                Send Repair
+                Rectification
             </Button>
             <BootstrapDialog
                 onClose={handleClose}
@@ -102,12 +102,18 @@ export default function AddRepair() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Div sx={{ width: "100%", textAlign: "center",my:1 }}>
+                    <Div sx={{ width: "100%", textAlign: "center", my: 1 }}>
                         <Div>
                             <Button variant='outlined' sx={{ mr: 2 }} size='medium' onClick={handleClose}>
                                 Cancel
                             </Button>
-                            <Button variant='contained' size='medium' onClick={handleClose}>
+                            <Button variant='contained' size='medium'
+                                sx={{
+                                    "&:hover": {
+                                        backgroundColor: orangeSecondary
+                                    }
+                                }}
+                                onClick={handleClose}>
                                 Submit
                             </Button>
                         </Div>

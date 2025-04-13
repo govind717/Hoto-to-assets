@@ -4,7 +4,7 @@ import Page from "@jumbo/shared/Page";
 import Gp_equipment_details from "app/pages/Hoto_to_Assets/Hoto_servey_data/Gp_equipment_details";
 
 
-const routesName = "/dashboards/hoto-servey-data";
+const routesName = "/dashboards/hoto-survey-data";
 
 export const hotoToAssetsRoute = [
   {
