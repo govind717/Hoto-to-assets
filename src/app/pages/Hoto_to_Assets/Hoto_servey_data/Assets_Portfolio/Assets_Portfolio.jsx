@@ -16,8 +16,6 @@ import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import EquipmentModal from "../Gp_equipment_details/Gp_equipments/Equipment_details_models";
 import Gp_details from "../Gp_equipment_details/Gp_details";
-import AddTransfer from "../Transfer/Add_transfer";
-import AddRepair from "../Transfer/Add_repair";
 
 
 const tableCellSx = {
@@ -134,47 +132,41 @@ const Assets_Portfolio_List = () => {
     return (
         <>
             {hotoServeyDataReducer?.loading && <FullScreenLoader />}
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", my: "2%" }}>
-                <Div >
-                    <TextField
-                        id="search"
-                        type="search"
-                        label="Search"
-                        value={searchTerm}
-                        size="small"
-                        onChange={(e) => {
-                            setSearchTerm(e.target.value);
-                            if (e.target.value === "") {
-                                dispatch(hoto_servey_data_disptach({
-                                    sortBy: sortBy,
-                                    search_value: "",
-                                    sort: sort,
-                                    page: page,
-                                }));;
-                            }
-                        }}
-                        sx={{ width: 300 }}
-                        InputProps={{
-                            endAdornment: (
-                                <Div sx={{ cursor: "pointer" }}>
-                                    <InputAdornment position="end">
-                                        <SearchIcon />
-                                    </InputAdornment>
-                                </Div>
-                            ),
-                        }}
-                    />
-                </Div>
-                <Div>
-                    <AddTransfer />
-                    <AddRepair />
-                </Div>
-            </Box>
+            <Div sx={{ display: "flex", justifyContent: "space-between" }}>
+                <TextField
+                    id="search"
+                    type="search"
+                    label="Search"
+                    value={searchTerm}
+                    size="small"
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        if (e.target.value === "") {
+                            dispatch(hoto_servey_data_disptach({
+                                sortBy: sortBy,
+                                search_value: "",
+                                sort: sort,
+                                page: page,
+                            }));;
+                        }
+                    }}
+                    sx={{ width: 300, my: "2%" }}
+                    InputProps={{
+                        endAdornment: (
+                            <Div sx={{ cursor: "pointer" }}>
+                                <InputAdornment position="end">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            </Div>
+                        ),
+                    }}
+                />
+            </Div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" >
-                    {/* <TableHead>
+                    <TableHead>
                         <TableRow sx={{ bgcolor: "#53B8CA" }}>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
                                     direction={sort}
@@ -209,7 +201,7 @@ const Assets_Portfolio_List = () => {
                                     sx={{ ...tableCellSort }}
                                 >GP Status</TableSortLabel>
                             </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"160px" }}>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.commissionPercentage`)}
                                     direction={sort}
@@ -234,70 +226,7 @@ const Assets_Portfolio_List = () => {
                                 Details
                             </TableCell>
                         </TableRow>
-                    </TableHead> */}
-                    <TableHead>
-  <TableRow sx={{ bgcolor: "#53B8CA" }}>
-    {/* Equipment column with dropdown */}
-    <TableCell align="left" sx={{ ...tableCellSx }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-        Equipment
-        <IconButton size="small" onClick={handleFilterClick}>
-          <FilterListIcon />
-        </IconButton>
-      </Box>
-
-      {/* Filter popper only for Equipment */}
-      <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
-        <ClickAwayListener onClickAway={handleCancel}>
-          <Box
-            sx={{
-              p: 2,
-              bgcolor: "white",
-              boxShadow: 3,
-              borderRadius: 2,
-              minWidth: 200,
-              display: "flex",
-              flexDirection: "column",
-              gap: 1,
-              zIndex: 10
-            }}
-          >
-            {Object.keys(equipment_types).map((option) => (
-              <Box key={option}>
-                <Checkbox
-                  checked={selectedFilters.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
-                />
-                {option}
-              </Box>
-            ))}
-            <Box display="flex" justifyContent="space-between" mt={1}>
-              <Button variant="contained" onClick={handleApply}>Apply</Button>
-              <Button variant="outlined" onClick={handleCancel}>Cancel</Button>
-            </Box>
-          </Box>
-        </ClickAwayListener>
-      </Popper>
-    </TableCell>
-
-    {/* All other columns – icon only (no dropdown) */}
-    {["Vendor", "Serial No.", "GP Name", "GP Status", "Warranty Status", "Condition", "Status", "Details"].map((label) => (
-      <TableCell key={label} align="left" sx={{ ...tableCellSx }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <TableSortLabel
-            onClick={() => handleSort(label)}
-            direction={sort}
-            sx={{ ...tableCellSort }}
-          >
-            {label}
-          </TableSortLabel>
-          <FilterListIcon fontSize="small" color="action" />
-        </Box>
-      </TableCell>
-    ))}
-  </TableRow>
-</TableHead>
-
+                    </TableHead>
                     <TableBody>
                         {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
                             const gp_equipment = ele?.equipment
@@ -561,7 +490,7 @@ const Assets_Portfolio_List = () => {
                                         <Button variant="contained"
                                             size="small"
                                             startIcon={<HomeRepairServiceIcon />}
-                                            onClick={() => handleOpen(equipment_details)}
+                                            onClick={() => handleOpen(ele)}
                                             sx={{
                                                 "&:hover": {
                                                     backgroundColor: orangeSecondary
@@ -602,7 +531,7 @@ const Assets_Portfolio_List = () => {
                 <Box>
                     <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>Gp Details</Typography>
                     <Gp_details gp_details={{
-                        gp: equipment_show?.equipment_details?.gp_details
+                        gp: equipment_show?.equipment_details?.gp
                     }} />
                     <Typography variant="h4" sx={{ my: 2, fontWeight: 600 }}>Details</Typography>
                 </Box>
