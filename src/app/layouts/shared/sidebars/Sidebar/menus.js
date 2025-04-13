@@ -2,6 +2,7 @@ import React from "react";
 import PeopleIcon from '@mui/icons-material/People';
 import PaidIcon from '@mui/icons-material/Paid';
 import StoreIcon from '@mui/icons-material/Store';
+import StarBorderPurple500Icon from "@mui/icons-material/StarBorderPurple500";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const menus = [
@@ -11,18 +12,40 @@ const menus = [
         type: "nav-item",
         icon: <DashboardIcon sx={{ fontSize: 20 }} />
     },
+    // {
+    //     label: 'Hoto Survey',
+    //     type: "section",
+    //     children: [
+    //         {
+    //             uri: "/dashboards/hoto-survey-data",
+    //             label: 'Hoto Survey Data',
+    //             type: "nav-item",
+    //             icon: <PeopleIcon sx={{ fontSize: 20 }} />
+    //         },
+    //     ]
+    // },
     {
-        label: 'Hoto Survey',
-        type: "section",
+        label: "Hoto - Assets",
+        type: "collapsible",
+        // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
         children: [
             {
-                uri: "/dashboards/hoto-survey-data",
-                label: 'Hoto Survey Data',
+                uri: "/dashboards/hoto-survey-block-data",
+                label: 'Block',
                 type: "nav-item",
-                icon: <PeopleIcon sx={{ fontSize: 20 }} />
+            },
+            {
+                uri: "/dashboards/hoto-survey-data",
+                label: "GP",
+                type: "nav-item",
+            },
+            {
+                uri: "/dashboards/hoto-survey-rkm-data",
+                label: 'RKM',
+                type: "nav-item",
             },
         ]
-    },
+    }
     // {
     //     label: 'sidebar.menu.store',
     //     type: "section",
