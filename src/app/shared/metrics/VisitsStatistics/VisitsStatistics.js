@@ -14,7 +14,7 @@ const VisitsStatistics = () => {
                     variant={"h6"}
                     mb={0}
                     sx={{fontSize: 12, color: "common.white", letterSpacing: 1.5}}
-                >{t("widgets.title.onlineVisits")}</Typography>
+                >{t("Block HOTO Servey Status")}</Typography>
             }
             sx={{color: "common.white"}}
             bgColor={"#23BCBA"}
@@ -30,8 +30,8 @@ const VisitsStatistics = () => {
                     position: 'absolute',
                 }}
             >
-                <Typography variant={"h2"} color={"common.white"}>26,873</Typography>
-                <Typography variant={"h6"} color={"common.white"} mb={0}>{"03% This Week"}</Typography>
+                <Typography variant={"h2"} color={"common.white"}>60%</Typography>
+                <Typography variant={"h6"} color={"common.white"} mb={0}>{"Completed"}</Typography>
             </Div>
             <VisitsGraph/>
         </JumboCardQuick>

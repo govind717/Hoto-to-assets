@@ -15,7 +15,7 @@ const Properties = () => {
                     mb={0}
                     sx={{fontSize: 12, color: "common.white", letterSpacing: 1.5}}
                 >
-                    {t("widgets.title.properties")}
+                    {t("Total Assets")}
                 </Typography>
             }
             sx={{color: "common.white",}}
@@ -32,8 +32,8 @@ const Properties = () => {
                     position: 'absolute',
                 }}
             >
-                <Typography variant={"h2"} color={"common.white"}>26,873</Typography>
-                <Typography variant={"h6"} color={"common.white"} mb={0}>{"03% This Week"}</Typography>
+                <Typography variant={"h2"} color={"common.white"}>3750</Typography>
+                <Typography variant={"h6"} color={"common.white"} mb={0}>{"Assets"}</Typography>
             </Div>
             <PropertiesGraph/>
         </JumboCardQuick>

@@ -15,20 +15,24 @@ import AppUsers from "../../../shared/metrics/AppUsers";
 import OnlineVisitors from "../../../shared/metrics/OnlineVisitors";
 import WebsiteTraffic from "../../../shared/metrics/WebsiteTraffic";
 import LatestAlerts from "../../../shared/widgets/LatestAlerts";
+import ServeyStatus from 'app/shared/metrics/serveyStatus/serveyStatus';
 
 const EcommerceDashboard = () => {
     return (
         <Grid container spacing={3.75}>
+            {/* <Grid item xs={12}>
+                <ServeyStatus/>
+            </Grid> */}
             <Grid item xs={12}>
                 <SalesStatistics/>
             </Grid>
-            <Grid item xs={12} md={6}>
+            {/* <Grid item xs={12} md={6}>
                 <SalesReport/>
             </Grid>
             <Grid item xs={12} md={6}>
                 <YearlyProfileReport/>
-            </Grid>
-            <Grid item xs={12} sm={6} lg={3}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6} lg={3}>
                 <AppUsers/>
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
@@ -39,7 +43,7 @@ const EcommerceDashboard = () => {
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
                 <OrdersReport subTitle={null} chartHeight={183}/>
-            </Grid>
+            </Grid> */}
             {/* <Grid item xs={12}>
                 <PopularProducts/>
             </Grid>
