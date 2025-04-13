@@ -47,7 +47,7 @@ const ConditionStatusChart = () => {
         <Typography variant="h6" gutterBottom>
           Condition-wise Status Report
         </Typography>
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={200}>
           <PieChart>
             <Pie
               data={conditionData}

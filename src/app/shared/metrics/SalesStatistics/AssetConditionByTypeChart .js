@@ -47,7 +47,7 @@ const assetConditionData = [
 
 // ✅ Custom Legend with circle dots and black label text
 const CustomLegend = () => (
-  <Box display="flex" justifyContent="center" gap={3} mt={2} flexWrap="wrap">
+  <Box display="flex" justifyContent="center" gap={3} mt={1.5} flexWrap="wrap">
     {[
       { name: "Working", color: "#22CAAD" },
       { name: "Damaged", color: "#F55757" },
@@ -74,10 +74,10 @@ const AssetConditionByTypeChart = () => {
   return (
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" sx={{marginBottom:"1rem"}} gutterBottom>
           Asset Condition by Type
         </Typography>
-        <ResponsiveContainer width="100%" height={280}>
+        <ResponsiveContainer width="100%" height={250} >
           <BarChart
             data={assetConditionData}
             margin={{ top: 10, right: 20, left: 0, bottom: 5 }}

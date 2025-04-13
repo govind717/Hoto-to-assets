@@ -46,14 +46,14 @@ const SalesStatistics = () => {
                 <Grid container spacing={0}>
                     {/* Left: Bar Chart */}
                     <Grid item xs={12} md={6}>
-                        <Div sx={{ p: 2  ,pl:0}}>
+                        <Div sx={{ p: 2  ,pl:0 ,pt:0}}>
                             <StylishAssetHealthChart />
                         </Div>
                     </Grid>
 
                     {/* Right: Pie Chart */}
                     <Grid item xs={12} md={6}>
-                        <Div sx={{ p: 2, pr:0 }}>
+                        <Div sx={{ p: 2, pr:0 ,pt:0}}>
                             <ConditionStatusChart />
                         </Div>
                     </Grid>
