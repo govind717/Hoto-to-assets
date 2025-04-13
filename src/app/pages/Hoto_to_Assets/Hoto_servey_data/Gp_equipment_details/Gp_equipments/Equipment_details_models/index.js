@@ -19,32 +19,32 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const labelSxTypography = { fontSize: "16px", fontWeight: "500",mb:1 };
+const labelSxTypography = { fontSize: "16px", fontWeight: "500", mb: 1 };
 
 export const RackDetails = function ({ equipment_name, equipment_data }) {
   return <>
     <Box width={"100%"}>
       <Grid container justifyContent={"start"} gap={5}>
         <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{fontSize:"15px",fontWeight:"500"}}>Racks Availability</Typography>
+          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Racks Availability</Typography>
           {/* <Typogr sx={{fontSize:"15px"}}aphy>{equipment_data || "-"}</Typography> */}
           <Typography>{"-"}</Typography>
         </Grid>
         <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{fontSize:"15px",fontWeight:"500"}}>Number Of Racks</Typography>
-          <Typography sx={{fontSize:"15px"}}>{equipment_data?.no_of_racks || "-"}</Typography>
+          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Number Of Racks</Typography>
+          <Typography sx={{ fontSize: "15px" }}>{equipment_data?.no_of_racks || "-"}</Typography>
         </Grid>
         <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{fontSize:"15px",fontWeight:"500"}}>Unit Size</Typography>
-          <Typography sx={{fontSize:"15px"}}>{equipment_data?.racks_unit_size || "-"}</Typography>
+          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Unit Size</Typography>
+          <Typography sx={{ fontSize: "15px" }}>{equipment_data?.racks_unit_size || "-"}</Typography>
         </Grid>
         <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{fontSize:"15px",fontWeight:"500"}}>Racks Connectivity</Typography>
-          <Typography sx={{fontSize:"15px"}}>{equipment_data?.racks_connectivity || "-"}</Typography>
+          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Racks Connectivity</Typography>
+          <Typography sx={{ fontSize: "15px" }}>{equipment_data?.racks_connectivity || "-"}</Typography>
         </Grid>
         <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{fontSize:"15px",fontWeight:"500"}}>Socket Availability</Typography>
-          <Typography sx={{fontSize:"15px"}}>{equipment_data?.racks_socket_avail || "-"}</Typography>
+          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Socket Availability</Typography>
+          <Typography sx={{ fontSize: "15px" }}>{equipment_data?.racks_socket_avail || "-"}</Typography>
         </Grid>
       </Grid>
     </Box>
@@ -478,7 +478,7 @@ export const UPSDetails = ({ equipment_data }) => {
 };
 
 
-export default function EquipmentModal({ equipment_show, handleClose, equipment_details }) {
+export default function EquipmentModal({ equipment_show, handleClose, equipment_details, children }) {
   const equipment_name = equipment_show?.equipment_name;
   const equipment_data = equipment_details?.[equipment_name]
   return (
@@ -506,16 +506,19 @@ export default function EquipmentModal({ equipment_show, handleClose, equipment_
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {equipment_name === "racks" && <RackDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-          {equipment_name === "smps" && <SmpsDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-          {equipment_name === "ccu" && <CcuDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-          {equipment_name === "splitter" && <SplitterDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-          {equipment_name === "ont" && <OntDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-          {equipment_name === "sfp" && <SfpDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-          {equipment_name === "fdms" && <FdmsDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-          {equipment_name === "cable" && <CableDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-          {equipment_name === "solar" && <SolarDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-          {equipment_name === "ups" && <UPSDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+          <Box sx={{pl:2}}>
+            {children}
+            {equipment_name === "racks" && <RackDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {equipment_name === "smps" && <SmpsDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {equipment_name === "ccu" && <CcuDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {equipment_name === "splitter" && <SplitterDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {equipment_name === "ont" && <OntDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {equipment_name === "sfp" && <SfpDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {equipment_name === "fdms" && <FdmsDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {equipment_name === "cable" && <CableDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {equipment_name === "solar" && <SolarDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {equipment_name === "ups" && <UPSDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
