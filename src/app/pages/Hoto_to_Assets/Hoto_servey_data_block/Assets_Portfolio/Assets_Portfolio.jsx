@@ -23,116 +23,116 @@ import { equipment_types } from "app/utils/constants/constants";
 
 
 const tableCellSx = {
-    textTransform: "capitalize",
-    color: "white",
-    textAlign: "left",
-    minWidth: "150px",
-    verticalAlign: "middle",
+  textTransform: "capitalize",
+  color: "white",
+  textAlign: "left",
+  minWidth: "150px",
+  verticalAlign: "middle",
 }
 
 const tableCellSort = {
+  color: "white",
+  "&:hover": { color: "white" },
+  "&.MuiTableSortLabel-root.Mui-active": {
     color: "white",
-    "&:hover": { color: "white" },
-    "&.MuiTableSortLabel-root.Mui-active": {
-        color: "white",
-    },
+  },
 }
 
 
 const Assets_Portfolio_List = () => {
 
-    const { hotoServeyDataReducer } = useSelector((state) => state);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [sortBy, setSortBy] = useState("created_at");
-    const [searchTerm, setSearchTerm] = useState("")
-    const [sort, setSort] = useState("desc");
-    const [page, setPage] = useState(1);
-    const [anchorEl, setAnchorEl] = useState(null);
+  const { hotoServeyDataReducer } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [sortBy, setSortBy] = useState("created_at");
+  const [searchTerm, setSearchTerm] = useState("")
+  const [sort, setSort] = useState("desc");
+  const [page, setPage] = useState(1);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleFilterClick = (event) => {
-        setAnchorEl(anchorEl ? null : event.currentTarget);
-    };
+  const handleFilterClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
 
-    const handleCancel = () => {
-        setAnchorEl(null);
-    };
-    const [coordinate, setCoordinate] = useState({
-        open: false,
-        gp_name: null,
-        lat: null,
-        log: null
-    });
-    const [equipmentFilterName, setEquipmentFilterName] = useState("racks");
-    const [equipment_show, set_equipment_show] = useState({
-        open: false,
-        equipment_name: equipmentFilterName,
-        equipment_details: {}
-    });
-    const handleOpen = (equipment_details) => {
-        set_equipment_show({
-            open: true,
-            equipment_name: equipmentFilterName,
-            equipment_details: equipment_details
-        })
+  const handleCancel = () => {
+    setAnchorEl(null);
+  };
+  const [coordinate, setCoordinate] = useState({
+    open: false,
+    gp_name: null,
+    lat: null,
+    log: null
+  });
+  const [equipmentFilterName, setEquipmentFilterName] = useState("racks");
+  const [equipment_show, set_equipment_show] = useState({
+    open: false,
+    equipment_name: equipmentFilterName,
+    equipment_details: {}
+  });
+  const handleOpen = (equipment_details) => {
+    set_equipment_show({
+      open: true,
+      equipment_name: equipmentFilterName,
+      equipment_details: equipment_details
+    })
+  }
+  const handleClose = () => {
+    set_equipment_show({
+      open: false,
+      equipment_name: equipmentFilterName,
+      equipment_details: {}
+    })
+  }
+
+  const handleSort = (property) => {
+    setSort(sort === "asc" ? "desc" : "asc");
+    setSortBy(property);
+    setPage(1);
+  };
+
+  const handleCloseCoordinate = function () {
+    setCoordinate({
+      open: false,
+      gp_name: null,
+      lat: null,
+      log: null
+    })
+  }
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setPage(1)
+    dispatch(hoto_servey_data_disptach({
+      sortBy: sortBy,
+      search_value: searchTerm.trim(),
+      sort: sort,
+      page: page,
+    }));
+  };
+
+  const debouncedHandleSearch = debounce(handleSearch, 500);
+
+  useEffect(() => {
+    if (searchTerm !== "") {
+      debouncedHandleSearch(searchTerm);
     }
-    const handleClose = () => {
-        set_equipment_show({
-            open: false,
-            equipment_name: equipmentFilterName,
-            equipment_details: {}
-        })
-    }
-
-    const handleSort = (property) => {
-        setSort(sort === "asc" ? "desc" : "asc");
-        setSortBy(property);
-        setPage(1);
+    return () => {
+      debouncedHandleSearch.cancel();
     };
-
-    const handleCloseCoordinate = function () {
-        setCoordinate({
-            open: false,
-            gp_name: null,
-            lat: null,
-            log: null
-        })
-    }
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleSearch = (searchTerm) => {
-        setPage(1)
-        dispatch(hoto_servey_data_disptach({
-            sortBy: sortBy,
-            search_value: searchTerm.trim(),
-            sort: sort,
-            page: page,
-        }));
-    };
-
-    const debouncedHandleSearch = debounce(handleSearch, 500);
-
-    useEffect(() => {
-        if (searchTerm !== "") {
-            debouncedHandleSearch(searchTerm);
-        }
-        return () => {
-            debouncedHandleSearch.cancel();
-        };
-    }, [searchTerm]);
+  }, [searchTerm]);
 
 
-    useEffect(() => {
-        dispatch(hoto_servey_data_disptach({
-            sortBy: sortBy,
-            search_value: searchTerm.trim(),
-            sort: sort,
-            page: page,
-        }));
-    }, [sort, page, sortBy, dispatch])
+  useEffect(() => {
+    dispatch(hoto_servey_data_disptach({
+      sortBy: sortBy,
+      search_value: searchTerm.trim(),
+      sort: sort,
+      page: page,
+    }));
+  }, [sort, page, sortBy, dispatch])
 
 
   const handleCheckboxChange = (event) => {
@@ -257,46 +257,46 @@ const Assets_Portfolio_List = () => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   Equipment
-                  <IconButton size="small" onClick={handleFilterClick}>
+                  {/* <IconButton size="small" onClick={handleFilterClick}>
                     <FilterListIcon sx={{ color: "white" }} />
-                  </IconButton>
+                  </IconButton> */}
                 </Box>
 
-                                {/* Filter popper with RadioGroup */}
-                                <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
-                                    <ClickAwayListener onClickAway={handleCancel}>
-                                        <Box
-                                            sx={{
-                                                p: 2,
-                                                bgcolor: "white",
-                                                boxShadow: 3,
-                                                borderRadius: 2,
-                                                minWidth: 200,
-                                                zIndex: 10
-                                            }}
-                                        >
-                                            <RadioGroup
-                                                value={equipmentFilterName}
-                                                onChange={(e) => {
-                                                    console.log(e.target.value)
-                                                    setEquipmentFilterName(e.target.value);
-                                                    setAnchorEl(null); // auto-close popper
-                                                }}
-                                            >
-                                                {Object.keys(equipment_types).map((option) => (
-                                                    <FormControlLabel
-                                                        key={option}
-                                                        value={equipment_types?.[option]}
-                                                        control={<Radio size="small" />}
-                                                        label={option}
-                                                        sx={{textTransform:"uppercase"}}
-                                                    />
-                                                ))}
-                                            </RadioGroup>
-                                        </Box>
-                                    </ClickAwayListener>
-                                </Popper>
-                            </TableCell>
+                {/* Filter popper with RadioGroup */}
+                <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
+                  <ClickAwayListener onClickAway={handleCancel}>
+                    <Box
+                      sx={{
+                        p: 2,
+                        bgcolor: "white",
+                        boxShadow: 3,
+                        borderRadius: 2,
+                        minWidth: 200,
+                        zIndex: 10
+                      }}
+                    >
+                      <RadioGroup
+                        value={equipmentFilterName}
+                        onChange={(e) => {
+                          console.log(e.target.value)
+                          setEquipmentFilterName(e.target.value);
+                          setAnchorEl(null); // auto-close popper
+                        }}
+                      >
+                        {Object.keys(equipment_types).map((option) => (
+                          <FormControlLabel
+                            key={option}
+                            value={equipment_types?.[option]}
+                            control={<Radio size="small" />}
+                            label={option}
+                            sx={{ textTransform: "uppercase" }}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </Box>
+                  </ClickAwayListener>
+                </Popper>
+              </TableCell>
 
               {/* Other columns with sort icons */}
               {[
@@ -325,7 +325,7 @@ const Assets_Portfolio_List = () => {
           </TableHead>
 
           <TableBody>
-            {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map(
+            {/* {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map(
               (ele, index) => {
                 const gp_equipment = ele?.equipment;
                 const gp_electrical = ele?.electrical;
@@ -637,11 +637,20 @@ const Assets_Portfolio_List = () => {
                   </TableRow>
                 );
               }
-            )}
+            )} */}
+            <TableCell align="left"
+              colSpan={10}
+              sx={{
+                textAlign: "center",
+                verticalAlign: "middle",
+                textTransform: "capitalize"
+              }}>
+              No Data Found!
+            </TableCell>
           </TableBody>
         </Table>
         <Pagination
-          count={hotoServeyDataReducer?.hoto_servey_data?.data?.last_page || 0}
+          count={1}
           page={page}
           onChange={handleChangePage}
           sx={{

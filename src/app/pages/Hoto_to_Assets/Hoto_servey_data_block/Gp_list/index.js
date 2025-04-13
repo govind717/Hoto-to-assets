@@ -161,7 +161,7 @@ const Gp_list = () => {
                 <Table sx={{ minWidth: 650 }} size="small" >
                     <TableHead>
                         <TableRow sx={{ bgcolor: "#53B8CA" }}>
-                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
+                            {/* <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
                                     direction={sort}
@@ -174,7 +174,7 @@ const Gp_list = () => {
                                     direction={sort}
                                     sx={{ ...tableCellSort }}
                                 >GP Code</TableSortLabel>
-                            </TableCell>
+                            </TableCell> */}
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.companyType`)}
@@ -223,7 +223,7 @@ const Gp_list = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {
+                        {/* {
                             hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
                                 return (
                                     <TableRow key={ele?.id}>
@@ -269,19 +269,11 @@ const Gp_list = () => {
                                         }}>
                                             {ele?.gp?.district?.code || "-"}
                                         </TableCell>
-                                        {/* <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.package?.name || "-"}
-                                        </TableCell> */}
                                         <TableCell align="left" sx={{
                                             textAlign: "left",
                                             verticalAlign: "middle",
                                             textTransform: "capitalize",
                                         }}>
-                                            {/* {ele?.gp?.latitude}, {ele?.gp?.longitude} */}
                                             <IconButton aria-label="info" size="medium" onClick={() => {
                                                 setCoordinate({
                                                     open: true,
@@ -292,9 +284,6 @@ const Gp_list = () => {
                                             }}>
                                                 <ShareLocationIcon fontSize="medium" color='primary' />
                                             </IconButton>
-                                            {/* <Div >
-                                                <MyLocationIcon sx={{cursor:"pointer"}} onClick={()=>{}}/>
-                                            </Div> */}
                                         </TableCell>
                                         <TableCell align="left" sx={{
                                             textAlign: "left",
@@ -314,32 +303,23 @@ const Gp_list = () => {
                                                 View
                                             </Button>
                                         </TableCell>
-
-                                        {/* <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                        }}>
-                                            <JumboDdMenu
-                                                icon={<MoreHorizIcon />}
-                                                menuItems={[
-                                                    {
-                                                        icon: <HomeRepairServiceIcon />,
-                                                        title: "Equipment Details",
-                                                        action: "equipmentDetails",
-                                                        data: ele
-                                                    },
-                                                ]}
-                                                onClickCallback={handleItemAction}
-                                            />
-                                        </TableCell> */}
                                     </TableRow>
                                 )
                             })
-                        }
+                        } */}
+                        <TableCell align="left"
+                            colSpan={10}
+                            sx={{
+                                textAlign: "center",
+                                verticalAlign: "middle",
+                                textTransform: "capitalize"
+                            }}>
+                            No Data Found!
+                        </TableCell>
                     </TableBody>
                 </Table>
                 <Pagination
-                    count={hotoServeyDataReducer?.hoto_servey_data?.data?.last_page || 0}
+                    count={1}
                     page={page}
                     onChange={handleChangePage}
                     sx={{
