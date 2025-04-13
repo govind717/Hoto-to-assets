@@ -4,6 +4,7 @@ import reportWebVitals from './reportWebVitals';
 import App from "./app/App";
 import './app/config/i18n';
 import axios from 'axios';
+import "./app/App.css"
 
 
 export const Axios = axios.create({

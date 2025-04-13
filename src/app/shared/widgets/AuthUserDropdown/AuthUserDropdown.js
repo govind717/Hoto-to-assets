@@ -19,9 +19,11 @@ const AuthUserDropdown = () => {
     const navigate = useNavigate();
     const {theme} = useJumboTheme();
     const {setAuthToken} = useJumboAuth();
+    const auth_user = JSON.parse(localStorage.getItem('user_details'))
 
     const onLogout = () => {
         // setAuthToken(null);
+        localStorage.removeItem("user_details")
         navigate("/login");
     };
 
@@ -42,14 +44,14 @@ const AuthUserDropdown = () => {
                     flexDirection: 'column',
                     p: theme => theme.spacing(2.5),
                 }}>
-                    <Avatar src={authUser.profile_pic} alt={authUser.name} sx={{width: 60, height: 60, mb: 2}}/>
-                    <Typography variant={"h5"}>{authUser.name}</Typography>
-                    <Typography variant={"body1"} color="text.secondary">{authUser.handle}</Typography>
+                    <Avatar src={authUser.profile_pic} alt={auth_user?.email?.toUpperCase()} sx={{width: 60, height: 60, mb: 2}}/>
+                    {/* <Typography variant={"h5"}>{authUser.name}</Typography> */}
+                    <Typography variant={"body1"} color="text.secondary">{auth_user?.email}</Typography>
                 </Div>
                 <Divider/>
                 <nav>
                     <List disablePadding sx={{pb: 1}}>
-                        <ListItemButton>
+                        {/* <ListItemButton>
                             <ListItemIcon sx={{minWidth: 36}}>
                                 <PersonOutlineIcon/>
                             </ListItemIcon>
@@ -60,7 +62,7 @@ const AuthUserDropdown = () => {
                                 <EditOutlinedIcon/>
                             </ListItemIcon>
                             <ListItemText primary="Edit Profile" sx={{my: 0}}/>
-                        </ListItemButton>
+                        </ListItemButton> */}
                         <ListItemButton onClick={onLogout}>
                             <ListItemIcon sx={{minWidth: 36}}>
                                 <LogoutIcon/>
