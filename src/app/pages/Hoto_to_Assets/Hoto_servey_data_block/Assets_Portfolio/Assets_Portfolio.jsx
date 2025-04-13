@@ -677,7 +677,7 @@ const Assets_Portfolio_List = () => {
         >
           <Box>
             <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-              Gp Details
+              GP Details
             </Typography>
             <Gp_details
               gp_details={{
