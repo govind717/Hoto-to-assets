@@ -244,7 +244,7 @@ const Gp_equipments = ({ gp_details }) => {
                                         <TableCell align="left" sx={{
                                             textAlign: "left",
                                             verticalAlign: "middle",
-                                            textTransform: "capitalize"
+                                            textTransform: "uppercase"
                                         }}>
                                             {ele || "-"}
                                         </TableCell>

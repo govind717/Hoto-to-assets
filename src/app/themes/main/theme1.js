@@ -93,7 +93,7 @@ export const mainTheme = {
         "0 5px 10px rgba(0, 0, 0, 0.175)",
     ],
     typography: {
-        fontFamily: 'NoirPro, Arial',
+        fontFamily: 'Poppins, Arial',
         fontSize: 14,
         h1: {
             fontSize: '1.5rem',
