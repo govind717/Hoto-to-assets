@@ -478,7 +478,7 @@ export const UPSDetails = ({ equipment_data }) => {
 };
 
 
-export default function EquipmentModal({ equipment_show, handleClose, equipment_details, children }) {
+export default function EquipmentModal({ equipment_show, handleClose, equipment_details, children, TransferRecTable }) {
   const equipment_name = equipment_show?.equipment_name;
   const equipment_data = equipment_details?.[equipment_name]
   return (
@@ -506,7 +506,7 @@ export default function EquipmentModal({ equipment_show, handleClose, equipment_
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Box sx={{pl:2}}>
+          <Box sx={{ pl: 2 }}>
             {children}
             {equipment_name === "racks" && <RackDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
             {equipment_name === "smps" && <SmpsDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
@@ -519,6 +519,7 @@ export default function EquipmentModal({ equipment_show, handleClose, equipment_
             {equipment_name === "solar" && <SolarDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
             {equipment_name === "ups" && <UPSDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
           </Box>
+          {TransferRecTable}
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
