@@ -30,6 +30,7 @@ const Properties = () => {
                     left: 0,
                     right: 0,
                     zIndex: 1,
+                    top:"-30%",
                     position: 'absolute',
                 }}
             >
