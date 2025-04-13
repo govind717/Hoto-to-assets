@@ -7,7 +7,6 @@ import JumboCardQuick from "@jumbo/components/JumboCardQuick";
 import TaskItem from "./TaskItem";
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import {useTranslation} from "react-i18next";
-import {taskService} from "../../../services/task-services";
 
 const TasksList2 = ({scrollHeight}) => {
     const {t} = useTranslation();
@@ -39,20 +38,6 @@ const TasksList2 = ({scrollHeight}) => {
                     <Typography variant={"h4"} mb={0}>
                         {t("widgets.title.taskList")}
                     </Typography>
-                    <JumboRqTabs
-                        service={taskService.getTaskCategories}
-                        queryOptions={{
-                            queryKey: "task-categories",
-                            dataKey: "taskCategories",
-                        }}
-                        map={{label: 'name'}}
-                        primaryKey={"id"}
-                        onChange={handleCategory}
-                        sx={{
-                            flex: 1,
-                            justifyContent: 'center'
-                        }}
-                    />
                 </Typography>}
             action={
                 <JumboDdMenu
@@ -72,21 +57,6 @@ const TasksList2 = ({scrollHeight}) => {
             }}
             wrapperSx={{p: 0}}
         >
-            <JumboScrollbar
-                autoHeight
-                autoHeightMin={scrollHeight ? scrollHeight : 408}
-                autoHide
-                autoHideDuration={200}
-                autoHideTimeout={500}
-            >
-                <JumboRqList
-                    queryOptions={queryOptions}
-                    primaryKey={"id"}
-                    service={taskService.getTasks}
-                    renderItem={renderTasksItem}
-                    componentElement={"div"}
-                />
-            </JumboScrollbar>
         </JumboCardQuick>
     );
 };

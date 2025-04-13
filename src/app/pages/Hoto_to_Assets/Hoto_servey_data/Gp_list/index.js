@@ -122,7 +122,7 @@ const Gp_list = () => {
             sort: sort,
             page: page,
         }));
-    }, [sort, page, sortBy])
+    }, [sort, page, sortBy, dispatch])
 
     return (
         <>
@@ -218,7 +218,7 @@ const Gp_list = () => {
                                 >Coordinates</TableSortLabel>
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
-                                Action
+                                Details
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -306,12 +306,12 @@ const Gp_list = () => {
                                                 startIcon={<HomeRepairServiceIcon />}
                                                 onClick={() => handleEquipmentDetails(ele)}
                                                 sx={{
-                                                    "&:hover":{
-                                                        backgroundColor:orangeSecondary
+                                                    "&:hover": {
+                                                        backgroundColor: orangeSecondary
                                                     }
                                                 }}
                                             >
-                                                Equipment
+                                                View
                                             </Button>
                                         </TableCell>
 

@@ -8,6 +8,7 @@ import { historyRoute } from "./History";
 import Login from "app/pages/Auth/Login";
 import SoloPage from "app/layouts/solo-page/SoloPage";
 import { hotoToAssetsRoute } from "./Hoto_to_assets";
+import Dashboard from "app/pages/Dashboard";
 
 /**
  routes which you want to make accessible to both authenticated and anonymous users
@@ -17,6 +18,10 @@ const routesForPublic = [
         path: "/",
         // element: <Page component={NotFound} />
     },
+    {
+        path: "/dashboards",
+        element: <Page component={Dashboard} layout={"vertical-default"} />,
+      },
     // {
     //     path: "/login",
     //     // element: <Page component={Login} layout={"solo-page"}/>

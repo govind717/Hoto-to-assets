@@ -6,7 +6,6 @@ import JumboScrollbar from "@jumbo/components/JumboScrollbar";
 import JumboRqTabs from "@jumbo/components/JumboReactQuery/JumboRqTabs";
 import JumboRqList from "@jumbo/components/JumboReactQuery/JumboRqList";
 import NewsItem from "./NewsItem";
-import {cryptoNewsService} from "../../../services/cryptonews-services";
 import {useTranslation} from "react-i18next";
 import useJumboTheme from "@jumbo/hooks/useJumboTheme";
 import {Settings} from "@mui/icons-material";
@@ -54,16 +53,7 @@ const CryptoNews = () => {
                         {t("widgets.title.cryptoNews")} <Chip size={"small"} label={"20"} color="primary"/>
                     </Typography>
 
-                    <JumboRqTabs
-                        service={cryptoNewsService.getNewsCategories}
-                        queryOptions={{
-                            queryKey: "news-category",
-                            dataKey: "newsCategories",
-                        }}
-                        map={{label: 'name'}}
-                        primaryKey={"id"}
-                        onChange={handleCategory}
-                    />
+                    
                 </Typography>
             }
             action={
@@ -94,23 +84,6 @@ const CryptoNews = () => {
                 }
             }}
         >
-            <JumboScrollbar
-                autoHeight
-                autoHeightMin={585}
-                autoHide
-                autoHideDuration={200}
-                autoHideTimeout={500}
-            >
-                <JumboRqList
-                    queryOptions={queryOptions}
-                    primaryKey={"id"}
-                    service={cryptoNewsService.getNews}
-                    primary={"id"}
-                    renderItem={renderNewsItem}
-                    componentElement={"div"}
-                    wrapperSx={{pb: 1}}
-                />
-            </JumboScrollbar>
         </JumboCardQuick>
     );
 };

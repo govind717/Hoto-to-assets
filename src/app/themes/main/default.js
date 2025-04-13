@@ -1,4 +1,5 @@
 import {alpha} from "@mui/material";
+import { bluePrimary, orangeSecondary } from "app/pages/Constants/colors";
 
 export const mainTheme = {
     breakpoints: {
@@ -13,13 +14,13 @@ export const mainTheme = {
 
     palette: {
         primary: {
-            main: '#53B8CA',
+            main: `${bluePrimary}`,
             light: '#A67FFB',
             dark: '#5E3BB7',
             contrastText: '#FFF'
         },
         secondary: {
-            main: '#E44A77',
+            main: `${orangeSecondary}`,
             light: '#FF7EA6',
             dark: '#DF295E',
             contrastText: '#FFF'
