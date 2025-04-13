@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography, Box } from "@mui/material";
 import {
   ResponsiveContainer,
   BarChart,
@@ -7,10 +7,11 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend
+  Legend,
+  CartesianGrid // ✅ Correct import for grid lines
 } from "recharts";
 
-// Sample data (you can modify as needed)
+// Sample data (no changes in data)
 const assetConditionData = [
   {
     type: "OLT",
@@ -44,6 +45,31 @@ const assetConditionData = [
   }
 ];
 
+// ✅ Custom Legend with circle dots and black label text
+const CustomLegend = () => (
+  <Box display="flex" justifyContent="center" gap={3} mt={2} flexWrap="wrap">
+    {[
+      { name: "Working", color: "#22CAAD" },
+      { name: "Damaged", color: "#F55757" },
+      { name: "Under Repair", color: "#FDCF2A" }
+    ].map((item, index) => (
+      <Box key={index} display="flex" alignItems="center" gap={1}>
+        <Box
+          sx={{
+            width: 12,
+            height: 12,
+            borderRadius: "50%",
+            backgroundColor: item.color,
+          }}
+        />
+        <Typography variant="body2" sx={{ color: "#000" }}>
+          {item.name}
+        </Typography>
+      </Box>
+    ))}
+  </Box>
+);
+
 const AssetConditionByTypeChart = () => {
   return (
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
@@ -58,6 +84,7 @@ const AssetConditionByTypeChart = () => {
           >
             <XAxis dataKey="type" />
             <YAxis />
+            <CartesianGrid stroke="#ccc" vertical={false} /> {/* ✅ Horizontal grid lines only */}
             <Tooltip
               contentStyle={{
                 backgroundColor: "white",
@@ -67,10 +94,10 @@ const AssetConditionByTypeChart = () => {
               }}
               cursor={{ fill: "transparent" }}
             />
-            <Legend />
-            <Bar dataKey="Working" stackId="a" fill="#22CAAD" />
-            <Bar dataKey="Damaged" stackId="a" fill="#F55757" />
-            <Bar dataKey="Under Repair" stackId="a" fill="#FDCF2A" />
+            <Legend content={<CustomLegend />} />
+            <Bar dataKey="Working" stackId="a" fill="#22CAAD" barSize={30} />
+            <Bar dataKey="Damaged" stackId="a" fill="#F55757" barSize={30} />
+            <Bar dataKey="Under Repair" stackId="a" fill="#FDCF2A" barSize={30} />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

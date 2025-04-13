@@ -17,7 +17,7 @@ const VisitsStatistics = () => {
                 >{t("Block HOTO Survey Status")}</Typography>
             }
             sx={{color: "common.white"}}
-            bgColor={"#23BCBA"}
+            bgColor={"#22CAAD"}
             wrapperSx={{p: 0, '&:last-child': {p: 0}}}
         >
             <Div

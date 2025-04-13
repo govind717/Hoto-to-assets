@@ -26,7 +26,7 @@ const CitiesGraph = ({color}) => {
                         boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
                     }}
                 />
-                <Area dataKey="price" strokeWidth={2} stroke="#ff6f60" fill="#e53935" fillOpacity={1}/>
+                <Area dataKey="price" strokeWidth={2} stroke="#FFA775" fill="#E7834A" fillOpacity={1}/>
             </AreaChart>
         </ResponsiveContainer>
     );

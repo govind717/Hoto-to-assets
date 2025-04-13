@@ -17,7 +17,7 @@ const Cities = () => {
                 >{t("GP HOTO Survey Status")}</Typography>
             }
             sx={{color: "common.white"}}
-            bgColor={"#EF5350"}
+            bgColor={"#E78F5D"}
             wrapperSx={{p: 0, '&:last-child': {p: 0}}}
         >
             <Div

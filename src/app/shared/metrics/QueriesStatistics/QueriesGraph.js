@@ -26,7 +26,7 @@ const QueriesGraph = ({color}) => {
                         boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
                     }}
                 />
-                <Area dataKey="price" strokeWidth={2} stroke="#6ec6ff" fill="#2196f3" fillOpacity={1}/>
+                <Area dataKey="price" strokeWidth={2} stroke="#FDDB63" fill="#EDC227" fillOpacity={1}/>
             </AreaChart>
         </ResponsiveContainer>
     );
