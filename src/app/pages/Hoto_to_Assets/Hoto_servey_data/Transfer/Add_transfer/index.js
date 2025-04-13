@@ -38,7 +38,7 @@ export default function AddTransfer() {
                     "&:hover": {
                         backgroundColor: orangeSecondary
                     },
-                    mr:2
+                    mr: 2
                 }}
                 size='small'
                 onClick={handleClickOpen}>
@@ -128,7 +128,13 @@ export default function AddTransfer() {
                             <Button variant='outlined' sx={{ mr: 2 }} size='medium' onClick={handleClose}>
                                 Cancel
                             </Button>
-                            <Button variant='contained' size='medium' onClick={handleClose}>
+                            <Button variant='contained' size='medium'
+                                sx={{
+                                    "&:hover": {
+                                        backgroundColor: orangeSecondary
+                                    }
+                                }}
+                                onClick={handleClose}>
                                 Submit
                             </Button>
                         </Div>
