@@ -5,16 +5,17 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const AuthenticateAndRolesMiddleware = ({ fallbackPath,module }) => {
 //   const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+const isAuthenticated = JSON.parse(localStorage.getItem("user_details"));
 //   const Permission = useSelector(
 //     (state) => state?.cloudstratCustomer?.loginUserDetails?.role?.permissions
 //   );
-//   if (Permission) {
-//     if (isAuthenticated === "true" && Permission?.view_roles) {
-      return <Outlet />;
-//     } else {
-//       return <Navigate to={fallbackPath} />;
-//     }
-//   } else {
+console.log("auth : ",isAuthenticated)
+  if (isAuthenticated?.is_logged_in) {
+      return <Outlet />
+    } else {
+      return <Navigate to={fallbackPath} />;
+    }
+//    else {
 //     if (isAuthenticated === "true") {
 //       return <Outlet />;
 //     } else {
