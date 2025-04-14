@@ -24,7 +24,7 @@ const Hoto_servey_data = () => {
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} aria-label="lab API tabs example">
-                            <Tab label="GP-Wide Assets" value="1" />
+                            <Tab label="GP-Wise Assets" value="1" />
                             <Tab label="Asset Portfolio" value="2" />
                             <Tab label="Rectification" value="3" />
                             <Tab label="Transfer" value="4" />
