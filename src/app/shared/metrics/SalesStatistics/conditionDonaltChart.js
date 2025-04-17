@@ -51,7 +51,7 @@ const ConditionStatusChart = () => {
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
       <CardContent sx={{ paddingBottom: 1 }}>
         <Typography variant="h6" gutterBottom>
-          Condition-wise POP Report
+          RKM Status Report
         </Typography>
         <ResponsiveContainer width="100%" height={240}>
           <PieChart>
