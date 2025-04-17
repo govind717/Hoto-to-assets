@@ -8,15 +8,21 @@ import {
 } from "recharts";
 import { Typography, Box, Card, CardContent } from "@mui/material";
 
-// Data with color
-const conditionData = [
+// ✅ "Missing" removed from the data
+const originalData = [
   { name: "Robust", value: 2900, color: "#22CAAD" },
-  { name: "Semi-Damaged", value: 400, color: "#E78F5D" },
-  // { name: "Missing / Not Found", value: 150, color: "#FDCF2A" },
   { name: "Damaged", value: 300, color: "#F55757" },
+  { name: "Semi-Damaged", value: 400, color: "#FDCF2A" },
 ];
 
-// Custom legend with color dot and value between dot and name
+// ✅ Recalculate total after removing "Missing"
+const total = originalData.reduce((sum, item) => sum + item.value, 0);
+
+const conditionData = originalData.map((item) => ({
+  ...item,
+  percentage: ((item.value / total) * 100).toFixed(1),
+}));
+
 const CustomLegend = () => (
   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
     {conditionData.map((item, index) => (
@@ -30,7 +36,7 @@ const CustomLegend = () => (
           }}
         />
         <Typography variant="body2" sx={{ color: "#000" }}>
-        {item.value}
+          {item.percentage}%
         </Typography>
         <Typography variant="body2" sx={{ color: "#000" }}>
           {item.name}
@@ -45,9 +51,9 @@ const ConditionStatusChart = () => {
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
       <CardContent sx={{ paddingBottom: 1 }}>
         <Typography variant="h6" gutterBottom>
-          Condition-wise Status Report
+          Condition-wise POP Report
         </Typography>
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={240}>
           <PieChart>
             <Pie
               data={conditionData}
@@ -69,7 +75,6 @@ const ConditionStatusChart = () => {
             />
           </PieChart>
         </ResponsiveContainer>
-        {/* Custom colored-dot legend */}
         <CustomLegend />
       </CardContent>
     </Card>

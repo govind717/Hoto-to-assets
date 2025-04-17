@@ -17,7 +17,7 @@ const Cities = () => {
                 >{t("GP HOTO Survey Status")}</Typography>
             }
             sx={{color: "common.white"}}
-            bgColor={"#E78F5D"}
+            bgColor={"#53B8CA"}
             wrapperSx={{p: 0, '&:last-child': {p: 0}}}
         >
             <Div
@@ -30,7 +30,7 @@ const Cities = () => {
                     position: 'absolute',
                 }}
             >
-                <Typography variant={"h2"} color={"common.white"}>56%</Typography>
+                <Typography variant={"h2"} color={"common.white"}>15%</Typography>
                 <Typography variant={"h6"} color={"common.white"} mb={0}>{"Completed"}</Typography>
             </Div>
             <CitiesGraph/>

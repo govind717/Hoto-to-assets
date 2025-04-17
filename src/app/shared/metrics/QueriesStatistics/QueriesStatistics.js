@@ -17,7 +17,7 @@ const QueriesStatistics = () => {
                 >{t("RKM HOTO Survey Status")}</Typography>
             }
             sx={{color: "common.white"}}
-            bgColor={"#FDCF2A"}
+            bgColor={"#53B8CA"}
             wrapperSx={{p: 0, '&:last-child': {p: 0}}}
         >
             <Div
@@ -30,7 +30,7 @@ const QueriesStatistics = () => {
                     position: 'absolute',
                 }}
             >
-                <Typography variant={"h2"} color={"common.white"}>34%</Typography>
+                <Typography variant={"h2"} color={"common.white"}>0%</Typography>
                 <Typography variant={"body1"} color={"common.white"} mb={0}>{"Competed"}</Typography>
             </Div>
             <QueriesGraph/>
