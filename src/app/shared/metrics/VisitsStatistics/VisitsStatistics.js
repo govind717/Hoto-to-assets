@@ -17,7 +17,7 @@ const VisitsStatistics = () => {
                 >{t("Block HOTO Survey Status")}</Typography>
             }
             sx={{color: "common.white"}}
-            bgColor={"#22CAAD"}
+            bgColor={"#53B8CA"}
             wrapperSx={{p: 0, '&:last-child': {p: 0}}}
         >
             <Div
@@ -30,7 +30,7 @@ const VisitsStatistics = () => {
                     position: 'absolute',
                 }}
             >
-                <Typography variant={"h2"} color={"common.white"}>60%</Typography>
+                <Typography variant={"h2"} color={"common.white"}>10%</Typography>
                 <Typography variant={"h6"} color={"common.white"} mb={0}>{"Completed"}</Typography>
             </Div>
             <VisitsGraph/>

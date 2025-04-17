@@ -62,7 +62,7 @@ const NotFound = () => {
                     sx={{bgcolor: theme => theme.palette.background.paper}}
                 />
             </FormControl> */}
-      <Button variant="contained" onClick={() => navigate("/dashboards/hoto-survey-data")}>
+      <Button variant="contained" onClick={() => navigate("/dashboards")}>
         Go to home
       </Button>
     </Div>

@@ -33,7 +33,7 @@ const Properties = () => {
                     position: 'absolute',
                 }}
             >
-                <Typography variant={"h2"} color={"common.white"}>3750</Typography>
+                <Typography variant={"h2"} color={"common.white"}>900</Typography>
                 <Typography variant={"h6"} color={"common.white"} mb={0}>{"Assets"}</Typography>
             </Div>
             <PropertiesGraph />

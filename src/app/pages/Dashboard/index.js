@@ -8,12 +8,14 @@ import IntranetDashboard from "./intranet/IntranetDashboard";
 import ListingDashboard from "./listing/ListingDashboard";
 import MiscDashboard from "./misc/MiscDashboard";
 import NewsDashboard from "./news/NewsDashboard";
+import HotoHeader from "../Hoto_to_Assets/HotoHeader";
 // import HeaderTitleHoc from "app/components/HeaderTitleHoc";
 
 const Dashboard = () => {
   return (
     <Div sx={{ mt: -2 }}>
-      <Div sx={{ mb: 5 }}>
+      <HotoHeader />
+      <Div sx={{ mb: 5,mt:2 }}>
         <ListingDashboard />
       </Div>
       <Div sx={{ mb: 5 }}>
