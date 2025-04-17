@@ -91,6 +91,8 @@ const HotoHeader = () => {
               <MenuItem value="Package 2">Package 2</MenuItem>
               <MenuItem value="Package 3">Package 3</MenuItem>
               <MenuItem value="Package 4">Package 4</MenuItem>
+              <MenuItem value="Package 5">Package 5</MenuItem>
+              <MenuItem value="Package 6">Package 6</MenuItem>
             </Select>
           </FormControl>
         </Div>
