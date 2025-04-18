@@ -30,7 +30,7 @@ const QueriesStatistics = () => {
                     position: 'absolute',
                 }}
             >
-                <Typography variant={"h2"} color={"common.white"}>0%</Typography>
+                <Typography variant={"h2"} color={"common.white"}>5%</Typography>
                 <Typography variant={"body1"} color={"common.white"} mb={0}>{"Competed"}</Typography>
             </Div>
             <QueriesGraph/>
