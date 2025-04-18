@@ -14,13 +14,6 @@ import {
 // ✅ Updated data with four fields
 const assetConditionData = [
   {
-    type: "OLT",
-    Robust: 20,
-    Damaged: 8,
-    "Semi-Damaged": 7,
-    Missing: 3,
-  },
-  {
     type: "Rack",
     Robust: 19,
     Damaged: 7,
@@ -28,16 +21,9 @@ const assetConditionData = [
     Missing: 2,
   },
   {
-    type: "Battery",
-    Robust: 14,
-    Damaged: 5,
-    "Semi-Damaged": 4,
-    Missing: 1,
-  },
-  {
     type: "CCU",
     Robust: 8,
-    Damaged: 15,
+    Damaged: 4,
     "Semi-Damaged": 6,
     Missing: 3,
   },
@@ -47,6 +33,69 @@ const assetConditionData = [
     Damaged: 6,
     "Semi-Damaged": 6,
     Missing: 8,
+  },
+  {
+    type: "SPLITTER",
+    Robust: 20,
+    Damaged: 8,
+    "Semi-Damaged": 7,
+    Missing: 3,
+  },
+  {
+    type: "OLT",
+    Robust: 2,
+    Damaged: 8,
+    "Semi-Damaged": 7,
+    Missing: 3,
+  },
+  {
+    type: "SFP",
+    Robust: 14,
+    Damaged: 5,
+    "Semi-Damaged": 4,
+    Missing: 1,
+  },
+  {
+    type: "FDMS",
+    Robust: 14,
+    Damaged: 5,
+    "Semi-Damaged": 4,
+    Missing: 1,
+  },
+  {
+    type: "CABLE", // Optional duplicate
+    Robust: 10,
+    Damaged: 2,
+    "Semi-Damaged": 3,
+    Missing: 1,
+  },
+  {
+    type: "SOLAR",
+    Robust: 8,
+    Damaged: 15,
+    "Semi-Damaged": 6,
+    Missing: 3,
+  },
+  {
+    type: "UPS", // Optional duplicate
+    Robust: 12,
+    Damaged: 6,
+    "Semi-Damaged": 6,
+    Missing: 8,
+  },
+  {
+    type: "Battery",
+    Robust: 14,
+    Damaged: 5,
+    "Semi-Damaged": 4,
+    Missing: 1,
+  },
+  {
+    type: "patchcords",
+    Robust: 14,
+    Damaged: 5,
+    "Semi-Damaged": 4,
+    Missing: 1,
   },
 ];
 
