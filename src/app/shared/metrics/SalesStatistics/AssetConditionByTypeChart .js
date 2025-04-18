@@ -14,7 +14,7 @@ import {
 // ✅ Updated data with four fields
 const assetConditionData = [
   {
-    type: "Rack",
+    type: "RACK",
     Robust: 19,
     Damaged: 7,
     "Semi-Damaged": 6,
@@ -84,14 +84,14 @@ const assetConditionData = [
     Missing: 8,
   },
   {
-    type: "Battery",
+    type: "BATTERY",
     Robust: 14,
     Damaged: 5,
     "Semi-Damaged": 4,
     Missing: 1,
   },
   {
-    type: "patchcords",
+    type: "PATCHCORDS",
     Robust: 14,
     Damaged: 5,
     "Semi-Damaged": 4,
