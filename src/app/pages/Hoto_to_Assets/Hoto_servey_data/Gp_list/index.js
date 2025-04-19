@@ -14,6 +14,7 @@ import ShareLocationIcon from '@mui/icons-material/ShareLocation';
 import MapLocation from "../../MapLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
+import DownloadFullEquipmentExcel from "./DownloadExcel";
 
 
 const tableCellSx = {
@@ -127,7 +128,9 @@ const Gp_list = () => {
     return (
         <>
             {hotoServeyDataReducer?.loading && <FullScreenLoader />}
+
             <Div sx={{ display: "flex", justifyContent: "space-between" }}>
+           
                 <TextField
                     id="search"
                     type="search"
@@ -156,6 +159,10 @@ const Gp_list = () => {
                         ),
                     }}
                 />
+                <Div sx={{ my: "2%" }}>
+
+                 <DownloadFullEquipmentExcel data={hotoServeyDataReducer?.hoto_servey_data?.data?.data} />
+                </Div>
             </Div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" >

@@ -8,14 +8,15 @@ import {
 } from "recharts";
 import { Typography, Box, Card, CardContent } from "@mui/material";
 
-// ✅ "Missing" removed from the data
+// ✅ Added "Missing"
 const originalData = [
   { name: "Robust", value: 2900, color: "#22CAAD" },
   { name: "Damaged", value: 300, color: "#F55757" },
   { name: "Semi-Damaged", value: 400, color: "#FDCF2A" },
+  { name: "Missing", value: 100, color: "#E78F5D" },
 ];
 
-// ✅ Recalculate total after removing "Missing"
+// ✅ Recalculate total
 const total = originalData.reduce((sum, item) => sum + item.value, 0);
 
 const conditionData = originalData.map((item) => ({
@@ -25,7 +26,23 @@ const conditionData = originalData.map((item) => ({
 
 const CustomLegend = () => (
   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
-    {conditionData.map((item, index) => (
+    <Box display="flex" alignItems="center" gap={1}>
+        <Box
+          sx={{
+            width: 10,
+            height: 10,
+            borderRadius: "50%",
+            backgroundColor: "#53B8CA",
+          }}
+        />
+        <Typography variant="body2" sx={{ color: "#000" }}>
+          {total}
+        </Typography>
+        <Typography variant="body2" sx={{ color: "#000" }}>
+          Total Assets
+        </Typography>
+      </Box>
+    {originalData.map((item, index) => (
       <Box key={index} display="flex" alignItems="center" gap={1}>
         <Box
           sx={{
@@ -36,23 +53,24 @@ const CustomLegend = () => (
           }}
         />
         <Typography variant="body2" sx={{ color: "#000" }}>
-          {item.percentage}%
+          {item?.value}
         </Typography>
         <Typography variant="body2" sx={{ color: "#000" }}>
-          {item.name}
+          {item?.name}
         </Typography>
       </Box>
     ))}
   </Box>
 );
 
-const ConditionStatusChart = () => {
+const ConditionStatusChart2 = () => {
   return (
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
       <CardContent sx={{ paddingBottom: 1 }}>
-        <Typography variant="h6" gutterBottom>
-          RKM Status Report
-        </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+          <Typography variant="h6">Total Assets Report</Typography>
+        </Box>
+
         <ResponsiveContainer width="100%" height={240}>
           <PieChart>
             <Pie
@@ -75,10 +93,11 @@ const ConditionStatusChart = () => {
             />
           </PieChart>
         </ResponsiveContainer>
+
         <CustomLegend />
       </CardContent>
     </Card>
   );
 };
 
-export default ConditionStatusChart;
+export default ConditionStatusChart2;
