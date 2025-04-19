@@ -24,28 +24,28 @@ const menus = [
     //         },
     //     ]
     // },
-    // {
-    //     label: "Hoto - Assets",
-    //     type: "collapsible",
-    //     // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
-    //     children: [
-    //         {
-    //             uri: "/dashboards/hoto-survey-block-data",
-    //             label: 'Block',
-    //             type: "nav-item",
-    //         },
-    //         {
-    //             uri: "/dashboards/hoto-survey-data",
-    //             label: "GP",
-    //             type: "nav-item",
-    //         },
-    //         {
-    //             uri: "/dashboards/hoto-survey-rkm-data",
-    //             label: 'RKM',
-    //             type: "nav-item",
-    //         },
-    //     ]
-    // }
+    {
+        label: "Hoto - Assets",
+        type: "collapsible",
+        // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+        children: [
+            {
+                uri: "/dashboards/hoto-survey-block-data",
+                label: 'Block',
+                type: "nav-item",
+            },
+            {
+                uri: "/dashboards/hoto-survey-data",
+                label: "GP",
+                type: "nav-item",
+            },
+            {
+                uri: "/dashboards/hoto-survey-rkm-data",
+                label: 'RKM',
+                type: "nav-item",
+            },
+        ]
+    }
     // {
     //     label: 'sidebar.menu.store',
     //     type: "section",

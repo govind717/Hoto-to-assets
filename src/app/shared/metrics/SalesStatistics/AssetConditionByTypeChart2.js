@@ -13,91 +13,20 @@ import {
 
 // ✅ Updated data with four fields
 const assetConditionData = [
-  {
-    type: "RACK",
-    Robust: 19,
-    Damaged: 7,
-    "Semi-Damaged": 6,
-    Missing: 2,
-  },
-  {
-    type: "CCU",
-    Robust: 8,
-    Damaged: 4,
-    "Semi-Damaged": 6,
-    Missing: 3,
-  },
-  {
-    type: "SMPS", // Optional duplicate
-    Robust: 12,
-    Damaged: 6,
-    "Semi-Damaged": 6,
-    Missing: 8,
-  },
-  {
-    type: "SPLITTER",
-    Robust: 20,
-    Damaged: 8,
-    "Semi-Damaged": 7,
-    Missing: 3,
-  },
-  {
-    type: "OLT",
-    Robust: 2,
-    Damaged: 8,
-    "Semi-Damaged": 7,
-    Missing: 3,
-  },
-  {
-    type: "SFP",
-    Robust: 14,
-    Damaged: 5,
-    "Semi-Damaged": 4,
-    Missing: 1,
-  },
-  {
-    type: "FDMS",
-    Robust: 14,
-    Damaged: 5,
-    "Semi-Damaged": 4,
-    Missing: 1,
-  },
-  {
-    type: "CABLE", // Optional duplicate
-    Robust: 10,
-    Damaged: 2,
-    "Semi-Damaged": 3,
-    Missing: 1,
-  },
-  {
-    type: "SOLAR",
-    Robust: 8,
-    Damaged: 15,
-    "Semi-Damaged": 6,
-    Missing: 3,
-  },
-  {
-    type: "UPS", // Optional duplicate
-    Robust: 12,
-    Damaged: 6,
-    "Semi-Damaged": 6,
-    Missing: 8,
-  },
-  {
-    type: "BATTERY",
-    Robust: 14,
-    Damaged: 5,
-    "Semi-Damaged": 4,
-    Missing: 1,
-  },
-  {
-    type: "PATCHCORDS",
-    Robust: 14,
-    Damaged: 5,
-    "Semi-Damaged": 4,
-    Missing: 1,
-  },
-];
+  { type: "MEERUT", Robust: 19, Damaged: 7, "Semi-Damaged": 6, Missing: 2 },
+  { type: "GHAZIABAD", Robust: 8, Damaged: 4, "Semi-Damaged": 6, Missing: 3 },
+  { type: "NOIDA", Robust: 12, Damaged: 6, "Semi-Damaged": 6, Missing: 8 },
+  { type: "AGRA", Robust: 20, Damaged: 8, "Semi-Damaged": 7, Missing: 3 },
+  { type: "ALIGARH", Robust: 2, Damaged: 8, "Semi-Damaged": 7, Missing: 3 },
+  { type: "MORADABAD", Robust: 14, Damaged: 5, "Semi-Damaged": 4, Missing: 1 },
+  { type: "MUZAFFARNAGAR", Robust: 14, Damaged: 5, "Semi-Damaged": 4, Missing: 1 },
+  { type: "SAHARANPUR", Robust: 10, Damaged: 2, "Semi-Damaged": 3, Missing: 1 },
+  { type: "BULANDSHAHR", Robust: 8, Damaged: 15, "Semi-Damaged": 6, Missing: 3 },
+  // { type: "BIJNOR", Robust: 12, Damaged: 6, "Semi-Damaged": 6, Missing: 8 },
+  // { type: "BAREILLY", Robust: 14, Damaged: 5, "Semi-Damaged": 4, Missing: 1 },
+  // { type: "MATHURA", Robust: 14, Damaged: 5, "Semi-Damaged": 4, Missing: 1 }
+]
+
 
 // ✅ Updated legend for the new fields (color swap)
 const CustomLegend = () => (
@@ -125,12 +54,12 @@ const CustomLegend = () => (
   </Box>
 );
 
-const AssetConditionByTypeChart = () => {
+const AssetConditionByTypeChart2 = () => {
   return (
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
         <Typography variant="h6" sx={{ marginBottom: "1rem" }} gutterBottom>
-          Asset Condition by Type
+          Asset Condition by District
         </Typography>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
@@ -161,4 +90,4 @@ const AssetConditionByTypeChart = () => {
   );
 };
 
-export default AssetConditionByTypeChart;
+export default AssetConditionByTypeChart2;
