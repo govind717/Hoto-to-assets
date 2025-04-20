@@ -145,7 +145,7 @@ const AssetConditionByTypeChart4 = () => {
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h6">Asset Condition by GP</Typography>
+          <Typography variant="h6">Asset Condition</Typography>
           <Box display="flex" gap={2}>
             <FormControl size="small" sx={{ minWidth: 150 }}>
               <InputLabel>District</InputLabel>
