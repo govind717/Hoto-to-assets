@@ -111,7 +111,7 @@ const AssetConditionByTypeChart3 = () => {
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h6">Asset Condition by Block</Typography>
+          <Typography variant="h6">Asset Condition Overview Across Block</Typography>
           <FormControl size="small" sx={{ minWidth: 150 }}>
             <InputLabel>District</InputLabel>
             <Select

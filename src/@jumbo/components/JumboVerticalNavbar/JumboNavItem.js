@@ -53,14 +53,33 @@ const JumboNavItem = ({item, isNested, translate}) => {
                             backgroundColor: theme => theme.palette.nav.tick.hover,
                         }} : {}
                 },
-                ...(location.pathname === item.uri) ? {
-                    color: theme => theme.palette.nav.action.active,
-                    backgroundColor: theme => theme.palette.nav.background.active,
-                    ...(!isMiniAndClosed) ? {'&::before': {
-                        ...menuBefore,
-                            backgroundColor: theme => theme.palette.nav.tick.active,
-                    }}: {},
-                } : {},
+                // ...(location.pathname === item.uri) ? {
+                //     color: theme => theme.palette.nav.action.active,
+                //     backgroundColor: theme => theme.palette.nav.background.active,
+                //     ...(!isMiniAndClosed) ? {'&::before': {
+                //         ...menuBefore,
+                //             backgroundColor: theme => theme.palette.nav.tick.active,
+                //     }}: {},
+                // } : {},
+                ...(location.pathname === item.uri ||
+        (item?.isActiveUri &&
+          item?.isActiveUri?.some((e) => {
+            const regex = new RegExp("^" + e.replace(/:[^\s/]+/g, "([\\w-]+)").replace(/\//g, "\\/") + "$");
+            return regex.test(location.pathname);
+          }))
+          ? {
+              color: (theme) => theme.palette.nav.action.active,
+              backgroundColor: (theme) => theme.palette.nav.background.active,
+              ...(!isMiniAndClosed
+                ? {
+                    "&::before": {
+                      ...menuBefore,
+                      backgroundColor: (theme) => theme.palette.nav.tick.active,
+                    },
+                  }
+                : {}),
+            }
+          : {}),
             }}
         >
             <Link underline={"none"} component={RouterLink} to={item.uri} {...(item.target ? {target: item.target} : {})}

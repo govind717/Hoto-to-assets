@@ -48,27 +48,32 @@ const SalesStatistics = () => {
     return (  
            
                 <Grid container spacing={0}>
-                    {/* Left: Bar Chart */}
-                    <Grid item xs={12} md={6}>
+                   
+                    {/* <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2  ,pl:0 ,pt:0}}>
                             <StylishAssetHealthChart />
                         </Div>
                     </Grid>
 
-                    {/* Right: Pie Chart */}
+                    
                     <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2, pr:0 ,pt:0}}>
                             <ConditionStatusChart />
                         </Div>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12} md={12}>
-                        <Div sx={{ p: 2, pr:0 ,pt:0}}>
+                        <Div sx={{ p: 2, pl:0 ,pt:0}}>
                             <ConditionStatusChart2 />
                         </Div>
                     </Grid>
-                    <Grid item xs={12} md={12}>
+                    {/* <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>
                             <AssetConditionByTypeChart />
+                        </Div>
+                    </Grid> */}
+                    <Grid item xs={12} md={12}>
+                        <Div sx={{ p: 2, px:0 }}>
+                            <AssetConditionByTypeChart4 />
                         </Div>
                     </Grid>
                     <Grid item xs={12} md={12}>
@@ -79,11 +84,6 @@ const SalesStatistics = () => {
                     <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>
                             <AssetConditionByTypeChart3 />
-                        </Div>
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                        <Div sx={{ p: 2, px:0 }}>
-                            <AssetConditionByTypeChart4 />
                         </Div>
                     </Grid>
                     {/* Right: Pie Chart */}

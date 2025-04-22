@@ -11,6 +11,9 @@ import { blockRoute, hotoToAssetsRoute, rkmRoute } from "./Hoto_to_assets";
 import Dashboard from "app/pages/Dashboard";
 import LoginPage from "app/pages/Auth/Login/LoginAndForgotPassword/LoginPage";
 import AuthenticateAndRolesMiddleware from "./Middleware";
+import { MasterRoute } from "./Master";
+import { UserManagementRoute } from "./UserManagement";
+import { OandMRoute } from "./O&M";
 
 /**
  routes which you want to make accessible to both authenticated and anonymous users
@@ -56,6 +59,9 @@ const routesForAuthenticatedOnly = [
   ...hotoToAssetsRoute,
   ...blockRoute,
   ...rkmRoute,
+  ...MasterRoute,
+  ...UserManagementRoute,
+  ...OandMRoute,
   // ...profileRoute,
   // ...storeRoute,
   // ...historyRoute,

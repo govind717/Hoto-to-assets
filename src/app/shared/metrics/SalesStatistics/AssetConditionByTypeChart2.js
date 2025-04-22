@@ -59,7 +59,7 @@ const AssetConditionByTypeChart2 = () => {
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
         <Typography variant="h6" sx={{ marginBottom: "1rem" }} gutterBottom>
-          Asset Condition by District
+        Asset Condition Overview Across District
         </Typography>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart

@@ -130,7 +130,7 @@ const AssetConditionByTypeChart = () => {
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
         <Typography variant="h6" sx={{ marginBottom: "1rem" }} gutterBottom>
-          Asset Condition by Type
+          Asset Condition 
         </Typography>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
