@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { MATERIAL_MASTER, MATERIAL_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addMaterial, updateMaterial } from "app/services/apis/master";
 
 function AddMaterial() {
   const navigate = useNavigate();
@@ -96,8 +97,7 @@ function AddMaterial() {
     setSubmitting(true);
     try {
       if (pathname === MATERIAL_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+        const data = await updateMaterial(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(MATERIAL_MASTER);
           Swal.fire({
@@ -117,8 +117,7 @@ function AddMaterial() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+        const data = await addMaterial(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

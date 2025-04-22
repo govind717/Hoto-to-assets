@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { BLOCK_MASTER, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addBlock, updateBlock } from "app/services/apis/master";
 
 function AddBlock() {
   const navigate = useNavigate();
@@ -72,8 +73,7 @@ function AddBlock() {
     setSubmitting(true);
     try {
       if (pathname === BLOCK_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+        const data = await updateBlock(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(BLOCK_MASTER);
           Swal.fire({
@@ -93,8 +93,7 @@ function AddBlock() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+        const data = await addBlock(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

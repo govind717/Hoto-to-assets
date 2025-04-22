@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { GP_MASTER, GP_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addGP, updateGP } from "app/services/apis/master";
 
 function AddGP() {
   const navigate = useNavigate();
@@ -112,8 +113,7 @@ function AddGP() {
     setSubmitting(true);
     try {
       if (pathname === GP_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+        const data = await updateGP(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(GP_MASTER);
           Swal.fire({
@@ -133,8 +133,7 @@ function AddGP() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+        const data = await addGP(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

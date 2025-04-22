@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { ORGANIZATION_MASTER, ORGANIZATION_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addOrganization, updateOrganization } from "app/services/apis/master";
 
 function AddOrganization() {
   const navigate = useNavigate();
@@ -94,8 +95,7 @@ function AddOrganization() {
     setSubmitting(true);
     try {
       if (pathname === ORGANIZATION_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+        const data = await updateOrganization(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(ORGANIZATION_MASTER);
           Swal.fire({
@@ -115,8 +115,7 @@ function AddOrganization() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+        const data = await addOrganization(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

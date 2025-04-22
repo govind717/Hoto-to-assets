@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { GST_MASTER, GST_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addGST, updateGST } from "app/services/apis/master";
 
 function AddGST() {
   const navigate = useNavigate();
@@ -64,8 +65,7 @@ function AddGST() {
     setSubmitting(true);
     try {
       if (pathname === GST_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+        const data = await updateGST(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(GST_MASTER);
           Swal.fire({
@@ -85,8 +85,7 @@ function AddGST() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+        const data = await addGST(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

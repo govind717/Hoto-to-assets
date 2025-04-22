@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { DISTRICT_MASTER, DISTRICT_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addDistrict, updateDistrict } from "app/services/apis/master";
 
 function AddDistrict() {
   const navigate = useNavigate();
@@ -69,8 +70,7 @@ function AddDistrict() {
     setSubmitting(true);
     try {
       if (pathname === DISTRICT_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+        const data = await updateDistrict(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(DISTRICT_MASTER);
           Swal.fire({
@@ -90,8 +90,7 @@ function AddDistrict() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+        const data = await addDistrict(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

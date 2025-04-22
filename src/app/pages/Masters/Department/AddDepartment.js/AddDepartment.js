@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { DEPARTMENT_MASTER, DEPARTMENT_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addDepartment, updateDepartment } from "app/services/apis/master";
 
 function AddDepartment() {
   const navigate = useNavigate();
@@ -66,8 +67,7 @@ function AddDepartment() {
     setSubmitting(true);
     try {
       if (pathname === DEPARTMENT_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+          const data = await updateDepartment(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(DEPARTMENT_MASTER);
           Swal.fire({
@@ -87,8 +87,7 @@ function AddDepartment() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+        const data = await addDepartment(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

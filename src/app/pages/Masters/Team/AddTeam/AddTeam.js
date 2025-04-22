@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { TEAM_MASTER, TEAM_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addTeam, updateTeam } from "app/services/apis/master";
 
 function AddTeam() {
   const navigate = useNavigate();
@@ -66,8 +67,7 @@ function AddTeam() {
     setSubmitting(true);
     try {
       if (pathname === TEAM_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+          const data = await updateTeam(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(TEAM_MASTER);
           Swal.fire({
@@ -87,8 +87,7 @@ function AddTeam() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+          const data = await addTeam(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

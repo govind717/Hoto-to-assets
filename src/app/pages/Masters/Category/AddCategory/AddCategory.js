@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { CATEGORY_MASTER, CATEGORY_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addCategory, updateCategory } from "app/services/apis/master";
 
 function AddCategory() {
   const navigate = useNavigate();
@@ -63,8 +64,7 @@ function AddCategory() {
     setSubmitting(true);
     try {
       if (pathname === CATEGORY_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+        const data = await updateCategory(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(CATEGORY_MASTER);
           Swal.fire({
@@ -84,8 +84,7 @@ function AddCategory() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+          const data = await addCategory(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

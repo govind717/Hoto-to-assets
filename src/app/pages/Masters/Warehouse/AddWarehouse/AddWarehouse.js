@@ -1,22 +1,8 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
   Grid,
-  IconButton,
-  InputAdornment,
-  Pagination,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
   TextField,
   Typography,
 } from "@mui/material";
@@ -36,6 +22,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { WAREHOUSE_MASTER, WAREHOUSE_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addWarehouse, updateWarehouse } from "app/services/apis/master";
 
 function AddWarehouse() {
   const navigate = useNavigate();
@@ -105,8 +92,7 @@ function AddWarehouse() {
     setSubmitting(true);
     try {
       if (pathname === WAREHOUSE_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+        const data = await updateWarehouse(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(WAREHOUSE_MASTER);
           Swal.fire({
@@ -126,8 +112,7 @@ function AddWarehouse() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+        const data = await addWarehouse(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",

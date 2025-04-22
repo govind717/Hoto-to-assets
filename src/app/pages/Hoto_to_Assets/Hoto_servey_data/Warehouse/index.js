@@ -55,7 +55,7 @@ const addBtnStyle = {
   "&:hover": { backgroundColor: " #E78F5D" },
 };
 
-const BlockList = () => {
+const WarehouseList = () => {
   const [sortBy, setSortBy] = useState("created_at");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
@@ -164,7 +164,7 @@ const BlockList = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="contained"
             sx={{ ...addBtnStyle }}
@@ -172,7 +172,7 @@ const BlockList = () => {
           >
             + Add Block
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -193,7 +193,7 @@ const BlockList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Package Name
+                  Warehouse
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -204,7 +204,7 @@ const BlockList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  District
+                  Equipment
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -215,7 +215,7 @@ const BlockList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Block Name
+                  Rack NO.
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -226,7 +226,7 @@ const BlockList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Block Code
+                  Serial No.
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -237,7 +237,7 @@ const BlockList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Status
+                  Condition
                 </TableSortLabel>
               </TableCell>
               
@@ -252,56 +252,14 @@ const BlockList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Created By
+                  Status
                 </TableSortLabel>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Updated By
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Created Date
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Updated Date
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
-              >
-                Actions
+                Details
               </TableCell>
             </TableRow>
           </TableHead>
@@ -427,4 +385,4 @@ const BlockList = () => {
   );
 };
 
-export default BlockList;
+export default WarehouseList;

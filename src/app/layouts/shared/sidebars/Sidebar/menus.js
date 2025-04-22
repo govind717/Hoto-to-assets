@@ -16,7 +16,7 @@ const menus = [
         uri: "/user-management",
         label: 'User Management',
         type: "nav-item",
-        icon: <DashboardIcon sx={{ fontSize: 20 }} />
+        icon: <PeopleIcon sx={{ fontSize: 20 }} />,
     },
     // {
     //     label: 'Hoto Survey',
@@ -84,7 +84,7 @@ const menus = [
             {
                 uri: "/masters/organization",
                 isActiveUri :["/masters/organization/add"],
-                label: 'Organization',
+                label: 'Organisation',
                 type: "nav-item",
             },
             {
@@ -164,7 +164,27 @@ const menus = [
             },
             
         ]
-    }
+    },
+    // {
+    //     label: "O&M",
+    //     type: "collapsible",
+    //     // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+    //     children: [
+    //         {
+    //             uri: "/o&m/block",
+    //             // isActiveUri :["/masters/package/add"],
+    //             label: 'Block',
+    //             type: "nav-item",
+    //         },
+    //         {
+    //             uri: "/o&m/gp",
+    //             // isActiveUri :["/masters/district/add"],
+    //             label: "GP",
+    //             type: "nav-item",
+    //         },
+           
+    //     ]
+    // },
     // {
     //     label: 'sidebar.menu.store',
     //     type: "section",

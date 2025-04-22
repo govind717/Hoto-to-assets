@@ -36,6 +36,7 @@ import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { HSN_CODE_MASTER, HSN_CODE_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { addHSNCode, updateHSNCode } from "app/services/apis/master";
 
 function AddHSNCode() {
   const navigate = useNavigate();
@@ -68,8 +69,7 @@ function AddHSNCode() {
     setSubmitting(true);
     try {
       if (pathname === HSN_CODE_MASTER_EDIT) {
-        //   const data = await updatePhoto(form, state?._id);
-        const data = {};
+        const data = await updateHSNCode(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(HSN_CODE_MASTER);
           Swal.fire({
@@ -89,8 +89,7 @@ function AddHSNCode() {
           });
         }
       } else {
-        //   const data = await addPhoto(form);
-        const data = {};
+        const data = await addHSNCode(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",
