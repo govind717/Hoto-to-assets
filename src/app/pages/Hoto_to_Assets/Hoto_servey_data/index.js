@@ -35,7 +35,7 @@ const Hoto_servey_data = () => {
                             <Tab label="Warehouse" value="3" />
 
                             {/* Push next tab to the right using margin-left: auto */}
-                            <Tab label="Maintainence" value="4" sx={{ marginLeft: "auto" }} />
+                            <Tab label="Maintenence" value="4" sx={{ marginLeft: "auto" }} />
                             <Tab label="Replacement" value="5" />
                             <Tab label="Transfer" value="6" />
                         </TabList>
