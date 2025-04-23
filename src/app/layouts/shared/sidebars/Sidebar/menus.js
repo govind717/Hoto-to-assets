@@ -12,40 +12,40 @@ const menus = [
         type: "nav-item",
         icon: <DashboardIcon sx={{ fontSize: 20 }} />
     },
-    // {
-    //     label: 'Hoto Survey',
-    //     type: "section",
-    //     children: [
-    //         {
-    //             uri: "/dashboards/hoto-survey-data",
-    //             label: 'Hoto Survey Data',
-    //             type: "nav-item",
-    //             icon: <PeopleIcon sx={{ fontSize: 20 }} />
-    //         },
-    //     ]
-    // },
-    // {
-    //     label: "Hoto - Assets",
-    //     type: "collapsible",
-    //     // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
-    //     children: [
-    //         {
-    //             uri: "/dashboards/hoto-survey-block-data",
-    //             label: 'Block',
-    //             type: "nav-item",
-    //         },
-    //         {
-    //             uri: "/dashboards/hoto-survey-data",
-    //             label: "GP",
-    //             type: "nav-item",
-    //         },
-    //         {
-    //             uri: "/dashboards/hoto-survey-rkm-data",
-    //             label: 'RKM',
-    //             type: "nav-item",
-    //         },
-    //     ]
-    // }
+    {
+        label: 'Hoto Survey',
+        type: "section",
+        children: [
+            {
+                uri: "/dashboards/hoto-survey-data",
+                label: 'Hoto Survey Data',
+                type: "nav-item",
+                icon: <PeopleIcon sx={{ fontSize: 20 }} />
+            },
+        ]
+    },
+    {
+        label: "Hoto - Assets",
+        type: "collapsible",
+        // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+        children: [
+            {
+                uri: "/dashboards/hoto-survey-block-data",
+                label: 'Block',
+                type: "nav-item",
+            },
+            {
+                uri: "/dashboards/hoto-survey-data",
+                label: "GP",
+                type: "nav-item",
+            },
+            {
+                uri: "/dashboards/hoto-survey-rkm-data",
+                label: 'RKM',
+                type: "nav-item",
+            },
+        ]
+    },
     // {
     //     label: 'sidebar.menu.store',
     //     type: "section",
