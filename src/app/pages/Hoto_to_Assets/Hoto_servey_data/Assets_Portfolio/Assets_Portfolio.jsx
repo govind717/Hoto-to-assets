@@ -564,8 +564,7 @@ const Assets_Portfolio_List = () => {
                                                 textTransform: "capitalize",
                                             }}
                                         >
-                                            {equipment_listing_data?.[equipmentFilterName]?.status ||
-                                                "-"}
+                                           {index+1}
                                         </TableCell>
                                         <TableCell
                                             align="left"
@@ -606,8 +605,7 @@ const Assets_Portfolio_List = () => {
                                                 textTransform: "capitalize",
                                             }}
                                         >
-                                            {equipment_listing_data?.[equipmentFilterName]
-                                                ?.serial_no || "-"}
+                                            {ele?.gp?.code || "-"}
                                         </TableCell>
                                         
                                         <TableCell
@@ -797,7 +795,7 @@ const Assets_Portfolio_List = () => {
                                 </TableContainer>
                             </Div>
                             <Div>
-                                <Typography variant="h5" sx={{fontWeight:500}}>Repair</Typography>
+                                <Typography variant="h5" sx={{fontWeight:500}}>Maintenance</Typography>
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} size="small" >
                                         <TableHead>
@@ -835,7 +833,7 @@ const Assets_Portfolio_List = () => {
                                                         onClick={() => handleSort(`current_data.commissionPercentage`)}
                                                         direction={sort}
                                                         sx={{ ...tableCellSort }}
-                                                    >Sent Date</TableSortLabel>
+                                                    >Issue Date</TableSortLabel>
                                                 </TableCell>
                                                 <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
                                                     <TableSortLabel
