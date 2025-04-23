@@ -53,10 +53,10 @@ const SalesStatistics = () => {
                         <Div sx={{ p: 2  ,pl:0 ,pt:0}}>
                             <StylishAssetHealthChart />
                         </Div>
-                    </Grid>
+                    </Grid> */}
 
                     
-                    <Grid item xs={12} md={6}>
+                    {/* <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2, pr:0 ,pt:0}}>
                             <ConditionStatusChart />
                         </Div>

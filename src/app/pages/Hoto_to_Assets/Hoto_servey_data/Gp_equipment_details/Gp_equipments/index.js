@@ -229,9 +229,9 @@ const Gp_equipments = ({ gp_details }) => {
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 Details
                             </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            {/* <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 Actions
-                            </TableCell>
+                            </TableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>

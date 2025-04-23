@@ -19,7 +19,7 @@ import {
 
 const districtData = {
   Meerut: {
-    Block1: {
+    "Block-1": {
       Khanpur: [
         { name: "Robust", value: 2000, color: "#22CAAD" },
         { name: "Damaged", value: 500, color: "#F55757" },
@@ -33,7 +33,7 @@ const districtData = {
         { name: "Missing", value: 100, color: "#E78F5D" },
       ],
     },
-    Block2: {
+    "Block-2": {
       Bahadurpur: [
         { name: "Robust", value: 1800, color: "#22CAAD" },
         { name: "Damaged", value: 700, color: "#F55757" },
@@ -43,7 +43,7 @@ const districtData = {
     },
   },
   Ghaziabad: {
-    Block1: {
+    "Block-1": {
       Bawana: [
         { name: "Robust", value: 3000, color: "#22CAAD" },
         { name: "Damaged", value: 200, color: "#F55757" },
@@ -94,7 +94,7 @@ const CustomLegend = ({ total, data }) => (
 
 const ConditionStatusChart2 = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("Meerut");
-  const [selectedBlock, setSelectedBlock] = useState("Block1");
+  const [selectedBlock, setSelectedBlock] = useState("Block-1");
   const [selectedGP, setSelectedGP] = useState("Khanpur");
 
   const handleDistrictChange = (event) => {
