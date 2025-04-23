@@ -16,6 +16,7 @@ import OnlineVisitors from "../../../shared/metrics/OnlineVisitors";
 import WebsiteTraffic from "../../../shared/metrics/WebsiteTraffic";
 import LatestAlerts from "../../../shared/widgets/LatestAlerts";
 import ServeyStatus from 'app/shared/metrics/serveyStatus/serveyStatus';
+import Piecharts from 'app/shared/metrics/SalesStatistics/Piecharts';
 
 const EcommerceDashboard = () => {
     return (
@@ -26,6 +27,10 @@ const EcommerceDashboard = () => {
             <Grid item xs={12}>
                 <SalesStatistics/>
             </Grid>
+            <Grid item xs={12}>
+                <Piecharts/>
+            </Grid>
+
             {/* <Grid item xs={12} md={6}>
                 <SalesReport/>
             </Grid>

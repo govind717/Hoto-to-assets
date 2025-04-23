@@ -187,7 +187,7 @@ const Gp_list = () => {
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
             <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "100px" }}
               >
                 <TableSortLabel
                   onClick={() =>
