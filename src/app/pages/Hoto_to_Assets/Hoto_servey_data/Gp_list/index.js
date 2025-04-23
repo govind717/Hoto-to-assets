@@ -308,7 +308,7 @@ const Gp_list = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      {ele?.gp?.sr_name || "-"}
+                     {index+1}
                     </TableCell>
                     <TableCell
                       align="left"
