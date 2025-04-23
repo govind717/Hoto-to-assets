@@ -232,7 +232,7 @@ const Gp_list = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Block
+                  Block 
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -300,6 +300,16 @@ const Gp_list = () => {
               (ele, index) => {
                 return (
                   <TableRow key={ele?.id}>
+                  <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.gp?.sr_name || "-"}
+                    </TableCell>
                     <TableCell
                       align="left"
                       sx={{
@@ -367,7 +377,7 @@ const Gp_list = () => {
                                         }}>
                                             {ele?.gp?.package?.name || "-"}
                                         </TableCell> */}
-                    <TableCell
+                    {/* <TableCell
                       align="left"
                       sx={{
                         textAlign: "left",
@@ -375,7 +385,7 @@ const Gp_list = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      {/* {ele?.gp?.latitude}, {ele?.gp?.longitude} */}
+                      {ele?.gp?.latitude}, {ele?.gp?.longitude}
                       <IconButton
                         aria-label="info"
                         size="medium"
@@ -390,10 +400,10 @@ const Gp_list = () => {
                       >
                         <ShareLocationIcon fontSize="medium" color="primary" />
                       </IconButton>
-                      {/* <Div >
+                      <Div >
                                                 <MyLocationIcon sx={{cursor:"pointer"}} onClick={()=>{}}/>
-                                            </Div> */}
-                    </TableCell>
+                                            </Div>
+                    </TableCell> */}
                     <TableCell
                       align="left"
                       sx={{

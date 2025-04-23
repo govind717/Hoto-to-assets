@@ -199,7 +199,7 @@ const Assets_Portfolio_List = () => {
                     <AddTransfer />
                     <Div>
                           <DownloadFullEquipmentExcel
-                            data={[]}
+                             data={hotoServeyDataReducer?.hoto_servey_data?.data?.data}
                             fileName="Asset Portfolio"
                           />
                         </Div>
@@ -556,6 +556,17 @@ const Assets_Portfolio_List = () => {
                                 };
                                 return (
                                     <TableRow key={ele?.id}>
+                                    <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            {equipment_listing_data?.[equipmentFilterName]?.status ||
+                                                "-"}
+                                        </TableCell>
                                         <TableCell
                                             align="left"
                                             sx={{
@@ -585,8 +596,7 @@ const Assets_Portfolio_List = () => {
                                                 textTransform: "capitalize",
                                             }}
                                         >
-                                            {equipment_listing_data?.[equipmentFilterName]
-                                                ?.serial_no || "-"}
+                                            {ele?.gp?.name || "-"}
                                         </TableCell>
                                         <TableCell
                                             align="left"
@@ -596,8 +606,10 @@ const Assets_Portfolio_List = () => {
                                                 textTransform: "capitalize",
                                             }}
                                         >
-                                            {ele?.gp?.name || "-"}
+                                            {equipment_listing_data?.[equipmentFilterName]
+                                                ?.serial_no || "-"}
                                         </TableCell>
+                                        
                                         <TableCell
                                             align="left"
                                             sx={{
@@ -641,6 +653,7 @@ const Assets_Portfolio_List = () => {
                                             {equipment_listing_data?.[equipmentFilterName]?.status ||
                                                 "-"}
                                         </TableCell>
+                                        
                                         <TableCell
                                             align="left"
                                             sx={{
