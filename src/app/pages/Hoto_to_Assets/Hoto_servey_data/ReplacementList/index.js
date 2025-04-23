@@ -103,12 +103,12 @@ const ReplacementList = () => {
                                     sx={{ ...tableCellSort }}
                                 >Sr No</TableSortLabel>
                             </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
                                     direction={sort}
                                     sx={{ ...tableCellSort }}
-                                >ID</TableSortLabel>
+                                >Replacement ID</TableSortLabel>
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 <TableSortLabel
@@ -122,7 +122,7 @@ const ReplacementList = () => {
                                     onClick={() => handleSort(`current_data.companyType`)}
                                     direction={sort}
                                     sx={{ ...tableCellSort }}
-                                >Serial NO.</TableSortLabel>
+                                >Serial No.</TableSortLabel>
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
                                 <TableSortLabel
@@ -164,7 +164,7 @@ const ReplacementList = () => {
                                     onClick={() => handleSort(`current_data.commissionPercentage`)}
                                     direction={sort}
                                     sx={{ ...tableCellSort }}
-                                >New Serial NO.</TableSortLabel>
+                                >New Serial No.</TableSortLabel>
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
                                 <TableSortLabel

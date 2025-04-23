@@ -10,7 +10,7 @@ import Assets_Portfolio_List from "./Assets_Portfolio/Assets_Portfolio";
 import Transfer_list from './Transfer';
 import WarehouseList from './Warehouse';
 import MaintainanceList from './Maintenance';
-import ReplacementList from './ReflectionList';
+import ReplacementList from './ReplacementList';
 
 const Hoto_servey_data = () => {
     const [value, setValue] = React.useState('1');
@@ -35,7 +35,7 @@ const Hoto_servey_data = () => {
                             <Tab label="Warehouse" value="3" />
 
                             {/* Push next tab to the right using margin-left: auto */}
-                            <Tab label="Maintenence" value="4" sx={{ marginLeft: "auto" }} />
+                            <Tab label="Maintenance" value="4" sx={{ marginLeft: "auto" }} />
                             <Tab label="Replacement" value="5" />
                             <Tab label="Transfer" value="6" />
                         </TabList>
@@ -45,7 +45,7 @@ const Hoto_servey_data = () => {
                     <TabPanel value="2" sx={{ p: 0 }}><Gp_list /></TabPanel>
                     <TabPanel value="3" sx={{ p: 0 }}><WarehouseList /></TabPanel>
                     <TabPanel value="4" sx={{ p: 0 }}><MaintainanceList /></TabPanel>
-                    <TabPanel value="5" sx={{ p: 0 }}><ReplacementList /></TabPanel>
+                    <TabPanel value="5" sx={{ p: 0 }}><ReplacementList/></TabPanel>
                     <TabPanel value="6" sx={{ p: 0 }}><Transfer_list /></TabPanel>
                 </TabContext>
             </Box>

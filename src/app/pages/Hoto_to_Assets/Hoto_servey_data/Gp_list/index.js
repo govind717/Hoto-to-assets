@@ -177,6 +177,7 @@ const Gp_list = () => {
         <Div sx={{ my: "2%" }}>
           <DownloadFullEquipmentExcel
             data={hotoServeyDataReducer?.hoto_servey_data?.data?.data}
+            fileName="GP-Wise Assets"
           />
         </Div>
       </Div>
@@ -184,6 +185,22 @@ const Gp_list = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
+            <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(
+                      `current_data.marketExecutiveId.current_data.contact_person_details.first_name`
+                    )
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Sr No
+                </TableSortLabel>
+              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
@@ -197,7 +214,7 @@ const Gp_list = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  GP
+                  GP Name
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -206,7 +223,7 @@ const Gp_list = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  GP Code
+                  LGD Code
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -256,7 +273,7 @@ const Gp_list = () => {
                                     sx={{ ...tableCellSort }}
                                 >Package</TableSortLabel>
                             </TableCell> */}
-              <TableCell
+              {/* <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
@@ -269,12 +286,12 @@ const Gp_list = () => {
                 >
                   Coordinates
                 </TableSortLabel>
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                Details
+                Assets
               </TableCell>
             </TableRow>
           </TableHead>
