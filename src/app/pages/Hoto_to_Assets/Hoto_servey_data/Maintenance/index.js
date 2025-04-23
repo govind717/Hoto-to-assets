@@ -215,7 +215,7 @@ const MaintainanceList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Serial NO.
+                  Serial No.
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -267,6 +267,20 @@ const MaintainanceList = () => {
                   sx={{ ...tableCellSort }}
                 >
                   Issue Reported
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`current_data.commissionPercentage`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Estimated Repair Days
                 </TableSortLabel>
               </TableCell>
               <TableCell

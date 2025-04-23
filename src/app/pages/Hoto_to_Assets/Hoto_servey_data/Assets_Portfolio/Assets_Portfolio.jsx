@@ -20,6 +20,7 @@ import AddTransfer from "../Transfer/Add_transfer";
 import AddRepair from "../Transfer/Add_repair";
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { equipment_types } from "app/utils/constants/constants";
+import DownloadFullEquipmentExcel from "../Gp_list/DownloadExcel";
 
 
 const tableCellSx = {
@@ -180,10 +181,28 @@ const Assets_Portfolio_List = () => {
                             ),
                         }}
                     />
+                    
                 </Div>
-                <Div>
-                    <AddTransfer />
+                <Div sx={{display:"flex" ,gap:"10px"}}>
+                 
+                <Button variant="contained" color='secondary'
+                                sx={{
+                                    "&:hover": {
+                                        backgroundColor: orangeSecondary
+                                    }
+                                }}
+                                size='small'
+                                >
+                                Request Maintenance
+                            </Button>
                     <AddRepair />
+                    <AddTransfer />
+                    <Div>
+                          <DownloadFullEquipmentExcel
+                            data={[]}
+                            fileName="Asset Portfolio"
+                          />
+                        </Div>
                 </Div>
             </Box>
             <TableContainer component={Paper}>
@@ -255,6 +274,16 @@ const Assets_Portfolio_List = () => {
                         <TableRow sx={{ bgcolor: "#53B8CA" }}>
                             {/* Equipment column with dropdown */}
                             <TableCell align="left" sx={{ ...tableCellSx }}>
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                                        <TableSortLabel
+                                            direction={sort}
+                                            sx={{ ...tableCellSort }}
+                                        >
+                                            Sr No
+                                        </TableSortLabel>
+                                    </Box>
+                                </TableCell>
+                            <TableCell align="left" sx={{ ...tableCellSx }}>
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                                     Equipment
                                     <IconButton size="small" onClick={handleFilterClick}>
@@ -300,11 +329,11 @@ const Assets_Portfolio_List = () => {
 
                             {/* Other columns with sort icons */}
                             {[
-                                "Vendor",
                                 "Serial No.",
-                                "GP Name",
                                 "Location",
-                                "Warranty Status",
+                                "Location Code",
+                                "Site Type",
+                                "Warranty",
                                 "Condition",
                                 "Status",
                                 "Details",

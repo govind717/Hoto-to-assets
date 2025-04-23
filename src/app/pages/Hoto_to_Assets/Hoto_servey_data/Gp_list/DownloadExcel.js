@@ -2,7 +2,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { Button } from '@mui/material';
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
-const DownloadFullEquipmentExcel = ({ data }) => {
+const DownloadFullEquipmentExcel = ({ data ,fileName }) => {
   const handleDownload = () => {
     const rows = [];
 
@@ -277,12 +277,12 @@ const DownloadFullEquipmentExcel = ({ data }) => {
 
     // 6️⃣ Create workbook and trigger download.
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Equipment Details");
+    XLSX.utils.book_append_sheet(wb, ws, fileName);
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const dataBlob = new Blob([excelBuffer], {
       type: "application/octet-stream",
     });
-    saveAs(dataBlob, "HOTO_Equipment_Details.xlsx");
+    saveAs(dataBlob, `${fileName}.xlsx`);
   };
 
   return<Button variant="outlined" sx={{borderColor : "#B0BAC9", padding : "6px 20px" , color : "#000" , borderRadius : "5px"}} onClick={handleDownload}>

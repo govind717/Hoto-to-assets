@@ -215,7 +215,7 @@ const WarehouseList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Rack NO.
+                  Rack No.
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
