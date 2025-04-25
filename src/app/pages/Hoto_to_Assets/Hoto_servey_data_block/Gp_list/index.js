@@ -175,6 +175,14 @@ const Gp_list = () => {
                                     sx={{ ...tableCellSort }}
                                 >GP Code</TableSortLabel>
                             </TableCell> */}
+
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.companyType`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >Sr No</TableSortLabel>
+                            </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.companyType`)}
@@ -210,13 +218,13 @@ const Gp_list = () => {
                                     sx={{ ...tableCellSort }}
                                 >Package</TableSortLabel>
                             </TableCell> */}
-                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
+                            {/* <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.commissionPercentage`)}
                                     direction={sort}
                                     sx={{ ...tableCellSort }}
                                 >Coordinates</TableSortLabel>
-                            </TableCell>
+                            </TableCell> */}
                             <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
                                 Details
                             </TableCell>

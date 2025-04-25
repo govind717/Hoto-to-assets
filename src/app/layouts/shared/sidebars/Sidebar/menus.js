@@ -4,7 +4,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import StoreIcon from '@mui/icons-material/Store';
 import StarBorderPurple500Icon from "@mui/icons-material/StarBorderPurple500";
 import DashboardIcon from '@mui/icons-material/Dashboard';
-
+import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
 const menus = [
     {
         uri: "/dashboards",
@@ -30,28 +30,6 @@ const menus = [
     //         },
     //     ]
     // },
-    {
-        label: "Hoto - Assets",
-        type: "collapsible",
-        // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
-        children: [
-            {
-                uri: "/dashboards/hoto-survey-block-data",
-                label: 'Block',
-                type: "nav-item",
-            },
-            {
-                uri: "/dashboards/hoto-survey-data",
-                label: "GP",
-                type: "nav-item",
-            },
-            {
-                uri: "/dashboards/hoto-survey-rkm-data",
-                label: 'RKM',
-                type: "nav-item",
-            },
-        ]
-    },
     {
         label: "Masters",
         type: "collapsible",
@@ -165,26 +143,61 @@ const menus = [
             
         ]
     },
-    // {
-    //     label: "O&M",
-    //     type: "collapsible",
-    //     // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
-    //     children: [
-    //         {
-    //             uri: "/o&m/block",
-    //             // isActiveUri :["/masters/package/add"],
-    //             label: 'Block',
-    //             type: "nav-item",
-    //         },
-    //         {
-    //             uri: "/o&m/gp",
-    //             // isActiveUri :["/masters/district/add"],
-    //             label: "GP",
-    //             type: "nav-item",
-    //         },
+    {
+        label: "Hoto - Assets",
+        type: "collapsible",
+        // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+        children: [
+            {
+                uri: "/dashboards/hoto-survey-block-data",
+                label: 'Block',
+                type: "nav-item",
+            },
+            {
+                uri: "/dashboards/hoto-survey-data",
+                label: "GP",
+                type: "nav-item",
+            },
+            {
+                uri: "/dashboards/hoto-survey-rkm-data",
+                label: 'RKM',
+                type: "nav-item",
+            },
+        ]
+    },
+   
+    {
+        label: "O&M",
+        type: "collapsible",
+        // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+        children: [
+            {
+                uri: "/o&m/block",
+                // isActiveUri :["/masters/package/add"],
+                label: 'Block',
+                type: "nav-item",
+            },
+            {
+                uri: "/o&m/gp",
+                // isActiveUri :["/masters/district/add"],
+                label: "GP",
+                type: "nav-item",
+            },
            
-    //     ]
-    // },
+        ]
+    },
+    {
+        uri: "/warehouse",
+        label: 'Warehouse',
+        type: "nav-item",
+        icon: <WarehouseOutlinedIcon sx={{ fontSize: 20 }} />,
+    },
+    {
+        uri: "/indent",
+        label: 'Indent',
+        type: "nav-item",
+        icon: <WarehouseOutlinedIcon sx={{ fontSize: 20 }} />,
+    },
     // {
     //     label: 'sidebar.menu.store',
     //     type: "section",

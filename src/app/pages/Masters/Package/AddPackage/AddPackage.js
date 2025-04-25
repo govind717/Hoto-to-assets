@@ -68,8 +68,9 @@ function AddPackage() {
 
     setSubmitting(true);
     try {
+      
       if (pathname === PACKAGE_MASTER_EDIT) {
-        const data = await updatePackage(body, state?._id);
+        const data = await updatePackage(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(PACKAGE_MASTER);
           Swal.fire({
@@ -227,7 +228,7 @@ function AddPackage() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(PACKAGE_MASTER);
                           }
                         });
                       }}

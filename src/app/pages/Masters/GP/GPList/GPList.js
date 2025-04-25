@@ -28,7 +28,10 @@ import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import { GP_MASTER_ADD } from "app/utils/constants/routeConstants";
+import { GP_MASTER_ADD, GP_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import moment from "moment";
+import { gp_data_dispatch } from "app/redux/actions/Master";
+import { Edit } from "@mui/icons-material";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -60,14 +63,9 @@ const GPList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [coordinate, setCoordinate] = useState({
-    open: false,
-    gp_name: null,
-    lat: null,
-    log: null,
-  });
+  
 
-  const { hotoServeyDataReducer } = useSelector((state) => state);
+  const { gpDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,15 +76,11 @@ const GPList = () => {
     setPage(1);
   };
 
+  const handleEdit = function (data) {
+     navigate(GP_MASTER_EDIT, {state: data});
+   };
+ 
 
-  const handleCloseCoordinate = function () {
-    setCoordinate({
-      open: false,
-      gp_name: null,
-      lat: null,
-      log: null,
-    });
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -95,7 +89,7 @@ const GPList = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_servey_data_disptach({
+      gp_data_dispatch({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -117,7 +111,7 @@ const GPList = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_servey_data_disptach({
+      gp_data_dispatch({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -131,7 +125,7 @@ const GPList = () => {
   };
   return (
     <>
-      {hotoServeyDataReducer?.loading && <FullScreenLoader />}
+      {gpDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -143,7 +137,7 @@ const GPList = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_servey_data_disptach({
+                gp_data_dispatch({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -177,18 +171,12 @@ const GPList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"100px" }}>
                   Sr No.
-                </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`gpName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -198,7 +186,7 @@ const GPList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`LGDCode`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -209,7 +197,7 @@ const GPList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`phase`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -231,7 +219,7 @@ const GPList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`gpStatus`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -242,7 +230,7 @@ const GPList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -253,7 +241,7 @@ const GPList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`covered`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -264,7 +252,7 @@ const GPList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`SRStatus`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -274,11 +262,11 @@ const GPList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -288,11 +276,11 @@ const GPList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -302,11 +290,11 @@ const GPList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -316,11 +304,11 @@ const GPList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -337,101 +325,178 @@ const GPList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {
-                            hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
-                                return (
-                                    <TableRow key={ele?.id}>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize",
-                                        }}>
-                                            <IconButton aria-label="info" size="medium" onClick={() => {
-                                                setCoordinate({
-                                                    open: true,
-                                                    gp_name: ele?.gp?.name,
-                                                    lat: ele?.gp?.latitude,
-                                                    log: ele?.gp?.longitude
-                                                })
-                                            }}>
-                                                <ShareLocationIcon fontSize="medium" color='primary' />
-                                            </IconButton>
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            <Button variant="contained"
-                                                size="small"
-                                                startIcon={<HomeRepairServiceIcon />}
-                                                onClick={() => handleEquipmentDetails(ele)}
-                                                sx={{
-                                                    "&:hover": {
-                                                        backgroundColor: orangeSecondary
-                                                    }
-                                                }}
-                                            >
-                                                View
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            })
-                        } */}
-            <TableCell
-              align="left"
-              colSpan={10}
-              sx={{
-                textAlign: "center",
-                verticalAlign: "middle",
-                textTransform: "capitalize",
-              }}
-            >
-              No Data Found!
-            </TableCell>
+            {gpDataReducer?.data?.result?.data.length > 0 ? (
+              gpDataReducer?.data?.result?.data.map((ele, index) => {
+                return (
+                  <TableRow key={ele?.id}>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {index + 1 || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.gpName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.LGDCode || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.phase || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.longitude +"&"+ele?.latitude || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.gpStatus || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.status ? "True" : "False"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.covered || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.SRStatus || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.created_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.updated_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Edit />}
+                        onClick={() => handleEdit(ele)}
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: orangeSecondary,
+                          },
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableCell
+                align="left"
+                colSpan={10}
+                sx={{
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  textTransform: "capitalize",
+                }}
+              >
+                No Data Found!
+              </TableCell>
+            )}
           </TableBody>
         </Table>
         <Pagination
@@ -448,12 +513,6 @@ const GPList = () => {
           }}
         />
       </TableContainer>
-      {coordinate?.open && (
-        <MapLocation
-          coordinate={coordinate}
-          handleClose={handleCloseCoordinate}
-        />
-      )}
     </>
   );
 };

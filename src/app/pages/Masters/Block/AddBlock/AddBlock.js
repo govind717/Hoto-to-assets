@@ -4,6 +4,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Button,
   Grid,
   IconButton,
@@ -35,14 +36,20 @@ import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { BLOCK_MASTER, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  BLOCK_MASTER,
+  BLOCK_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import { addBlock, updateBlock } from "app/services/apis/master";
+import { Axios } from "index";
+import MasterApis from "app/Apis/master";
 
 function AddBlock() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const [packageOptions, setPackageOptions] = useState([]);
+const [districtOptions, setDistrictOptions] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
@@ -57,17 +64,26 @@ function AddBlock() {
       .string("Enter Package Name")
       .trim()
       .required("Package Name is required"),
-    district: yup.string("Enter District").trim().required("District is required"),
-    blockName: yup.string("Enter Block Name").trim().required("Block Name is required"),
-    blockCode: yup.string("Enter Block Code").trim().required("Block Code is required"),
+    district: yup
+      .string("Enter District")
+      .trim()
+      .required("District is required"),
+    blockName: yup
+      .string("Enter Block Name")
+      .trim()
+      .required("Block Name is required"),
+    blockCode: yup
+      .string("Enter Block Code")
+      .trim()
+      .required("Block Code is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
-        packageName:values?.packageName,
-        district:values?.district,
-        blockName:values?.blockName,
-        blockCode:values?.blockCode,
+      packageName: values?.packageName,
+      district: values?.district,
+      blockName: values?.blockName,
+      blockCode: values?.blockCode,
     };
 
     setSubmitting(true);
@@ -123,10 +139,29 @@ function AddBlock() {
   };
 
   useEffect(() => {
-    (async () => {})();
+    (async () => {
+      Axios.get(MasterApis?.package?.packageDropdown)
+        .then((success) => {
+          console.log("success?.data?.result : ",success?.data?.result);
+          setPackageOptions(success?.data?.result);
+        })
+        .catch((error) => {
+          console.log("Error : ", error);
+        });
+    })();
     return () => {};
   }, []);
 
+  const FetchDistrictDropdown = (id) => {
+    console.log("Id : ",id);
+    Axios.get(`${MasterApis?.district?.districtDropdown}?package_id=${id}`)
+        .then((success) => {
+          setDistrictOptions(success?.data?.result);
+        })
+        .catch((error) => {
+          console.log("Error : ", error);
+    });
+  }
   return (
     <>
       <HotoHeader />
@@ -165,51 +200,68 @@ function AddBlock() {
                         <Typography variant="h6" fontSize="14px">
                           Package Name
                         </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
+                        <Autocomplete
                           size="small"
-                          placeholder="Enter Package Name"
-                          name="packageName"
-                          onChange={(e) =>
-                            setFieldValue("packageName", e.target.value)
+                          options={packageOptions}
+                          getOptionLabel={(option) => option.packageName || ""}
+                          isOptionEqualToValue={(option, value) =>
+                            option.id === value.id
                           }
-                          onBlur={() =>
-                            setFieldTouched("packageName", true)
+                          onChange={(_, value) =>{
+                            setFieldValue("packageName", value)
+                            FetchDistrictDropdown(value.id)
                           }
-                          value={values?.packageName}
-                          error={
-                            touched?.packageName &&
-                            Boolean(errors?.packageName)
                           }
-                          helperText={
-                            touched?.packageName &&
-                            errors?.packageName
-                          }
+                          onBlur={() => setFieldTouched("packageName", true)}
+                          value={values?.packageName || null}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Enter Package Name"
+                              error={
+                                touched?.packageName &&
+                                Boolean(errors?.packageName)
+                              }
+                              helperText={
+                                touched?.packageName && errors?.packageName
+                              }
+                            />
+                          )}
                         />
                       </Grid>
 
-
                       <Grid item xs={6} md={3}>
                         <Typography variant="h6" fontSize="14px">
-                        District
+                          District
                         </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
+                        <Autocomplete
                           size="small"
-                          placeholder="Enter District"
-                          name="district"
-                          onChange={(e) =>
-                            setFieldValue("district", e.target.value)
+                          options={districtOptions}
+                          getOptionLabel={(option) => option.name || ""}
+                          isOptionEqualToValue={(option, value) =>
+                            option.id === value.id
+                          }
+                          onChange={(_, value) =>
+                            setFieldValue("district", value)
                           }
                           onBlur={() => setFieldTouched("district", true)}
-                          value={values?.district}
-                          error={touched?.district && Boolean(errors?.district)}
-                          helperText={touched?.district && errors?.district}
+                          value={values?.district || null}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Enter District"
+                              error={
+                                touched?.district && Boolean(errors?.district)
+                              }
+                              helperText={touched?.district && errors?.district}
+                            />
+                          )}
                         />
                       </Grid>
+
                       <Grid item xs={6} md={3}>
                         <Typography variant="h6" fontSize="14px">
-                        Block
+                          Block
                         </Typography>
                         <TextField
                           sx={{ width: "100%" }}
@@ -221,13 +273,15 @@ function AddBlock() {
                           }
                           onBlur={() => setFieldTouched("blockName", true)}
                           value={values?.blockName}
-                          error={touched?.blockName && Boolean(errors?.blockName)}
+                          error={
+                            touched?.blockName && Boolean(errors?.blockName)
+                          }
                           helperText={touched?.blockName && errors?.blockName}
                         />
                       </Grid>
                       <Grid item xs={6} md={3}>
                         <Typography variant="h6" fontSize="14px">
-                        Block Code
+                          Block Code
                         </Typography>
                         <TextField
                           sx={{ width: "100%" }}
@@ -239,7 +293,9 @@ function AddBlock() {
                           }
                           onBlur={() => setFieldTouched("blockCode", true)}
                           value={values?.blockCode}
-                          error={touched?.blockCode && Boolean(errors?.blockCode)}
+                          error={
+                            touched?.blockCode && Boolean(errors?.blockCode)
+                          }
                           helperText={touched?.blockCode && errors?.blockCode}
                         />
                       </Grid>
@@ -279,7 +335,10 @@ function AddBlock() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{
+                        width: "100px",
+                        "&:hover": { backgroundColor: "#53B8CA" },
+                      }}
                       loading={isSubmitting}
                     >
                       Submit

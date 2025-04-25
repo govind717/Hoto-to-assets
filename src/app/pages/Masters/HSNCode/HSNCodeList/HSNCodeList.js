@@ -28,7 +28,13 @@ import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import { HSN_CODE_MASTER_ADD } from "app/utils/constants/routeConstants";
+import {
+  HSN_CODE_MASTER_ADD,
+  HSN_CODE_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
+import { hsn_code_data_dispatch } from "app/redux/actions/Master";
+import moment from "moment";
+import { Edit } from "@mui/icons-material";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -67,7 +73,7 @@ const HSNCodeList = () => {
     log: null,
   });
 
-  const { hotoServeyDataReducer } = useSelector((state) => state);
+  const { hsnCodeDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,21 +84,8 @@ const HSNCodeList = () => {
     setPage(1);
   };
 
-  const handleEquipmentDetails = function (data) {
-    navigate("/dashboards/hoto-survey-data/equipment-details", {
-      state: {
-        gp_data: data,
-      },
-    });
-  };
-
-  const handleCloseCoordinate = function () {
-    setCoordinate({
-      open: false,
-      gp_name: null,
-      lat: null,
-      log: null,
-    });
+  const handleEdit = function (data) {
+    navigate(HSN_CODE_MASTER_EDIT, { state: data });
   };
 
   const handleChangePage = (event, newPage) => {
@@ -102,7 +95,7 @@ const HSNCodeList = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_servey_data_disptach({
+      hsn_code_data_dispatch({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -124,7 +117,7 @@ const HSNCodeList = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_servey_data_disptach({
+      hsn_code_data_dispatch({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -138,7 +131,7 @@ const HSNCodeList = () => {
   };
   return (
     <>
-      {hotoServeyDataReducer?.loading && <FullScreenLoader />}
+      {hsnCodeDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -150,7 +143,7 @@ const HSNCodeList = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_servey_data_disptach({
+                hsn_code_data_dispatch({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -222,7 +215,7 @@ const HSNCodeList = () => {
                   Status
                 </TableSortLabel>
               </TableCell>
-              
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
@@ -288,101 +281,138 @@ const HSNCodeList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {
-                            hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
-                                return (
-                                    <TableRow key={ele?.id}>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize",
-                                        }}>
-                                            <IconButton aria-label="info" size="medium" onClick={() => {
-                                                setCoordinate({
-                                                    open: true,
-                                                    gp_name: ele?.gp?.name,
-                                                    lat: ele?.gp?.latitude,
-                                                    log: ele?.gp?.longitude
-                                                })
-                                            }}>
-                                                <ShareLocationIcon fontSize="medium" color='primary' />
-                                            </IconButton>
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            <Button variant="contained"
-                                                size="small"
-                                                startIcon={<HomeRepairServiceIcon />}
-                                                onClick={() => handleEquipmentDetails(ele)}
-                                                sx={{
-                                                    "&:hover": {
-                                                        backgroundColor: orangeSecondary
-                                                    }
-                                                }}
-                                            >
-                                                View
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            })
-                        } */}
-            <TableCell
-              align="left"
-              colSpan={10}
-              sx={{
-                textAlign: "center",
-                verticalAlign: "middle",
-                textTransform: "capitalize",
-              }}
-            >
-              No Data Found!
-            </TableCell>
+            {hsnCodeDataReducer?.data?.result?.data.length > 0 ? (
+              hsnCodeDataReducer?.data?.result?.data.map((ele, index) => {
+                return (
+                  <TableRow key={ele?.id}>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {index + 1 || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.packageName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.district || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.districtCode || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.status ? "True" : "False"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.created_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.updated_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.createdAt).format("DD/MM/YYYY") || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.updatedAt).format("DD/MM/YYYY") || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Edit />}
+                        onClick={() => handleEdit(ele)}
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: orangeSecondary,
+                          },
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableCell
+                align="left"
+                colSpan={10}
+                sx={{
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  textTransform: "capitalize",
+                }}
+              >
+                No Data Found!
+              </TableCell>
+            )}
           </TableBody>
         </Table>
         <Pagination
@@ -399,12 +429,6 @@ const HSNCodeList = () => {
           }}
         />
       </TableContainer>
-      {coordinate?.open && (
-        <MapLocation
-          coordinate={coordinate}
-          handleClose={handleCloseCoordinate}
-        />
-      )}
     </>
   );
 };

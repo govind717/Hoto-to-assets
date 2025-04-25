@@ -43,6 +43,7 @@ const tableCellSort = {
 const Assets_Portfolio_List = () => {
 
     const { hotoServeyDataReducer } = useSelector((state) => state);
+    console.log("hotoServeyDataReducer : ",hotoServeyDataReducer )
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [sortBy, setSortBy] = useState("created_at");
@@ -207,69 +208,6 @@ const Assets_Portfolio_List = () => {
             </Box>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small">
-                    {/* <TableHead>
-                        <TableRow sx={{ bgcolor: "#53B8CA" }}>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                <TableSortLabel
-                                    onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
-                                    direction={sort}
-                                    sx={{ ...tableCellSort }}
-                                >Equipment</TableSortLabel>
-                            </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                <TableSortLabel
-                                    onClick={() => handleSort(`current_data.companyType`)}
-                                    direction={sort}
-                                    sx={{ ...tableCellSort }}
-                                >Vendor</TableSortLabel>
-                            </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                <TableSortLabel
-                                    onClick={() => handleSort(`current_data.companyType`)}
-                                    direction={sort}
-                                    sx={{ ...tableCellSort }}
-                                >Serial No.</TableSortLabel>
-                            </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                <TableSortLabel
-                                    onClick={() => handleSort(`current_data.companyType`)}
-                                    direction={sort}
-                                    sx={{ ...tableCellSort }}
-                                >GP Name</TableSortLabel>
-                            </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                <TableSortLabel
-                                    onClick={() => handleSort(`current_data.commissionPercentage`)}
-                                    direction={sort}
-                                    sx={{ ...tableCellSort }}
-                                >GP Status</TableSortLabel>
-                            </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"160px" }}>
-                                <TableSortLabel
-                                    onClick={() => handleSort(`current_data.commissionPercentage`)}
-                                    direction={sort}
-                                    sx={{ ...tableCellSort }}
-                                >Warranty Status</TableSortLabel>
-                            </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
-                                <TableSortLabel
-                                    onClick={() => handleSort(`current_data.commissionPercentage`)}
-                                    direction={sort}
-                                    sx={{ ...tableCellSort }}
-                                >Condition</TableSortLabel>
-                            </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
-                                <TableSortLabel
-                                    onClick={() => handleSort(`current_data.commissionPercentage`)}
-                                    direction={sort}
-                                    sx={{ ...tableCellSort }}
-                                >Status</TableSortLabel>
-                            </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
-                                Details
-                            </TableCell>
-                        </TableRow>
-                    </TableHead> */}
                     <TableHead>
                         <TableRow sx={{ bgcolor: "#53B8CA" }}>
                             {/* Equipment column with dropdown */}
@@ -353,7 +291,7 @@ const Assets_Portfolio_List = () => {
                         </TableRow>
                     </TableHead>
 
-                    <TableBody>
+                    {/* <TableBody>
                         {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map(
                             (ele, index) => {
                                 const gp_equipment = ele?.equipment;
@@ -665,6 +603,132 @@ const Assets_Portfolio_List = () => {
                                                 size="small"
                                                 startIcon={<HomeRepairServiceIcon />}
                                                 onClick={() => handleOpen(equipment_details)}
+                                                sx={{
+                                                    "&:hover": {
+                                                        backgroundColor: orangeSecondary,
+                                                    },
+                                                }}
+                                            >
+                                                View
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            }
+                        )}
+                    </TableBody> */}
+                    <TableBody>
+                           
+                        {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map(
+                            (ele, index) => { 
+                                return (
+                                    <TableRow key={ele?.id}>
+                                    <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                           {index+1}
+                                        </TableCell>
+                                        <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "uppercase",
+                                            }}
+                                        >
+                                            {equipmentFilterName}
+                                        </TableCell>
+                                        <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            {ele?.vendor ||
+                                                "-"}
+                                        </TableCell>
+                                        <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            {ele?.gp?.name || "-"}
+                                        </TableCell>
+                                        <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            {ele?.gp?.code || "-"}
+                                        </TableCell>
+                                        
+                                        <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            {"-"}
+                                        </TableCell>
+                                        <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            {ele?.warranty_status || "-"}
+                                        </TableCell>
+                                        <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            {ele?.working_condition || "-"}
+                                        </TableCell>
+                                        <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            {ele?.status ||"-"}
+                                        </TableCell>
+                                        
+                                        <TableCell
+                                            align="left"
+                                            sx={{
+                                                textAlign: "left",
+                                                verticalAlign: "middle",
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                startIcon={<HomeRepairServiceIcon />}
+                                                // onClick={() => handleOpen(equipment_details)}
                                                 sx={{
                                                     "&:hover": {
                                                         backgroundColor: orangeSecondary,

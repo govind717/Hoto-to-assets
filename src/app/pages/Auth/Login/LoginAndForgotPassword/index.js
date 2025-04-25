@@ -33,6 +33,8 @@ import OTPInput from "react-otp-input";
 import FullViewContent from "app/Components/FullViewContent";
 import { bluePrimary, orangeSecondary } from "app/pages/Constants/colors";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { Axios } from "index";
 
 const validationSchema = yup.object({
   email: yup
@@ -67,16 +69,22 @@ const LoginAndForgotPassword = ({ setResetPassword }) => {
   // });
   const user_emails  = ["inventorymanager@gmail.com","assetmanager@gmail.com" ]
 
-  const onSignIn = (email, password) => {
+  const onSignIn = async (email, password) => {
     
-   if(user_emails?.includes(email) && password === "password"){
+   if(email && password){
     const userData = {
-      email :email ,
-      is_logged_in : true
+      email ,
+      password
     }
-    localStorage.setItem("user_details",JSON.stringify(userData));
-    navigate("/dashboards")
+    console.log("userData : ",userData);
+    const res = await Axios.post("auth/sign-in",userData);
+    localStorage.setItem("token",res?.data?.result?.token);
+    if(res?.data?.result?.token){
+      localStorage.setItem("user_details",JSON.stringify({email ,
+        password,is_logged_in:true}));
+    }
     Swal.fire({icon :"success",text :"Logged in  successfully.",position :"center",width:""})
+    navigate("/dashboards")
    }else{
     console.log('test')
     Swal.fire({

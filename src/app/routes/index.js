@@ -14,6 +14,8 @@ import AuthenticateAndRolesMiddleware from "./Middleware";
 import { MasterRoute } from "./Master";
 import { UserManagementRoute } from "./UserManagement";
 import { OandMRoute } from "./O&M";
+import { WarehouseRoute } from "./Warehouse";
+import { IndentRoute } from "./Indent";
 
 /**
  routes which you want to make accessible to both authenticated and anonymous users
@@ -62,6 +64,8 @@ const routesForAuthenticatedOnly = [
   ...MasterRoute,
   ...UserManagementRoute,
   ...OandMRoute,
+  ...WarehouseRoute,
+  ...IndentRoute,
   // ...profileRoute,
   // ...storeRoute,
   // ...historyRoute,

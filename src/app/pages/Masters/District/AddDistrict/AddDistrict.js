@@ -4,6 +4,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Button,
   Grid,
   IconButton,
@@ -35,14 +36,19 @@ import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { DISTRICT_MASTER, DISTRICT_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  DISTRICT_MASTER,
+  DISTRICT_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import { addDistrict, updateDistrict } from "app/services/apis/master";
+import { Axios } from "index";
+import MasterApis from "app/Apis/master";
 
 function AddDistrict() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const [packageList, setPackageList] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
@@ -56,15 +62,21 @@ function AddDistrict() {
       .string("Enter Package Name")
       .trim()
       .required("Package Name is required"),
-    district: yup.string("Enter District").trim().required("District is required"),
-    districtCode: yup.string("Enter District Code").trim().required("District Code is required"),
+    district: yup
+      .string("Enter District")
+      .trim()
+      .required("District is required"),
+    districtCode: yup
+      .string("Enter District Code")
+      .trim()
+      .required("District Code is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
-        packageName:values?.packageName,
-        district:values?.district,
-        districtCode:values?.districtCode,
+      packageName: values?.packageName,
+      district: values?.district,
+      districtCode: values?.districtCode,
     };
 
     setSubmitting(true);
@@ -120,7 +132,15 @@ function AddDistrict() {
   };
 
   useEffect(() => {
-    (async () => {})();
+    (async () => {
+      Axios.get(MasterApis?.package?.packageDropdown)
+        .then((success) => {
+          setPackageList(success?.data?.result);
+        })
+        .catch((error) => {
+          console.log("Error : ", error);
+        });
+    })();
     return () => {};
   }, []);
 
@@ -162,38 +182,43 @@ function AddDistrict() {
                         <Typography variant="h6" fontSize="14px">
                           Package Name
                         </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
+                        <Autocomplete
                           size="small"
-                          placeholder="Enter Package Name"
-                          name="packageName"
-                          onChange={(e) =>
-                            setFieldValue("packageName", e.target.value)
+                          fullWidth
+                          options={packageList}
+                          getOptionLabel={(option) => option.packageName || ""}
+                          onChange={(event, newValue) => {
+                            setFieldValue("packageName", newValue?.id || ""); 
+                          }}
+                          onBlur={() => setFieldTouched("packageName", true)}
+                          value={
+                            packageList.find(
+                              (pkg) => pkg.id === values?.packageName
+                            ) || null
                           }
-                          onBlur={() =>
-                            setFieldTouched("packageName", true)
-                          }
-                          value={values?.packageName}
-                          error={
-                            touched?.packageName &&
-                            Boolean(errors?.packageName)
-                          }
-                          helperText={
-                            touched?.packageName &&
-                            errors?.packageName
-                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Select Package"
+                              error={
+                                touched?.packageName &&
+                                Boolean(errors?.packageName)
+                              }
+                              helperText={
+                                touched?.packageName && errors?.packageName
+                              }
+                            />
+                          )}
                         />
                       </Grid>
-
-
                       <Grid item xs={6} md={4}>
                         <Typography variant="h6" fontSize="14px">
-                        District
+                          District
                         </Typography>
                         <TextField
                           sx={{ width: "100%" }}
                           size="small"
-                          placeholder="Enter District"
+                          placeholder="Enter District Name"
                           name="district"
                           onChange={(e) =>
                             setFieldValue("district", e.target.value)
@@ -206,7 +231,7 @@ function AddDistrict() {
                       </Grid>
                       <Grid item xs={6} md={4}>
                         <Typography variant="h6" fontSize="14px">
-                        District Code
+                          District Code
                         </Typography>
                         <TextField
                           sx={{ width: "100%" }}
@@ -218,8 +243,13 @@ function AddDistrict() {
                           }
                           onBlur={() => setFieldTouched("districtCode", true)}
                           value={values?.districtCode}
-                          error={touched?.districtCode && Boolean(errors?.districtCode)}
-                          helperText={touched?.districtCode && errors?.districtCode}
+                          error={
+                            touched?.districtCode &&
+                            Boolean(errors?.districtCode)
+                          }
+                          helperText={
+                            touched?.districtCode && errors?.districtCode
+                          }
                         />
                       </Grid>
                     </Grid>
@@ -246,7 +276,7 @@ function AddDistrict() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(DISTRICT_MASTER);
                           }
                         });
                       }}
@@ -258,7 +288,10 @@ function AddDistrict() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{
+                        width: "100px",
+                        "&:hover": { backgroundColor: "#53B8CA" },
+                      }}
                       loading={isSubmitting}
                     >
                       Submit

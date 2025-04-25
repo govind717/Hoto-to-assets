@@ -18,7 +18,6 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,8 +27,10 @@ import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
-
+import { BLOCK_MASTER, BLOCK_MASTER_ADD, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import moment from "moment";
+import { Edit } from "@mui/icons-material";
+import { block_data_dispatch } from "app/redux/actions/Master";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -60,14 +61,9 @@ const BlockList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [coordinate, setCoordinate] = useState({
-    open: false,
-    gp_name: null,
-    lat: null,
-    log: null,
-  });
+ 
 
-  const { hotoServeyDataReducer } = useSelector((state) => state);
+  const { blockDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -79,14 +75,8 @@ const BlockList = () => {
   };
 
   
-
-  const handleCloseCoordinate = function () {
-    setCoordinate({
-      open: false,
-      gp_name: null,
-      lat: null,
-      log: null,
-    });
+  const handleEdit = function (data) {
+    navigate(BLOCK_MASTER_EDIT, {state: data});
   };
 
   const handleChangePage = (event, newPage) => {
@@ -95,14 +85,14 @@ const BlockList = () => {
 
   const handleSearch = (searchTerm) => {
     setPage(1);
-    // dispatch(
-    //   hoto_servey_data_disptach({
-    //     sortBy: sortBy,
-    //     search_value: searchTerm.trim(),
-    //     sort: sort,
-    //     page: page,
-    //   })
-    // );
+    dispatch(
+      block_data_dispatch({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
   };
 
   const debouncedHandleSearch = debounce(handleSearch, 500);
@@ -117,22 +107,22 @@ const BlockList = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    // dispatch(
-    //   hoto_servey_data_disptach({
-    //     sortBy: sortBy,
-    //     search_value: searchTerm.trim(),
-    //     sort: sort,
-    //     page: page,
-    //   })
-    // );
+    dispatch(
+      block_data_dispatch({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
   }, [sort, page, sortBy, dispatch]);
 
   const addMasterItem = () => {
-    navigate(BLOCK_MASTER);
+    navigate(BLOCK_MASTER_ADD);
   };
   return (
     <>
-      {/* {hotoServeyDataReducer?.loading && <FullScreenLoader />} */}
+      {blockDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -143,14 +133,14 @@ const BlockList = () => {
           onChange={(e) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
-              // dispatch(
-              //   hoto_servey_data_disptach({
-              //     sortBy: sortBy,
-              //     search_value: "",
-              //     sort: sort,
-              //     page: page,
-              //   })
-              // );
+              dispatch(
+                block_data_dispatch({
+                  sortBy: sortBy,
+                  search_value: "",
+                  sort: sort,
+                  page: page,
+                })
+              );
             }
           }}
           sx={{ width: 300, my: "2%" }}
@@ -178,16 +168,16 @@ const BlockList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx ,minWidth:"100px"}}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`sr_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Sr No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`current_data.companyType`)}
                   direction={sort}
@@ -243,11 +233,11 @@ const BlockList = () => {
               
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -257,11 +247,11 @@ const BlockList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -271,11 +261,11 @@ const BlockList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdDate`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -285,11 +275,11 @@ const BlockList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedDate`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -305,103 +295,150 @@ const BlockList = () => {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {/* {
-                            hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
-                                return (
-                                    <TableRow key={ele?.id}>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize",
-                                        }}>
-                                            <IconButton aria-label="info" size="medium" onClick={() => {
-                                                setCoordinate({
-                                                    open: true,
-                                                    gp_name: ele?.gp?.name,
-                                                    lat: ele?.gp?.latitude,
-                                                    log: ele?.gp?.longitude
-                                                })
-                                            }}>
-                                                <ShareLocationIcon fontSize="medium" color='primary' />
-                                            </IconButton>
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            <Button variant="contained"
-                                                size="small"
-                                                startIcon={<HomeRepairServiceIcon />}
-                                                onClick={() => handleEquipmentDetails(ele)}
-                                                sx={{
-                                                    "&:hover": {
-                                                        backgroundColor: orangeSecondary
-                                                    }
-                                                }}
-                                            >
-                                                View
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            })
-                        } */}
-            <TableCell
-              align="left"
-              colSpan={10}
-              sx={{
-                textAlign: "center",
-                verticalAlign: "middle",
-                textTransform: "capitalize",
-              }}
-            >
-              No Data Found!
-            </TableCell>
-          </TableBody>
+         <TableBody>
+                     {blockDataReducer?.data?.result?.data.length > 0 ? (
+                      blockDataReducer?.data?.result?.data.map((ele, index) => {
+                         return (
+                           <TableRow key={ele?.id}>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {index + 1 || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.package_details?.packageName || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.district_details?.district || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.blockName || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.blockCode || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.status ? "True" : "False"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.created_user_details?.firstName || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.updated_user_details?.firstName || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               <Button
+                                 variant="outlined"
+                                 size="small"
+                                 startIcon={<Edit />}
+                                 onClick={() => handleEdit(ele)}
+                                 sx={{
+                                   "&:hover": {
+                                     backgroundColor: orangeSecondary,
+                                   },
+                                 }}
+                               >
+                                 Edit
+                               </Button>
+                             </TableCell>
+                           </TableRow>
+                         );
+                       })
+                     ) : (
+                       <TableCell
+                         align="left"
+                         colSpan={10}
+                         sx={{
+                           textAlign: "center",
+                           verticalAlign: "middle",
+                           textTransform: "capitalize",
+                         }}
+                       >
+                         No Data Found!
+                       </TableCell>
+                     )}
+                   </TableBody>
         </Table>
         <Pagination
           count={1}
@@ -417,12 +454,7 @@ const BlockList = () => {
           }}
         />
       </TableContainer>
-      {coordinate?.open && (
-        <MapLocation
-          coordinate={coordinate}
-          handleClose={handleCloseCoordinate}
-        />
-      )}
+      
     </>
   );
 };
