@@ -65,7 +65,7 @@ function AddGST() {
     setSubmitting(true);
     try {
       if (pathname === GST_MASTER_EDIT) {
-        const data = await updateGST(body, state?._id);
+        const data = await updateGST(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(GST_MASTER);
           Swal.fire({
@@ -114,11 +114,7 @@ function AddGST() {
     }
   };
 
-  useEffect(() => {
-    (async () => {})();
-    return () => {};
-  }, []);
-
+ 
   return (
     <>
       <HotoHeader />

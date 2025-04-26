@@ -1,11 +1,8 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -18,16 +15,12 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { DEPARTMENT_MASTER_ADD, DEPARTMENT_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { department_data_dispatch } from "app/redux/actions/Master";
 import { Edit } from "@mui/icons-material";
@@ -59,7 +52,7 @@ const addBtnStyle = {
 };
 
 const DepartmentList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -181,7 +174,7 @@ const DepartmentList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`department`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -195,7 +188,7 @@ const DepartmentList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -205,11 +198,11 @@ const DepartmentList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -219,11 +212,11 @@ const DepartmentList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -233,11 +226,11 @@ const DepartmentList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -247,11 +240,11 @@ const DepartmentList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}

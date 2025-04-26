@@ -53,7 +53,7 @@ const addBtnStyle = {
 };
 
 const TeamList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -165,17 +165,11 @@ const TeamList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Sr No.
-                </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`department_details.departmentName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -188,7 +182,7 @@ const TeamList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`teamName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -202,7 +196,7 @@ const TeamList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -212,11 +206,11 @@ const TeamList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -226,11 +220,11 @@ const TeamList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -240,11 +234,11 @@ const TeamList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -254,11 +248,11 @@ const TeamList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}

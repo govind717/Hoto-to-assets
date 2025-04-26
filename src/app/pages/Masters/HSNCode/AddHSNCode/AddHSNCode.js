@@ -4,6 +4,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Button,
   Grid,
   IconButton,
@@ -35,27 +36,30 @@ import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { HSN_CODE_MASTER, HSN_CODE_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  HSN_CODE_MASTER,
+  HSN_CODE_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import { addHSNCode, updateHSNCode } from "app/services/apis/master";
+import MasterApis from "app/Apis/master";
+import { Axios } from "index";
 
 function AddHSNCode() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const [gstOptions, setGstOptions] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
-
+  const [formInitialValues,setFormInitialValues]=useState(null);
   const initialValues = {
     gst: state?.gst ? state.gst : "",
-    HSNCode:state?.HSNCode ? state?.HSNCode : ""
+    hsn_code: state?.hsn_code ? state?.hsn_code : "",
   };
 
   const validationSchema = yup.object({
-    gst: yup
-      .string("Enter GST Percentage")
-      .trim()
+    gst: yup.object().nullable()
       .required("GST Percentage is required"),
-    HSNCode: yup
+    hsn_code: yup
       .string("Enter HSN Code")
       .trim()
       .required("HSN Code is required"),
@@ -63,13 +67,13 @@ function AddHSNCode() {
 
   const onUserSave = async (values) => {
     const body = {
-       gst:values?.gst
+      gstId: values?.gst.id,
+      hsn_code: values?.hsn_code,
     };
-
     setSubmitting(true);
     try {
       if (pathname === HSN_CODE_MASTER_EDIT) {
-        const data = await updateHSNCode(body, state?._id);
+        const data = await updateHSNCode(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(HSN_CODE_MASTER);
           Swal.fire({
@@ -119,18 +123,34 @@ function AddHSNCode() {
   };
 
   useEffect(() => {
-    (async () => {})();
-    return () => {};
+    Axios.get(MasterApis?.gst?.gstDropdown)
+      .then((res) => {
+        const gsts = res?.data?.result || [];
+        setGstOptions(gsts);
+      })
+      .catch((err) => console.error("Package Fetch Error: ", err));
   }, []);
 
+  useEffect(() => {
+      if (gstOptions.length) {
+        setFormInitialValues({
+          gst: state?.packageId
+            ? gstOptions.find((opt) => opt.id === state.gstId)
+            : null,
+          hsn_code: state?.hsn_code || "",
+        });
+      }
+    }, [gstOptions]);
   return (
     <>
       <HotoHeader />
       <Div sx={{ mt: 0 }}>
         <Div>
+        {
+          formInitialValues && 
           <Formik
             validateOnChange={true}
-            initialValues={initialValues}
+            initialValues={formInitialValues}
             enableReinitialize={true}
             validationSchema={validationSchema}
             onSubmit={onUserSave}
@@ -157,7 +177,7 @@ function AddHSNCode() {
                       Add GST
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
-                    <Grid item xs={6} md={6}>
+                      <Grid item xs={6} md={6}>
                         <Typography variant="h6" fontSize="14px">
                           HSN Code
                         </Typography>
@@ -165,48 +185,39 @@ function AddHSNCode() {
                           sx={{ width: "100%" }}
                           size="small"
                           placeholder="Enter HSN Code"
-                          name="HSNCode"
+                          name="hsn_code"
                           onChange={(e) =>
-                            setFieldValue("HSNCode", e.target.value)
+                            setFieldValue("hsn_code", e.target.value)
                           }
-                          onBlur={() =>
-                            setFieldTouched("HSNCode", true)
-                          }
-                          value={values?.HSNCode}
-                          error={
-                            touched?.HSNCode &&
-                            Boolean(errors?.HSNCode)
-                          }
-                          helperText={
-                            touched?.HSNCode &&
-                            errors?.HSNCode
-                          }
+                          onBlur={() => setFieldTouched("hsn_code", true)}
+                          value={values?.hsn_code}
+                          error={touched?.hsn_code && Boolean(errors?.hsn_code)}
+                          helperText={touched?.hsn_code && errors?.hsn_code}
                         />
                       </Grid>
-                      <Grid item xs={6} md={6}>
+                      <Grid item xs={12} md={6}>
                         <Typography variant="h6" fontSize="14px">
-                          GST %
+                          GST%
                         </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
+                        <Autocomplete
                           size="small"
-                          placeholder="Enter GST Percentage"
-                          name="gst"
-                          onChange={(e) =>
-                            setFieldValue("gst", e.target.value)
+                          options={gstOptions}
+                          getOptionLabel={(option) => option.gst || ""}
+                          isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                          value={values.gst}
+                          onChange={(_, value) =>
+                            setFieldValue("gst", value)
                           }
-                          onBlur={() =>
-                            setFieldTouched("gst", true)
-                          }
-                          value={values?.gst}
-                          error={
-                            touched?.gst &&
-                            Boolean(errors?.gst)
-                          }
-                          helperText={
-                            touched?.gst &&
-                            errors?.gst
-                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Select GST"
+                              error={
+                                touched.gst && Boolean(errors.gst)
+                              }
+                              helperText={touched.gst && errors.gst}
+                            />
+                          )}
                         />
                       </Grid>
                     </Grid>
@@ -245,7 +256,10 @@ function AddHSNCode() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{
+                        width: "100px",
+                        "&:hover": { backgroundColor: "#53B8CA" },
+                      }}
                       loading={isSubmitting}
                     >
                       Submit
@@ -255,6 +269,7 @@ function AddHSNCode() {
               </Form>
             )}
           </Formik>
+        }
         </Div>
       </Div>
     </>

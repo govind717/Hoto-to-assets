@@ -10,7 +10,7 @@ export const hoto_servey_data_disptach = function ({ page = 1,search_value = "" 
 
             const login_response = await axios.post(AllApis?.login)
             const user_details = login_response?.data;
-            const servey_data_response = await axios.post(`${AllApis?.survey}?page=${page}&search=${search_value ? search_value : ""}`, {
+            const servey_data_response = await axios.get(`${AllApis?.survey}?page=${page}&search=${search_value ? search_value : ""}`, {
                 headers: {
                     Authorization: `Bearer ${user_details?.access_token}`
                 }

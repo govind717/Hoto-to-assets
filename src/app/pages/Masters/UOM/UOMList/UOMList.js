@@ -1,11 +1,8 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -18,16 +15,12 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { UOM_MASTER_ADD, UOM_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { uom_data_dispatch } from "app/redux/actions/Master";
 import moment from "moment";
@@ -59,7 +52,7 @@ const addBtnStyle = {
 };
 
 const UOMList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -171,17 +164,11 @@ const UOMList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Sr No.
-                </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`uom`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -191,11 +178,11 @@ const UOMList = () => {
 
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -205,11 +192,11 @@ const UOMList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -219,11 +206,11 @@ const UOMList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -233,11 +220,11 @@ const UOMList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -276,37 +263,7 @@ const UOMList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {ele?.packageName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.district || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.districtCode || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.status ? "True" : "False"}
+                               {ele?.uom || "-"}
                              </TableCell>
                              <TableCell
                                align="left"
@@ -336,7 +293,7 @@ const UOMList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {moment(ele?.createdAt).format("DD/MM/YYYY") || "-"}
+                               {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                              </TableCell>
                              <TableCell
                                align="left"
@@ -346,7 +303,7 @@ const UOMList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {moment(ele?.updatedAt).format("DD/MM/YYYY") || "-"}
+                               {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
                              </TableCell>
                              <TableCell
                                align="left"

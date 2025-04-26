@@ -15,6 +15,7 @@ const MasterApis = {
       blockList: `master/block/list`,
       blockAdd: `master/block/add`,
       blockUpdate: `master/block/update`,
+      blockDropdown: `master/block/dropdown`,
     },
     gp: {
       gpList: `master/gp/list`,
@@ -25,11 +26,13 @@ const MasterApis = {
       organisationList: `master/organisation/list`,
       organisationAdd: `master/organisation/add`,
       organisationUpdate: `master/organisation/update`,
+      organisationDropdown: `master/organisation/dropdown`,
     },
     department: {
       departmentList: `master/department/list`,
       departmentAdd: `master/department/add`,
       departmentUpdate: `master/department/update`,
+      departmentDropdown: `master/department/dropdown`,
     },
     team: {
       teamList: `master/team/list`,
@@ -40,11 +43,13 @@ const MasterApis = {
       categoryList: `master/category/list`,
       categoryAdd: `master/category/add`,
       categoryUpdate: `master/category/update`,
+      categoryDropdown: `master/category/dropdown`,
     },
     subCategory: {
       subCategoryList: `master/sub-category/list`,
       subCategoryAdd: `master/sub-category/add`,
       subCategoryUpdate: `master/sub-category/update`,
+      subCategoryDropdown: `master/sub-category/dropdown`,
     },
     material: {
       materialList: `master/material/list`,
@@ -55,16 +60,19 @@ const MasterApis = {
       uomList: `master/uom/list`,
       uomAdd: `master/uom/add`,
       uomUpdate: `master/uom/update`,
+      uomDropdown: `master/uom/dropdown`,
     },
     hsnCode: {
-      hsnCodeList: `master/hsnCode/list`,
-      hsnCodeAdd: `master/hsnCode/add`,
-      hsnCodeUpdate: `master/hsnCode/update`,
+      hsnCodeList: `master/hsn-code/list`,
+      hsnCodeAdd: `master/hsn-code/add`,
+      hsnCodeUpdate: `master/hsn-code/update`,
+      hsnCodeDropdown: `master/hsn-code/dropdown`,
     },
     gst: {
       gstList: `master/gst/list`,
       gstAdd: `master/gst/add`,
       gstUpdate: `master/gst/update`,
+      gstDropdown: `master/gst/dropdown`,
     },
     warehouse: {
       warehouseList: `master/warehouse/list`,

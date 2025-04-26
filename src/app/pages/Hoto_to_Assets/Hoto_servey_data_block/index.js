@@ -39,7 +39,7 @@ const Hoto_servey_data_block = () => {
                             {/* Push next tab to the right using margin-left: auto */}
                             <Tab label="Maintenance" value="4" sx={{ marginLeft: "auto" }} />
                             <Tab label="Replacement" value="5" />
-                            {/* <Tab label="Transfer" value="6" /> */}
+                             <Tab label="Transfer" value="6" /> 
                         </TabList>
                     </Box>
                     <TabPanel value="1" sx={{ p: 0 }}><Assets_Portfolio_List /></TabPanel>
@@ -47,10 +47,10 @@ const Hoto_servey_data_block = () => {
                         <Gp_list />
                     </TabPanel>
                     <TabPanel value="3" sx={{ p: 0 }}><WarehouseList /></TabPanel>
-                    {/* <TabPanel value="3" sx={{ p: 0 }}><Rectification_list /></TabPanel>
-                    <TabPanel value="4" sx={{ p: 0 }}><Transfer_list /></TabPanel> */}
+                    {/* <TabPanel value="3" sx={{ p: 0 }}><Rectification_list /></TabPanel> */}
                     <TabPanel value="4" sx={{ p: 0 }}><MaintainanceList/></TabPanel>
                     <TabPanel value="5" sx={{ p: 0 }}><ReplacementList /></TabPanel>
+                    <TabPanel value="6" sx={{ p: 0 }}><Transfer_list /></TabPanel>
                 </TabContext>
             </Box>
         </Box>

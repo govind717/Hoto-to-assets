@@ -1,12 +1,9 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import moment from "moment";
 import {
   Button,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -23,11 +20,8 @@ import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import {
   DISTRICT_MASTER_ADD,
   DISTRICT_MASTER_EDIT,
@@ -61,7 +55,7 @@ const addBtnStyle = {
 };
 
 const DistrictList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -170,28 +164,27 @@ const DistrictList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:'100px' }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Sr No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`$package_details.package_name$`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Package Name
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`district`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -202,7 +195,7 @@ const DistrictList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`districtCode`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -213,7 +206,7 @@ const DistrictList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -224,11 +217,11 @@ const DistrictList = () => {
 
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -238,11 +231,11 @@ const DistrictList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -252,11 +245,11 @@ const DistrictList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -266,11 +259,11 @@ const DistrictList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -289,7 +282,6 @@ const DistrictList = () => {
           <TableBody>
             {districtDataReducer?.data?.result?.data.length > 0 ? (
               districtDataReducer?.data?.result?.data.map((ele, index) => {
-                console.log("districtDataReducer?.data?.result?.data : ",districtDataReducer?.data?.result?.data);
                 return (
                   <TableRow key={ele?.id}>
                     <TableCell

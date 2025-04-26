@@ -1,11 +1,8 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -22,12 +19,9 @@ import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import { BLOCK_MASTER, BLOCK_MASTER_ADD, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { BLOCK_MASTER_ADD, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import moment from "moment";
 import { Edit } from "@mui/icons-material";
 import { block_data_dispatch } from "app/redux/actions/Master";
@@ -189,7 +183,7 @@ const BlockList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`district`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -200,7 +194,7 @@ const BlockList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`blockName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -211,7 +205,7 @@ const BlockList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`blockCode`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -222,7 +216,7 @@ const BlockList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -265,7 +259,7 @@ const BlockList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`createdDate`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -279,7 +273,7 @@ const BlockList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`updatedDate`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}

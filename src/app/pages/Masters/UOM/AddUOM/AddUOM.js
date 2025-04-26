@@ -46,28 +46,24 @@ function AddUOM() {
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
-    departmentName: state?.departmentName ? state.departmentName : "",
-    teamName: state?.teamName ? state.teamName : "",
+    uom: state?.uom ? state.uom : "",
   };
 
   const validationSchema = yup.object({
-    teamName: yup
-      .string("Enter Team Name")
+    uom: yup
+      .string("Enter UOM Name")
       .trim()
-      .required("Team Name is required"),
-    departmentName: yup.string("Enter Department Name").trim().required("Department Name is required"),
+      .required("UOM Name is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
-      organisationName: values?.organisationName,
-      teamName:values?.teamName
+      uom: values?.uom,
     };
-
     setSubmitting(true);
     try {
       if (pathname === UOM_MASTER_EDIT) {
-        const data = await updateUOM(body, state?._id);
+        const data = await updateUOM(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(UOM_MASTER);
           Swal.fire({
@@ -116,10 +112,6 @@ function AddUOM() {
     }
   };
 
-  useEffect(() => {
-    (async () => {})();
-    return () => {};
-  }, []);
 
   return (
     <>
@@ -163,14 +155,14 @@ function AddUOM() {
                           sx={{ width: "100%" }}
                           size="small"
                           placeholder="Enter UOM Name"
-                          name="uomName"
+                          name="uom"
                           onChange={(e) =>
-                            setFieldValue("uomName", e.target.value)
+                            setFieldValue("uom", e.target.value)
                           }
-                          onBlur={() => setFieldTouched("uomName", true)}
-                          value={values?.uomName}
-                          error={touched?.uomName && Boolean(errors?.uomName)}
-                          helperText={touched?.uomName && errors?.uomName}
+                          onBlur={() => setFieldTouched("uom", true)}
+                          value={values?.uom}
+                          error={touched?.uom && Boolean(errors?.uom)}
+                          helperText={touched?.uom && errors?.uom}
                         />
                       </Grid>
                     </Grid>

@@ -51,7 +51,7 @@ const addBtnStyle = {
 };
 
 const MaterialList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -162,18 +162,12 @@ const MaterialList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"100px" }}>
                   Sr No.
-                </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`materialName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -183,11 +177,11 @@ const MaterialList = () => {
               
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`materialCode`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -197,16 +191,16 @@ const MaterialList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`category_details.category`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Category
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`subcategory`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -215,7 +209,7 @@ const MaterialList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`uom`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -224,7 +218,7 @@ const MaterialList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`hsn_code`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -233,7 +227,7 @@ const MaterialList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`gst`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -242,11 +236,11 @@ const MaterialList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -256,11 +250,11 @@ const MaterialList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -270,11 +264,11 @@ const MaterialList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -284,11 +278,11 @@ const MaterialList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -298,11 +292,11 @@ const MaterialList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -312,7 +306,7 @@ const MaterialList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx }}
               >
                 Actions
               </TableCell>
@@ -341,7 +335,7 @@ const MaterialList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {ele?.packageName || "-"}
+                               {ele?.materialName || "-"}
                              </TableCell>
                              <TableCell
                                align="left"
@@ -351,7 +345,7 @@ const MaterialList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {ele?.district || "-"}
+                               {ele?.materialCode || "-"}
                              </TableCell>
                              <TableCell
                                align="left"
@@ -361,7 +355,47 @@ const MaterialList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {ele?.districtCode || "-"}
+                               {ele?.category_details?.category || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.subcategory_details?.subcategory || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.uom_details?.uom || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.hsn_code_details?.hsn_code || "-"}
+                             </TableCell>
+                             <TableCell
+                               align="left"
+                               sx={{
+                                 textAlign: "left",
+                                 verticalAlign: "middle",
+                                 textTransform: "capitalize",
+                               }}
+                             >
+                               {ele?.gst || "-"}
                              </TableCell>
                              <TableCell
                                align="left"
@@ -401,7 +435,7 @@ const MaterialList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {moment(ele?.createdAt).format("DD/MM/YYYY") || "-"}
+                               {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                              </TableCell>
                              <TableCell
                                align="left"
@@ -411,7 +445,7 @@ const MaterialList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {moment(ele?.updatedAt).format("DD/MM/YYYY") || "-"}
+                               {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
                              </TableCell>
                              <TableCell
                                align="left"

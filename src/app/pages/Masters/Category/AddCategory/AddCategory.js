@@ -46,11 +46,11 @@ function AddCategory() {
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
-    categoryName: state?.categoryName ? state.categoryName : "",
+    category: state?.category ? state.category : "",
   };
 
   const validationSchema = yup.object({
-    categoryName: yup
+    category: yup
       .string("Enter Category Name")
       .trim()
       .required("Category Name is required"),
@@ -58,13 +58,13 @@ function AddCategory() {
 
   const onUserSave = async (values) => {
     const body = {
-      categoryName: values?.categoryName,
+      category: values?.category,
     };
 
     setSubmitting(true);
     try {
       if (pathname === CATEGORY_MASTER_EDIT) {
-        const data = await updateCategory(body, state?._id);
+        const data = await updateCategory(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(CATEGORY_MASTER);
           Swal.fire({
@@ -160,21 +160,21 @@ function AddCategory() {
                           sx={{ width: "100%" }}
                           size="small"
                           placeholder="Enter Category Name"
-                          name="categoryName"
+                          name="category"
                           onChange={(e) =>
-                            setFieldValue("categoryName", e.target.value)
+                            setFieldValue("category", e.target.value)
                           }
                           onBlur={() =>
-                            setFieldTouched("categoryName", true)
+                            setFieldTouched("category", true)
                           }
-                          value={values?.categoryName}
+                          value={values?.category}
                           error={
-                            touched?.categoryName &&
-                            Boolean(errors?.categoryName)
+                            touched?.category &&
+                            Boolean(errors?.category)
                           }
                           helperText={
-                            touched?.categoryName &&
-                            errors?.categoryName
+                            touched?.category &&
+                            errors?.category
                           }
                         />
                       </Grid>

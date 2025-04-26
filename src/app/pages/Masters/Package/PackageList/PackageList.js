@@ -1,12 +1,9 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import Edit from "@mui/icons-material/Edit";
 import {
   Button,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -19,16 +16,12 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import {
   PACKAGE_MASTER_ADD,
   PACKAGE_MASTER_EDIT,
@@ -62,7 +55,7 @@ const addBtnStyle = {
 };
 
 const PackageList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -176,7 +169,7 @@ const PackageList = () => {
                 sx={{ ...tableCellSx, minWidth: "100px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  // onClick={() => handleSort(``)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -188,7 +181,7 @@ const PackageList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`packageName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -198,7 +191,7 @@ const PackageList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`state`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -209,7 +202,7 @@ const PackageList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -224,7 +217,7 @@ const PackageList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -238,7 +231,7 @@ const PackageList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -252,7 +245,7 @@ const PackageList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -266,7 +259,7 @@ const PackageList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}

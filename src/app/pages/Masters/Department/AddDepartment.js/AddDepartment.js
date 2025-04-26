@@ -4,6 +4,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Button,
   Grid,
   IconButton,
@@ -35,14 +36,20 @@ import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { DEPARTMENT_MASTER, DEPARTMENT_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  DEPARTMENT_MASTER,
+  DEPARTMENT_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import { addDepartment, updateDepartment } from "app/services/apis/master";
+import { Axios } from "index";
+import MasterApis from "app/Apis/master";
 
 function AddDepartment() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const [organisationNameOptions,setOrganisationNameOptions] = useState([]);
+  const [formInitialValues, setFormInitialValues] = useState(null);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
@@ -51,23 +58,24 @@ function AddDepartment() {
   };
 
   const validationSchema = yup.object({
-    organisationName: yup
-      .string("Enter Organisation Name")
-      .trim()
+    organisationName: yup.object().nullable()
       .required("Organisation Name is required"),
-    departmentName: yup.string("Enter Department Name").trim().required("Department Name is required"),
+    departmentName: yup
+      .string("Enter Department Name")
+      .trim()
+      .required("Department Name is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
-      organisationName: values?.organisationName,
+      organisationId: values?.organisationName?.id,
       departmentName: values?.departmentName,
     };
 
     setSubmitting(true);
     try {
       if (pathname === DEPARTMENT_MASTER_EDIT) {
-          const data = await updateDepartment(body, state?._id);
+        const data = await updateDepartment(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(DEPARTMENT_MASTER);
           Swal.fire({
@@ -117,18 +125,39 @@ function AddDepartment() {
   };
 
   useEffect(() => {
-    (async () => {})();
-    return () => {};
-  }, []);
+      Axios.get(MasterApis?.organisation?.organisationDropdown)
+        .then((res) => {
+          const organisations = res?.data?.result || [];
+          setOrganisationNameOptions(organisations);
+        })
+        .catch((err) => console.error("Package Fetch Error: ", err));
+    }, []);
 
+    useEffect(() => {
+        if (
+          organisationNameOptions.length &&
+          (!state?.packageId || organisationNameOptions.length || !state?.districtId)
+        ) {
+
+         
+          setFormInitialValues({
+            organisationName: state?.organisationId
+              ? organisationNameOptions.find((opt) => opt.id === state.organisationId)
+              : null,
+            departmentName: state?.departmentName || "",
+          });
+        }
+      }, [organisationNameOptions]);
   return (
     <>
       <HotoHeader />
       <Div sx={{ mt: 0 }}>
         <Div>
+        {
+          formInitialValues && 
           <Formik
             validateOnChange={true}
-            initialValues={initialValues}
+            initialValues={formInitialValues}
             enableReinitialize={true}
             validationSchema={validationSchema}
             onSubmit={onUserSave}
@@ -155,34 +184,33 @@ function AddDepartment() {
                       Add Department
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
-                      <Grid item xs={6} md={3}>
+                      <Grid item xs={12} md={6}>
                         <Typography variant="h6" fontSize="14px">
-                          Organization Name
+                        Organization Name
                         </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
+                        <Autocomplete
                           size="small"
-                          placeholder="Enter Organization Name"
-                          name="organisationName"
-                          onChange={(e) =>
-                            setFieldValue("organisationName", e.target.value)
-                          }
-                          onBlur={() =>
-                            setFieldTouched("organisationName", true)
-                          }
-                          value={values?.organisationName}
-                          error={
-                            touched?.organisationName &&
-                            Boolean(errors?.organisationName)
-                          }
-                          helperText={
-                            touched?.organisationName &&
-                            errors?.organisationName
-                          }
+                          options={organisationNameOptions}
+                          getOptionLabel={(option) => option.organisationName || ""}
+                          isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                          value={values.organisationName}
+                          onChange={(_, value) => {
+                            setFieldValue("organisationName", value);
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Select Organisation Name"
+                              error={
+                                touched.organisationName && Boolean(errors.organisationName)
+                              }
+                              helperText={touched.organisationName && errors.organisationName}
+                            />
+                          )}
                         />
                       </Grid>
 
-                      <Grid item xs={6} md={3}>
+                      <Grid item xs={6} md={6}>
                         <Typography variant="h6" fontSize="14px">
                           Department Name
                         </Typography>
@@ -192,15 +220,19 @@ function AddDepartment() {
                           placeholder="Enter Department Name"
                           name="departmentName"
                           onChange={(e) =>
-                            setFieldValue("address", e.target.value)
+                            setFieldValue("departmentName", e.target.value)
                           }
-                          onBlur={() => setFieldTouched("address", true)}
+                          onBlur={() => setFieldTouched("departmentName", true)}
                           value={values?.departmentName}
-                          error={touched?.departmentName && Boolean(errors?.departmentName)}
-                          helperText={touched?.departmentName && errors?.departmentName}
+                          error={
+                            touched?.departmentName &&
+                            Boolean(errors?.departmentName)
+                          }
+                          helperText={
+                            touched?.departmentName && errors?.departmentName
+                          }
                         />
                       </Grid>
-
                     </Grid>
                   </Div>
                   <Div
@@ -237,7 +269,10 @@ function AddDepartment() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{
+                        width: "100px",
+                        "&:hover": { backgroundColor: "#53B8CA" },
+                      }}
                       loading={isSubmitting}
                     >
                       Submit
@@ -247,6 +282,7 @@ function AddDepartment() {
               </Form>
             )}
           </Formik>
+        }
         </Div>
       </Div>
     </>

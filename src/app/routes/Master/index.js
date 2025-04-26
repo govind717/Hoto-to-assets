@@ -193,6 +193,10 @@ export const MasterRoute = [
         element: <Page component={AddGST} />,
       },
       {
+        path: `/masters/gst/edit`,
+        element: <Page component={AddGST} />,
+      },
+      {
         path: `/masters/hsn-code`,
         element: <Page component={HSNCode} />,
       },

@@ -4,10 +4,12 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Button,
   Grid,
   IconButton,
   InputAdornment,
+  MenuItem,
   Pagination,
   Paper,
   Table,
@@ -37,57 +39,50 @@ import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { GP_MASTER, GP_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { addGP, updateGP } from "app/services/apis/master";
+import { Axios } from "index";
+import MasterApis from "app/Apis/master";
 
 function AddGP() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const [packageOptions, setPackageOptions] = useState([]);
+  const [districtOptions, setDistrictOptions] = useState([]);
+  const [blockOptions, setBlockOptions] = useState([]);
+  const [formInitialValues, setFormInitialValues] = useState(null);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
     packageName: state?.packageName || "",
     district: state?.district || "",
     block: state?.block || "",
-    gp: state?.gp || "",
-    lgdCode: state?.lgdCode || "",
+    gpName: state?.gpName || "",
+    LGDCode: state?.LGDCode || "",
     phase: state?.phase || "",
     latLong: state?.latLong || "",
     gpStatus: state?.gpStatus || "",
     covered: state?.covered || "",
-    srStatus: state?.srStatus || "",
+    SRStatus: state?.SRStatus || "",
   };
-  
 
   const validationSchema = yup.object({
-    packageName: yup
-      .string("Enter Package Name")
-      .trim()
-      .required("Package Name is required"),
-    district: yup
-      .string("Enter District")
-      .trim()
-      .required("District is required"),
-    block: yup
-      .string("Enter Block Name")
-      .trim()
-      .required("Block Name is required"),
-    gp: yup
-      .string("Enter GP Name")
-      .trim()
-      .required("GP Name is required"),
-    lgdCode: yup
+    packageName: yup.object().nullable().required("Package Name is required"),
+    district: yup.object().nullable().required("District Name is required"),
+    block: yup.object().nullable().required("Block Name is required"),
+    gpName: yup.string("Enter GP Name").trim().required("GP Name is required"),
+    LGDCode: yup
       .string("Enter LGD Code")
       .trim()
       .required("LGD Code is required"),
-    phase: yup
-      .string("Enter Phase")
+    phase: yup.string("Enter Phase").trim().required("Phase is required"),
+    latitude: yup
+      .string("Enter Latitute")
       .trim()
-      .required("Phase is required"),
-    latLong: yup
-      .string("Enter Lat & Long")
+      .required("Latitute is required"),
+    longitude: yup
+      .string("Enter Longitude")
       .trim()
-      .required("Lat & Long is required"),
+      .required("Longitude is required"),
     gpStatus: yup
       .string("Enter GP Status")
       .trim()
@@ -96,24 +91,33 @@ function AddGP() {
       .string("Enter Covered")
       .trim()
       .required("Covered field is required"),
-    srStatus: yup
+    SRStatus: yup
       .string("Enter SR Status")
       .trim()
       .required("SR Status is required"),
   });
-  
+
+  console.log("addState : ",state);
   const onUserSave = async (values) => {
     const body = {
-      packageName: values?.packageName,
-      district: values?.district,
-      blockName: values?.blockName,
-      blockCode: values?.blockCode,
+      packageId: values?.packageName?.id,
+      districtId: values?.district?.id,
+      blockId: values?.block?.id,
+      gpName: values?.gpName,
+      LGDCode: values?.LGDCode,
+      phase: values?.phase,
+      latitude: values?.latitude,
+      longitude: values?.longitude,
+      gpStatus: values?.gpStatus,
+      covered: values?.covered,
+      SRStatus: values?.SRStatus,
     };
+    console.log("addgb body", body);
 
     setSubmitting(true);
     try {
       if (pathname === GP_MASTER_EDIT) {
-        const data = await updateGP(body, state?._id);
+        const data = await updateGP(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(GP_MASTER);
           Swal.fire({
@@ -135,13 +139,14 @@ function AddGP() {
       } else {
         const data = await addGP(body);
         if (data?.data?.statusCode === 201) {
+          navigate(GP_MASTER);
           Swal.fire({
             icon: "success",
             text: "GP Added Successfully",
             timer: 1000,
             showConfirmButton: false,
           });
-          navigate(GP_MASTER);
+          
         } else {
           Swal.fire({
             icon: "error",
@@ -162,113 +167,195 @@ function AddGP() {
     }
   };
 
+  const fetchDistrictDropdown = (packageId) => {
+    Axios.get(`${MasterApis?.district?.districtDropdown}?id=${packageId}`)
+      .then((res) => setDistrictOptions(res?.data?.result || []))
+      .catch((err) => console.error("District Fetch Error: ", err));
+  };
+  const fetchBlockDropdown = (blockId) => {
+    Axios.get(`${MasterApis?.block?.blockDropdown}?id=${blockId}`)
+      .then((res) => setBlockOptions(res?.data?.result || []))
+      .catch((err) => console.error("District Fetch Error: ", err));
+  };
   useEffect(() => {
-    (async () => {})();
-    return () => {};
+    Axios.get(MasterApis?.package?.packageDropdown)
+      .then((res) => {
+        const packages = res?.data?.result || [];
+        setPackageOptions(packages);
+
+        if (state?.packageId) {
+          const selectedPackage = packages.find(
+            (opt) => opt.id === state.packageId
+          );
+          if (selectedPackage) {
+            fetchDistrictDropdown(selectedPackage.id);
+          }
+        }
+      })
+      .catch((err) => console.error("Package Fetch Error: ", err));
   }, []);
+
+  useEffect(() => {
+    if (
+      packageOptions.length &&
+      (!state?.packageId || districtOptions.length || !state?.districtId)
+    ) {
+      setFormInitialValues({
+        packageName: state?.packageId
+          ? packageOptions.find((opt) => opt.id === state.packageId)
+          : null,
+        district: state?.districtId
+          ? districtOptions.find((opt) => opt.id === state.districtId)
+          : null,
+        block: state?.blockId
+          ? blockOptions.find((opt) => opt.id === state.blockId)
+          : null,
+        gpName: state?.gpName || "",
+        LGDCode: state?.LGDCode || "",
+        phase: state?.phase || "",
+        latLong: state?.latLong || "",
+        gpStatus: state?.gpStatus || "",
+        covered: state?.covered || "",
+        SRStatus: state?.SRStatus || "",
+        latitude:state?.latitude || "",
+        longitude:state?.longitude || "",
+      });
+    }
+  }, [packageOptions, districtOptions, blockOptions]);
+
+  const coveredOptions = [
+    { label: "COVERED", value: "COVERED" },
+    { label: "UNCOVERED", value: "UNCOVERED" },
+  ];
 
   return (
     <>
       <HotoHeader />
       <Div sx={{ mt: 0 }}>
         <Div>
-          <Formik
-            validateOnChange={true}
-            initialValues={initialValues}
-            enableReinitialize={true}
-            validationSchema={validationSchema}
-            onSubmit={onUserSave}
-          >
-            {({
-              setFieldValue,
-              values,
-              touched,
-              errors,
-              setFieldTouched,
-              setValues,
-            }) => (
-              <Form noValidate autoComplete="off">
-                <Div sx={{ mt: 4 }}>
-                  <Div
-                    sx={{
-                      display: "flex",
-                      width: "100%",
-                      flexWrap: "wrap",
-                      columnGap: 5,
-                    }}
-                  >
-                    <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add GP
-                    </Typography>
-                    <Grid container rowSpacing={2} columnSpacing={3}>
-                      
-                        <Grid item xs={6} md={3}>
+          {formInitialValues && (
+            <Formik
+              validateOnChange={true}
+              initialValues={formInitialValues}
+              enableReinitialize={true}
+              validationSchema={validationSchema}
+              onSubmit={onUserSave}
+            >
+              {({
+                setFieldValue,
+                values,
+                touched,
+                errors,
+                setFieldTouched,
+                setValues,
+              }) => (
+                <Form noValidate autoComplete="off">
+                  <Div sx={{ mt: 4 }}>
+                    <Div
+                      sx={{
+                        display: "flex",
+                        width: "100%",
+                        flexWrap: "wrap",
+                        columnGap: 5,
+                      }}
+                    >
+                      <Typography variant="h3" fontWeight={600} mb={2}>
+                        Add GP
+                      </Typography>
+                      <Grid container rowSpacing={2} columnSpacing={3}>
+                        <Grid item xs={12} md={3}>
                           <Typography variant="h6" fontSize="14px">
                             Package Name
                           </Typography>
-                          <TextField
-                            fullWidth
+                          <Autocomplete
                             size="small"
-                            placeholder="Enter Package Name"
-                            name="packageName"
-                            onChange={(e) =>
-                              setFieldValue("packageName", e.target.value)
+                            options={packageOptions}
+                            getOptionLabel={(option) =>
+                              option.packageName || ""
                             }
-                            onBlur={() => setFieldTouched("packageName", true)}
-                            value={values?.packageName}
-                            error={
-                              touched?.packageName &&
-                              Boolean(errors?.packageName)
+                            isOptionEqualToValue={(opt, val) =>
+                              opt.id === val.id
                             }
-                            helperText={
-                              touched?.packageName && errors?.packageName
-                            }
+                            value={values.packageName}
+                            onChange={(_, value) => {
+                              setFieldValue("packageName", value);
+                              setFieldValue("district", null);
+                              setFieldValue("block", null);
+                              if (value?.id) fetchDistrictDropdown(value.id);
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                placeholder="Select Package"
+                                error={
+                                  touched.packageName &&
+                                  Boolean(errors.packageName)
+                                }
+                                helperText={
+                                  touched.packageName && errors.packageName
+                                }
+                              />
+                            )}
                           />
                         </Grid>
 
-                      
-                        <Grid item xs={6} md={3}>
+                        {/* District */}
+                        <Grid item xs={12} md={3}>
                           <Typography variant="h6" fontSize="14px">
                             District
                           </Typography>
-                          <TextField
-                            fullWidth
+                          <Autocomplete
                             size="small"
-                            placeholder="Enter District"
-                            name="district"
-                            onChange={(e) =>
-                              setFieldValue("district", e.target.value)
+                            options={districtOptions}
+                            getOptionLabel={(option) => option.district || ""}
+                            isOptionEqualToValue={(opt, val) =>
+                              opt.id === val.id
                             }
-                            onBlur={() => setFieldTouched("district", true)}
-                            value={values?.district}
-                            error={
-                              touched?.district && Boolean(errors?.district)
-                            }
-                            helperText={touched?.district && errors?.district}
+                            value={values.district}
+                            onChange={(_, value) => {
+                              setFieldValue("block", null);
+                              setFieldValue("district", value);
+                              if (value?.id) fetchBlockDropdown(value.id);
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                placeholder="Select District"
+                                error={
+                                  touched.district && Boolean(errors.district)
+                                }
+                                helperText={touched.district && errors.district}
+                              />
+                            )}
                           />
                         </Grid>
-
-                       
-                        <Grid item xs={6} md={3}>
+                        {/* Block */}
+                        <Grid item xs={12} md={3}>
                           <Typography variant="h6" fontSize="14px">
                             Block
                           </Typography>
-                          <TextField
-                            fullWidth
+                          <Autocomplete
                             size="small"
-                            placeholder="Enter Block"
-                            name="block"
-                            onChange={(e) =>
-                              setFieldValue("block", e.target.value)
+                            options={blockOptions}
+                            getOptionLabel={(option) => option.blockName || ""}
+                            isOptionEqualToValue={(opt, val) =>
+                              opt.id === val.id
                             }
-                            onBlur={() => setFieldTouched("block", true)}
-                            value={values?.block}
-                            error={touched?.block && Boolean(errors?.block)}
-                            helperText={touched?.block && errors?.block}
+                            value={values.block}
+                            onChange={(_, value) => {
+                              setFieldValue("block", value);
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                placeholder="Select Block"
+                                error={touched.block && Boolean(errors.block)}
+                                helperText={touched.block && errors.block}
+                              />
+                            )}
                           />
                         </Grid>
 
-                       
                         <Grid item xs={6} md={3}>
                           <Typography variant="h6" fontSize="14px">
                             GP
@@ -277,18 +364,17 @@ function AddGP() {
                             fullWidth
                             size="small"
                             placeholder="Enter GP Name"
-                            name="gp"
+                            name="gpName"
                             onChange={(e) =>
-                              setFieldValue("gp", e.target.value)
+                              setFieldValue("gpName", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("gp", true)}
-                            value={values?.gp}
-                            error={touched?.gp && Boolean(errors?.gp)}
-                            helperText={touched?.gp && errors?.gp}
+                            onBlur={() => setFieldTouched("gpName", true)}
+                            value={values?.gpName}
+                            error={touched?.gpName && Boolean(errors?.gpName)}
+                            helperText={touched?.gpName && errors?.gpName}
                           />
                         </Grid>
 
-                       
                         <Grid item xs={6} md={3}>
                           <Typography variant="h6" fontSize="14px">
                             LGD Code
@@ -297,14 +383,14 @@ function AddGP() {
                             fullWidth
                             size="small"
                             placeholder="Enter LGD Code"
-                            name="lgdCode"
+                            name="LGDCode"
                             onChange={(e) =>
-                              setFieldValue("lgdCode", e.target.value)
+                              setFieldValue("LGDCode", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("lgdCode", true)}
-                            value={values?.lgdCode}
-                            error={touched?.lgdCode && Boolean(errors?.lgdCode)}
-                            helperText={touched?.lgdCode && errors?.lgdCode}
+                            onBlur={() => setFieldTouched("LGDCode", true)}
+                            value={values?.LGDCode}
+                            error={touched?.LGDCode && Boolean(errors?.LGDCode)}
+                            helperText={touched?.LGDCode && errors?.LGDCode}
                           />
                         </Grid>
 
@@ -329,20 +415,39 @@ function AddGP() {
 
                         <Grid item xs={6} md={3}>
                           <Typography variant="h6" fontSize="14px">
-                            Lat & Long
+                          Latitute
                           </Typography>
                           <TextField
                             fullWidth
                             size="small"
-                            placeholder="Enter Lat & Long"
-                            name="latLong"
+                            placeholder="Enter Latitute"
+                            name="latitude"
                             onChange={(e) =>
-                              setFieldValue("latLong", e.target.value)
+                              setFieldValue("latitude", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("latLong", true)}
-                            value={values?.latLong}
-                            error={touched?.latLong && Boolean(errors?.latLong)}
-                            helperText={touched?.latLong && errors?.latLong}
+                            onBlur={() => setFieldTouched("latitude", true)}
+                            value={values?.latitude}
+                            error={touched?.latitude && Boolean(errors?.latitude)}
+                            helperText={touched?.latitude && errors?.latitude}
+                          />
+                        </Grid>
+
+                        <Grid item xs={6} md={3}>
+                          <Typography variant="h6" fontSize="14px">
+                          Longitude
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            size="small"
+                            placeholder="Enter Longitude"
+                            name="longitude"
+                            onChange={(e) =>
+                              setFieldValue("longitude", e.target.value)
+                            }
+                            onBlur={() => setFieldTouched("longitude", true)}
+                            value={values?.longitude}
+                            error={touched?.longitude && Boolean(errors?.longitude)}
+                            helperText={touched?.longitude && errors?.longitude}
                           />
                         </Grid>
 
@@ -371,22 +476,34 @@ function AddGP() {
                           <Typography variant="h6" fontSize="14px">
                             Covered
                           </Typography>
-                          <TextField
-                            fullWidth
+                          <Autocomplete
                             size="small"
-                            placeholder="Enter Covered"
-                            name="covered"
-                            onChange={(e) =>
-                              setFieldValue("covered", e.target.value)
+                            options={coveredOptions}
+                            getOptionLabel={(option) => option.label || ""}
+                            isOptionEqualToValue={(opt, val) =>
+                              opt.value === val.value
                             }
-                            onBlur={() => setFieldTouched("covered", true)}
-                            value={values?.covered}
-                            error={touched?.covered && Boolean(errors?.covered)}
-                            helperText={touched?.covered && errors?.covered}
+                            value={
+                              coveredOptions.find(
+                                (opt) => opt.value === values.covered
+                              ) || null
+                            }
+                            onChange={(_, value) => {
+                              setFieldValue("covered", value?.value || "");
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                placeholder="Select"
+                                error={
+                                  touched.covered && Boolean(errors.covered)
+                                }
+                                helperText={touched.covered && errors.covered}
+                              />
+                            )}
                           />
                         </Grid>
 
-                       
                         <Grid item xs={6} md={3}>
                           <Typography variant="h6" fontSize="14px">
                             SR Status
@@ -395,67 +512,68 @@ function AddGP() {
                             fullWidth
                             size="small"
                             placeholder="Enter SR Status"
-                            name="srStatus"
+                            name="SRStatus"
                             onChange={(e) =>
-                              setFieldValue("srStatus", e.target.value)
+                              setFieldValue("SRStatus", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("srStatus", true)}
-                            value={values?.srStatus}
+                            onBlur={() => setFieldTouched("SRStatus", true)}
+                            value={values?.SRStatus}
                             error={
-                              touched?.srStatus && Boolean(errors?.srStatus)
+                              touched?.SRStatus && Boolean(errors?.SRStatus)
                             }
-                            helperText={touched?.srStatus && errors?.srStatus}
+                            helperText={touched?.SRStatus && errors?.SRStatus}
                           />
                         </Grid>
                       </Grid>
-                  </Div>
-                  <Div
-                    sx={{
-                      width: "93.5%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      gap: 3,
-                      mt: 3,
-                    }}
-                  >
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={() => {
-                        Swal.fire({
-                          title: "Are you sure you want to cancel?",
-                          icon: "warning",
-                          showCancelButton: true,
-                          confirmButtonText: "Yes",
-                          cancelButtonText: "No",
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            navigate();
-                          }
-                        });
-                      }}
-                    >
-                      Cancel
-                    </Button>
-
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      type="submit"
+                    </Div>
+                    <Div
                       sx={{
-                        width: "100px",
-                        "&:hover": { backgroundColor: "#53B8CA" },
+                        width: "93.5%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: 3,
+                        mt: 3,
                       }}
-                      loading={isSubmitting}
                     >
-                      Submit
-                    </LoadingButton>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => {
+                          Swal.fire({
+                            title: "Are you sure you want to cancel?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Yes",
+                            cancelButtonText: "No",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              navigate();
+                            }
+                          });
+                        }}
+                      >
+                        Cancel
+                      </Button>
+
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        type="submit"
+                        sx={{
+                          width: "100px",
+                          "&:hover": { backgroundColor: "#53B8CA" },
+                        }}
+                        loading={isSubmitting}
+                      >
+                        Submit
+                      </LoadingButton>
+                    </Div>
                   </Div>
-                </Div>
-              </Form>
-            )}
-          </Formik>
+                </Form>
+              )}
+            </Formik>
+          )}
         </Div>
       </Div>
     </>

@@ -88,7 +88,7 @@ const BlockOandM = () => {
             >
               <MenuItem value="Maintenance">Maintenance</MenuItem>
               <MenuItem value="Replacement">Replacement</MenuItem>
-              {/* <MenuItem value="Transfer">Transfer</MenuItem> */}
+              <MenuItem value="Transfer">Transfer</MenuItem>
               <MenuItem value="Scrap">Scrap</MenuItem>
             </Select>
           </FormControl>
@@ -108,7 +108,7 @@ const BlockOandM = () => {
       </Box>
       {pageType === "Maintenance" && <MaintenanceList />}
       {pageType === "Replacement" && <ReplacementList />}
-      {/* {pageType === "Transfer" && <TransferList />} */}
+      {pageType === "Transfer" && <TransferList />}
       {pageType === "Scrap" && <ScrapList />}
     </>
   );

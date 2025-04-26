@@ -1,11 +1,8 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -22,11 +19,8 @@ import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { WAREHOUSE_MASTER_ADD, WAREHOUSE_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { warehouse_data_dispatch } from "app/redux/actions/Master";
 import moment from "moment";
@@ -58,7 +52,7 @@ const addBtnStyle = {
 };
 
 const WarehouseList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -413,7 +407,7 @@ const WarehouseList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {moment(ele?.createdAt).format("DD/MM/YYYY") || "-"}
+                               {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                              </TableCell>
                              <TableCell
                                align="left"
@@ -423,7 +417,7 @@ const WarehouseList = () => {
                                  textTransform: "capitalize",
                                }}
                              >
-                               {moment(ele?.updatedAt).format("DD/MM/YYYY") || "-"}
+                               {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
                              </TableCell>
                              <TableCell
                                align="left"

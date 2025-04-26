@@ -67,7 +67,7 @@ const createMasterDataDispatcher = (type, apiKey) => {
   const SUCCESS = `${type}_SUCCESS`;
   const FAILED = `${type}_FAILED`;
 
-  return function ({ page = 1, search_value = "" } = {}) {
+  return function ({ page = 1, search_value = "",sort="" ,sortBy="" } = {}) {
     return async (dispatch) => {
       try {
         dispatch({ type: REQUEST });
@@ -75,7 +75,7 @@ const createMasterDataDispatcher = (type, apiKey) => {
         const login_response = await axios.post(AllApis?.login);
         const user_details = login_response?.data;
 
-        const res = await Axios.post(`${apiKey}?page=${page}&search=${search_value}`, {
+        const res = await Axios.post(`${apiKey}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`, {
           headers: {
             Authorization: `Bearer ${user_details?.access_token}`
           }

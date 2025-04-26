@@ -4,6 +4,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Button,
   Grid,
   IconButton,
@@ -35,14 +36,20 @@ import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { TEAM_MASTER, TEAM_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  TEAM_MASTER,
+  TEAM_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import { addTeam, updateTeam } from "app/services/apis/master";
+import MasterApis from "app/Apis/master";
+import { Axios } from "index";
 
 function AddTeam() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const [departmentOptions,setDepartmentOptions] = useState([]);
+  const [formInitialValues,setFormInitialValues]=useState(null);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
@@ -55,19 +62,21 @@ function AddTeam() {
       .string("Enter Team Name")
       .trim()
       .required("Team Name is required"),
-    departmentName: yup.string("Enter Department Name").trim().required("Department Name is required"),
+    departmentName: yup
+    .object().nullable()
+      .required("Department Name is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
-      departmentName: values?.departmentName,
-      teamName:values?.teamName
+      departmentId: values?.departmentName.id,
+      teamName: values?.teamName,
     };
 
     setSubmitting(true);
     try {
       if (pathname === TEAM_MASTER_EDIT) {
-          const data = await updateTeam(body, state?._id);
+        const data = await updateTeam(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(TEAM_MASTER);
           Swal.fire({
@@ -87,7 +96,7 @@ function AddTeam() {
           });
         }
       } else {
-          const data = await addTeam(body);
+        const data = await addTeam(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",
@@ -116,19 +125,39 @@ function AddTeam() {
     }
   };
 
-  useEffect(() => {
-    (async () => {})();
-    return () => {};
-  }, []);
+   useEffect(() => {
+      Axios.get(MasterApis?.department?.departmentDropdown)
+        .then((res) => {
+          console.log("List : ",res?.data?.result);
+          const departments = res?.data?.result || [];
+          setDepartmentOptions(departments);
+        })
+        .catch((err) => console.error("Package Fetch Error: ", err));
+    }, []);
 
+  useEffect(() => {
+      if (
+        departmentOptions.length &&
+        (!state?.packageId || departmentOptions.length || !state?.departmentId)
+      ) {
+        setFormInitialValues({
+          departmentName: state?.departmentId
+            ? departmentOptions.find((opt) => opt.id === state.departmentId)
+            : null,
+          teamName:state.teamName ? state?.teamName : ""
+        });
+      }
+    }, [departmentOptions]);
   return (
     <>
       <HotoHeader />
       <Div sx={{ mt: 0 }}>
         <Div>
+        {
+          formInitialValues && 
           <Formik
             validateOnChange={true}
-            initialValues={initialValues}
+            initialValues={formInitialValues}
             enableReinitialize={true}
             validationSchema={validationSchema}
             onSubmit={onUserSave}
@@ -155,9 +184,7 @@ function AddTeam() {
                       Add Team
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
-                      
-
-                      <Grid item xs={6} md={3}>
+                      {/* <Grid item xs={6} md={6}>
                         <Typography variant="h6" fontSize="14px">
                           Department
                         </Typography>
@@ -167,15 +194,42 @@ function AddTeam() {
                           placeholder="Enter Department Name"
                           name="departmentName"
                           onChange={(e) =>
-                            setFieldValue("address", e.target.value)
+                            setFieldValue("departmentName", e.target.value)
                           }
-                          onBlur={() => setFieldTouched("address", true)}
+                          onBlur={() => setFieldTouched("departmentName", true)}
                           value={values?.departmentName}
                           error={touched?.departmentName && Boolean(errors?.departmentName)}
                           helperText={touched?.departmentName && errors?.departmentName}
                         />
+                      </Grid> */}
+
+                      <Grid item xs={12} md={3}>
+                        <Typography variant="h6" fontSize="14px">
+                          Department
+                        </Typography>
+                        <Autocomplete
+                          size="small"
+                          options={departmentOptions}
+                          getOptionLabel={(option) => option.departmentName || ""}
+                          isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                          value={values.departmentName}
+                          onChange={(_, value) =>
+                            setFieldValue("departmentName", value)
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Select Department"
+                              error={
+                                touched.departmentName && Boolean(errors.departmentName)
+                              }
+                              helperText={touched.departmentName && errors.departmentName}
+                            />
+                          )}
+                        />
                       </Grid>
-                      <Grid item xs={6} md={3}>
+
+                      <Grid item xs={6} md={6}>
                         <Typography variant="h6" fontSize="14px">
                           Team Name
                         </Typography>
@@ -187,18 +241,10 @@ function AddTeam() {
                           onChange={(e) =>
                             setFieldValue("teamName", e.target.value)
                           }
-                          onBlur={() =>
-                            setFieldTouched("teamName", true)
-                          }
+                          onBlur={() => setFieldTouched("teamName", true)}
                           value={values?.teamName}
-                          error={
-                            touched?.teamName &&
-                            Boolean(errors?.teamName)
-                          }
-                          helperText={
-                            touched?.teamName &&
-                            errors?.teamName
-                          }
+                          error={touched?.teamName && Boolean(errors?.teamName)}
+                          helperText={touched?.teamName && errors?.teamName}
                         />
                       </Grid>
                     </Grid>
@@ -237,7 +283,10 @@ function AddTeam() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{
+                        width: "100px",
+                        "&:hover": { backgroundColor: "#53B8CA" },
+                      }}
                       loading={isSubmitting}
                     >
                       Submit
@@ -247,6 +296,7 @@ function AddTeam() {
               </Form>
             )}
           </Formik>
+        }
         </Div>
       </Div>
     </>

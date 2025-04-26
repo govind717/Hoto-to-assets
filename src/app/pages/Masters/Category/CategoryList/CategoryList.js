@@ -1,11 +1,8 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -55,7 +52,7 @@ const addBtnStyle = {
 };
 
 const CategoryList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -168,17 +165,11 @@ const CategoryList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Sr No.
-                </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`category`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -192,7 +183,7 @@ const CategoryList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -202,11 +193,11 @@ const CategoryList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -216,11 +207,11 @@ const CategoryList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedBy`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -230,11 +221,11 @@ const CategoryList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -244,11 +235,11 @@ const CategoryList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -279,6 +270,7 @@ const CategoryList = () => {
                     >
                       {index + 1 || "-"}
                     </TableCell>
+                    
                     <TableCell
                       align="left"
                       sx={{
@@ -287,28 +279,9 @@ const CategoryList = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      {ele?.packageName || "-"}
+                      {ele?.category || "-"}
                     </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.district || "-"}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.districtCode || "-"}
-                    </TableCell>
+                    
                     <TableCell
                       align="left"
                       sx={{
@@ -347,7 +320,7 @@ const CategoryList = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      {moment(ele?.createdAt).format("DD/MM/YYYY") || "-"}
+                      {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                     </TableCell>
                     <TableCell
                       align="left"
@@ -357,7 +330,7 @@ const CategoryList = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      {moment(ele?.updatedAt).format("DD/MM/YYYY") || "-"}
+                      {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
                     </TableCell>
                     <TableCell
                       align="left"

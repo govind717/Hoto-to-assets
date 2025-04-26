@@ -95,7 +95,7 @@ function AddOrganization() {
     setSubmitting(true);
     try {
       if (pathname === ORGANIZATION_MASTER_EDIT) {
-        const data = await updateOrganization(body, state?._id);
+        const data = await updateOrganization(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(ORGANIZATION_MASTER);
           Swal.fire({
