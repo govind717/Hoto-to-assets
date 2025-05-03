@@ -41,6 +41,10 @@ export const UserManagementRoute = [
       {
         path: "/user-management/add",
         element: <Page component={AdduserManagement} layout={"vertical-default"} />,
+      },
+      {
+        path: "/user-management/edit",
+        element: <Page component={AdduserManagement} layout={"vertical-default"} />,
       }
      
     ],

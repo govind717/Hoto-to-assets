@@ -6,6 +6,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -21,10 +22,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import { BLOCK_MASTER_ADD, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  BLOCK_MASTER_ADD,
+  BLOCK_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import moment from "moment";
 import { Edit } from "@mui/icons-material";
 import { block_data_dispatch } from "app/redux/actions/Master";
+import Swal from "sweetalert2";
+import { updateBlock } from "app/services/apis/master";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -51,11 +57,10 @@ const addBtnStyle = {
 };
 
 const BlockList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
- 
 
   const { blockDataReducer } = useSelector((state) => state);
 
@@ -68,9 +73,8 @@ const BlockList = () => {
     setPage(1);
   };
 
-  
   const handleEdit = function (data) {
-    navigate(BLOCK_MASTER_EDIT, {state: data});
+    navigate(BLOCK_MASTER_EDIT, { state: data });
   };
 
   const handleChangePage = (event, newPage) => {
@@ -113,6 +117,35 @@ const BlockList = () => {
 
   const addMasterItem = () => {
     navigate(BLOCK_MASTER_ADD);
+  };
+
+  const updateStatus = async (body, id) => {
+    const data = await updateBlock(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+
+      //  After successful update, fetch the latest list again
+      dispatch(
+        block_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
   };
   return (
     <>
@@ -162,18 +195,18 @@ const BlockList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx ,minWidth:"100px"}}>
-                <TableSortLabel
-                  onClick={() => handleSort(`sr_no`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "100px" }}
+              >
                   Sr No.
-                </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`package_details.packageName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -182,9 +215,7 @@ const BlockList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`district`)
-                  }
+                  onClick={() => handleSort(`district_details.district`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -193,9 +224,7 @@ const BlockList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`blockName`)
-                  }
+                  onClick={() => handleSort(`blockName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -204,9 +233,7 @@ const BlockList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`blockCode`)
-                  }
+                  onClick={() => handleSort(`blockCode`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -215,24 +242,20 @@ const BlockList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
+                  onClick={() => handleSort(`status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Status
                 </TableSortLabel>
               </TableCell>
-              
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdBy`)
-                  }
+                  onClick={() => handleSort(`created_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -244,9 +267,7 @@ const BlockList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedBy`)
-                  }
+                  onClick={() => handleSort(`updated_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -258,9 +279,7 @@ const BlockList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdAt`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -272,9 +291,7 @@ const BlockList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedAt`)
-                  }
+                  onClick={() => handleSort(`updatedAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -289,150 +306,151 @@ const BlockList = () => {
               </TableCell>
             </TableRow>
           </TableHead>
-         <TableBody>
-                     {blockDataReducer?.data?.result?.data.length > 0 ? (
-                      blockDataReducer?.data?.result?.data.map((ele, index) => {
-                         return (
-                           <TableRow key={ele?.id}>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {index + 1 || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.package_details?.packageName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.district_details?.district || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.blockName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.blockCode || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.status ? "True" : "False"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.created_user_details?.firstName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.updated_user_details?.firstName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               <Button
-                                 variant="outlined"
-                                 size="small"
-                                 startIcon={<Edit />}
-                                 onClick={() => handleEdit(ele)}
-                                 sx={{
-                                   "&:hover": {
-                                     backgroundColor: orangeSecondary,
-                                   },
-                                 }}
-                               >
-                                 Edit
-                               </Button>
-                             </TableCell>
-                           </TableRow>
-                         );
-                       })
-                     ) : (
-                       <TableCell
-                         align="left"
-                         colSpan={10}
-                         sx={{
-                           textAlign: "center",
-                           verticalAlign: "middle",
-                           textTransform: "capitalize",
-                         }}
-                       >
-                         No Data Found!
-                       </TableCell>
-                     )}
-                   </TableBody>
+          <TableBody>
+            {blockDataReducer?.data?.result?.data.length > 0 ? (
+              blockDataReducer?.data?.result?.data.map((ele, index) => {
+                return (
+                  <TableRow key={ele?.id}>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {index + 1 || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.package_details?.packageName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.district_details?.district || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.blockName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.blockCode || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?.id);
+                        }}
+                        color="primary"
+                      />
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.created_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.updated_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Edit />}
+                        onClick={() => handleEdit(ele)}
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: orangeSecondary,
+                          },
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableCell
+                align="left"
+                colSpan={10}
+                sx={{
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  textTransform: "capitalize",
+                }}
+              >
+                No Data Found!
+              </TableCell>
+            )}
+          </TableBody>
         </Table>
         <Pagination
           count={1}
@@ -448,7 +466,6 @@ const BlockList = () => {
           }}
         />
       </TableContainer>
-      
     </>
   );
 };

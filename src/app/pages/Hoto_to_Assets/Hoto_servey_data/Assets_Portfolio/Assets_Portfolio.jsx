@@ -231,7 +231,7 @@ const Assets_Portfolio_List = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              {/* Equipment column with dropdown */}
+              
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel direction={sort} sx={{ ...tableCellSort }}>
@@ -247,7 +247,6 @@ const Assets_Portfolio_List = () => {
                   </IconButton>
                 </Box>
 
-                {/* Filter popper with RadioGroup */}
                 <Popper
                   open={Boolean(anchorEl)}
                   anchorEl={anchorEl}

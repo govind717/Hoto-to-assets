@@ -6,6 +6,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +26,8 @@ import { SUB_CATEGORY_MASTER_ADD, SUB_CATEGORY_MASTER_EDIT } from "app/utils/con
 import moment from "moment";
 import { sub_category_data_dispatch } from "app/redux/actions/Master";
 import { Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { updateSubCategory } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -116,6 +119,35 @@ const SubCategoryList = () => {
   const addMasterItem = () => {
     navigate(SUB_CATEGORY_MASTER_ADD);
   };
+
+  const updateStatus = async (body, id) => {
+    const data = await updateSubCategory(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+  
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        sub_category_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
+  };
   return (
     <>
       {subCategoryDataReducer?.loading && <FullScreenLoader />}
@@ -169,7 +201,7 @@ const SubCategoryList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`category`)}
+                  onClick={() => handleSort(`category_details.category`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -205,7 +237,7 @@ const SubCategoryList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`createdBy`)
+                    handleSort(`created_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -219,7 +251,7 @@ const SubCategoryList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`updatedBy`)
+                    handleSort(`updated_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -298,15 +330,16 @@ const SubCategoryList = () => {
                     >
                       {ele?.subcategory	 || "-"}
                     </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.status ? "True" : "False"}
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = {...ele, status: newStatus };
+                          updateStatus(body, ele?.id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

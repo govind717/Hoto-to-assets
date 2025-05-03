@@ -6,6 +6,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +26,8 @@ import { ORGANIZATION_MASTER_ADD, ORGANIZATION_MASTER_EDIT } from "app/utils/con
 import { organisation_data_dispatch } from "app/redux/actions/Master";
 import moment from "moment";
 import { Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { updateOrganization } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -115,6 +118,35 @@ const OrganizationList = () => {
 
   const addMasterItem = () => {
     navigate(ORGANIZATION_MASTER_ADD);
+  };
+
+  const updateStatus = async (body, id) => {
+    const data = await updateOrganization(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+  
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        organisation_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
   };
   return (
     <>
@@ -274,7 +306,7 @@ const OrganizationList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`createdBy`)
+                    handleSort(`created_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -288,7 +320,7 @@ const OrganizationList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`updatedBy`)
+                    handleSort(`updated_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -417,15 +449,16 @@ const OrganizationList = () => {
                     >
                       {ele?.type || "-"}
                     </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.status ? "True" : "False"}
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = {...ele, status: newStatus };
+                          updateStatus(body, ele?.id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

@@ -21,6 +21,7 @@ const MasterApis = {
       gpList: `master/gp/list`,
       gpAdd: `master/gp/add`,
       gpUpdate: `master/gp/update`,
+      gpDropdown: `master/gp/dropdown`,
     },
     organisation: {
       organisationList: `master/organisation/list`,
@@ -38,6 +39,7 @@ const MasterApis = {
       teamList: `master/team/list`,
       teamAdd: `master/team/add`,
       teamUpdate: `master/team/update`,
+      teamDropdown: `master/team/dropdown`,
     },
     category: {
       categoryList: `master/category/list`,
@@ -78,6 +80,11 @@ const MasterApis = {
       warehouseList: `master/warehouse/list`,
       warehouseAdd: `master/warehouse/add`,
       warehouseUpdate: `master/warehouse/update`,
+    },
+    supplier: {
+      supplierList: `master/supplier/list`,
+      supplierAdd: `master/supplier/add`,
+      supplierUpdate: `master/supplier/update`,
     },
   };
   

@@ -113,10 +113,6 @@ function AddCategory() {
     }
   };
 
-  useEffect(() => {
-    (async () => {})();
-    return () => {};
-  }, []);
 
   return (
     <>
@@ -149,7 +145,7 @@ function AddCategory() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add Category
+                    {pathname === CATEGORY_MASTER_EDIT ? "Edit Category" : "Add Category"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -203,7 +199,7 @@ function AddCategory() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(CATEGORY_MASTER);
                           }
                         });
                       }}

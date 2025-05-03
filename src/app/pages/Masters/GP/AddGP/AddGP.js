@@ -97,7 +97,6 @@ function AddGP() {
       .required("SR Status is required"),
   });
 
-  console.log("addState : ",state);
   const onUserSave = async (values) => {
     const body = {
       packageId: values?.packageName?.id,
@@ -112,7 +111,6 @@ function AddGP() {
       covered: values?.covered,
       SRStatus: values?.SRStatus,
     };
-    console.log("addgb body", body);
 
     setSubmitting(true);
     try {
@@ -191,6 +189,9 @@ function AddGP() {
             fetchDistrictDropdown(selectedPackage.id);
           }
         }
+        if (state?.districtId) {
+            fetchBlockDropdown(state.districtId);
+        }
       })
       .catch((err) => console.error("Package Fetch Error: ", err));
   }, []);
@@ -233,10 +234,9 @@ function AddGP() {
       <HotoHeader />
       <Div sx={{ mt: 0 }}>
         <Div>
-          {formInitialValues && (
             <Formik
               validateOnChange={true}
-              initialValues={formInitialValues}
+              initialValues={formInitialValues || initialValues}
               enableReinitialize={true}
               validationSchema={validationSchema}
               onSubmit={onUserSave}
@@ -260,7 +260,7 @@ function AddGP() {
                       }}
                     >
                       <Typography variant="h3" fontWeight={600} mb={2}>
-                        Add GP
+                      {pathname === GP_MASTER_EDIT ? "Edit GP" : "Add GP"}
                       </Typography>
                       <Grid container rowSpacing={2} columnSpacing={3}>
                         <Grid item xs={12} md={3}>
@@ -272,9 +272,6 @@ function AddGP() {
                             options={packageOptions}
                             getOptionLabel={(option) =>
                               option.packageName || ""
-                            }
-                            isOptionEqualToValue={(opt, val) =>
-                              opt.id === val.id
                             }
                             value={values.packageName}
                             onChange={(_, value) => {
@@ -308,9 +305,6 @@ function AddGP() {
                             size="small"
                             options={districtOptions}
                             getOptionLabel={(option) => option.district || ""}
-                            isOptionEqualToValue={(opt, val) =>
-                              opt.id === val.id
-                            }
                             value={values.district}
                             onChange={(_, value) => {
                               setFieldValue("block", null);
@@ -338,9 +332,6 @@ function AddGP() {
                             size="small"
                             options={blockOptions}
                             getOptionLabel={(option) => option.blockName || ""}
-                            isOptionEqualToValue={(opt, val) =>
-                              opt.id === val.id
-                            }
                             value={values.block}
                             onChange={(_, value) => {
                               setFieldValue("block", value);
@@ -480,9 +471,6 @@ function AddGP() {
                             size="small"
                             options={coveredOptions}
                             getOptionLabel={(option) => option.label || ""}
-                            isOptionEqualToValue={(opt, val) =>
-                              opt.value === val.value
-                            }
                             value={
                               coveredOptions.find(
                                 (opt) => opt.value === values.covered
@@ -548,7 +536,7 @@ function AddGP() {
                             cancelButtonText: "No",
                           }).then((result) => {
                             if (result.isConfirmed) {
-                              navigate();
+                              navigate(GP_MASTER);
                             }
                           });
                         }}
@@ -573,7 +561,6 @@ function AddGP() {
                 </Form>
               )}
             </Formik>
-          )}
         </Div>
       </Div>
     </>

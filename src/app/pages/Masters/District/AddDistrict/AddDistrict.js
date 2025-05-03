@@ -50,17 +50,15 @@ function AddDistrict() {
   const { state } = useLocation();
   const [packageList, setPackageList] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
-
-  const initialValues = {
-    packageName: state?.packageName ? state.packageName : "",
-    district: state?.district ? state.district : "",
-    districtCode: state?.districtCode ? state.districtCode : "",
-  };
+  const [formInitialValues, setFormInitialValues] = useState({
+    packageName: state?.packageName || "",
+    district: state?.district || "",
+    districtCode: state?.districtCode || "",
+  });
 
   const validationSchema = yup.object({
     packageName: yup
-      .string("Enter Package Name")
-      .trim()
+      .object().nullable()
       .required("Package Name is required"),
     district: yup
       .string("Enter District")
@@ -73,8 +71,9 @@ function AddDistrict() {
   });
 
   const onUserSave = async (values) => {
+    console.log("values : ", values);
     const body = {
-      packageName: values?.packageName,
+      packageId: values?.packageName.id,
       district: values?.district,
       districtCode: values?.districtCode,
     };
@@ -82,13 +81,12 @@ function AddDistrict() {
     setSubmitting(true);
     try {
       if (pathname === DISTRICT_MASTER_EDIT) {
-        const data = await updateDistrict(body, state?._id);
+        const data = await updateDistrict(body, state?.id);
         if (data?.data?.statusCode === 200) {
           navigate(DISTRICT_MASTER);
           Swal.fire({
             icon: "success",
             text: "District Updated Successfully",
-            // text: "",
             timer: 1000,
             showConfirmButton: false,
           });
@@ -98,7 +96,6 @@ function AddDistrict() {
             text: data?.data?.message
               ? data?.data?.message
               : "Error while updating District",
-            // text: "",
           });
         }
       } else {
@@ -117,7 +114,6 @@ function AddDistrict() {
             text: data?.data?.message
               ? data?.data?.message
               : "Error while adding District",
-            // text: "",
           });
         }
       }
@@ -144,6 +140,18 @@ function AddDistrict() {
     return () => {};
   }, []);
 
+  useEffect(() => {
+    if (packageList.length && state) {
+      setFormInitialValues({
+        packageName: state?.packageId
+          ? packageList.find((opt) => opt.id === state.packageId)
+          : "",
+        district: state?.district || "",
+        districtCode: state?.districtCode || "",
+      });
+    }
+  }, [packageList, state]);
+
   return (
     <>
       <HotoHeader />
@@ -151,19 +159,12 @@ function AddDistrict() {
         <Div>
           <Formik
             validateOnChange={true}
-            initialValues={initialValues}
+            initialValues={formInitialValues}
             enableReinitialize={true}
             validationSchema={validationSchema}
             onSubmit={onUserSave}
           >
-            {({
-              setFieldValue,
-              values,
-              touched,
-              errors,
-              setFieldTouched,
-              setValues,
-            }) => (
+            {({ setFieldValue, values, touched, errors, setFieldTouched }) => (
               <Form noValidate autoComplete="off">
                 <Div sx={{ mt: 4 }}>
                   <Div
@@ -175,42 +176,40 @@ function AddDistrict() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add District
+                      {pathname === DISTRICT_MASTER_EDIT
+                        ? "Edit District"
+                        : "Add District"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
-                      <Grid item xs={6} md={4}>
+                      <Grid item xs={12} md={4}>
                         <Typography variant="h6" fontSize="14px">
                           Package Name
                         </Typography>
                         <Autocomplete
                           size="small"
-                          fullWidth
                           options={packageList}
                           getOptionLabel={(option) => option.packageName || ""}
-                          onChange={(event, newValue) => {
-                            setFieldValue("packageName", newValue?.id || ""); 
+                          isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                          value={values.packageName}
+                          onChange={(_, value) => {
+                            setFieldValue("packageName", value);
                           }}
-                          onBlur={() => setFieldTouched("packageName", true)}
-                          value={
-                            packageList.find(
-                              (pkg) => pkg.id === values?.packageName
-                            ) || null
-                          }
                           renderInput={(params) => (
                             <TextField
                               {...params}
                               placeholder="Select Package"
                               error={
-                                touched?.packageName &&
-                                Boolean(errors?.packageName)
+                                touched.packageName &&
+                                Boolean(errors.packageName)
                               }
                               helperText={
-                                touched?.packageName && errors?.packageName
+                                touched.packageName && errors.packageName
                               }
                             />
                           )}
                         />
                       </Grid>
+
                       <Grid item xs={6} md={4}>
                         <Typography variant="h6" fontSize="14px">
                           District
@@ -306,4 +305,5 @@ function AddDistrict() {
     </>
   );
 }
+
 export default AddDistrict;

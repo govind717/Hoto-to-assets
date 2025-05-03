@@ -6,6 +6,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -21,10 +22,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import { CATEGORY_MASTER_ADD, CATEGORY_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  CATEGORY_MASTER_ADD,
+  CATEGORY_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import { category_data_dispatch } from "app/redux/actions/Master";
 import moment from "moment";
 import { Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { updateCategory } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -57,7 +63,6 @@ const CategoryList = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-
   const { categoryDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -69,11 +74,9 @@ const CategoryList = () => {
     setPage(1);
   };
 
-   
   const handleEdit = function (data) {
-    navigate(CATEGORY_MASTER_EDIT, {state: data});
+    navigate(CATEGORY_MASTER_EDIT, { state: data });
   };
-
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -115,6 +118,35 @@ const CategoryList = () => {
 
   const addMasterItem = () => {
     navigate(CATEGORY_MASTER_ADD);
+  };
+
+  const updateStatus = async (body, id) => {
+    const data = await updateCategory(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        category_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
   };
   return (
     <>
@@ -165,7 +197,7 @@ const CategoryList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Sr No.
+                Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -176,15 +208,13 @@ const CategoryList = () => {
                   Category
                 </TableSortLabel>
               </TableCell>
-              
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
+                  onClick={() => handleSort(`status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -196,9 +226,7 @@ const CategoryList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdBy`)
-                  }
+                  onClick={() => handleSort(`created_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -210,9 +238,7 @@ const CategoryList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedBy`)
-                  }
+                  onClick={() => handleSort(`updated_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -224,9 +250,7 @@ const CategoryList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdAt`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -238,9 +262,7 @@ const CategoryList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedAt`)
-                  }
+                  onClick={() => handleSort(`updatedAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -270,7 +292,7 @@ const CategoryList = () => {
                     >
                       {index + 1 || "-"}
                     </TableCell>
-                    
+
                     <TableCell
                       align="left"
                       sx={{
@@ -281,16 +303,17 @@ const CategoryList = () => {
                     >
                       {ele?.category || "-"}
                     </TableCell>
-                    
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.status ? "True" : "False"}
+
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?.id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

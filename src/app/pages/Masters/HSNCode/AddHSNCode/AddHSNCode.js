@@ -21,16 +21,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import * as yup from "yup";
 import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
@@ -134,7 +127,7 @@ function AddHSNCode() {
   useEffect(() => {
       if (gstOptions.length) {
         setFormInitialValues({
-          gst: state?.packageId
+          gst: state?.gstId
             ? gstOptions.find((opt) => opt.id === state.gstId)
             : null,
           hsn_code: state?.hsn_code || "",
@@ -146,11 +139,9 @@ function AddHSNCode() {
       <HotoHeader />
       <Div sx={{ mt: 0 }}>
         <Div>
-        {
-          formInitialValues && 
           <Formik
             validateOnChange={true}
-            initialValues={formInitialValues}
+            initialValues={formInitialValues || initialValues}
             enableReinitialize={true}
             validationSchema={validationSchema}
             onSubmit={onUserSave}
@@ -174,7 +165,7 @@ function AddHSNCode() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add GST
+                    {pathname === HSN_CODE_MASTER_EDIT ? "Edit HSN Code" : "Add HSN Code"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -244,7 +235,7 @@ function AddHSNCode() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(HSN_CODE_MASTER);
                           }
                         });
                       }}
@@ -269,7 +260,6 @@ function AddHSNCode() {
               </Form>
             )}
           </Formik>
-        }
         </Div>
       </Div>
     </>

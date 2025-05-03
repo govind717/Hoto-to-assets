@@ -7,6 +7,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -28,6 +29,8 @@ import {
 } from "app/utils/constants/routeConstants";
 import { district_data_dispatch } from "app/redux/actions/Master";
 import { Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { updateDistrict } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -116,6 +119,34 @@ const DistrictList = () => {
   const addMasterItem = () => {
     navigate(DISTRICT_MASTER_ADD);
   };
+  const updateStatus = async (body, id) => {
+    const data = await updateDistrict(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+  
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        district_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
+  };
   return (
     <>
       {districtDataReducer?.loading && <FullScreenLoader />}
@@ -174,7 +205,7 @@ const DistrictList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`$package_details.package_name$`)}
+                  onClick={() => handleSort(`package_details.packageName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -221,7 +252,7 @@ const DistrictList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`createdBy`)
+                    handleSort(`created_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -235,7 +266,7 @@ const DistrictList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`updatedBy`)
+                    handleSort(`updated_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -324,15 +355,16 @@ const DistrictList = () => {
                     >
                       {ele?.districtCode || "-"}
                     </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.status ? "True" : "False"}
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = {...ele, status: newStatus };
+                          updateStatus(body, ele?.id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

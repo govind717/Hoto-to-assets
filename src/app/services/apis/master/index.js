@@ -128,5 +128,14 @@ export const updateWarehouse= async (data,id)=>{
     return res;
 };
 
+export const addSupplier= async (data)=>{
+    const res = await Axios.post(MasterApis?.supplier?.supplierAdd,data);
+    return res;
+};
+export const updateSupplier= async (data,id)=>{
+    const res = await Axios.patch(`${MasterApis?.supplier?.supplierUpdate}/${id}`,data);
+    return res;
+};
+
 
 

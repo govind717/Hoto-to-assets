@@ -1,11 +1,26 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
 import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import {
+  Table as MuiTable,
+  TableHead as MuiTableHead,
+  TableRow as MuiTableRow,
+  TableCell as MuiTableCell,
+  TableBody as MuiTableBody,
+} from "@mui/material";
+
 import {
   Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -21,10 +36,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import { WAREHOUSE_MASTER_ADD, WAREHOUSE_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  WAREHOUSE_MASTER_ADD,
+  WAREHOUSE_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import { warehouse_data_dispatch } from "app/redux/actions/Master";
 import moment from "moment";
 import { Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { updateWarehouse } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -50,13 +70,18 @@ const addBtnStyle = {
   backgroundColor: " #E78F5D",
   "&:hover": { backgroundColor: " #E78F5D" },
 };
-
+const commonCellStyle = {
+  textAlign: "left",
+  verticalAlign: "middle",
+  textTransform: "capitalize",
+};
 const WarehouseList = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedContacts, setSelectedContacts] = useState([]);
 
   const { warehouseDataReducer } = useSelector((state) => state);
 
@@ -69,11 +94,18 @@ const WarehouseList = () => {
     setPage(1);
   };
 
-  const handleEdit = function (data) {
-      navigate(WAREHOUSE_MASTER_EDIT, {state: data});
-    };
+  const handleOpenDialog = (contacts) => {
+    setSelectedContacts(contacts || []); // if no contacts, empty array
+    setOpenDialog(true);
+  };
 
-  
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleEdit = function (data) {
+    navigate(WAREHOUSE_MASTER_EDIT, { state: data });
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -115,6 +147,34 @@ const WarehouseList = () => {
 
   const addMasterItem = () => {
     navigate(WAREHOUSE_MASTER_ADD);
+  };
+  const updateStatus = async (body, id) => {
+    const data = await updateWarehouse(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        warehouse_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
   };
   return (
     <>
@@ -164,18 +224,15 @@ const WarehouseList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Sr No.
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "100px" }}
+              >
+                Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`warehouse_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -184,31 +241,62 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`warehouse_type`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Warehouse Type
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <TableSortLabel
+                  onClick={() => handleSort(`address`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Address
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <TableSortLabel
+                  onClick={() => handleSort(`city`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  City
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <TableSortLabel
+                  onClick={() => handleSort(`district`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  District
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`state`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   State
                 </TableSortLabel>
               </TableCell>
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`pincode`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -217,57 +305,51 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`capacity`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Warehouse Incharge
+                  Capacity
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`logitude`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Contact No.
+                  Logitude
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`latitude`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Email
+                  Latitude
                 </TableSortLabel>
               </TableCell>
+              <TableCell align="left" sx={{ ...tableCellSx }}>
+                Contact Details
+              </TableCell>
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Status
                 </TableSortLabel>
               </TableCell>
-              
+
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`created_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -276,12 +358,10 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`updated_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -290,12 +370,10 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -304,12 +382,10 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`updatedAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -325,139 +401,111 @@ const WarehouseList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-                     {warehouseDataReducer?.data?.result?.data.length > 0 ? (
-                      warehouseDataReducer?.data?.result?.data.map((ele, index) => {
-                         return (
-                           <TableRow key={ele?.id}>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {index + 1 || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.packageName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.district || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.districtCode || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.status ? "True" : "False"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.created_user_details?.firstName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.updated_user_details?.firstName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               <Button
-                                 variant="outlined"
-                                 size="small"
-                                 startIcon={<Edit/>}
-                                 onClick={() => handleEdit(ele)}
-                                 sx={{
-                                   "&:hover": {
-                                     backgroundColor: orangeSecondary,
-                                   },
-                                 }}
-                               >
-                                 Edit
-                               </Button>
-                             </TableCell>
-                           </TableRow>
-                         );
-                       })
-                     ) : (
-                       <TableCell
-                         align="left"
-                         colSpan={10}
-                         sx={{
-                           textAlign: "center",
-                           verticalAlign: "middle",
-                           textTransform: "capitalize",
-                         }}
-                       >
-                         No Data Found!
-                       </TableCell>
-                     )}
-                   </TableBody>
+            {console.log("warehouseDataReducer : ", warehouseDataReducer)}
+            {warehouseDataReducer?.data?.result?.data?.length > 0 ? (
+              warehouseDataReducer.data.result.data.map((ele, index) => (
+                <TableRow key={ele?.id}>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {index + 1}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{ ...commonCellStyle, minWidth: "220px" }}
+                  >
+                    {ele?.warehouse_name || "-"}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{ ...commonCellStyle, minWidth: "220px" }}
+                  >
+                    {ele?.warehouse_type || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.address || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.city || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.district || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.state || "-"}
+                  </TableCell>
+
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.pincode || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.capacity || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.logitude || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.latitude || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    <IconButton
+                      onClick={() => handleOpenDialog(ele?.contact_persons)}
+                      color="primary"
+                    >
+                      <InfoOutlinedIcon />
+                    </IconButton>
+                  </TableCell>
+
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    <Switch
+                      checked={ele?.status === true}
+                      onChange={(event) => {
+                        const newStatus = event.target.checked;
+                        const body = { ...ele, status: newStatus };
+                        updateStatus(body, ele?.id);
+                      }}
+                      color="primary"
+                    />
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.created_user_details?.firstName || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.updated_user_details?.firstName || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.createdAt
+                      ? moment(ele.createdAt).format("DD-MM-YYYY")
+                      : "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.updatedAt
+                      ? moment(ele.updatedAt).format("DD-MM-YYYY")
+                      : "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<Edit />}
+                      onClick={() => handleEdit(ele)}
+                      sx={{
+                        "&:hover": {
+                          backgroundColor: orangeSecondary,
+                        },
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell align="center" colSpan={10} sx={commonCellStyle}>
+                  No Data Found!
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
         </Table>
         <Pagination
           count={1}
@@ -473,6 +521,52 @@ const WarehouseList = () => {
           }}
         />
       </TableContainer>
+      <Dialog
+  open={openDialog}
+  onClose={handleCloseDialog}
+  maxWidth="sm"
+  fullWidth
+>
+  <DialogTitle sx={{ m: 0, p: 2 }}>
+    Contact Details
+    <IconButton
+      aria-label="close"
+      onClick={handleCloseDialog}
+      sx={{
+        position: "absolute",
+        right: 8,
+        top: 8,
+        color: (theme) => theme.palette.grey[500],
+      }}
+    >
+      <CloseIcon />
+    </IconButton>
+  </DialogTitle>
+  <DialogContent dividers>
+    {selectedContacts?.length > 0 ? (
+      <MuiTable>
+        <MuiTableHead>
+          <MuiTableRow>
+            <MuiTableCell><strong>Name</strong></MuiTableCell>
+            <MuiTableCell><strong>Email</strong></MuiTableCell>
+            <MuiTableCell><strong>Mobile No</strong></MuiTableCell>
+          </MuiTableRow>
+        </MuiTableHead>
+        <MuiTableBody>
+          {selectedContacts.map((contact, index) => (
+            <MuiTableRow key={index}>
+              <MuiTableCell>{contact?.name || "-"}</MuiTableCell>
+              <MuiTableCell>{contact?.email || "-"}</MuiTableCell>
+              <MuiTableCell>{contact?.mobile || "-"}</MuiTableCell>
+            </MuiTableRow>
+          ))}
+        </MuiTableBody>
+      </MuiTable>
+    ) : (
+      <p>No contact details available.</p>
+    )}
+  </DialogContent>
+</Dialog>
     </>
   );
 };

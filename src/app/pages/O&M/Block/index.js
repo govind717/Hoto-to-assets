@@ -1,30 +1,16 @@
 import React, { useState } from "react";
-
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import SearchIcon from "@mui/icons-material/Search";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import RectificationList from "./Rectification/RectificationList";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 
 import {
-  Container,
-  Tabs,
-  Tab,
   Select,
   MenuItem,
-  InputLabel,
   FormControl,
   TextField,
   Button,
   Box,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Chip,
+
   InputAdornment,
 } from "@mui/material";
 import Div from "@jumbo/shared/Div";
@@ -57,7 +43,7 @@ const BlockOandM = () => {
       >
         <h3 style={{ fontWeight: "500", color: "#000",fontSize:"20px" }}>O&M-Block</h3>
         <Box display="flex" alignItems="center" gap={2}>
-          <TextField
+          {/* <TextField
             id="search"
             type="search"
             label="Search"
@@ -75,7 +61,7 @@ const BlockOandM = () => {
                 </InputAdornment>
               ),
             }}
-          />
+          /> */}
 
           <FormControl size="small" sx={{ minWidth: 160 }}>
             <Select
@@ -89,11 +75,11 @@ const BlockOandM = () => {
               <MenuItem value="Maintenance">Maintenance</MenuItem>
               <MenuItem value="Replacement">Replacement</MenuItem>
               <MenuItem value="Transfer">Transfer</MenuItem>
-              <MenuItem value="Scrap">Scrap</MenuItem>
+              {/* <MenuItem value="Scrap">Scrap</MenuItem> */}
             </Select>
           </FormControl>
 
-          <Button
+          {/* <Button
             variant="outlined"
             sx={{
               borderColor: "#B0BAC9",
@@ -103,7 +89,7 @@ const BlockOandM = () => {
             }}
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
-          </Button>
+          </Button> */}
         </Box>
       </Box>
       {pageType === "Maintenance" && <MaintenanceList />}

@@ -110,7 +110,7 @@ function AddMaterial() {
     setSubmitting(true);
     try {
       if (pathname === MATERIAL_MASTER_EDIT) {
-        const data = await updateMaterial(body, state?._id);
+        const data = await updateMaterial(body, state?.id);
         if (data?.data?.statusCode === 200) {
           Swal.fire({ icon: "success", text: "Material Updated Successfully", timer: 1000, showConfirmButton: false });
           navigate(MATERIAL_MASTER);
@@ -146,7 +146,7 @@ function AddMaterial() {
             {({ setFieldValue, values, touched, errors, setFieldTouched }) => (
               <Form noValidate autoComplete="off">
                 <Div sx={{ mt: 4 }}>
-                  <Typography variant="h3" fontWeight={600} mb={2}>Add Material</Typography>
+                  <Typography variant="h3" fontWeight={600} mb={2}>{pathname === MATERIAL_MASTER_EDIT ? "Edit Material" : "Add Material"}</Typography>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={3}>
                       <Typography variant="h6" fontSize="14px">Material Name</Typography>
@@ -223,6 +223,7 @@ function AddMaterial() {
                           setFieldValue("subCategory", null);
                           if (value?.id) fetchSubCategoryDropdown(value.id);
                         }}
+                        onBlur={() => setFieldTouched("category", true)}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -242,6 +243,7 @@ function AddMaterial() {
                         getOptionLabel={(option) => option.subcategory || ""}
                         value={values.subCategory}
                         onChange={(_, value) => setFieldValue("subCategory", value)}
+                        onBlur={() => setFieldTouched("subCategory", true)}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -261,6 +263,7 @@ function AddMaterial() {
                         getOptionLabel={(option) => option.uom || ""}
                         value={values.uom}
                         onChange={(_, value) => setFieldValue("uom", value)}
+                        onBlur={() => setFieldTouched("uom", true)}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -280,6 +283,7 @@ function AddMaterial() {
                         getOptionLabel={(option) => option.hsn_code || ""}
                         value={values.HSNCode}
                         onChange={(_, value) => setFieldValue("HSNCode", value)}
+                        onBlur={() => setFieldTouched("HSNCode", true)}
                         renderInput={(params) => (
                           <TextField
                             {...params}

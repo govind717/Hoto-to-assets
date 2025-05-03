@@ -5,6 +5,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -20,10 +21,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import { MATERIAL_MASTER_ADD, MATERIAL_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  MATERIAL_MASTER_ADD,
+  MATERIAL_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import { material_data_dispatch } from "app/redux/actions/Master";
 import { Edit } from "@mui/icons-material";
 import moment from "moment";
+import Swal from "sweetalert2";
+import { updateMaterial } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -55,7 +61,6 @@ const MaterialList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  
 
   const { materialDataReducer } = useSelector((state) => state);
 
@@ -68,9 +73,8 @@ const MaterialList = () => {
     setPage(1);
   };
 
-   
   const handleEdit = function (data) {
-    navigate(MATERIAL_MASTER_EDIT, {state: data});
+    navigate(MATERIAL_MASTER_EDIT, { state: data });
   };
 
   const handleChangePage = (event, newPage) => {
@@ -113,6 +117,35 @@ const MaterialList = () => {
 
   const addMasterItem = () => {
     navigate(MATERIAL_MASTER_ADD);
+  };
+
+  const updateStatus = async (body, id) => {
+    const data = await updateMaterial(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        material_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
   };
   return (
     <>
@@ -162,10 +195,16 @@ const MaterialList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"100px" }}>
-                  Sr No.
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "100px" }}
+              >
+                Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`materialName`)}
                   direction={sort}
@@ -174,15 +213,13 @@ const MaterialList = () => {
                   Material Name
                 </TableSortLabel>
               </TableCell>
-              
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`materialCode`)
-                  }
+                  onClick={() => handleSort(`materialCode`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -198,7 +235,10 @@ const MaterialList = () => {
                   Category
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`subcategory`)}
                   direction={sort}
@@ -239,9 +279,7 @@ const MaterialList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
+                  onClick={() => handleSort(`status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -253,9 +291,7 @@ const MaterialList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdBy`)
-                  }
+                  onClick={() => handleSort(`created_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -267,9 +303,7 @@ const MaterialList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedBy`)
-                  }
+                  onClick={() => handleSort(`updated_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -281,9 +315,7 @@ const MaterialList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdAt`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -295,197 +327,193 @@ const MaterialList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedAt`)
-                  }
+                  onClick={() => handleSort(`updatedAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Updated Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx }}
-              >
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Actions
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-                     {materialDataReducer?.data?.result?.data.length > 0 ? (
-                      materialDataReducer?.data?.result?.data.map((ele, index) => {
-                         return (
-                           <TableRow key={ele?.id}>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {index + 1 || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.materialName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.materialCode || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.category_details?.category || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.subcategory_details?.subcategory || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.uom_details?.uom || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.hsn_code_details?.hsn_code || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.gst || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.status ? "True" : "False"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.created_user_details?.firstName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {ele?.updated_user_details?.firstName || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
-                             </TableCell>
-                             <TableCell
-                               align="left"
-                               sx={{
-                                 textAlign: "left",
-                                 verticalAlign: "middle",
-                                 textTransform: "capitalize",
-                               }}
-                             >
-                               <Button
-                                 variant="outlined"
-                                 size="small"
-                                 startIcon={<Edit />}
-                                 onClick={() => handleEdit(ele)}
-                                 sx={{
-                                   "&:hover": {
-                                     backgroundColor: orangeSecondary,
-                                   },
-                                 }}
-                               >
-                                 Edit
-                               </Button>
-                             </TableCell>
-                           </TableRow>
-                         );
-                       })
-                     ) : (
-                       <TableCell
-                         align="left"
-                         colSpan={10}
-                         sx={{
-                           textAlign: "center",
-                           verticalAlign: "middle",
-                           textTransform: "capitalize",
-                         }}
-                       >
-                         No Data Found!
-                       </TableCell>
-                     )}
-                   </TableBody>
+            {materialDataReducer?.data?.result?.data.length > 0 ? (
+              materialDataReducer?.data?.result?.data.map((ele, index) => {
+                return (
+                  <TableRow key={ele?.id}>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {index + 1 || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.materialName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.materialCode || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.category_details?.category || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.subcategory_details?.subcategory || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.uom_details?.uom || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.hsn_code_details?.hsn_code || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.gst || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?.id);
+                        }}
+                        color="primary"
+                      />
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.created_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.updated_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Edit />}
+                        onClick={() => handleEdit(ele)}
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: orangeSecondary,
+                          },
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableCell
+                align="left"
+                colSpan={10}
+                sx={{
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  textTransform: "capitalize",
+                }}
+              >
+                No Data Found!
+              </TableCell>
+            )}
+          </TableBody>
         </Table>
         <Pagination
           count={1}

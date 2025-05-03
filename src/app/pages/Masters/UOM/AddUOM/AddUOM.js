@@ -144,7 +144,7 @@ function AddUOM() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add UOM
+                    {pathname === UOM_MASTER_EDIT ? "Edit UOM" : "Add UOM"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -189,7 +189,7 @@ function AddUOM() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(UOM_MASTER);
                           }
                         });
                       }}

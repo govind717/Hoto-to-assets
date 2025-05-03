@@ -6,6 +6,11 @@ import Gp_equipment_details from "app/pages/Hoto_to_Assets/Hoto_servey_data/Gp_e
 import Dashboard from "app/pages/Dashboard";
 import Hoto_servey_data_block from "app/pages/Hoto_to_Assets/Hoto_servey_data_block";
 import Rkm_survey_data from "app/pages/Hoto_to_Assets/Rkm_servey_data";
+import HotoBlock from "app/pages/HOTO_Assets/Block";
+import AssetsPortFolioItemDetail from "app/pages/HOTO_Assets/Block/AssetsPortfolioList/ItemDetails/AssetsPortFolioItemDetail";
+import BlockWiseItemDetail from "app/pages/HOTO_Assets/Block/BlockWiseAssetList/ItemDetails/BlockWiseItemDetail";
+import WarehouseItemDetail from "app/pages/HOTO_Assets/Block/AssetsPortfolioList/ItemDetails/AssetsPortFolioItemDetail";
+import HotoGP from "app/pages/HOTO_Assets/GP";
 
 const routesName = "/dashboards/hoto-survey-data";
 
@@ -43,9 +48,41 @@ export const blockRoute = [
       },
     ],
     routes: [
+      // {
+      //   path: "/dashboards/hoto-survey-block-data",
+      //   element: <Page component={Hoto_servey_data_block}/>,
+      // },
       {
         path: "/dashboards/hoto-survey-block-data",
-        element: <Page component={Hoto_servey_data_block}/>,
+        element: <Page component={HotoBlock} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-block-data/asset-portflio-details",
+        element: <Page component={AssetsPortFolioItemDetail} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-block-data/block-wise-details",
+        element: <Page component={BlockWiseItemDetail} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-block-data/warehouse-details",
+        element: <Page component={WarehouseItemDetail} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-gp-data",
+        element: <Page component={HotoGP} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-gp-data/asset-portflio-details",
+        element: <Page component={AssetsPortFolioItemDetail} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-gp-data/gp-wise-details",
+        element: <Page component={BlockWiseItemDetail} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-gp-data/warehouse-details",
+        element: <Page component={WarehouseItemDetail} />,
       },
     ],
   },

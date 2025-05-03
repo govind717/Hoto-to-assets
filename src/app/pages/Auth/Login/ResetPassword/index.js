@@ -7,6 +7,10 @@ import { Field, Form, Formik } from 'formik'
 import React from 'react'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import AllApis from 'app/Apis/apis'
+import { Axios } from 'index'
+import * as yup from "yup";
+import Swal from 'sweetalert2'
 
 const ResetPassword = ({resetPassword,setResetPassword}) => {
     const [showPassword, setShowPassword] = React.useState({
@@ -19,9 +23,38 @@ const ResetPassword = ({resetPassword,setResetPassword}) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    const handleResetSubmit = (values,action)=>{
-        console.log(values,resetPassword);
-        setResetPassword((pre)=>({...pre,open:false}))
+    const handleResetSubmit = async (values,action)=>{
+        try {
+            const { data } = await Axios.post(AllApis?.Auth?.updatePassword, {
+                email: resetPassword?.email,
+                newPassword:values?.newPassword
+            });
+            if (data?.statusCode === 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: data?.status,
+                    text: data?.message,
+                    timer: 1200,
+                    showConfirmButton: false,
+                    customClass: {
+                        container: "popupImportant",
+                    },
+                })
+                setResetPassword((pre)=>({...pre,open:false}))
+            }
+        } catch (error) {
+            console.log(error)
+            Swal.fire({
+                icon: "error",
+                title: error?.response?.data?.status || "Internal Server Error",
+                text: error?.response?.data?.message || "",
+                timer: 1200,
+                showConfirmButton: false,
+                customClass: {
+                    container: "popupImportant",
+                },
+            })
+        }
     }
     return (
         <FullViewContent>
@@ -62,6 +95,13 @@ const ResetPassword = ({resetPassword,setResetPassword}) => {
                             newPassword:"",
                             confirmPassword:""
                         }}
+                        validationSchema={yup.object().shape({
+                            newPassword: yup.string()
+                                .required('New password is required'),
+                            confirmPassword: yup.string()
+                                .oneOf([yup.ref('newPassword'), null], 'Passwords must match')
+                                .required('Confirm password is required')
+                        })}
                         onSubmit={handleResetSubmit}
                     >
                         {({values}) => {

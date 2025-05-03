@@ -4,7 +4,7 @@ import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, IconButton, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Typography, Popper, ClickAwayListener, Checkbox, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import { hoto_servey_data_disptach } from 'app/redux/actions/Hoto_to_servey';
+import { hoto_servey_block_data_disptach } from 'app/redux/actions/Hoto_to_servey';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,7 +41,7 @@ const tableCellSort = {
 
 const Assets_Portfolio_List = () => {
 
-  const { hotoServeyDataReducer } = useSelector((state) => state);
+  const { hotoServeyBlockDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("created_at");
@@ -105,7 +105,7 @@ const Assets_Portfolio_List = () => {
 
   const handleSearch = (searchTerm) => {
     setPage(1)
-    // dispatch(hoto_servey_data_disptach({
+    // dispatch(hoto_servey_block_data_disptach({
     //   sortBy: sortBy,
     //   search_value: searchTerm.trim(),
     //   sort: sort,
@@ -126,12 +126,12 @@ const Assets_Portfolio_List = () => {
 
 
   useEffect(() => {
-    // dispatch(hoto_servey_data_disptach({
-    //   sortBy: sortBy,
-    //   search_value: searchTerm.trim(),
-    //   sort: sort,
-    //   page: page,
-    // }));
+    dispatch(hoto_servey_block_data_disptach({
+      sortBy: sortBy,
+      search_value: searchTerm.trim(),
+      sort: sort,
+      page: page,
+    }));
   }, [sort, page, sortBy, dispatch])
 
 
@@ -140,7 +140,7 @@ const Assets_Portfolio_List = () => {
   };
   return (
     <>
-      {hotoServeyDataReducer?.loading && <FullScreenLoader />}
+      {hotoServeyBlockDataReducer?.loading && <FullScreenLoader />}
       <Box
         sx={{
           display: "flex",
@@ -160,7 +160,7 @@ const Assets_Portfolio_List = () => {
               setSearchTerm(e.target.value);
               if (e.target.value === "") {
                 dispatch(
-                  hoto_servey_data_disptach({
+                  hoto_servey_block_data_disptach({
                     sortBy: sortBy,
                     search_value: "",
                     sort: sort,
@@ -335,7 +335,7 @@ const Assets_Portfolio_List = () => {
                     </TableHead>
 
           <TableBody>
-            {/* {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map(
+            {/* {hotoServeyBlockDataReducer?.hoto_servey_data?.data?.data?.map(
               (ele, index) => {
                 const gp_equipment = ele?.equipment;
                 const gp_electrical = ele?.electrical;

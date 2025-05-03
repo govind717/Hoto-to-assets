@@ -6,6 +6,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +26,8 @@ import { UOM_MASTER_ADD, UOM_MASTER_EDIT } from "app/utils/constants/routeConsta
 import { uom_data_dispatch } from "app/redux/actions/Master";
 import moment from "moment";
 import { Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { updateUOM } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -115,6 +118,35 @@ const UOMList = () => {
   const addMasterItem = () => {
     navigate(UOM_MASTER_ADD);
   };
+
+  const updateStatus = async (body, id) => {
+    const data = await updateUOM(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+  
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        uom_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
+  };
   return (
     <>
       {uomDataReducer?.loading && <FullScreenLoader />}
@@ -175,6 +207,15 @@ const UOMList = () => {
                   UOM
                 </TableSortLabel>
               </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`status`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
 
               <TableCell
                 align={"left"}
@@ -182,7 +223,7 @@ const UOMList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`createdBy`)
+                    handleSort(`created_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -196,7 +237,7 @@ const UOMList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`updatedBy`)
+                    handleSort(`updated_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -265,6 +306,17 @@ const UOMList = () => {
                              >
                                {ele?.uom || "-"}
                              </TableCell>
+                             <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = {...ele, status: newStatus };
+                          updateStatus(body, ele?.id);
+                        }}
+                        color="primary"
+                      />
+                    </TableCell>
                              <TableCell
                                align="left"
                                sx={{

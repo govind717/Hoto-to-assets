@@ -13,6 +13,7 @@ import {
     HSN_CODE_DATA,
     GST_DATA,
     WAREHOUSE_DATA,
+    SUPPLIER_DATA
   } from "app/redux/actions/Master/constants";
 
   
@@ -68,4 +69,5 @@ export const createMasterDataReducer = (type) => {
   export const hsnCodeDataReducer = createMasterDataReducer(HSN_CODE_DATA);
   export const gstDataReducer = createMasterDataReducer(GST_DATA);
   export const warehouseDataReducer = createMasterDataReducer(WAREHOUSE_DATA);
+  export const supplierDataReducer = createMasterDataReducer(SUPPLIER_DATA);
   

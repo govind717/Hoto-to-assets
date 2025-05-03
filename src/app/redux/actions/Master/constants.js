@@ -15,6 +15,7 @@ export const UOM_DATA = "UOM_DATA";
 export const HSN_CODE_DATA = "HSN_CODE_DATA";
 export const GST_DATA = "GST_DATA";
 export const WAREHOUSE_DATA = "WAREHOUSE_DATA";
+export const SUPPLIER_DATA = "SUPPLIER_DATA";
 
 //api key constants
 // API Keys
@@ -32,6 +33,7 @@ export const UOM_LIST = MasterApis?.uom?.uomList;
 export const HSN_CODE_LIST = MasterApis?.hsnCode?.hsnCodeList;
 export const GST_LIST = MasterApis?.gst?.gstList;
 export const WAREHOUSE_LIST = MasterApis?.warehouse?.warehouseList;
+export const SUPPLIER_LIST = MasterApis?.supplier?.supplierList;
 
 // Status constants
 export const PACKAGE_DATA_REQUEST = "PACKAGE_DATA_REQUEST";
@@ -89,3 +91,7 @@ export const GST_DATA_FAILED = "GST_DATA_FAILED";
 export const WAREHOUSE_DATA_REQUEST = "WAREHOUSE_DATA_REQUEST";
 export const WAREHOUSE_DATA_SUCCESS = "WAREHOUSE_DATA_SUCCESS";
 export const WAREHOUSE_DATA_FAILED = "WAREHOUSE_DATA_FAILED";
+
+export const SUPPLIER_DATA_REQUEST = "SUPPLIER_DATA_REQUEST";
+export const SUPPLIER_DATA_SUCCESS = "SUPPLIER_DATA_SUCCESS";
+export const SUPPLIER_DATA_FAILED = "SUPPLIER_DATA_FAILED";

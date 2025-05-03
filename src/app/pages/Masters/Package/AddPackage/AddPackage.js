@@ -4,6 +4,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Button,
   Grid,
   IconButton,
@@ -35,20 +36,22 @@ import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { PACKAGE_MASTER, PACKAGE_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import {
+  PACKAGE_MASTER,
+  PACKAGE_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
 import { addPackage, updatePackage } from "app/services/apis/master";
-
+import { State } from "country-state-city";
 function AddPackage() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const states = State.getStatesOfCountry("IN");
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
     packageName: state?.packageName ? state.packageName : "",
     state: state?.state ? state.state : "",
-   
   };
 
   const validationSchema = yup.object({
@@ -57,18 +60,16 @@ function AddPackage() {
       .trim()
       .required("Package Name is required"),
     state: yup.string("Enter State").trim().required("State is required"),
-    
   });
 
   const onUserSave = async (values) => {
     const body = {
-        packageName:values?.packageName,
-        state:values?.state
+      packageName: values?.packageName,
+      state: values?.state,
     };
 
     setSubmitting(true);
     try {
-      
       if (pathname === PACKAGE_MASTER_EDIT) {
         const data = await updatePackage(body, state?.id);
         if (data?.data?.statusCode === 200) {
@@ -119,11 +120,6 @@ function AddPackage() {
     }
   };
 
-  useEffect(() => {
-    (async () => {})();
-    return () => {};
-  }, []);
-
   return (
     <>
       <HotoHeader />
@@ -155,7 +151,9 @@ function AddPackage() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add Package
+                      {pathname === PACKAGE_MASTER_EDIT
+                        ? "Edit Package"
+                        : "Add Package"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -170,22 +168,48 @@ function AddPackage() {
                           onChange={(e) =>
                             setFieldValue("packageName", e.target.value)
                           }
-                          onBlur={() =>
-                            setFieldTouched("packageName", true)
-                          }
+                          onBlur={() => setFieldTouched("packageName", true)}
                           value={values?.packageName}
                           error={
-                            touched?.packageName &&
-                            Boolean(errors?.packageName)
+                            touched?.packageName && Boolean(errors?.packageName)
                           }
                           helperText={
-                            touched?.packageName &&
-                            errors?.packageName
+                            touched?.packageName && errors?.packageName
                           }
                         />
                       </Grid>
-
-
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="h6" fontSize="14px" mb={0.5}>
+                          State
+                        </Typography>
+                        <Autocomplete
+                          options={states}
+                          getOptionLabel={(option) => option.name || ""}
+                          value={
+                            states.find(
+                              (state) => state.name === values.state
+                            ) || null
+                          }
+                          onChange={(e, newValue) => {
+                            setFieldValue(
+                              "state",
+                              newValue ? newValue.name : ""
+                            );
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              fullWidth
+                              size="small"
+                              placeholder="Select State"
+                              name="state"
+                              error={touched.state && Boolean(errors.state)}
+                              helperText={touched.state && errors.state}
+                            />
+                          )}
+                        />
+                      </Grid>
+                      {/* 
                       <Grid item xs={6} md={6}>
                         <Typography variant="h6" fontSize="14px">
                           State
@@ -203,7 +227,7 @@ function AddPackage() {
                           error={touched?.state && Boolean(errors?.state)}
                           helperText={touched?.state && errors?.state}
                         />
-                      </Grid>
+                      </Grid> */}
                     </Grid>
                   </Div>
                   <Div
@@ -240,7 +264,10 @@ function AddPackage() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{
+                        width: "100px",
+                        "&:hover": { backgroundColor: "#53B8CA" },
+                      }}
                       loading={isSubmitting}
                     >
                       Submit

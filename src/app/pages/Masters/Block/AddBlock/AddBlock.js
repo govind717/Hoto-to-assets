@@ -27,6 +27,12 @@ function AddBlock() {
   const [formInitialValues, setFormInitialValues] = useState(null);
   const [isSubmitting, setSubmitting] = useState(false);
 
+  const initialValues = {
+    packageName: null,
+    district:null,
+    blockName: state?.blockName || "",
+    blockCode: state?.blockCode || "",
+  };
   const validationSchema = yup.object({
     packageName: yup.object().nullable().required("Package Name is required"),
     district: yup.object().nullable().required("District Name is required"),
@@ -119,9 +125,8 @@ function AddBlock() {
           {pathname === BLOCK_MASTER_EDIT ? "Edit Block" : "Add Block"}
         </Typography>
 
-        {formInitialValues && (
           <Formik
-            initialValues={formInitialValues}
+            initialValues={formInitialValues || initialValues}
             enableReinitialize
             validationSchema={validationSchema}
             onSubmit={onUserSave}
@@ -251,7 +256,7 @@ function AddBlock() {
               </Form>
             )}
           </Formik>
-        )}
+       
       </Div>
     </>
   );

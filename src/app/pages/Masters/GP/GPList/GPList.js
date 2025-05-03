@@ -6,6 +6,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +26,8 @@ import { GP_MASTER_ADD, GP_MASTER_EDIT } from "app/utils/constants/routeConstant
 import moment from "moment";
 import { gp_data_dispatch } from "app/redux/actions/Master";
 import { Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { updateGP } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -116,6 +119,35 @@ const GPList = () => {
   const addMasterItem = () => {
     navigate(GP_MASTER_ADD);
   };
+
+  const updateStatus = async (body, id) => {
+    const data = await updateGP(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+  
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        gp_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
+  };
   return (
     <>
       {gpDataReducer?.loading && <FullScreenLoader />}
@@ -201,12 +233,23 @@ const GPList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`lattitute`)
+                    handleSort(`latitude`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Lat & Long
+                  Latitude
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`longitude`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Longitude
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -259,7 +302,7 @@ const GPList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`createdBy`)
+                    handleSort(`created_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -273,7 +316,7 @@ const GPList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`updatedBy`)
+                    handleSort(`updated_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -370,7 +413,17 @@ const GPList = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      {ele?.longitude +"&"+ele?.latitude || "-"}
+                      {ele?.latitude || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.longitude}
                     </TableCell>
                     <TableCell
                       align="left"
@@ -382,15 +435,16 @@ const GPList = () => {
                     >
                       {ele?.gpStatus || "-"}
                     </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.status ? "True" : "False"}
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = {...ele, status: newStatus };
+                          updateStatus(body, ele?.id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

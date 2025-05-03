@@ -7,6 +7,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -28,6 +29,8 @@ import {
 } from "app/utils/constants/routeConstants";
 import { package_data_dispatch } from "app/redux/actions/Master";
 import moment from "moment";
+import { updatePackage } from "app/services/apis/master";
+import Swal from "sweetalert2";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -116,6 +119,36 @@ const PackageList = () => {
   const addMasterItem = () => {
     navigate(PACKAGE_MASTER_ADD);
   };
+
+  const updateStatus = async (body, id) => {
+    const data = await updatePackage(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+  
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        package_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
+  };
+  
   return (
     <>
       {packageDataReducer?.loading && <FullScreenLoader />}
@@ -168,13 +201,7 @@ const PackageList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "100px" }}
               >
-                <TableSortLabel
-                  // onClick={() => handleSort(``)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Sr No.
-                </TableSortLabel>
               </TableCell>
               <TableCell
                 align={"left"}
@@ -190,9 +217,7 @@ const PackageList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`state`)
-                  }
+                  onClick={() => handleSort(`state`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -201,9 +226,7 @@ const PackageList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
+                  onClick={() => handleSort(`status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -216,9 +239,7 @@ const PackageList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdBy`)
-                  }
+                  onClick={() => handleSort(`created_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -230,9 +251,7 @@ const PackageList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedBy`)
-                  }
+                  onClick={() => handleSort(`updated_user_details.firstName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -244,9 +263,7 @@ const PackageList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdAt`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -258,9 +275,7 @@ const PackageList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedAt`)
-                  }
+                  onClick={() => handleSort(`updatedAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -310,15 +325,16 @@ const PackageList = () => {
                     >
                       {ele?.state || "-"}
                     </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.status ? "True" : "False"}
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = {...ele, status: newStatus };
+                          updateStatus(body, ele?.id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

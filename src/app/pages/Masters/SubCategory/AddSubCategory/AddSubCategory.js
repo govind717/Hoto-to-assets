@@ -111,7 +111,7 @@ function AddSubCategory() {
       );
       setFormInitialValues({
         category: selectedCategory || null,
-        subCategory: state?.subCategory || "",
+        subCategory: state?.subcategory || "",
       });
     } else if (!state?.categoryId) {
       setFormInitialValues({

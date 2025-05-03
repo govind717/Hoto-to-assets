@@ -4,7 +4,7 @@ import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, IconButton, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField } from '@mui/material';
-import { hoto_servey_data_disptach } from 'app/redux/actions/Hoto_to_servey';
+import { hoto_servey_block_data_disptach } from 'app/redux/actions/Hoto_to_servey';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,7 +46,7 @@ const Gp_list = () => {
         log: null
     })
 
-    const { hotoServeyDataReducer } = useSelector((state) => state);
+    const { hotoServeyBlockDataReducer } = useSelector((state) => state);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -95,7 +95,7 @@ const Gp_list = () => {
 
     const handleSearch = (searchTerm) => {
         setPage(1)
-        dispatch(hoto_servey_data_disptach({
+        dispatch(hoto_servey_block_data_disptach({
             sortBy: sortBy,
             search_value: searchTerm.trim(),
             sort: sort,
@@ -116,7 +116,7 @@ const Gp_list = () => {
 
 
     useEffect(() => {
-        dispatch(hoto_servey_data_disptach({
+        dispatch(hoto_servey_block_data_disptach({
             sortBy: sortBy,
             search_value: searchTerm.trim(),
             sort: sort,
@@ -126,7 +126,7 @@ const Gp_list = () => {
 
     return (
         <>
-            {hotoServeyDataReducer?.loading && <FullScreenLoader />}
+            {hotoServeyBlockDataReducer?.loading && <FullScreenLoader />}
             <Div sx={{ display: "flex", justifyContent: "space-between" }}>
                 <TextField
                     id="search"
@@ -137,7 +137,7 @@ const Gp_list = () => {
                     onChange={(e) => {
                         setSearchTerm(e.target.value);
                         if (e.target.value === "") {
-                            dispatch(hoto_servey_data_disptach({
+                            dispatch(hoto_servey_block_data_disptach({
                                 sortBy: sortBy,
                                 search_value: "",
                                 sort: sort,
@@ -231,11 +231,11 @@ const Gp_list = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {/* {
-                            hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
+                        {
+                            hotoServeyBlockDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
                                 return (
                                     <TableRow key={ele?.id}>
-                                        <TableCell align="left" sx={{
+                                        {/* <TableCell align="left" sx={{
                                             textAlign: "left",
                                             verticalAlign: "middle",
                                             textTransform: "capitalize"
@@ -248,7 +248,7 @@ const Gp_list = () => {
                                             textTransform: "capitalize"
                                         }}>
                                             {ele?.gp?.code || "-"}
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell align="left" sx={{
                                             textAlign: "left",
                                             verticalAlign: "middle",
@@ -277,7 +277,7 @@ const Gp_list = () => {
                                         }}>
                                             {ele?.gp?.district?.code || "-"}
                                         </TableCell>
-                                        <TableCell align="left" sx={{
+                                        {/* <TableCell align="left" sx={{
                                             textAlign: "left",
                                             verticalAlign: "middle",
                                             textTransform: "capitalize",
@@ -292,7 +292,7 @@ const Gp_list = () => {
                                             }}>
                                                 <ShareLocationIcon fontSize="medium" color='primary' />
                                             </IconButton>
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell align="left" sx={{
                                             textAlign: "left",
                                             verticalAlign: "middle",
@@ -314,7 +314,7 @@ const Gp_list = () => {
                                     </TableRow>
                                 )
                             })
-                        } */}
+                        }
                         <TableCell align="left"
                             colSpan={10}
                             sx={{

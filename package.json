@@ -23,6 +23,7 @@
     "ckeditor4-react": "^2.1.1",
     "clsx": "^1.1.1",
     "connected-react-router": "^6.9.1",
+    "country-state-city": "^3.2.1",
     "date-fns": "^2.27.0",
     "date-fns-jalali": "^2.27.0-0",
     "docs": "^0.3.2-canary.0",

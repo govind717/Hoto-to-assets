@@ -181,7 +181,7 @@ function AddDepartment() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add Department
+                    {pathname === DEPARTMENT_MASTER_EDIT ? "Edit Department" : "Add Department"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={12} md={6}>
@@ -257,7 +257,7 @@ function AddDepartment() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(DEPARTMENT_MASTER);
                           }
                         });
                       }}

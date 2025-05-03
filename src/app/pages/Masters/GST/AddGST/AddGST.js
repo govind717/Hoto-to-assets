@@ -146,7 +146,7 @@ function AddGST() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add GST
+                    {pathname === GST_MASTER_EDIT ? "Edit GST" : "Add GST"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -199,7 +199,7 @@ function AddGST() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(GST_MASTER);
                           }
                         });
                       }}
