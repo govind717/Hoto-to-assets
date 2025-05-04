@@ -13,6 +13,10 @@ import AssetConditionByTypeChart from './AssetConditionByTypeChart ';
 import ConditionStatusPieChart from './pieChart';
 import ChartOrderRevenue from './ChartOrderRevenue';
 import ChartHotoSurveyStatus from './ChartOrderRevenue';
+import AssetConditionByTypeChart2 from './AssetConditionByTypeChart2';
+import AssetConditionByTypeChart3 from './AssetConditionByTypeChart3';
+import AssetConditionByTypeChart4 from './AssetConditionByTypeChart4';
+import ConditionStatusChart2 from './conditionDonaltChart2';
 
 const hotosurveyData = [
     {
@@ -44,25 +48,44 @@ const SalesStatistics = () => {
     return (  
            
                 <Grid container spacing={0}>
-                    {/* Left: Bar Chart */}
-                    <Grid item xs={12} md={6}>
+                   
+                    {/* <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2  ,pl:0 ,pt:0}}>
                             <StylishAssetHealthChart />
                         </Div>
-                    </Grid>
+                    </Grid> */}
 
-                    {/* Right: Pie Chart */}
-                    <Grid item xs={12} md={6}>
+                    
+                    {/* <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2, pr:0 ,pt:0}}>
                             <ConditionStatusChart />
+                        </Div>
+                    </Grid> */}
+                    <Grid item xs={12} md={12}>
+                        <Div sx={{ p: 2, pl:0 ,pt:0}}>
+                            <ConditionStatusChart2 />
+                        </Div>
+                    </Grid>
+                    {/* <Grid item xs={12} md={12}>
+                        <Div sx={{ p: 2, px:0 }}>
+                            <AssetConditionByTypeChart />
+                        </Div>
+                    </Grid> */}
+                    <Grid item xs={12} md={12}>
+                        <Div sx={{ p: 2, px:0 }}>
+                            <AssetConditionByTypeChart4 />
                         </Div>
                     </Grid>
                     <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>
-                            <AssetConditionByTypeChart />
+                            <AssetConditionByTypeChart2 />
                         </Div>
                     </Grid>
-
+                    <Grid item xs={12} md={12}>
+                        <Div sx={{ p: 2, px:0 }}>
+                            <AssetConditionByTypeChart3 />
+                        </Div>
+                    </Grid>
                     {/* Right: Pie Chart */}
                     {/* <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2, pr:0 }}>

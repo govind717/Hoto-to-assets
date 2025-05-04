@@ -208,24 +208,30 @@ const Gp_equipments = ({ gp_details }) => {
                 <Table sx={{ minWidth: 650 }} size="small" >
                     <TableHead>
                         <TableRow sx={{ bgcolor: "#53B8CA" }}>
-                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "40px" }}>
+                            <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "80px" }}>
                                 Sr No.
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 Equipments
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                Quantity
+                                Serial No.
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 warranty Status
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                Working Condition
+                                Condition
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                Status
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 Details
                             </TableCell>
+                            {/* <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                Actions
+                            </TableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -268,6 +274,13 @@ const Gp_equipments = ({ gp_details }) => {
                                             textTransform: "capitalize"
                                         }}>
                                             {equipment_data?.working_condition || "-"}
+                                        </TableCell>
+                                        <TableCell align="left" sx={{
+                                            textAlign: "left",
+                                            verticalAlign: "middle",
+                                            textTransform: "capitalize"
+                                        }}>
+                                            {equipment_data?.status || "-"}
                                         </TableCell>
                                         <TableCell align="left" sx={{
                                             textAlign: "left",

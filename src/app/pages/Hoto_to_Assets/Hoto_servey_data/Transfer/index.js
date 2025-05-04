@@ -96,19 +96,26 @@ const Transfer_list = () => {
                 <Table sx={{ minWidth: 650 }} size="small" >
                     <TableHead>
                         <TableRow sx={{ bgcolor: "#53B8CA" }}>
+                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >Sr No</TableSortLabel>
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                                <TableSortLabel
+                                    onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
+                                    direction={sort}
+                                    sx={{ ...tableCellSort }}
+                                >Transfer ID</TableSortLabel>
+                            </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 <TableSortLabel
                                     onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
                                     direction={sort}
                                     sx={{ ...tableCellSort }}
                                 >Equipment</TableSortLabel>
-                            </TableCell>
-                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                <TableSortLabel
-                                    onClick={() => handleSort(`current_data.companyType`)}
-                                    direction={sort}
-                                    sx={{ ...tableCellSort }}
-                                >Type</TableSortLabel>
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 <TableSortLabel
@@ -150,10 +157,13 @@ const Transfer_list = () => {
                                     onClick={() => handleSort(`current_data.commissionPercentage`)}
                                     direction={sort}
                                     sx={{ ...tableCellSort }}
-                                >Received By</TableSortLabel>
+                                >Incharge</TableSortLabel>
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                                Status
+                            Transfer Status
+                            </TableCell>
+                            <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            Document
                             </TableCell>
                             <TableCell align={"left"} sx={{ ...tableCellSx }}>
                                 Remark

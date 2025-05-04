@@ -23,15 +23,18 @@
     "ckeditor4-react": "^2.1.1",
     "clsx": "^1.1.1",
     "connected-react-router": "^6.9.1",
+    "country-state-city": "^3.2.1",
     "date-fns": "^2.27.0",
     "date-fns-jalali": "^2.27.0-0",
     "docs": "^0.3.2-canary.0",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
+    "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "history": "^4.10.1",
     "i18next": "^21.6.14",
     "i18next-http-backend": "^1.4.0",
+    "install": "^0.13.0",
     "isomorphic-fetch": "^3.0.0",
     "json2mq": "^0.2.0",
     "latest-version": "^6.0.0",
@@ -80,7 +83,8 @@
     "sweetalert2": "^11.3.4",
     "sweetalert2-react-content": "^4.2.0",
     "web-vitals": "^1.0.1",
-    "yup": "^0.32.11"
+    "xlsx": "^0.18.5",
+    "yup": "^1.6.1"
   },
   "scripts": {
     "start": "react-scripts start",

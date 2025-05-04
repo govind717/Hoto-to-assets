@@ -11,7 +11,7 @@ import {
 import React, { useState } from "react";
 
 const HotoHeader = () => {
-  const [selectedValue, setSelectedValue] = useState("Package 3");
+  const [selectedValue, setSelectedValue] = useState("Package 6");
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };

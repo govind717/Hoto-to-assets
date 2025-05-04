@@ -130,7 +130,7 @@ const AssetConditionByTypeChart = () => {
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
         <Typography variant="h6" sx={{ marginBottom: "1rem" }} gutterBottom>
-          Asset Condition by Type
+          Asset Condition 
         </Typography>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
@@ -150,10 +150,10 @@ const AssetConditionByTypeChart = () => {
               cursor={{ fill: "transparent" }}
             />
             <Legend content={<CustomLegend />} />
-            <Bar dataKey="Robust" stackId="a" fill="#22CAAD" barSize={30} />
-            <Bar dataKey="Damaged" stackId="a" fill="#F55757" barSize={30} />
-            <Bar dataKey="Semi-Damaged" stackId="a" fill="#FDCF2A" barSize={30} /> {/* Swapped color */}
-            <Bar dataKey="Missing" stackId="a" fill="#E78F5D" barSize={30} /> {/* Swapped color */}
+            <Bar dataKey="Robust" stackId="a" fill="#22CAAD" barSize={25} />
+            <Bar dataKey="Damaged" stackId="a" fill="#F55757" barSize={25} />
+            <Bar dataKey="Semi-Damaged" stackId="a" fill="#FDCF2A" barSize={25} /> {/* Swapped color */}
+            <Bar dataKey="Missing" stackId="a" fill="#E78F5D" barSize={25} /> {/* Swapped color */}
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

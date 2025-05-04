@@ -63,7 +63,7 @@ const ConditionStatusChart = () => {
               cy="50%"
               innerRadius={55}
               outerRadius={80}
-              paddingAngle={3}
+              paddingAngle={0}
             >
               {conditionData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />

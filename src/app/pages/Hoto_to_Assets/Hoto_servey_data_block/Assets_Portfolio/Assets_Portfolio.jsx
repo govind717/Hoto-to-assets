@@ -4,7 +4,7 @@ import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, IconButton, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Typography, Popper, ClickAwayListener, Checkbox, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import { hoto_servey_data_disptach } from 'app/redux/actions/Hoto_to_servey';
+import { hoto_servey_block_data_disptach } from 'app/redux/actions/Hoto_to_servey';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,7 +41,7 @@ const tableCellSort = {
 
 const Assets_Portfolio_List = () => {
 
-  const { hotoServeyDataReducer } = useSelector((state) => state);
+  const { hotoServeyBlockDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("created_at");
@@ -105,12 +105,12 @@ const Assets_Portfolio_List = () => {
 
   const handleSearch = (searchTerm) => {
     setPage(1)
-    dispatch(hoto_servey_data_disptach({
-      sortBy: sortBy,
-      search_value: searchTerm.trim(),
-      sort: sort,
-      page: page,
-    }));
+    // dispatch(hoto_servey_block_data_disptach({
+    //   sortBy: sortBy,
+    //   search_value: searchTerm.trim(),
+    //   sort: sort,
+    //   page: page,
+    // }));
   };
 
   const debouncedHandleSearch = debounce(handleSearch, 500);
@@ -126,7 +126,7 @@ const Assets_Portfolio_List = () => {
 
 
   useEffect(() => {
-    dispatch(hoto_servey_data_disptach({
+    dispatch(hoto_servey_block_data_disptach({
       sortBy: sortBy,
       search_value: searchTerm.trim(),
       sort: sort,
@@ -140,7 +140,7 @@ const Assets_Portfolio_List = () => {
   };
   return (
     <>
-      {hotoServeyDataReducer?.loading && <FullScreenLoader />}
+      {hotoServeyBlockDataReducer?.loading && <FullScreenLoader />}
       <Box
         sx={{
           display: "flex",
@@ -160,7 +160,7 @@ const Assets_Portfolio_List = () => {
               setSearchTerm(e.target.value);
               if (e.target.value === "") {
                 dispatch(
-                  hoto_servey_data_disptach({
+                  hoto_servey_block_data_disptach({
                     sortBy: sortBy,
                     search_value: "",
                     sort: sort,
@@ -251,81 +251,91 @@ const Assets_Portfolio_List = () => {
                             </TableCell>
                         </TableRow>
                     </TableHead> */}
-          <TableHead>
-            <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              {/* Equipment column with dropdown */}
-              <TableCell align="left" sx={{ ...tableCellSx }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                  Equipment
-                  {/* <IconButton size="small" onClick={handleFilterClick}>
-                    <FilterListIcon sx={{ color: "white" }} />
-                  </IconButton> */}
-                </Box>
+                    <TableHead>
+                        <TableRow sx={{ bgcolor: "#53B8CA" }}>
+                            {/* Equipment column with dropdown */}
+                            <TableCell align="left" sx={{ ...tableCellSx }}>
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                                        <TableSortLabel
+                                            direction={sort}
+                                            sx={{ ...tableCellSort }}
+                                        >
+                                            Sr No
+                                        </TableSortLabel>
+                                    </Box>
+                                </TableCell>
+                            <TableCell align="left" sx={{ ...tableCellSx }}>
+                                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                                    Equipment
+                                    <IconButton size="small" onClick={handleFilterClick}>
+                                        <FilterListIcon sx={{ color: "white" }} />
+                                    </IconButton>
+                                </Box>
 
-                {/* Filter popper with RadioGroup */}
-                <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
-                  <ClickAwayListener onClickAway={handleCancel}>
-                    <Box
-                      sx={{
-                        p: 2,
-                        bgcolor: "white",
-                        boxShadow: 3,
-                        borderRadius: 2,
-                        minWidth: 200,
-                        zIndex: 10
-                      }}
-                    >
-                      <RadioGroup
-                        value={equipmentFilterName}
-                        onChange={(e) => {
-                          console.log(e.target.value)
-                          setEquipmentFilterName(e.target.value);
-                          setAnchorEl(null); // auto-close popper
-                        }}
-                      >
-                        {Object.keys(equipment_types).map((option) => (
-                          <FormControlLabel
-                            key={option}
-                            value={equipment_types?.[option]}
-                            control={<Radio size="small" />}
-                            label={option}
-                            sx={{ textTransform: "uppercase" }}
-                          />
-                        ))}
-                      </RadioGroup>
-                    </Box>
-                  </ClickAwayListener>
-                </Popper>
-              </TableCell>
+                                {/* Filter popper with RadioGroup */}
+                                <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
+                                    <ClickAwayListener onClickAway={handleCancel}>
+                                        <Box
+                                            sx={{
+                                                p: 2,
+                                                bgcolor: "white",
+                                                boxShadow: 3,
+                                                borderRadius: 2,
+                                                minWidth: 200,
+                                                zIndex: 10
+                                            }}
+                                        >
+                                            <RadioGroup
+                                                value={equipmentFilterName}
+                                                onChange={(e) => {
+                                                    console.log(e.target.value)
+                                                    setEquipmentFilterName(e.target.value);
+                                                    setAnchorEl(null); // auto-close popper
+                                                }}
+                                            >
+                                                {Object.keys(equipment_types).map((option) => (
+                                                    <FormControlLabel
+                                                        key={option}
+                                                        value={equipment_types?.[option]}
+                                                        control={<Radio size="small" />}
+                                                        label={option}
+                                                        sx={{ textTransform: "uppercase" }}
+                                                    />
+                                                ))}
+                                            </RadioGroup>
+                                        </Box>
+                                    </ClickAwayListener>
+                                </Popper>
+                            </TableCell>
 
-              {/* Other columns with sort icons */}
-              {[
-                "Vendor",
-                "Serial No.",
-                // "GP Name",
-                "Location",
-                "Warranty Status",
-                "Condition",
-                "Status",
-                "Details",
-              ].map((label) => (
-                <TableCell key={label} align="left" sx={{ ...tableCellSx }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                    <TableSortLabel
-                      onClick={() => handleSort(label)}
-                      direction={sort}
-                      sx={{ ...tableCellSort }}
-                    >
-                      {label}
-                    </TableSortLabel>
-                  </Box>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
+                            {/* Other columns with sort icons */}
+                            {[
+                                "Serial No.",
+                                "Location",
+                                "Location Code",
+                                "Site Type",
+                                "Warranty",
+                                "Condition",
+                                "Status",
+                                "Details",
+                            ].map((label) => (
+                                <TableCell key={label} align="left" sx={{ ...tableCellSx }}>
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                                        <TableSortLabel
+                                            onClick={() => handleSort(label)}
+                                            direction={sort}
+                                            sx={{ ...tableCellSort }}
+                                        >
+                                            {label}
+                                        </TableSortLabel>
+                                    </Box>
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
 
           <TableBody>
-            {/* {hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map(
+            {/* {hotoServeyBlockDataReducer?.hoto_servey_data?.data?.data?.map(
               (ele, index) => {
                 const gp_equipment = ele?.equipment;
                 const gp_electrical = ele?.electrical;
