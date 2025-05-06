@@ -1,7 +1,6 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import SearchIcon from "@mui/icons-material/Search";
 import Edit from "@mui/icons-material/Edit";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
   InputAdornment,
@@ -17,19 +16,19 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
+import { package_data_dispatch } from "app/redux/actions/Master";
+import { updatePackage } from "app/services/apis/master";
 import {
   PACKAGE_MASTER_ADD,
   PACKAGE_MASTER_EDIT,
 } from "app/utils/constants/routeConstants";
-import { package_data_dispatch } from "app/redux/actions/Master";
+import { debounce } from "lodash";
 import moment from "moment";
-import { updatePackage } from "app/services/apis/master";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const tableCellSx = {
@@ -129,7 +128,7 @@ const PackageList = () => {
         timer: 1000,
         showConfirmButton: false,
       });
-  
+
       // 👇 After successful update, fetch the latest list again
       dispatch(
         package_data_dispatch({
@@ -148,7 +147,7 @@ const PackageList = () => {
       });
     }
   };
-  
+
   return (
     <>
       {packageDataReducer?.loading && <FullScreenLoader />}
@@ -201,7 +200,7 @@ const PackageList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "100px" }}
               >
-                  Sr No.
+                Sr No.
               </TableCell>
               <TableCell
                 align={"left"}
@@ -224,15 +223,7 @@ const PackageList = () => {
                   State
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`status`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
-              </TableCell>
+
 
               <TableCell
                 align={"left"}
@@ -282,6 +273,15 @@ const PackageList = () => {
                   Updated Date
                 </TableSortLabel>
               </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`status`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "100px" }}
@@ -325,17 +325,7 @@ const PackageList = () => {
                     >
                       {ele?.state || "-"}
                     </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      <Switch
-                        checked={ele?.status === true}
-                        onChange={(event) => {
-                          const newStatus = event.target.checked;
-                          const body = {...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
-                        }}
-                        color="primary"
-                      />
-                    </TableCell>
+
                     <TableCell
                       align="left"
                       sx={{
@@ -375,6 +365,17 @@ const PackageList = () => {
                       }}
                     >
                       {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

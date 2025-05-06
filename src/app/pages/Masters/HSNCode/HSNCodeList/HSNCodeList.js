@@ -1,5 +1,5 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
+import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
@@ -16,21 +16,20 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
+import { hsn_code_data_dispatch } from "app/redux/actions/Master";
+import { updateHSNCode } from "app/services/apis/master";
 import {
   HSN_CODE_MASTER_ADD,
   HSN_CODE_MASTER_EDIT,
 } from "app/utils/constants/routeConstants";
-import { hsn_code_data_dispatch } from "app/redux/actions/Master";
+import { debounce } from "lodash";
 import moment from "moment";
-import { Edit } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { updateHSNCode } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -62,7 +61,7 @@ const HSNCodeList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  
+
   const { hsnCodeDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -128,7 +127,7 @@ const HSNCodeList = () => {
         timer: 1000,
         showConfirmButton: false,
       });
-  
+
       // 👇 After successful update, fetch the latest list again
       dispatch(
         hsn_code_data_dispatch({
@@ -195,8 +194,8 @@ const HSNCodeList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"100px" }}>
-                  Sr No.
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "100px" }}>
+                Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -216,17 +215,7 @@ const HSNCodeList = () => {
                   GST %
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
-              </TableCell>
+
 
               <TableCell
                 align={"left"}
@@ -284,6 +273,17 @@ const HSNCodeList = () => {
                   Updated Date
                 </TableSortLabel>
               </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`status`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
@@ -327,17 +327,7 @@ const HSNCodeList = () => {
                     >
                       {ele?.gst_details?.gst || "-"}
                     </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      <Switch
-                        checked={ele?.status === true}
-                        onChange={(event) => {
-                          const newStatus = event.target.checked;
-                          const body = {...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
-                        }}
-                        color="primary"
-                      />
-                    </TableCell>
+
                     <TableCell
                       align="left"
                       sx={{
@@ -378,6 +368,17 @@ const HSNCodeList = () => {
                     >
                       {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
                     </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
+                    </TableCell>
                     <TableCell
                       align="left"
                       sx={{
@@ -386,6 +387,7 @@ const HSNCodeList = () => {
                         textTransform: "capitalize",
                       }}
                     >
+
                       <Button
                         variant="outlined"
                         size="small"

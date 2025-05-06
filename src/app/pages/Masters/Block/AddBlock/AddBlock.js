@@ -1,3 +1,5 @@
+import Div from "@jumbo/shared/Div";
+import { LoadingButton } from "@mui/lab";
 import {
   Autocomplete,
   Box,
@@ -6,18 +8,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Formik, Form } from "formik";
-import * as yup from "yup";
-import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
-import Div from "@jumbo/shared/Div";
+import MasterApis from "app/Apis/master";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import { addBlock, updateBlock } from "app/services/apis/master";
-import { Axios } from "index";
-import MasterApis from "app/Apis/master";
 import { BLOCK_MASTER, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { Form, Formik } from "formik";
+import { Axios } from "index";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as yup from "yup";
 
 function AddBlock() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function AddBlock() {
 
   const initialValues = {
     packageName: null,
-    district:null,
+    district: null,
     blockName: state?.blockName || "",
     blockCode: state?.blockCode || "",
   };
@@ -57,7 +57,7 @@ function AddBlock() {
     setSubmitting(true);
     try {
       const res = pathname === BLOCK_MASTER_EDIT
-        ? await updateBlock(body, state?.id)
+        ? await updateBlock(body, state?._id)
         : await addBlock(body);
 
       const statusCode = res?.data?.statusCode;
@@ -90,9 +90,9 @@ function AddBlock() {
         setPackageOptions(packages);
 
         if (state?.packageId) {
-          const selectedPackage = packages.find((opt) => opt.id === state.packageId);
+          const selectedPackage = packages.find((opt) => opt?._id === state.packageId);
           if (selectedPackage) {
-            fetchDistrictDropdown(selectedPackage.id);
+            fetchDistrictDropdown(selectedPackage._id);
           }
         }
       })
@@ -106,10 +106,10 @@ function AddBlock() {
     ) {
       setFormInitialValues({
         packageName: state?.packageId
-          ? packageOptions.find((opt) => opt.id === state.packageId)
+          ? packageOptions.find((opt) => opt?._id === state.packageId)
           : null,
         district: state?.districtId
-          ? districtOptions.find((opt) => opt.id === state.districtId)
+          ? districtOptions.find((opt) => opt?._id === state.districtId)
           : null,
         blockName: state?.blockName || "",
         blockCode: state?.blockCode || "",
@@ -125,138 +125,138 @@ function AddBlock() {
           {pathname === BLOCK_MASTER_EDIT ? "Edit Block" : "Add Block"}
         </Typography>
 
-          <Formik
-            initialValues={formInitialValues || initialValues}
-            enableReinitialize
-            validationSchema={validationSchema}
-            onSubmit={onUserSave}
-          >
-            {({ values, touched, errors, setFieldValue, setFieldTouched }) => (
-              <Form noValidate autoComplete="off">
-                <Grid container spacing={3}>
-                  {/* Package Name */}
-                  <Grid item xs={12} md={3}>
-                    <Typography variant="h6" fontSize="14px">Package Name</Typography>
-                    <Autocomplete
-                      size="small"
-                      options={packageOptions}
-                      getOptionLabel={(option) => option.packageName || ""}
-                      isOptionEqualToValue={(opt, val) => opt.id === val.id}
-                      value={values.packageName}
-                      onChange={(_, value) => {
-                        setFieldValue("packageName", value);
-                        setFieldValue("district", null);
-                        if (value?.id) fetchDistrictDropdown(value.id);
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          placeholder="Select Package"
-                          error={touched.packageName && Boolean(errors.packageName)}
-                          helperText={touched.packageName && errors.packageName}
-                        />
-                      )}
-                    />
-                  </Grid>
-
-                  {/* District */}
-                  <Grid item xs={12} md={3}>
-                    <Typography variant="h6" fontSize="14px">District</Typography>
-                    <Autocomplete
-                      size="small"
-                      options={districtOptions}
-                      getOptionLabel={(option) => option.district || ""}
-                      isOptionEqualToValue={(opt, val) => opt.id === val.id}
-                      value={values.district}
-                      onChange={(_, value) => setFieldValue("district", value)}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          placeholder="Select District"
-                          error={touched.district && Boolean(errors.district)}
-                          helperText={touched.district && errors.district}
-                        />
-                      )}
-                    />
-                  </Grid>
-
-                  {/* Block Name */}
-                  <Grid item xs={12} md={3}>
-                    <Typography variant="h6" fontSize="14px">Block Name</Typography>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      placeholder="Enter Block Name"
-                      name="blockName"
-                      value={values.blockName}
-                      onChange={(e) => setFieldValue("blockName", e.target.value)}
-                      onBlur={() => setFieldTouched("blockName", true)}
-                      error={touched.blockName && Boolean(errors.blockName)}
-                      helperText={touched.blockName && errors.blockName}
-                    />
-                  </Grid>
-
-                  {/* Block Code */}
-                  <Grid item xs={12} md={3}>
-                    <Typography variant="h6" fontSize="14px">Block Code</Typography>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      placeholder="Enter Block Code"
-                      name="blockCode"
-                      value={values.blockCode}
-                      onChange={(e) => setFieldValue("blockCode", e.target.value)}
-                      onBlur={() => setFieldTouched("blockCode", true)}
-                      error={touched.blockCode && Boolean(errors.blockCode)}
-                      helperText={touched.blockCode && errors.blockCode}
-                    />
-                  </Grid>
+        <Formik
+          initialValues={formInitialValues || initialValues}
+          enableReinitialize
+          validationSchema={validationSchema}
+          onSubmit={onUserSave}
+        >
+          {({ values, touched, errors, setFieldValue, setFieldTouched }) => (
+            <Form noValidate autoComplete="off">
+              <Grid container spacing={3}>
+                {/* Package Name */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px">Package Name</Typography>
+                  <Autocomplete
+                    size="small"
+                    options={packageOptions}
+                    getOptionLabel={(option) => option.packageName || ""}
+                    isOptionEqualToValue={(opt, val) => opt?._id === val.id}
+                    value={values.packageName}
+                    onChange={(_, value) => {
+                      setFieldValue("packageName", value);
+                      setFieldValue("district", null);
+                      if (value?.id) fetchDistrictDropdown(value.id);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Select Package"
+                        error={touched.packageName && Boolean(errors.packageName)}
+                        helperText={touched.packageName && errors.packageName}
+                      />
+                    )}
+                  />
                 </Grid>
 
-                {/* Actions */}
-                <Box
-                  sx={{
-                    width: "93.5%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: 3,
-                    mt: 3,
+                {/* District */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px">District</Typography>
+                  <Autocomplete
+                    size="small"
+                    options={districtOptions}
+                    getOptionLabel={(option) => option.district || ""}
+                    isOptionEqualToValue={(opt, val) => opt?._id === val.id}
+                    value={values.district}
+                    onChange={(_, value) => setFieldValue("district", value)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Select District"
+                        error={touched.district && Boolean(errors.district)}
+                        helperText={touched.district && errors.district}
+                      />
+                    )}
+                  />
+                </Grid>
+
+                {/* Block Name */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px">Block Name</Typography>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    placeholder="Enter Block Name"
+                    name="blockName"
+                    value={values.blockName}
+                    onChange={(e) => setFieldValue("blockName", e.target.value)}
+                    onBlur={() => setFieldTouched("blockName", true)}
+                    error={touched.blockName && Boolean(errors.blockName)}
+                    helperText={touched.blockName && errors.blockName}
+                  />
+                </Grid>
+
+                {/* Block Code */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px">Block Code</Typography>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    placeholder="Enter Block Code"
+                    name="blockCode"
+                    value={values.blockCode}
+                    onChange={(e) => setFieldValue("blockCode", e.target.value)}
+                    onBlur={() => setFieldTouched("blockCode", true)}
+                    error={touched.blockCode && Boolean(errors.blockCode)}
+                    helperText={touched.blockCode && errors.blockCode}
+                  />
+                </Grid>
+              </Grid>
+
+              {/* Actions */}
+              <Box
+                sx={{
+                  width: "93.5%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 3,
+                  mt: 3,
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    Swal.fire({
+                      title: "Are you sure you want to cancel?",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "Yes",
+                      cancelButtonText: "No",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        navigate(BLOCK_MASTER);
+                      }
+                    });
                   }}
                 >
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={() => {
-                      Swal.fire({
-                        title: "Are you sure you want to cancel?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonText: "Yes",
-                        cancelButtonText: "No",
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          navigate(BLOCK_MASTER);
-                        }
-                      });
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <LoadingButton
-                    size="small"
-                    type="submit"
-                    variant="contained"
-                    loading={isSubmitting}
-                    sx={{ width: 100, "&:hover": { backgroundColor: "#53B8CA" } }}
-                  >
-                    Submit
-                  </LoadingButton>
-                </Box>
-              </Form>
-            )}
-          </Formik>
-       
+                  Cancel
+                </Button>
+                <LoadingButton
+                  size="small"
+                  type="submit"
+                  variant="contained"
+                  loading={isSubmitting}
+                  sx={{ width: 100, "&:hover": { backgroundColor: "#53B8CA" } }}
+                >
+                  Submit
+                </LoadingButton>
+              </Box>
+            </Form>
+          )}
+        </Formik>
+
       </Div>
     </>
   );

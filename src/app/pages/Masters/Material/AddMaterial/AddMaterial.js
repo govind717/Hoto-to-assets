@@ -1,63 +1,43 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
   Autocomplete,
   Button,
   Grid,
-  IconButton,
-  InputAdornment,
-  Pagination,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import { debounce } from "lodash";
+import MasterApis from "app/Apis/master";
+import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import { addMaterial, updateMaterial } from "app/services/apis/master";
+import { MATERIAL_MASTER, MATERIAL_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { Form, Formik } from "formik";
+import { Axios } from "index";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import * as yup from "yup";
-import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { MATERIAL_MASTER, MATERIAL_MASTER_EDIT } from "app/utils/constants/routeConstants";
-import { addMaterial, updateMaterial } from "app/services/apis/master";
-import MasterApis from "app/Apis/master";
-import { Axios } from "index";
+import * as yup from "yup";
 
 function AddMaterial() {
   const navigate = useNavigate();
   const { pathname, state } = useLocation();
-  
+
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [subCategoryOptions, setSubCategoryOptions] = useState([]);
   const [UOMOptions, setUOMOptions] = useState([]);
   const [HSNCodeOptions, setHSNCodeOptions] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
 
+  console.log(state)
   const initialValues = {
     materialName: state?.materialName || "",
     materialCode: state?.materialCode || "",
     materialType: state?.materialType || "",
     description: state?.description || "",
-    category: state?.category || null,
-    subCategory: state?.subCategory || null,
-    uom: state?.uom || null,
-    HSNCode: state?.hsn_code || null,
+    category: state?.category_details || null,
+    subCategory: state?.sub_category_details || null,
+    uom: state?.uom_details || null,
+    HSNCode: state?.hsn_code_details || null,
   };
 
   const validationSchema = yup.object({
@@ -75,6 +55,9 @@ function AddMaterial() {
     Axios.get(MasterApis?.category?.categoryDropdown)
       .then((res) => setCategoryOptions(res?.data?.result || []))
       .catch((err) => console.error("Category Fetch Error:", err));
+    // Axios.get(MasterApis?.subCategory?.subCategoryDropdown)
+    //   .then((res) => setSubCategoryOptions(res?.data?.result || []))
+    //   .catch((err) => console.error("SubCategory Fetch Error:", err));
     Axios.get(MasterApis?.uom?.uomDropdown)
       .then((res) => setUOMOptions(res?.data?.result || []))
       .catch((err) => console.error("UOM Fetch Error:", err));
@@ -84,10 +67,12 @@ function AddMaterial() {
   }, []);
 
   useEffect(() => {
-    if (state?.category?.id) {
-      fetchSubCategoryDropdown(state.category.id);
+    if (state?.category_details && state?.category_details?._id) {
+      fetchSubCategoryDropdown(state.category_details._id);
     }
   }, [state]);
+
+
 
   const fetchSubCategoryDropdown = (categoryId) => {
     Axios.get(`${MasterApis?.subCategory?.subCategoryDropdown}?id=${categoryId}`)
@@ -101,15 +86,16 @@ function AddMaterial() {
       materialCode: values?.materialCode,
       materialType: values?.materialType,
       description: values?.description,
-      categoryId: values?.category?.id,
-      subCategoryId: values?.subCategory?.id,
-      uomId: values?.uom?.id,
-      hsnCodeId: values?.HSNCode?.id,
+      categoryId: values?.category?._id,
+      subCategoryId: values?.subCategory?._id,
+      uomId: values?.uom?._id,
+      hsnCodeId: values?.HSNCode?._id,
     };
+    console.log("Body : ", body);
     setSubmitting(true);
     try {
       if (pathname === MATERIAL_MASTER_EDIT) {
-        const data = await updateMaterial(body, state?.id);
+        const data = await updateMaterial(body, state?._id);
         if (data?.data?.statusCode === 200) {
           Swal.fire({ icon: "success", text: "Material Updated Successfully", timer: 1000, showConfirmButton: false });
           navigate(MATERIAL_MASTER);
@@ -220,7 +206,7 @@ function AddMaterial() {
                         onChange={(_, value) => {
                           setFieldValue("category", value);
                           setFieldValue("subCategory", null);
-                          if (value?.id) fetchSubCategoryDropdown(value.id);
+                          if (value?._id) fetchSubCategoryDropdown(value._id);
                         }}
                         onBlur={() => setFieldTouched("category", true)}
                         renderInput={(params) => (

@@ -30,7 +30,7 @@ import {
 import { Country, State, City } from "country-state-city";
 import { Axios } from "index";
 import MasterApis from "app/Apis/master";
-function SupplierDetails({goToNextTab,setFinalFormData}) {
+function SupplierDetails({ goToNextTab, setFinalFormData }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
@@ -79,29 +79,29 @@ function SupplierDetails({goToNextTab,setFinalFormData}) {
 
   const onUserSave = async (values) => {
     const body = {
-    supplierName: values?.supplierName || "",
-    registrationNo: values?.registrationNo || "",
-    taxIdentificationNo: values?.taxIdentificationNo || "",
-    supplierType: values?.supplierType || "",
-    primaryContactName: values?.primaryContactName || "",
-    email: values?.email || "",
-    phoneNo: values?.phoneNo || "",
-    address: values?.address || "",
-    state: values?.state || "",
-    district: values?.district || null,
-    gp: values?.gp || null,
-    pincode: values?.pincode || "",
-    yearEstablished: values?.yearEstablished || "",
-    ownershipStructure: values?.ownershipStructure || "",
-    enterpriseSize: values?.enterpriseSize || "",
+      supplierName: values?.supplierName || "",
+      registrationNo: values?.registrationNo || "",
+      taxIdentificationNo: values?.taxIdentificationNo || "",
+      supplierType: values?.supplierType || "",
+      primaryContactName: values?.primaryContactName || "",
+      email: values?.email || "",
+      phoneNo: values?.phoneNo || "",
+      address: values?.address || "",
+      state: values?.state || "",
+      district: values?.district || null,
+      gp: values?.gp || null,
+      pincode: values?.pincode || "",
+      yearEstablished: values?.yearEstablished || "",
+      ownershipStructure: values?.ownershipStructure || "",
+      enterpriseSize: values?.enterpriseSize || "",
     };
     setFinalFormData((prev) => ({
       ...prev,
       supplier_details: body
     }));
-    
+
     goToNextTab()
-   
+
   };
 
   useEffect(() => {
@@ -339,7 +339,7 @@ function SupplierDetails({goToNextTab,setFinalFormData}) {
                     size="small"
                     options={districtOptions}
                     getOptionLabel={(option) => option.district || ""}
-                    isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                    isOptionEqualToValue={(opt, val) => opt?._id === val.id}
                     value={values.district}
                     onChange={(_, value) => setFieldValue("district", value)}
                     onBlur={() => setFieldTouched("district")}

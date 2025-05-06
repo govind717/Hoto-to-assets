@@ -1,10 +1,6 @@
 import React from 'react';
 
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
 
 import HotoHeader from 'app/pages/Hoto_to_Assets/HotoHeader';
 import WarehouseList from './WarehouseList/WarehouseList';
@@ -37,7 +33,7 @@ const Warehouse = () => {
                     <TabPanel value="4" sx={{ p: 0 }}><Transfer_list /></TabPanel>
                 </TabContext>
             </Box> */}
-            <WarehouseList/>
+            <WarehouseList />
         </Box>
     );
 }

@@ -45,7 +45,7 @@ import { Axios } from "index";
 function Material() {
   const navigate = useNavigate();
   const { pathname, state } = useLocation();
- const [materials,setMterials]=useState([]);
+  const [materials, setMterials] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [subCategoryOptions, setSubCategoryOptions] = useState([]);
   const [UOMOptions, setUOMOptions] = useState([]);
@@ -117,7 +117,7 @@ function Material() {
     setSubmitting(true);
     try {
       if (pathname === MATERIAL_MASTER_EDIT) {
-        const data = await updateMaterial(body, state?.id);
+        const data = await updateMaterial(body, state?._id);
         if (data?.data?.statusCode === 200) {
           Swal.fire({
             icon: "success",
@@ -375,16 +375,16 @@ function Material() {
                     </Grid>
                   </Grid>
                   <Grid container>
-                    <Grid item xs={6} md={3} sx={{marginLeft:"auto",display:"flex",justifyContent:"right"}}>
-                                      <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={() => handleAddMaterial(values)}
-                                        sx={{ mt: 2,padding:"5px 8px",fontSize:"12px",  "&:hover": { backgroundColor: "#53B8CA" }, }}
-                                      >
-                                        Add Material
-                                      </Button>
-                                    </Grid>
+                    <Grid item xs={6} md={3} sx={{ marginLeft: "auto", display: "flex", justifyContent: "right" }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleAddMaterial(values)}
+                        sx={{ mt: 2, padding: "5px 8px", fontSize: "12px", "&:hover": { backgroundColor: "#53B8CA" }, }}
+                      >
+                        Add Material
+                      </Button>
+                    </Grid>
                   </Grid>
                   <TableContainer component={Paper} sx={{ mt: 2 }}>
                     <Table>

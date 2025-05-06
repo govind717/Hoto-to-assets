@@ -201,9 +201,9 @@ function AdduserManagement() {
       const res =
         pathname === USER_MANAGEMENT_EDIT
           ? await Axios.patch(
-              `${AllApis?.Auth?.updateUser}/${state?.id}`,
-              payload
-            )
+            `${AllApis?.Auth?.updateUser}/${state?._id}`,
+            payload
+          )
           : await Axios.post(AllApis?.Auth?.addUser, payload);
 
       const statusCode = res?.data?.statusCode;
@@ -251,15 +251,15 @@ function AdduserManagement() {
       setFormInitialValues({
         organisationName: state?.organisationId
           ? organisationNameOptions.find(
-              (ele) => ele.id === state?.organisationId
-            ) || null
+            (ele) => ele.id === state?.organisationId
+          ) || null
           : null,
         departmentName: state?.departmentId
-          ? departmentOptions.find((opt) => opt.id === state.departmentId) ||
-            null
+          ? departmentOptions.find((opt) => opt?._id === state.departmentId) ||
+          null
           : null,
         teamName: state?.teamId
-          ? teamOptions.find((opt) => opt.id === state.teamId) || null
+          ? teamOptions.find((opt) => opt?._id === state.teamId) || null
           : null,
         firstName: state?.firstName || "",
         lastName: state?.lastName || "",
@@ -298,7 +298,7 @@ function AdduserManagement() {
                   size="small"
                   options={organisationNameOptions}
                   getOptionLabel={(option) => option.organisationName || ""}
-                  isOptionEqualToValue={(opt, val) => opt.id === val?.id}
+                  isOptionEqualToValue={(opt, val) => opt?._id === val?.id}
                   value={values.organisationName}
                   onChange={(_, value) => {
                     setFieldValue("organisationName", value);
@@ -330,7 +330,7 @@ function AdduserManagement() {
                   size="small"
                   options={departmentOptions}
                   getOptionLabel={(option) => option.departmentName || ""}
-                  isOptionEqualToValue={(opt, val) => opt.id === val?.id}
+                  isOptionEqualToValue={(opt, val) => opt?._id === val?.id}
                   value={values.departmentName}
                   onChange={(_, value) => {
                     setFieldValue("departmentName", value);
@@ -360,7 +360,7 @@ function AdduserManagement() {
                   size="small"
                   options={teamOptions}
                   getOptionLabel={(option) => option.teamName || ""}
-                  isOptionEqualToValue={(opt, val) => opt.id === val?.id}
+                  isOptionEqualToValue={(opt, val) => opt?._id === val?.id}
                   value={values.teamName}
                   onChange={(_, value) => setFieldValue("teamName", value)}
                   renderInput={(params) => (

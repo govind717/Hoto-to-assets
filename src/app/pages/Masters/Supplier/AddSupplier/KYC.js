@@ -22,10 +22,10 @@ function KYC() {
 
   const initialValues = {
     antiCorruptionPolicy: state?.antiCorruptionPolicy || "",
-    sanctionsScreeningResult:state?.sanctionsScreeningResult || "",
-    politicalExposure:state?.politicalExposure || "",
-    AMLVarification:state?.AMLVarification || "",
-    
+    sanctionsScreeningResult: state?.sanctionsScreeningResult || "",
+    politicalExposure: state?.politicalExposure || "",
+    AMLVarification: state?.AMLVarification || "",
+
   };
 
   const validationSchema = yup.object({
@@ -81,7 +81,7 @@ function KYC() {
     setSubmitting(true);
     try {
       if (pathname === SUPPLIER_MASTER_EDIT) {
-        const data = await updateSupplier(body, state?.id);
+        const data = await updateSupplier(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(SUPPLIER_MASTER);
           Swal.fire({
@@ -160,11 +160,11 @@ function KYC() {
                       sx={{
                         justifyContent: "space-between",
                         paddingY: "5px",
-                        borderColor:"rgba(0, 0, 0, 0.23)",
+                        borderColor: "rgba(0, 0, 0, 0.23)",
                         lineHeight: "1.9",
                         color: "text.secondary",
                         textTransform: "none",
-                        "&:hover": {  borderColor: "#475259", },
+                        "&:hover": { borderColor: "#475259", },
                       }}
                     >
                       Upload Doc
@@ -197,11 +197,11 @@ function KYC() {
                       sx={{
                         justifyContent: "space-between",
                         paddingY: "5px",
-                        borderColor:"rgba(0, 0, 0, 0.23)",
+                        borderColor: "rgba(0, 0, 0, 0.23)",
                         lineHeight: "1.9",
                         color: "text.secondary",
                         textTransform: "none",
-                        "&:hover": {  borderColor: "#475259", },
+                        "&:hover": { borderColor: "#475259", },
                       }}
                     >
                       Upload Doc
@@ -233,11 +233,11 @@ function KYC() {
                       sx={{
                         justifyContent: "space-between",
                         paddingY: "5px",
-                        borderColor:"rgba(0, 0, 0, 0.23)",
+                        borderColor: "rgba(0, 0, 0, 0.23)",
                         lineHeight: "1.9",
                         color: "text.secondary",
                         textTransform: "none",
-                        "&:hover": {  borderColor: "#475259", },
+                        "&:hover": { borderColor: "#475259", },
                       }}
                     >
                       Upload Doc
@@ -248,7 +248,7 @@ function KYC() {
 
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
-                      Anti-corruption Policy
+                    Anti-corruption Policy
                   </Typography>
                   <Autocomplete
                     options={["zonal", "district"]}

@@ -63,7 +63,7 @@ function AddUOM() {
     setSubmitting(true);
     try {
       if (pathname === UOM_MASTER_EDIT) {
-        const data = await updateUOM(body, state?.id);
+        const data = await updateUOM(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(UOM_MASTER);
           Swal.fire({
@@ -144,7 +144,7 @@ function AddUOM() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                    {pathname === UOM_MASTER_EDIT ? "Edit UOM" : "Add UOM"}
+                      {pathname === UOM_MASTER_EDIT ? "Edit UOM" : "Add UOM"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -201,7 +201,7 @@ function AddUOM() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{ width: "100px", "&:hover": { backgroundColor: "#53B8CA" } }}
                       loading={isSubmitting}
                     >
                       Submit

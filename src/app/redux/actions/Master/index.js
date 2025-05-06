@@ -211,7 +211,7 @@ export const package_data_dispatch = createMasterDataDispatcher(
   PACKAGE_DATA,
   PACKAGE_LIST,
   {
-    string: [],
+    string: ["packageName", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
@@ -221,7 +221,7 @@ export const district_data_dispatch = createMasterDataDispatcher(
   DISTRICT_DATA,
   DISTRICT_LIST,
   {
-    string: [],
+    string: ["district", "package_details.packageName", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
@@ -231,14 +231,15 @@ export const block_data_dispatch = createMasterDataDispatcher(
   BLOCK_DATA,
   BLOCK_LIST,
   {
-    string: [],
+    string: ["blockName", "district_details.district", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
   }
 );
 export const gp_data_dispatch = createMasterDataDispatcher(GP_DATA, GP_LIST, {
-  string: [],
+
+  string: ["gpName", "LGDCode", "longitude", "latitude", "phase", "covered", "SRStatus", "gpStatus", "package_details.packageName", "district_details.district", "block_details.blockName", "created_user_details.firstName", "updated_user_details.firstName"],
   numbers: [],
   arrayField: [],
   boolean: [],
@@ -247,7 +248,8 @@ export const organisation_data_dispatch = createMasterDataDispatcher(
   ORGANISATION_DATA,
   ORGANISATION_LIST,
   {
-    string: [],
+
+    string: ["address", "organisationName", "landmark", "city", "state", "pincode", "industryType", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
@@ -257,7 +259,7 @@ export const department_data_dispatch = createMasterDataDispatcher(
   DEPARTMENT_DATA,
   DEPARTMENT_LIST,
   {
-    string: [],
+    string: ["departmentName", "organisation_details.organisationName", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
@@ -267,7 +269,7 @@ export const team_data_dispatch = createMasterDataDispatcher(
   TEAM_DATA,
   TEAM_LIST,
   {
-    string: [],
+    string: ["teamName", "department_details.departmentName", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
@@ -277,7 +279,7 @@ export const category_data_dispatch = createMasterDataDispatcher(
   CATEGORY_DATA,
   CATEGORY_LIST,
   {
-    string: [],
+    string: ["category", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
@@ -287,7 +289,7 @@ export const sub_category_data_dispatch = createMasterDataDispatcher(
   SUB_CATEGORY_DATA,
   SUB_CATEGORY_LIST,
   {
-    string: [],
+    string: ["subcategory", "category_details.category", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
@@ -297,7 +299,7 @@ export const material_data_dispatch = createMasterDataDispatcher(
   MATERIAL_DATA,
   MATERIAL_LIST,
   {
-    string: [],
+    string: ["materialName", "materialType", "materialCode", "description", 'category_details.category', "sub_category_details.subCategory", "uom_details.uom", "hsn_code_details.hsn_code", "hsn_code_details.gst_details.gst", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
@@ -307,7 +309,7 @@ export const uom_data_dispatch = createMasterDataDispatcher(
   UOM_DATA,
   UOM_LIST,
   {
-    string: [],
+    string: ["uom", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
@@ -317,18 +319,23 @@ export const hsn_code_data_dispatch = createMasterDataDispatcher(
   HSN_CODE_DATA,
   HSN_CODE_LIST,
   {
-    string: [],
+    string: ["hsn_code", "gst_details.gst", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],
   }
 );
-export const gst_data_dispatch = createMasterDataDispatcher(GST_DATA, GST_LIST);
+export const gst_data_dispatch = createMasterDataDispatcher(GST_DATA, GST_LIST, {
+  string: ["gst", "created_user_details.firstName", "updated_user_details.firstName"],
+  numbers: [],
+  arrayField: [],
+  boolean: [],
+});
 export const warehouse_data_dispatch = createMasterDataDispatcher(
   WAREHOUSE_DATA,
   WAREHOUSE_LIST,
   {
-    string: [],
+    string: ["code", "warehouse_name", "warehouse_type", "address", "city", "district", "state", "pincode", "capacity", "longitude", "latitude", "created_user_details.firstName", "updated_user_details.firstName"],
     numbers: [],
     arrayField: [],
     boolean: [],

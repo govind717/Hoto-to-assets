@@ -241,6 +241,15 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
+                  onClick={() => handleSort(`code`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Warehouse Code
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
                   onClick={() => handleSort(`warehouse_type`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -417,6 +426,12 @@ const WarehouseList = () => {
                     align="left"
                     sx={{ ...commonCellStyle, minWidth: "220px" }}
                   >
+                    {ele?.code || "-"}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{ ...commonCellStyle, minWidth: "220px" }}
+                  >
                     {ele?.warehouse_type || "-"}
                   </TableCell>
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
@@ -459,7 +474,7 @@ const WarehouseList = () => {
                       onChange={(event) => {
                         const newStatus = event.target.checked;
                         const body = { ...ele, status: newStatus };
-                        updateStatus(body, ele?.id);
+                        updateStatus(body, ele?._id);
                       }}
                       color="primary"
                     />
@@ -521,51 +536,51 @@ const WarehouseList = () => {
         />
       </TableContainer>
       <Dialog
-  open={openDialog}
-  onClose={handleCloseDialog}
-  maxWidth="sm"
-  fullWidth
->
-  <DialogTitle sx={{ m: 0, p: 2 }}>
-    Contact Details
-    <IconButton
-      aria-label="close"
-      onClick={handleCloseDialog}
-      sx={{
-        position: "absolute",
-        right: 8,
-        top: 8,
-        color: (theme) => theme.palette.grey[500],
-      }}
-    >
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent dividers>
-    {selectedContacts?.length > 0 ? (
-      <MuiTable>
-        <MuiTableHead>
-          <MuiTableRow>
-            <MuiTableCell><strong>Name</strong></MuiTableCell>
-            <MuiTableCell><strong>Email</strong></MuiTableCell>
-            <MuiTableCell><strong>Mobile No</strong></MuiTableCell>
-          </MuiTableRow>
-        </MuiTableHead>
-        <MuiTableBody>
-          {selectedContacts.map((contact, index) => (
-            <MuiTableRow key={index}>
-              <MuiTableCell>{contact?.name || "-"}</MuiTableCell>
-              <MuiTableCell>{contact?.email || "-"}</MuiTableCell>
-              <MuiTableCell>{contact?.mobile || "-"}</MuiTableCell>
-            </MuiTableRow>
-          ))}
-        </MuiTableBody>
-      </MuiTable>
-    ) : (
-      <p>No contact details available.</p>
-    )}
-  </DialogContent>
-</Dialog>
+        open={openDialog}
+        onClose={handleCloseDialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }}>
+          Contact Details
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseDialog}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers>
+          {selectedContacts?.length > 0 ? (
+            <MuiTable>
+              <MuiTableHead>
+                <MuiTableRow>
+                  <MuiTableCell><strong>Name</strong></MuiTableCell>
+                  <MuiTableCell><strong>Email</strong></MuiTableCell>
+                  <MuiTableCell><strong>Mobile No</strong></MuiTableCell>
+                </MuiTableRow>
+              </MuiTableHead>
+              <MuiTableBody>
+                {selectedContacts.map((contact, index) => (
+                  <MuiTableRow key={index}>
+                    <MuiTableCell>{contact?.name || "-"}</MuiTableCell>
+                    <MuiTableCell>{contact?.email || "-"}</MuiTableCell>
+                    <MuiTableCell>{contact?.mobile || "-"}</MuiTableCell>
+                  </MuiTableRow>
+                ))}
+              </MuiTableBody>
+            </MuiTable>
+          ) : (
+            <p>No contact details available.</p>
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

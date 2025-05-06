@@ -17,18 +17,18 @@ import {
   TextField,
 } from "@mui/material";
 
+import { Edit } from "@mui/icons-material";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import { team_data_dispatch } from "app/redux/actions/Master";
+import { updateTeam } from "app/services/apis/master";
+import { TEAM_MASTER_ADD, TEAM_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import { TEAM_MASTER_ADD, TEAM_MASTER_EDIT } from "app/utils/constants/routeConstants";
-import { team_data_dispatch } from "app/redux/actions/Master";
-import moment from "moment";
-import { Edit } from "@mui/icons-material";
 import Swal from "sweetalert2";
-import { updateTeam } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -60,7 +60,7 @@ const TeamList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  
+
 
   const { teamDataReducer } = useSelector((state) => state);
 
@@ -73,10 +73,10 @@ const TeamList = () => {
     setPage(1);
   };
 
-   
-    const handleEdit = function (data) {
-      navigate(TEAM_MASTER_EDIT, {state: data});
-    };
+
+  const handleEdit = function (data) {
+    navigate(TEAM_MASTER_EDIT, { state: data });
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -128,7 +128,7 @@ const TeamList = () => {
         timer: 1000,
         showConfirmButton: false,
       });
-  
+
       // 👇 After successful update, fetch the latest list again
       dispatch(
         team_data_dispatch({
@@ -196,7 +196,7 @@ const TeamList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Sr No.
+                Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -221,20 +221,7 @@ const TeamList = () => {
                   Team
                 </TableSortLabel>
               </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
-              </TableCell>
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
@@ -295,6 +282,20 @@ const TeamList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`status`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "80px" }}
+              >
                 Actions
               </TableCell>
             </TableRow>
@@ -334,18 +335,8 @@ const TeamList = () => {
                     >
                       {ele?.teamName || "-"}
                     </TableCell>
-                    
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      <Switch
-                        checked={ele?.status === true}
-                        onChange={(event) => {
-                          const newStatus = event.target.checked;
-                          const body = {...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
-                        }}
-                        color="primary"
-                      />
-                    </TableCell>
+
+
                     <TableCell
                       align="left"
                       sx={{
@@ -385,6 +376,17 @@ const TeamList = () => {
                       }}
                     >
                       {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

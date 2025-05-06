@@ -1,5 +1,5 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
+import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
@@ -16,18 +16,17 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import { department_data_dispatch } from "app/redux/actions/Master";
+import { updateDepartment } from "app/services/apis/master";
+import { DEPARTMENT_MASTER_ADD, DEPARTMENT_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import { DEPARTMENT_MASTER_ADD, DEPARTMENT_MASTER_EDIT } from "app/utils/constants/routeConstants";
-import { department_data_dispatch } from "app/redux/actions/Master";
-import { Edit } from "@mui/icons-material";
-import moment from "moment";
 import Swal from "sweetalert2";
-import { updateDepartment } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -59,7 +58,7 @@ const DepartmentList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  
+
 
   const { departmentDataReducer } = useSelector((state) => state);
 
@@ -73,9 +72,9 @@ const DepartmentList = () => {
   };
 
   const handleEdit = function (data) {
-      navigate(DEPARTMENT_MASTER_EDIT, {state: data});
-    };
-  
+    navigate(DEPARTMENT_MASTER_EDIT, { state: data });
+  };
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -128,7 +127,7 @@ const DepartmentList = () => {
         timer: 1000,
         showConfirmButton: false,
       });
-  
+
       // 👇 After successful update, fetch the latest list again
       dispatch(
         department_data_dispatch({
@@ -196,7 +195,16 @@ const DepartmentList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Sr No.
+                Sr No.
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`organisarion_details.organisationName`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Organisation
+                </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -207,21 +215,8 @@ const DepartmentList = () => {
                   Department
                 </TableSortLabel>
               </TableCell>
-              
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
-              </TableCell>
+
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
@@ -282,6 +277,20 @@ const DepartmentList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`status`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "80px" }}
+              >
                 Actions
               </TableCell>
             </TableRow>
@@ -309,19 +318,19 @@ const DepartmentList = () => {
                         textTransform: "capitalize",
                       }}
                     >
+                      {ele?.organisation_details?.organisationName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
                       {ele?.departmentName || "-"}
                     </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      <Switch
-                        checked={ele?.status === true}
-                        onChange={(event) => {
-                          const newStatus = event.target.checked;
-                          const body = {...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
-                        }}
-                        color="primary"
-                      />
-                    </TableCell>
+
                     <TableCell
                       align="left"
                       sx={{
@@ -361,6 +370,17 @@ const DepartmentList = () => {
                       }}
                     >
                       {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"
@@ -416,7 +436,7 @@ const DepartmentList = () => {
           }}
         />
       </TableContainer>
-      
+
     </>
   );
 };
