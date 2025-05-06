@@ -36,13 +36,13 @@ function RequestMaintenanceModal({ open, handleClose,row }) {
     repair_type: "",
     maintenance_type: "",
     issue_reported: "",
-    remark: "",
+    remarks: "",
   };
   const validationSchema = Yup.object().shape({
     repair_type: Yup.string().required("Repair type is required"),
     maintenance_type: Yup.string().required("Maintenance type is required"),
     issue_reported: Yup.string().required("Issue Reported is Required"),
-    remark: Yup.string(),
+    remarks: Yup.string(),
   });
   
   const handleSubmit = async (values ) => {
@@ -52,7 +52,7 @@ function RequestMaintenanceModal({ open, handleClose,row }) {
           repair_type:values?.repair_type,
           maintenance_type:values?.maintenance_type,
           issue_reported:values?.issue_reported,
-          remarks: values?.remark,
+          remarks: values?.remarks,
         }
       };
       setSubmitting(true);
@@ -301,20 +301,20 @@ function RequestMaintenanceModal({ open, handleClose,row }) {
                         </Grid> */}
                         <Grid item xs={6} md={3}>
                           <Typography variant="h6" fontSize="14px">
-                            Remark
+                            remarks
                           </Typography>
                           <TextField
                             sx={{ width: "100%" }}
                             size="small"
-                            placeholder="Enter Remark"
-                            name="remark"
+                            placeholder="Enter remarks"
+                            name="remarks"
                             onChange={(e) =>
-                              setFieldValue("remark", e.target.value)
+                              setFieldValue("remarks", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("remark", true)}
-                            value={values?.remark}
-                            error={touched?.remark && Boolean(errors?.remark)}
-                            helperText={touched?.remark && errors?.remark}
+                            onBlur={() => setFieldTouched("remarks", true)}
+                            value={values?.remarks}
+                            error={touched?.remarks && Boolean(errors?.remarks)}
+                            helperText={touched?.remarks && errors?.remarks}
                           />
                         </Grid>
                       </Grid>

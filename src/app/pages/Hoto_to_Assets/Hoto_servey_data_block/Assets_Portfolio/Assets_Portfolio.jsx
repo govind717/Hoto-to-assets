@@ -288,7 +288,6 @@ const Assets_Portfolio_List = () => {
                                             <RadioGroup
                                                 value={equipmentFilterName}
                                                 onChange={(e) => {
-                                                    console.log(e.target.value)
                                                     setEquipmentFilterName(e.target.value);
                                                     setAnchorEl(null); // auto-close popper
                                                 }}

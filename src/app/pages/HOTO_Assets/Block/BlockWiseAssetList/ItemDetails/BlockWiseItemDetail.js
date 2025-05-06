@@ -24,12 +24,12 @@ const patternBoxStyle = {
 };
 const BlockWiseItemDetail = () => {
   const { state } = useLocation();
-  console.log("details :", state);
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  console.log("block state : ",state);
   return (
     <>
       <HotoHeader />
@@ -41,15 +41,13 @@ const BlockWiseItemDetail = () => {
               <strong>Block :</strong> {state?.block?.name || "-"}
             </Typography>
             <Typography>
-              <strong>District :</strong>{" "}
-              {state?.district?.name || "-"}
+              <strong>District :</strong> {state?.district?.name || "-"}
             </Typography>
             <Typography>
               <strong>POP Type :</strong> - Block
             </Typography>
             <Typography>
-              <strong>Address :</strong>{" "}
-              {state?.district?.name || "-"}
+              <strong>Address :</strong> {state?.district?.name || "-"}
             </Typography>
           </Grid>
 
@@ -66,8 +64,7 @@ const BlockWiseItemDetail = () => {
               <strong>Block Code :</strong> {state?.block_id || "-"}
             </Typography>
             <Typography>
-              <strong>District Code :</strong>{" "}
-              {state?.district_id || "-"}
+              <strong>District Code :</strong> {state?.district_id || "-"}
             </Typography>
             <Typography>
               <strong>Landmark :</strong> -
@@ -78,7 +75,7 @@ const BlockWiseItemDetail = () => {
             </Typography>
           </Grid>
         </Grid>
-        <AssetDetailTable />
+        <AssetDetailTable data={state?.equipment_details} />
       </Box>
     </>
   );

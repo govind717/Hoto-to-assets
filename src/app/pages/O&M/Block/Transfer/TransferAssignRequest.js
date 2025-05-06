@@ -1,8 +1,10 @@
 import {
   Button,
   InputAdornment,
+  MenuItem,
   Pagination,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -13,7 +15,10 @@ import {
   TextField,
 } from "@mui/material";
 import FullScreenLoader from "app/pages/Components/Loader";
-import { oandm_block_maintenace_request_assign_data_disptach, oandm_block_transfer_request_assign_data_disptach } from "app/redux/actions/O&M/Block";
+import {
+  oandm_block_maintenace_request_assign_data_disptach,
+  oandm_block_transfer_request_assign_data_disptach,
+} from "app/redux/actions/O&M/Block";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +27,11 @@ import AssignViewModal from "./Modal/AssignViewModal";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import Div from "@jumbo/shared/Div";
+import InfoIcon from "@mui/icons-material/Info";
+import moment from "moment";
+import Swal from "sweetalert2";
+import { Axios } from "index";
+const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -42,7 +52,7 @@ const TransferAssignRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [open,setOpen]=useState(false);
+  const [open, setOpen] = useState(false);
   const { oandmBlockTransferRequestAssignDataReducer } = useSelector(
     (state) => state
   );
@@ -94,9 +104,11 @@ const TransferAssignRequest = () => {
     );
   }, [sort, page, sortBy, dispatch]);
 
-  const closeModal = ()=>{
+  const closeModal = () => {
     setOpen(false);
-  }
+  };
+
+
   return (
     <>
       {oandmBlockTransferRequestAssignDataReducer?.loading && (
@@ -332,7 +344,7 @@ const TransferAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.name || "-"}
+                        {ele?.transfer_id || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -342,7 +354,7 @@ const TransferAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.code || "-"}
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -352,7 +364,47 @@ const TransferAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.block?.name || "-"}
+                        {ele?.assets_details?.equipment_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.serial_no || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_type || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_from?.location_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_to?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -364,6 +416,7 @@ const TransferAssignRequest = () => {
                       >
                         {ele?.gp?.block?.code || "-"}
                       </TableCell>
+
                       <TableCell
                         align="left"
                         sx={{
@@ -372,7 +425,7 @@ const TransferAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.name || "-"}
+                        {ele?.document || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -382,29 +435,43 @@ const TransferAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {ele?.transfer_status?.replaceAll("_"," ") || "-"}
                       </TableCell>
-                      {/* <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        size="small"
-                        startIcon={<HomeRepairServiceIcon />}
+                     
+                      <TableCell
+                        align="left"
                         sx={{
-                          "&:hover": {
-                            backgroundColor: orangeSecondary,
-                          },
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
                         }}
                       >
-                        View
-                      </Button>
-                    </TableCell> */}
+                        {ele?.remarks || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.document || "-"}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          ...tableBodyCell,
+                        }}
+                      >
+                        <InfoIcon
+                          sx={{
+                            "&:hover": { cursor: "pointer", color: "black" },
+                          }}
+                          // onClick={() => {
+                          //   showDetails(ele);
+                          // }}
+                        />
+                      </TableCell>
                     </TableRow>
                   );
                 }

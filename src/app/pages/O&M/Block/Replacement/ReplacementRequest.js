@@ -164,7 +164,7 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`replacementId`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -173,7 +173,7 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`issueDate`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -182,7 +182,9 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() =>
+                    handleSort(`block_asset_details.equipment_name`)
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -191,9 +193,7 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`block_asset_details.serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -202,9 +202,7 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(``)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -214,7 +212,7 @@ const ReplacementRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`block_asset_details.block_details.gp_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -228,7 +226,7 @@ const ReplacementRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`block_asset_details.block_details.gp_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -241,9 +239,7 @@ const ReplacementRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`replacementReason`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -252,9 +248,7 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`initiatedBy`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -263,9 +257,7 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`block_asset_details.condition`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -273,30 +265,14 @@ const ReplacementRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Details
-                </TableSortLabel>
+                Details
               </TableCell>
 
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Actions
-                </TableSortLabel>
+                Actions
               </TableCell>
             </TableRow>
           </TableHead>
@@ -447,6 +423,7 @@ const ReplacementRequest = () => {
                           // startIcon={<HomeRepairServiceIcon />}
                           onClick={() => handleAssign(ele)}
                           sx={{
+                            backgroundColor: orangeSecondary,
                             "&:hover": {
                               backgroundColor: orangeSecondary,
                             },

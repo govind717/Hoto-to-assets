@@ -104,6 +104,14 @@ const ReplacementList = () => {
           onChange={(e) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
+              dispatch(
+                hoto_gp_replacement_data_disptach({
+                  sortBy: sortBy,
+                  search_value: "",
+                  sort: sort,
+                  page: page,
+                })
+              );
             }
           }}
           sx={{ width: 300, my: "2%" }}
@@ -142,11 +150,7 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      `current_data.marketExecutiveId.current_data.contact_person_details.first_name`
-                    )
-                  }
+                  onClick={() => handleSort(`issueDate`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -160,7 +164,7 @@ const ReplacementList = () => {
                 <TableSortLabel
                   onClick={() =>
                     handleSort(
-                      `current_data.marketExecutiveId.current_data.contact_person_details.first_name`
+                      `equipment_name`
                     )
                   }
                   direction={sort}
@@ -477,7 +481,7 @@ const ReplacementList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoGpReplacementDataReducer?.data?.result?.total_pages}
           page={page}
           onChange={handleChangePage}
           sx={{

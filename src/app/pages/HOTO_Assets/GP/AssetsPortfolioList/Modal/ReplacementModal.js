@@ -57,9 +57,8 @@ function ReplacementModal({ open, handleClose, row }) {
       replacementReason: values?.replacementReason,
       dueDate: values?.dueDate,
       initiatedBy: values?.initiatedBy,
-      remark: values?.remark,
+      remarks: values?.remark,
     };
-    console.log("body :",body);
     setSubmitting(true);
     try {
       const res = await Axios.post(
@@ -151,8 +150,7 @@ function ReplacementModal({ open, handleClose, row }) {
                               setFieldTouched("issueDate", true)
                             }
                             value={
-                              values?.issueDate ||
-                              new Date().toISOString().split("T")[0]
+                              values?.issueDate
                             }
                             error={
                               touched?.issueDate &&
@@ -227,8 +225,7 @@ function ReplacementModal({ open, handleClose, row }) {
                             }
                             onBlur={() => setFieldTouched("dueDate", true)}
                             value={
-                              values?.dueDate ||
-                              new Date().toISOString().split("T")[0]
+                              values?.dueDate
                             }
                             error={touched?.dueDate && Boolean(errors?.dueDate)}
                             helperText={touched?.dueDate && errors?.dueDate}

@@ -62,7 +62,6 @@ const tableCellSort = {
 
 const Assets_Portfolio_List = () => {
   const { hotoServeyDataReducer } = useSelector((state) => state);
-  console.log("hotoServeyDataReducer : ", hotoServeyDataReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("created_at");
@@ -266,7 +265,7 @@ const Assets_Portfolio_List = () => {
                       <RadioGroup
                         value={equipmentFilterName}
                         onChange={(e) => {
-                          console.log(e.target.value);
+                        
                           setEquipmentFilterName(e.target.value);
                           setAnchorEl(null); // auto-close popper
                         }}

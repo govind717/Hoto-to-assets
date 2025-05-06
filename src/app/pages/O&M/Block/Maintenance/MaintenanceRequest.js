@@ -118,44 +118,51 @@ const MaintenanceRequest = () => {
     <>
       {oandmBlockMaintenaceRequestDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
-              <TextField
-                id="search"
-                type="search"
-                label="Search"
-                value={searchTerm}
-                size="small"
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  if (e.target.value === "") {
-                    dispatch(
-                      oandm_block_maintenace_request_data_disptach({
-                        sortBy: sortBy,
-                        search_value: "",
-                        sort: sort,
-                        page: page,
-                      })
-                    );
-                  }
-                }}
-                sx={{ width: 300, my: "2%" }}
-                InputProps={{
-                  endAdornment: (
-                    <Div sx={{ cursor: "pointer" }}>
-                      <InputAdornment position="end">
-                        <SearchIcon />
-                      </InputAdornment>
-                    </Div>
-                  ),
-                }}
-              />
-              <Div sx={{ my: "2%" }}>
-                <Button variant="outlined" sx={{borderColor : "#B0BAC9", padding : "6px 20px" , color : "#000" , borderRadius : "5px"}} 
-                // onClick={handleDownload}
-                >
-                  <CloudDownloadOutlinedIcon sx={{mr:'10px'}}/> Export
-                </Button>
+        <TextField
+          id="search"
+          type="search"
+          label="Search"
+          value={searchTerm}
+          size="small"
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            if (e.target.value === "") {
+              dispatch(
+                oandm_block_maintenace_request_data_disptach({
+                  sortBy: sortBy,
+                  search_value: "",
+                  sort: sort,
+                  page: page,
+                })
+              );
+            }
+          }}
+          sx={{ width: 300, my: "2%" }}
+          InputProps={{
+            endAdornment: (
+              <Div sx={{ cursor: "pointer" }}>
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
               </Div>
-            </Div>
+            ),
+          }}
+        />
+        <Div sx={{ my: "2%" }}>
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: "#B0BAC9",
+              padding: "6px 20px",
+              color: "#000",
+              borderRadius: "5px",
+            }}
+            // onClick={handleDownload}
+          >
+            <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
+          </Button>
+        </Div>
+      </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
@@ -166,18 +173,24 @@ const MaintenanceRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`maintenance_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Maintenance ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -186,7 +199,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -195,9 +208,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -207,7 +218,7 @@ const MaintenanceRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`assets_details.location_details.gp_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -221,7 +232,7 @@ const MaintenanceRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`assets_details.location_details.gp_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -231,9 +242,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.condition `)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -242,20 +251,16 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`repair_type`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Repair Type
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx , minWidth:"180px"}}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`issue_reported`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -273,7 +278,7 @@ const MaintenanceRequest = () => {
                   Initiated By
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() =>
                     handleSort(`current_data.commissionPercentage`)
@@ -470,6 +475,7 @@ const MaintenanceRequest = () => {
                           // startIcon={<HomeRepairServiceIcon />}
                           onClick={() => handleAssign(ele)}
                           sx={{
+                            backgroundColor: orangeSecondary,
                             "&:hover": {
                               backgroundColor: orangeSecondary,
                             },
@@ -511,11 +517,7 @@ const MaintenanceRequest = () => {
           }}
         />
       </TableContainer>
-      <MaintenanaceRequestView
-        open={open}
-        closeModal={closeModal}
-        row={row}
-      />
+      <MaintenanaceRequestView open={open} closeModal={closeModal} row={row} />
       <MaintenanceRequestModal
         open={openRequestManagement}
         closeModal={closeModal}

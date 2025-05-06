@@ -10,6 +10,7 @@ import Div from "@jumbo/shared/Div";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
+import { Axios } from "index";
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -26,7 +27,7 @@ const style = {
 };
 
 
-function EditModal({ open, handleClose }) {
+function EditModal({ open, handleClose,row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const initialValues = {
@@ -52,19 +53,56 @@ const validationSchema = Yup.object().shape({
   warrantyDueDate: Yup.date()
     .required("Warranty Due Date is required")
     .typeError("Enter a valid date"),
-  condition: Yup.string()
-    .oneOf(
-      ["Robust", "Damaged", "Semi-Damaged", "Missing"],
-      "Invalid condition"
-    )
-    .required("Condition is required"),
+  condition: Yup.string().required("Condition is required"),
   status: Yup.string()
     .oneOf(["in Use", "Not in Use"], "Invalid status")
     .required("Status is required"),
-  packageName: Yup.string().required("Remark is required"),
+  remarks: Yup.string(),
 });
 
-  const handleSubmit = ({ values }) => {};
+   const handleSubmit = async (values) => {
+        const body = {
+          equipment: values?.equipment,
+          make: values?.make,
+          model: values?.model,
+          serialNo: values?.serialNo,
+          warrantyStatus: values?.warrantyStatus,
+          condition: values?.condition,
+          status:values?.status,
+          remarks:values?.remarks
+        };
+        console.log("body : ",body);
+        setSubmitting(true);
+        try {
+          const res = await Axios.post(
+            `/hoto-to-assets/block/equipment/update/${row._id}`,
+            body
+          );
+    
+          const statusCode = res?.data?.statusCode;
+    
+          if (statusCode === 200 || statusCode === 201) {
+            Swal.fire({
+              icon: "success",
+              text: "details updated successfully",
+              timer: 1000,
+              showConfirmButton: false,
+            });
+            handleClose();
+          } else {
+            throw new Error(res?.data?.message || "Unknown Error");
+          }
+        } catch (err) {
+          Swal.fire({
+            icon: "error",
+            text: err?.response?.data?.message || err.message,
+          });
+          handleClose();
+        } finally {
+          setSubmitting(false);
+          handleClose();
+        }
+      };
 
   return (
     <div>
@@ -317,19 +355,19 @@ const validationSchema = Yup.object().shape({
                           <TextField
                             sx={{ width: "100%" }}
                             size="small"
-                            placeholder="Enter Package Name"
-                            name="packageName"
+                            placeholder="Enter Remark"
+                            name="remarks"
                             onChange={(e) =>
-                              setFieldValue("packageName", e.target.value)
+                              setFieldValue("remarks", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("packageName", true)}
-                            value={values?.packageName}
+                            onBlur={() => setFieldTouched("remarks", true)}
+                            value={values?.remarks}
                             error={
-                              touched?.packageName &&
-                              Boolean(errors?.packageName)
+                              touched?.remarks &&
+                              Boolean(errors?.remarks)
                             }
                             helperText={
-                              touched?.packageName && errors?.packageName
+                              touched?.remarks && errors?.remarks
                             }
                           />
                         </Grid>

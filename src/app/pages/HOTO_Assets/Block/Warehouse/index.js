@@ -25,10 +25,12 @@ import { useNavigate } from "react-router-dom";
 import MapIcon from "@mui/icons-material/Map";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
+import InfoIcon from "@mui/icons-material/Info";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
 import { hoto_block_warehouse_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import DetailModal from "./DetailModal/DetailModal";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -65,7 +67,8 @@ const WarehouseList = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+const [row,setRow]=useState(null);
+  const [open,setOpen]=useState(false);
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -110,10 +113,14 @@ const WarehouseList = () => {
     );
   }, [sort, page, sortBy, dispatch]);
 
+   
   const showDetails = (data) => {
-    navigate("/dashboards/hoto-survey-block-data/warehouse-details", {
-      state: data,
-    });
+    setRow(data);
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
   };
   return (
     <>
@@ -155,22 +162,7 @@ const WarehouseList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Sr No.
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Warehouse
-                </TableSortLabel>
+                Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -183,6 +175,7 @@ const WarehouseList = () => {
                   Equipment
                 </TableSortLabel>
               </TableCell>
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
@@ -191,7 +184,7 @@ const WarehouseList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Rack No.
+                  Serial No.
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -202,7 +195,7 @@ const WarehouseList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Serial No.
+                  Rack No.
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -230,7 +223,7 @@ const WarehouseList = () => {
               hotoBlockWarehouseDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
-                    <TableRow key={ele?.id}>
+                    <TableRow key={ele?._id}>
                       <TableCell
                         align="left"
                         sx={{
@@ -249,7 +242,7 @@ const WarehouseList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block?.name || "-"}
+                        {ele?.equipment_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -259,7 +252,7 @@ const WarehouseList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_id || "-"}
+                        {ele?.serial_no || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -269,7 +262,7 @@ const WarehouseList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_id || "-"}
+                        {ele?.gp?.district?.name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -279,7 +272,7 @@ const WarehouseList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.district?.name || "-"}
+                        {ele?.condition?.toUpperCase() || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -289,31 +282,14 @@ const WarehouseList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.district_id || "-"}
-                      </TableCell>
-
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        <Button
-                          variant="contained"
-                          size="small"
-                          startIcon={<HomeRepairServiceIcon />}
-                          onClick={() => showDetails(ele)}
-                          // onClike={() => showDetails(ele)}
+                        <InfoIcon
                           sx={{
-                            "&:hover": {
-                              backgroundColor: orangeSecondary,
-                            },
+                            "&:hover": { cursor: "pointer", color: "black" },
                           }}
-                        >
-                          View
-                        </Button>
+                          onClick={() => {
+                            showDetails(ele);
+                          }}
+                        />
                       </TableCell>
                     </TableRow>
                   );
@@ -335,7 +311,7 @@ const WarehouseList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoBlockWarehouseDataReducer?.data?.result?.total_pages}
           page={page}
           onChange={handleChangePage}
           sx={{
@@ -348,6 +324,7 @@ const WarehouseList = () => {
           }}
         />
       </TableContainer>
+       <DetailModal row={row} open={open} closeModal={closeModal} />
     </>
   );
 };

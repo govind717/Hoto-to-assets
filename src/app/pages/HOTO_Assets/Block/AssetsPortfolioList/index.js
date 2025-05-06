@@ -405,17 +405,13 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 />
               </TableCell> */}
               <TableCell align="left" sx={{ ...tableCellSx }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                  <TableSortLabel direction={sort} sx={{ ...tableCellSx }}>
-                    Sr No
-                  </TableSortLabel>
-                </Box>
+                Sr No
               </TableCell>
 
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Equipment")}
+                    onClick={() => handleSort("equipment_name")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -427,7 +423,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Serial No.")}
+                    onClick={() => handleSort("serial_no")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -439,7 +435,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Location")}
+                    onClick={() => handleSort("block_details.block.name")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -451,7 +447,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Location Code")}
+                    onClick={() => handleSort("block_details.block_id")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -460,22 +456,21 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              {/* <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Site Type")}
+                    onClick={() => handleSort("site_type")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
                     Site Type
                   </TableSortLabel>
                 </Box>
-              </TableCell>
-
+              </TableCell> */}
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Warranty")}
+                    onClick={() => handleSort("warranty_status")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -487,7 +482,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Condition")}
+                    onClick={() => handleSort("condition")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -499,7 +494,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Status")}
+                    onClick={() => handleSort("condition_status")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -569,7 +564,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoBlockAssetPortfolioDataReducer?.data?.result?.total_pages}
           page={page}
           onChange={handleChangePage}
           sx={{
@@ -594,7 +589,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           />
         </Modal>
       </TableContainer>
-      
     </>
   );
 };

@@ -23,6 +23,7 @@ import Div from "@jumbo/shared/Div";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
+import { Axios } from "index";
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -44,43 +45,129 @@ const tableCellSx = {
   minWidth: "150px",
   verticalAlign: "middle",
 };
-function CreateTransferModal({ open, closeModal }) {
-  const navigate = useNavigate();
+function CreateTransferModal({ open, closeModal, row }) {
   const [isSubmitting, setSubmitting] = useState(false);
+  const [transferOptions, setTransferOptions] = useState([]);
+  console.log("Row5 : ", row);
   const initialValues = {
     issueDate: "",
-    eta: "",
-    repairType: "",
-    assignedTo: "",
-    document: null,
-    initiatedBy: "",
+    transfer_type: "",
+    transfer_to: row?.transfer_to || null,
+    transport_type: "",
+
+    road: {
+      transporter_name: "",
+      vehicle_no: "",
+      driver_name: "",
+      driver_phone_no: "",
+    },
+
+    air: {
+      transporter_name: "",
+      awb_no: "",
+    },
+    transfer_location_type: "",
     remarks: "",
   };
-
   const validationSchema = Yup.object().shape({
     issueDate: Yup.date()
       .required("Issue Date is required")
       .typeError("Invalid date"),
-    eta: Yup.date()
-      .required("ETA is required")
-      .min(Yup.ref("issueDate"), "ETA should be same or after Issue Date")
-      .typeError("Invalid date"),
-    repairType: Yup.string().required("Repair Type is required"),
-    assignedTo: Yup.string().required("Assigned To is required"),
-    document: Yup.mixed()
-      .required("Document is required")
-      .test(
-        "fileSize",
-        "File size is too large (max 5MB)",
-        (value) => !value || (value && value.size <= 5 * 1024 * 1024)
-      ),
-    initiatedBy: Yup.string()
-      .required("Initiated By is required")
-      .max(100, "Too long"),
-    remarks: Yup.string().required("Remarks are required").max(500, "Too long"),
+    transfer_to: Yup.object().nullable().required("Transfer to is Required"),
+    transfer_type: Yup.string().required("Transper Type is required"),
+    transport_type: Yup.string().required("Transport Type is required"),
+    transfer_location_type: Yup.string().required(
+      "Transfer location type is required"
+    ),
+    remarks: Yup.string(),
   });
 
-  const handleSubmit = ({ values }) => {};
+  const handleSubmit = async (values) => {
+    const body = {
+      transfer_type: values?.transfer_type,
+      transfer_from: row?.transfer_from,
+      transfer_to: values?.transfer_to,
+      transport_details: {
+        transport_type: values?.transport_type,
+      },
+      remarks: values?.remarks,
+    };
+    if (values.transport_type === "road") {
+      body.transport_details.road = {
+        transporter_name: values?.road?.transporter_name,
+        vehicle_no: values?.road?.vehicle_no,
+        driver_name: values?.road?.driver_name,
+        driver_phone_no: values?.road?.driver_phone_no,
+      };
+    } else {
+      body.transport_details.air = {
+        transporter_name: values?.air?.transporter_name,
+        awb_no: values?.air?.awb_no,
+      };
+    }
+    setSubmitting(true);
+    try {
+      const res = await Axios.post(
+        `/block-transfer-received/received-transfer-request/${row._id}`,
+        body
+      );
+
+      const statusCode = res?.data?.statusCode;
+
+      if (statusCode === 200 || statusCode === 201) {
+        Swal.fire({
+          icon: "success",
+          text: "Transfer request Assigned successfully",
+          timer: 1000,
+          showConfirmButton: false,
+        });
+        closeModal();
+      } else {
+        throw new Error(res?.data?.message || "Unknown Error");
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        text: err?.response?.data?.message || err.message,
+      });
+      closeModal();
+    } finally {
+      setSubmitting(false);
+      closeModal();
+    }
+  };
+  const fetchTransferToOptions = (val) => {
+    if (val === "gp") {
+      setTransferOptions([
+        {
+          location_type: "gp",
+          location_name: "GP Office A",
+          location_code: "GP-101",
+        },
+        {
+          location_type: "gp",
+          location_name: "GP Office B",
+          location_code: "GP-102",
+        },
+      ]);
+    } else if (val === "block") {
+      setTransferOptions([
+        {
+          location_type: "block",
+          location_name: "Block Office A",
+          location_code: "BL-201",
+        },
+      ]);
+    } else if (val === "warehouse") {
+      setTransferOptions([
+        {
+          location_type: "warehouse",
+          location_name: "Main Warehouse",
+          location_code: "WH-301",
+        },
+      ]);
+    }
+  };
 
   return (
     <div>
@@ -137,53 +224,62 @@ function CreateTransferModal({ open, closeModal }) {
                               <TableRow sx={{ bgcolor: "#53B8CA" }}>
                                 <TableCell
                                   align="left"
-                                  sx={{ ...tableCellSx, minWidth: "100px" }}
+                                  sx={{ ...tableCellSx, minWidth: "180px" }}
                                 >
-                                  Sr No.
-                                </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Equipment
-                                </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Serial No.
-                                </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Location
                                 </TableCell>
                                 <TableCell
                                   align="left"
-                                  sx={{ ...tableCellSx, minWidth: "220px" }}
+                                  sx={{ ...tableCellSx, minWidth: "120px" }}
                                 >
-                                  Location Code
+                                  Serial No.
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Site Type
+                                  Transfer Type
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Warranty
+                                  Transfer From
+                                </TableCell>
+                                <TableCell
+                                  align="left"
+                                  sx={{ ...tableCellSx, minWidth: "180px" }}
+                                >
+                                  Transfer To
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Condition
+                                  Received By
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Status
+                                </TableCell>
+                                <TableCell align="left" sx={{ ...tableCellSx }}>
+                                  Remark
                                 </TableCell>
                               </TableRow>
                             </TableHead>
 
                             <TableBody>
                               <TableRow>
-                                <TableCell align="left">1</TableCell>
-                                <TableCell align="left">Rack-1</TableCell>
                                 <TableCell align="left">
-                                  TJS2025-05-01
+                                  {row?.assets_details?.equipment_name}
                                 </TableCell>
-                                <TableCell align="left">Bhudhana</TableCell>
-                                <TableCell align="left">456789</TableCell>
-                                <TableCell align="left">Native Site</TableCell>
-                                <TableCell align="left">2026</TableCell>
-                                <TableCell align="left">Semi-Damage</TableCell>
-                                <TableCell align="left">in Use</TableCell>
+                                <TableCell align="left">
+                                  {row?.assets_details?.serial_no}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.transfer_type}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.transfer_from?.location_name}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.transfer_to?.location_name}
+                                </TableCell>
+                                <TableCell align="left">{"-"}</TableCell>
+                                <TableCell align="left">{"-"}</TableCell>
+                                <TableCell align="left">
+                                  {row?.remarks}
+                                </TableCell>
                               </TableRow>
                             </TableBody>
                           </Table>
@@ -218,9 +314,9 @@ function CreateTransferModal({ open, closeModal }) {
                               Transfer Type
                             </Typography>
                             <Autocomplete
-                              options={["Internal", "External"]}
+                              options={["internal", "external"]}
                               onChange={(e, val) =>
-                                setFieldValue("transferType", val || "")
+                                setFieldValue("transfer_type", val || "")
                               }
                               renderInput={(params) => (
                                 <TextField
@@ -228,13 +324,14 @@ function CreateTransferModal({ open, closeModal }) {
                                   fullWidth
                                   size="small"
                                   placeholder="Select"
-                                  name="transferType"
+                                  name="transfer_type"
                                   error={
-                                    touched.transferType &&
-                                    Boolean(errors.transferType)
+                                    touched.transfer_type &&
+                                    Boolean(errors.transfer_type)
                                   }
                                   helperText={
-                                    touched.transferType && errors.transferType
+                                    touched.transfer_type &&
+                                    errors.transfer_type
                                   }
                                 />
                               )}
@@ -243,217 +340,221 @@ function CreateTransferModal({ open, closeModal }) {
 
                           <Grid item xs={12} md={3}>
                             <Typography fontSize="14px" gutterBottom>
-                              Transfered To
+                              Transfer Location Type
                             </Typography>
                             <Autocomplete
-                              options={["268653", "268654"]}
-                              onChange={(e, val) =>
-                                setFieldValue("transferedTo", val || "")
-                              }
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  fullWidth
-                                  size="small"
-                                  name="transferedTo"
-                                  error={
-                                    touched.transferedTo &&
-                                    Boolean(errors.transferedTo)
-                                  }
-                                  helperText={
-                                    touched.transferedTo && errors.transferedTo
-                                  }
-                                />
-                              )}
-                            />
-                          </Grid>
-
-                          <Grid item xs={12} md={3}>
-                            <Typography fontSize="14px" gutterBottom>
-                              Transport
-                            </Typography>
-                            <Autocomplete
-                              options={["Option A", "Option B"]}
-                              onChange={(e, val) =>
-                                setFieldValue("transport", val || "")
-                              }
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  fullWidth
-                                  size="small"
-                                  name="transport"
-                                  placeholder="Select"
-                                  error={
-                                    touched.transport &&
-                                    Boolean(errors.transport)
-                                  }
-                                  helperText={
-                                    touched.transport && errors.transport
-                                  }
-                                />
-                              )}
-                            />
-                          </Grid>
-
-                          {/* Row 2 */}
-                          <Grid item xs={12} md={3}>
-                            <Typography fontSize="14px" gutterBottom>
-                              Transporter Name
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              placeholder="Enter Transporter Name"
-                              name="transporterName"
-                              onChange={(e) =>
-                                setFieldValue("transporterName", e.target.value)
-                              }
-                              onBlur={() =>
-                                setFieldTouched("transporterName", true)
-                              }
-                              value={values?.transporterName || ""}
-                              error={
-                                touched?.transporterName &&
-                                Boolean(errors?.transporterName)
-                              }
-                              helperText={
-                                touched?.transporterName &&
-                                errors?.transporterName
-                              }
-                            />
-                          </Grid>
-
-                          <Grid item xs={12} md={3}>
-                            <Typography fontSize="14px" gutterBottom>
-                              Vehicle No.
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              placeholder="Enter Vehicle No."
-                              name="vehicleNo"
-                              onChange={(e) =>
-                                setFieldValue("vehicleNo", e.target.value)
-                              }
-                              onBlur={() => setFieldTouched("vehicleNo", true)}
-                              value={values?.vehicleNo || ""}
-                              error={
-                                touched?.vehicleNo && Boolean(errors?.vehicleNo)
-                              }
-                              helperText={
-                                touched?.vehicleNo && errors?.vehicleNo
-                              }
-                            />
-                          </Grid>
-
-                          <Grid item xs={12} md={3}>
-                            <Typography fontSize="14px" gutterBottom>
-                              Driver Name
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              placeholder="Enter Driver Name"
-                              name="driverName"
-                              onChange={(e) =>
-                                setFieldValue("driverName", e.target.value)
-                              }
-                              onBlur={() => setFieldTouched("driverName", true)}
-                              value={values?.driverName || ""}
-                              error={
-                                touched?.driverName &&
-                                Boolean(errors?.driverName)
-                              }
-                              helperText={
-                                touched?.driverName && errors?.driverName
-                              }
-                            />
-                          </Grid>
-
-                          <Grid item xs={12} md={3}>
-                            <Typography fontSize="14px" gutterBottom>
-                              Driver No.
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              placeholder="Enter Driver No."
-                              name="driverNo"
-                              onChange={(e) =>
-                                setFieldValue("driverNo", e.target.value)
-                              }
-                              onBlur={() => setFieldTouched("driverNo", true)}
-                              value={values?.driverNo || ""}
-                              error={
-                                touched?.driverNo && Boolean(errors?.driverNo)
-                              }
-                              helperText={touched?.driverNo && errors?.driverNo}
-                            />
-                          </Grid>
-
-                          {/* Row 3 */}
-                          <Grid item xs={12} md={3}>
-                            <Typography fontSize="14px" gutterBottom>
-                              Document
-                            </Typography>
-                            <input
-                              type="file"
-                              id="document"
-                              hidden
-                              onChange={(event) => {
+                              options={["gp", "block", "warehouse"]}
+                              value={values.transfer_location_type || ""}
+                              onChange={(e, val) => {
                                 setFieldValue(
-                                  "document",
-                                  event.currentTarget.files[0]
+                                  "transfer_location_type",
+                                  val || ""
+                                );
+                                fetchTransferToOptions(val);
+                              }}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Select Location Type"
+                                  name="transfer_location_type"
+                                  error={
+                                    touched.transfer_location_type &&
+                                    Boolean(errors.transfer_location_type)
+                                  }
+                                  helperText={
+                                    touched.transfer_location_type &&
+                                    errors.transfer_location_type
+                                  }
+                                />
+                              )}
+                            />
+                          </Grid>
+
+                          <Grid item xs={12} md={3}>
+                            <Typography variant="h6" fontSize="14px" mb={0.5}>
+                              Transfer To
+                            </Typography>
+                            <Autocomplete
+                              options={transferOptions}
+                              getOptionLabel={(option) =>
+                                option?.location_name || ""
+                              }
+                              value={values?.transfer_to}
+                              onChange={(e, newValue) => {
+                                setFieldValue(
+                                  "transfer_to",
+                                  newValue ? newValue : ""
                                 );
                               }}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Select Repair Type"
+                                  name="transfer_to"
+                                  error={
+                                    touched.transfer_to &&
+                                    Boolean(errors.transfer_to)
+                                  }
+                                  helperText={
+                                    touched.transfer_to && errors.transfer_to
+                                  }
+                                />
+                              )}
                             />
-                            <label htmlFor="document">
-                              <Button
-                                variant="outlined"
-                                fullWidth
-                                component="span"
-                                endIcon={<FileUploadOutlinedIcon />}
-                                sx={{
-                                  justifyContent: "space-between",
-                                  paddingY: "5px",
-                                  borderColor: "rgba(0, 0, 0, 0.23)",
-                                  lineHeight: "1.9",
-                                  color: "text.secondary",
-                                  textTransform: "none",
-                                  "&:hover": { borderColor: "#475259" },
-                                }}
-                              >
-                                Upload Doc
-                              </Button>
-                            </label>
                           </Grid>
 
                           <Grid item xs={12} md={3}>
                             <Typography fontSize="14px" gutterBottom>
-                              Initiated By
+                              Transport Type
                             </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              placeholder="Enter Name"
-                              name="initiatedBy"
-                              onChange={(e) =>
-                                setFieldValue("initiatedBy", e.target.value)
+                            <Autocomplete
+                              options={["road", "air"]}
+                              onChange={(e, val) =>
+                                setFieldValue("transport_type", val || "")
                               }
-                              onBlur={() =>
-                                setFieldTouched("initiatedBy", true)
-                              }
-                              value={values?.initiatedBy || ""}
-                              error={
-                                touched?.initiatedBy &&
-                                Boolean(errors?.initiatedBy)
-                              }
-                              helperText={
-                                touched?.initiatedBy && errors?.initiatedBy
-                              }
+                              value={values.transport_type || ""}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  fullWidth
+                                  size="small"
+                                  name="transport_type"
+                                  placeholder="Select"
+                                  error={
+                                    touched.transport_type &&
+                                    Boolean(errors.transport_type)
+                                  }
+                                  helperText={
+                                    touched.transport_type &&
+                                    errors.transport_type
+                                  }
+                                />
+                              )}
                             />
                           </Grid>
+
+                          {values.transport_type === "road" && (
+                            <>
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Transporter Name
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Transporter Name"
+                                  name="road.transporter_name"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "road.transporter_name",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.road?.transporter_name || ""}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Vehicle No.
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Vehicle No."
+                                  name="road.vehicle_no"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "road.vehicle_no",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.road?.vehicle_no || ""}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Driver Name
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Driver Name"
+                                  name="road.driver_name"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "road.driver_name",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.road?.driver_name || ""}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Driver Phone No.
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Driver Phone No."
+                                  name="road.driver_phone_no"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "road.driver_phone_no",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.road?.driver_phone_no || ""}
+                                />
+                              </Grid>
+                            </>
+                          )}
+
+                          {values.transport_type === "air" && (
+                            <>
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Transporter Name
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Transporter Name"
+                                  name="air.transporter_name"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "air.transporter_name",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.air?.transporter_name || ""}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  AWB No.
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter AWB No."
+                                  name="air.awb_no"
+                                  onChange={(e) =>
+                                    setFieldValue("air.awb_no", e.target.value)
+                                  }
+                                  value={values.air?.awb_no || ""}
+                                />
+                              </Grid>
+                            </>
+                          )}
 
                           <Grid item xs={12} md={3}>
                             <Typography fontSize="14px" gutterBottom>

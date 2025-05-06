@@ -13,7 +13,7 @@ export const oandmApis = {
     transfer: {
       transfer_request_list: "/block-transfer-request/listing-transfer-request",
       transfer_request_assign_list:
-        "/block-transfer-issued/listing-transfer-issued",
+        "/block-transfer-received/listing-transfer-received",
     },
     scrap: {
       scrap_request_list: "",
@@ -34,7 +34,7 @@ export const oandmApis = {
     transfer: {
       transfer_request_list: "/gp-transfer-request/listing-transfer-request",
       transfer_request_assign_list:
-        "/gp-transfer-issued/listing-transfer-issued",
+        "/gp-transfer-received/listing-transfer-received",
     },
     scrap: {
       scrap_request_list: "",

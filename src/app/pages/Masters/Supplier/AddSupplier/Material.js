@@ -114,7 +114,6 @@ function Material() {
       uomId: values?.uom?.id,
       hsnCodeId: values?.HSNCode?.id,
     };
-    console.log("Body : ", body);
     setSubmitting(true);
     try {
       if (pathname === MATERIAL_MASTER_EDIT) {

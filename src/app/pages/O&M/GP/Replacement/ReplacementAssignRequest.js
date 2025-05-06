@@ -1,8 +1,10 @@
 import {
   Button,
   InputAdornment,
+  MenuItem,
   Pagination,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -19,12 +21,14 @@ import { useNavigate } from "react-router-dom";
 import AssignViewModal from "./Modal/AssignViewModal";
 import moment from "moment";
 import InfoIcon from "@mui/icons-material/Info";
-import { orangeSecondary } from "app/pages/Constants/colors";
+import { Blue, Green, orangeSecondary, Yellow } from "app/pages/Constants/colors";
 import { oandm_gp_replacement_request_assign_data_disptach } from "app/redux/actions/O&M/GP";
 import Div from "@jumbo/shared/Div";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import FullScreenLoader from "app/pages/Components/Loader";
+import Swal from "sweetalert2";
+import { Axios } from "index";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -106,6 +110,39 @@ const ReplacementAssignRequest = () => {
      setRow(data);
      setOpen(true);
   };
+  const statusOptions = [
+      "installed",
+      "in_transit",
+      "received",
+    ];
+  
+    const handleStatusChange = async (newStatus, rowData) => {
+      const body = {
+        repair_status: newStatus,
+      };
+      Axios.patch(
+        `/o&m/gp/replacement/update-status?id=${rowData?._id}&status=${newStatus}`
+      )
+        .then((res) => {
+          if (res?.data?.statusCode === 200 || res?.data?.statusCode === 201) {
+            dispatch(
+              oandm_gp_replacement_request_assign_data_disptach({
+                sortBy: sortBy,
+                search_value: searchTerm.trim(),
+                sort: sort,
+                page: page,
+              })
+            );
+          }
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            text: err?.response?.data?.message || err.message,
+          });
+          console.log("Error : ", err);
+        });
+    };
   
   return (
     <>
@@ -339,12 +376,12 @@ const ReplacementAssignRequest = () => {
                       ).format("DD-MM-YY") || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {/* {ele?.requested_item?.requested_item_details
-                        ?.block_asset_details?.equipment_name || "-"} */}
+                      {ele?.requested_item?.requested_item_details
+                        ?.gp_asset_details?.equipment_name || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {/* {ele?.requested_item?.requested_item_details
-                        ?.gp_asset_details.serial_no || "-"} */}
+                      {ele?.requested_item?.requested_item_details
+                        ?.gp_asset_details?.serial_no || "-"}
                     </TableCell>
                     <TableCell align="left">
                       {moment(
@@ -370,8 +407,56 @@ const ReplacementAssignRequest = () => {
                     <TableCell align="left">
                       {moment(ele?.issueDate).format("DD-MM-YYYY") || "-"}
                     </TableCell>
-                    <TableCell align="left">
+                    {/* <TableCell align="left">
                       {ele?.replacementStatus || "-"}
+                    </TableCell> */}
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      <Select
+                        value={ele?.replacementStatus || ""}
+                        onChange={(e) =>
+                          handleStatusChange(e.target.value, ele)
+                        }
+                        displayEmpty
+                        fullWidth
+                        size="small"
+                        sx={{
+                          backgroundColor:
+                            ele?.replacementStatus === "received"
+                              ? Blue
+                              : ele?.replacementStatus === "in_transit"
+                              ? Yellow
+                              : ele?.replacementStatus === "installed"
+                              ? Green
+                              : Yellow,
+
+                          color: "#fff",
+                          borderRadius: "6px",
+                          paddingTop: "0",
+                          fontSize: "12px",
+                          height: "32px",
+                          ".MuiSelect-select": {
+                            padding: "6px 8px",
+                          },
+                          ".MuiSelect-icon": {
+                            color: "#fff",
+                          },
+                        }}
+                      >
+                        {statusOptions.map((status) => (
+                          <MenuItem key={status} value={status}>
+                            {status
+                              .replaceAll("_", " ")
+                              .replace(/\b\w/g, (c) => c.toUpperCase())}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </TableCell>
                     <TableCell align="left">{ele?.docu || "-"}</TableCell>
                     <TableCell>

@@ -1,8 +1,10 @@
 import {
   Button,
   InputAdornment,
+  MenuItem,
   Pagination,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -15,7 +17,6 @@ import {
 import FullScreenLoader from "app/pages/Components/Loader";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
-import { oandm_block_maintenace_request_assign_data_disptach } from "app/redux/actions/O&M/Block";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +25,10 @@ import AssignViewModal from "./Modal/AssignViewModal";
 import InfoIcon from "@mui/icons-material/Info";
 import moment from "moment";
 import Div from "@jumbo/shared/Div";
+import Swal from "sweetalert2";
+import { Axios } from "index";
+import { Blue, Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
+import { oandm_gp_maintenace_request_assign_data_disptach } from "app/redux/actions/O&M/GP";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -47,7 +52,7 @@ const MaintenanceAssignRequest = () => {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [row, setRow] = useState(null);
-  const { oandmBlockMaintenaceRequestAssignDataReducer } = useSelector(
+  const { oandmGpMaintenaceRequestAssignDataReducer } = useSelector(
     (state) => state
   );
 
@@ -67,7 +72,7 @@ const MaintenanceAssignRequest = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      oandm_block_maintenace_request_assign_data_disptach({
+      oandm_gp_maintenace_request_assign_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -89,7 +94,7 @@ const MaintenanceAssignRequest = () => {
 
   useEffect(() => {
     dispatch(
-      oandm_block_maintenace_request_assign_data_disptach({
+      oandm_gp_maintenace_request_assign_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -104,9 +109,41 @@ const MaintenanceAssignRequest = () => {
     setRow(data);
     setOpen(true);
   };
+  const statusOptions = [
+      "installed",
+      "under_repair",
+      "repaired",
+      "assigned",
+      "not_assigned",
+    ];
+  
+    const handleStatusChange = async(newStatus, rowData) => {
+      const body = {
+       repair_status:newStatus
+      }
+      Axios.patch(`/gp-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,body).then((res) => {
+        if (res?.data?.statusCode === 200) {
+          dispatch(
+            oandm_gp_maintenace_request_assign_data_disptach({
+              sortBy: sortBy,
+              search_value: searchTerm.trim(),
+              sort: sort,
+              page: page,
+            })
+          );
+        }
+      }).catch((err) => {
+        Swal.fire({
+                  icon: "error",
+                  text: err?.response?.data?.message || err.message,
+                });
+        console.log("Error : ",err);
+      });
+      
+    };
   return (
     <>
-      {oandmBlockMaintenaceRequestAssignDataReducer?.loading && (
+      {oandmGpMaintenaceRequestAssignDataReducer?.loading && (
         <FullScreenLoader />
       )}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -120,7 +157,7 @@ const MaintenanceAssignRequest = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                oandm_block_maintenace_request_assign_data_disptach({
+                oandm_gp_maintenace_request_assign_data_disptach({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -352,9 +389,9 @@ const MaintenanceAssignRequest = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {oandmBlockMaintenaceRequestAssignDataReducer?.data?.result?.data
+            {oandmGpMaintenaceRequestAssignDataReducer?.data?.result?.data
               ?.length > 0 ? (
-              oandmBlockMaintenaceRequestAssignDataReducer?.data?.result?.data?.map(
+              oandmGpMaintenaceRequestAssignDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>
@@ -492,7 +529,7 @@ const MaintenanceAssignRequest = () => {
                           "DD-MM-YYYY"
                         ) || "-"}
                       </TableCell>
-                      <TableCell
+                      {/* <TableCell
                         align="left"
                         sx={{
                           textAlign: "left",
@@ -501,6 +538,55 @@ const MaintenanceAssignRequest = () => {
                         }}
                       >
                         {ele?.repair_status?.replaceAll("_", " ") || "-"}
+                      </TableCell> */}
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        <Select
+                          value={ele?.repair_status || ""}
+                          onChange={(e) =>
+                            handleStatusChange(e.target.value, ele)
+                          }
+                          displayEmpty
+                          fullWidth
+                          size="small"
+                          sx={{
+                            backgroundColor:
+                              ele?.repair_status === "repaired"
+                                ? Blue
+                                : ele?.repair_status === "under_repair"
+                                ? Yellow
+                                : ele?.repair_status === "installed"
+                                ? Green
+                                : ele?.repair_status === "assigned"
+                                ? Orange
+                                : Red,
+                            color: "#fff",
+                            borderRadius: "6px",
+                            paddingTop: "0",
+                            fontSize: "12px",
+                            height: "32px",
+                            ".MuiSelect-select": {
+                              padding: "6px 8px",
+                            },
+                            ".MuiSelect-icon": {
+                              color: "#fff",
+                            },
+                          }}
+                        >
+                          {statusOptions.map((status) => (
+                            <MenuItem key={status} value={status}>
+                              {status
+                                .replaceAll("_", " ")
+                                .replace(/\b\w/g, (c) => c.toUpperCase())}
+                            </MenuItem>
+                          ))}
+                        </Select>
                       </TableCell>
                       <TableCell
                         align="left"

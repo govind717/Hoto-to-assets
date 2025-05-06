@@ -15,7 +15,6 @@ export const hotoGpAssetPortfolioDataReducer = (state = INTI_STATE, action) => {
           loading: true,
         };
       case HOTO_GP_ASSET_PORTFOLIO_DATA_SUCCESS:
-        console.log("action : ", action?.payload.data);
         return {
           ...state,
           data: action?.payload?.data,
@@ -33,6 +32,89 @@ export const hotoGpAssetPortfolioDataReducer = (state = INTI_STATE, action) => {
     }
 };
 
+export const hotoGpAssetPortfolioMaintenanceDataReducer = (
+  state = INTI_STATE,
+  action
+) => {
+  switch (action.type) {
+    case HOTO_GP_MAINTENANCE_DATA_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case HOTO_GP_MAINTENANCE_DATA_SUCCESS:
+      return {
+        ...state,
+        data: action.payload.data,
+        loading: false,
+      };
+    case HOTO_GP_MAINTENANCE_DATA_FAILED:
+      return {
+        data: {},
+        error: true,
+        errorMessage: action.payload,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+export const hotoGpAssetPortfolioReplacementDataReducer = (
+  state = INTI_STATE,
+  action
+) => {
+  switch (action.type) {
+    case HOTO_GP_REPLACEMENT_DATA_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case HOTO_GP_REPLACEMENT_DATA_SUCCESS:
+      return {
+        ...state,
+        data: action.payload.data,
+        loading: false,
+      };
+    case HOTO_GP_REPLACEMENT_DATA_FAILED:
+      return {
+        data: {},
+        error: true,
+        errorMessage: action.payload,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+export const hotoGpAssetPortfolioTransferDataReducer = (
+  state = INTI_STATE,
+  action
+) => {
+  switch (action.type) {
+    case HOTO_GP_TRANSFER_DATA_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case HOTO_GP_TRANSFER_DATA_SUCCESS:
+      return {
+        ...state,
+        data: action.payload.data,
+        loading: false,
+      };
+    case HOTO_GP_TRANSFER_DATA_FAILED:
+      return {
+        data: {},
+        error: true,
+        errorMessage: action.payload,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+};
 
 export const hotoGpWiseAssetDataReducer = (state = INTI_STATE, action) => {
     switch (action.type) {

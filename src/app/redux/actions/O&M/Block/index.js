@@ -36,13 +36,21 @@ export const oandm_block_maintenace_request_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {}) {
+} = {}) { 
   return async (dispatch) => {
     try {
       const body = {
         filters: {},
         searchFields: {
-          string: [],
+          string: [
+            "maintenance_id",
+            "assets_details.equipment_name",
+            "assets_details.serial_no",
+            "assets_details.location_details.gp_name",
+            "assets_details.location_details.gp_code",
+            "assets_details.condition",
+            "repair_type",
+          ],
           numbers: [],
           arrayField: [],
           boolean: [],
@@ -79,7 +87,16 @@ export const oandm_block_maintenace_request_assign_data_disptach = function ({
       const body = {
         filters: {},
         searchFields: {
-          string: [],
+          string: [
+            "maintenance_id",
+            "assets_details.equipment_name",
+            "assets_details.serial_no",
+            "assets_details.location_details?.gp_name",
+            "assets_details.location_details?.gp_code",
+            "assets_details.condition",
+            "repair_type",
+            "issue_reported",
+          ],
           numbers: [],
           arrayField: [],
           boolean: [],
@@ -117,7 +134,16 @@ export const oandm_block_replacement_request_data_disptach = function ({
     const body = {
       filters: {},
       searchFields: {
-        string: [],
+        string: [
+          "replacementId",
+          "issueDate",
+          "block_asset_details.equipment_name",
+          "block_asset_details.serial_no",
+          "block_asset_details.block_details.gp_name",
+          "block_asset_details.block_details.gp_code",
+          "replacementReason",
+          "block_asset_details.condition",
+        ],
         numbers: [],
         arrayField: [],
         boolean: [],
@@ -156,7 +182,19 @@ export const oandm_block_replacement_request_assign_data_disptach = function ({
     const body = {
       filters: {},
       searchFields: {
-        string: [],
+        string: [
+          "requested_item.requested_item_details.replacementId",
+          "requested_item.requested_item_details.issueDate",
+          "requested_item?.requested_item_details.block_asset_details.equipment_name",
+          "requested_item.requested_item_details.block_asset_details.serial_no",
+          "requested_item.requested_item_details.dueDate",
+          "block_asset_details?.block_details?.gp_name",
+          "block_asset_details?.block_details?.gp_code",
+          "requested_item.requested_item_details.initiatedBy",
+          "requested_item.requested_item_details.block_asset_details.condition",
+          "replacementStatus",
+          "pickupLocation",
+        ],
         numbers: [],
         arrayField: [],
         boolean: [],
@@ -196,7 +234,18 @@ export const oandm_block_transfer_request_data_disptach = function ({
     const body = {
       filters: {},
       searchFields: {
-        string: [],
+        string: [
+          "transfer_id",
+          "transfer_type",
+          "transfer_from.location_name",
+          "transfer_to.location_name",
+          "assets_details.equipment_name",
+          "assets_details.serial_no",
+          "assets_details.location_details.gp_name",
+          "assets_details.location_details.gp_code",
+          "assets_details.condition",
+          "repair_type",
+        ],
         numbers: [],
         arrayField: [],
         boolean: [],
@@ -208,10 +257,7 @@ export const oandm_block_transfer_request_data_disptach = function ({
       const response = await Axios.post(
         `${oandmApis?.block?.transfer?.transfer_request_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
       );
-      console.log(
-        "this is block assets portfolio list",
-        response.data?.result?.data
-      );
+     
       dispatch({
         type: OANDM_BLOCK_TRANSFER_REQUEST_DATA_SUCCESS,
         payload: {
@@ -288,10 +334,7 @@ export const oandm_block_scrap_request_data_disptach = function ({
       const response = await Axios.post(
         `${oandmApis?.block?.scrap?.scrap_request_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
       );
-      console.log(
-        "this is block assets portfolio list",
-        response.data?.result?.data
-      );
+      
       dispatch({
         type: OANDM_BLOCK_SCRAP_REQUEST_DATA_SUCCESS,
         payload: {

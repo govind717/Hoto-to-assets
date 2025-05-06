@@ -401,7 +401,6 @@ const WarehouseList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {console.log("warehouseDataReducer : ", warehouseDataReducer)}
             {warehouseDataReducer?.data?.result?.data?.length > 0 ? (
               warehouseDataReducer.data.result.data.map((ele, index) => (
                 <TableRow key={ele?.id}>

@@ -117,7 +117,7 @@ const BlockWiseAssetList = () => {
   }, [sort, page, sortBy, dispatch]);
 
   const showDetails = (data) => {
-    navigate("/dashboards/hoto-survey-block-data/block-wise-details", {
+    navigate("/dashboards/hoto-survey-gp-data/gp-wise-details", {
       state: data,
     });
   };
@@ -169,6 +169,24 @@ const BlockWiseAssetList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
+                  GP Name
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`current_data.companyType`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  LGD Code
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`current_data.companyType`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
                   Block
                 </TableSortLabel>
               </TableCell>
@@ -208,7 +226,7 @@ const BlockWiseAssetList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                Details
+                Assets
               </TableCell>
             </TableRow>
           </TableHead>
@@ -227,6 +245,26 @@ const BlockWiseAssetList = () => {
                         }}
                       >
                         {index + 1 || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -284,6 +322,7 @@ const BlockWiseAssetList = () => {
                           onClick={() => showDetails(ele)}
                           // onClike={() => showDetails(ele)}
                           sx={{
+                            backgroundColor: orangeSecondary,
                             "&:hover": {
                               backgroundColor: orangeSecondary,
                             },
@@ -312,7 +351,7 @@ const BlockWiseAssetList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoGpWiseAssetDataReducer?.data?.result?.total_pages}
           page={page}
           onChange={handleChangePage}
           sx={{

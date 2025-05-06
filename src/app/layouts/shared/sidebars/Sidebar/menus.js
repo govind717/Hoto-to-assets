@@ -176,7 +176,12 @@ const menus = [
       },
     ],
   },
-
+{
+    uri: "/warehouse",
+    label: "HOTO Warehouse",
+    type: "nav-item",
+    icon: <WarehouseOutlinedIcon sx={{ fontSize: 20 }} />,
+  },
   {
     label: "O&M",
     type: "collapsible",
@@ -221,18 +226,13 @@ const menus = [
       },
     ],
   },
-  {
-    uri: "/warehouse",
-    label: "Warehouse",
-    type: "nav-item",
-    icon: <WarehouseOutlinedIcon sx={{ fontSize: 20 }} />,
-  },
-  {
-    uri: "/indent",
-    label: "Indent",
-    type: "nav-item",
-    icon: <WarehouseOutlinedIcon sx={{ fontSize: 20 }} />,
-  },
+  
+  // {
+  //   uri: "/indent",
+  //   label: "Indent",
+  //   type: "nav-item",
+  //   icon: <WarehouseOutlinedIcon sx={{ fontSize: 20 }} />,
+  // },
   // {
   //     label: 'sidebar.menu.store',
   //     type: "section",

@@ -172,7 +172,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`maintenance_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -181,7 +181,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -190,7 +190,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -199,9 +199,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -211,7 +209,7 @@ const MaintenanceRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`assets_details.location_details.gp_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -225,7 +223,7 @@ const MaintenanceRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`assets_details.location_details.gp_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -235,9 +233,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.condition `)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -246,9 +242,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`repair_type`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -257,9 +251,7 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`issue_reported`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -394,7 +386,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {/* {ele?.assets_details.location_details.gp_code || "-"} */}
+                        {ele?.assets_details.location_details?.gp_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -474,6 +466,7 @@ const MaintenanceRequest = () => {
                           // startIcon={<HomeRepairServiceIcon />}
                           onClick={() => handleAssign(ele)}
                           sx={{
+                            backgroundColor: orangeSecondary,
                             "&:hover": {
                               backgroundColor: orangeSecondary,
                             },

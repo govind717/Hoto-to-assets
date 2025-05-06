@@ -1,8 +1,10 @@
 import {
   Button,
   InputAdornment,
+  MenuItem,
   Pagination,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -23,11 +25,13 @@ import { useNavigate } from "react-router-dom";
 import AssignViewModal from "./Modal/AssignViewModal";
 import moment from "moment";
 import InfoIcon from "@mui/icons-material/Info";
-import { orangeSecondary } from "app/pages/Constants/colors";
+import { Blue, Green, Orange, orangeSecondary, Red, Yellow } from "app/pages/Constants/colors";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import FullScreenLoader from "app/pages/Components/Loader";
 import Div from "@jumbo/shared/Div";
+import Swal from "sweetalert2";
+import { Axios } from "index";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -49,15 +53,12 @@ const ReplacementAssignRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [row,setRow]=useState(null);
-  const [open,setOpen]=useState(false);
+  const [row, setRow] = useState(null);
+  const [open, setOpen] = useState(false);
   const { oandmBlockReplacementRequestAssignDataReducer } = useSelector(
     (state) => state
   );
-   console.log(
-     "oandmBlockReplacementRequestAssignDataReducer : ",
-     oandmBlockReplacementRequestAssignDataReducer
-   );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -105,14 +106,47 @@ const ReplacementAssignRequest = () => {
     );
   }, [sort, page, sortBy, dispatch]);
 
-  const closeModal = () =>{
+  const closeModal = () => {
     setOpen(false);
-  }
-  const showDetails = (data)=>{
-     setRow(data);
-     setOpen(true);
   };
-  
+  const showDetails = (data) => {
+    setRow(data);
+    setOpen(true);
+  };
+  const statusOptions = [
+    "installed",
+    "in_transit",
+    "received",
+  ];
+
+  const handleStatusChange = async (newStatus, rowData) => {
+    const body = {
+      repair_status: newStatus,
+    };
+    Axios.patch(
+      `/o&m/block/replacement/update-status?id=${rowData?._id}&status=${newStatus}`
+    )
+      .then((res) => {
+        if (res?.data?.statusCode === 200 || res?.data?.statusCode === 201) {
+          dispatch(
+            oandm_block_replacement_request_assign_data_disptach({
+              sortBy: sortBy,
+              search_value: searchTerm.trim(),
+              sort: sort,
+              page: page,
+            })
+          );
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          text: err?.response?.data?.message || err.message,
+        });
+        console.log("Error : ", err);
+      });
+  };
+
   return (
     <>
       {oandmBlockReplacementRequestAssignDataReducer?.loading && (
@@ -304,26 +338,10 @@ const ReplacementAssignRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort("current_data.commissionPercentage")
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Document
-                </TableSortLabel>
+                Document
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort("current_data.commissionPercentage")
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Details
-                </TableSortLabel>
+                Details
               </TableCell>
             </TableRow>
           </TableHead>
@@ -364,8 +382,9 @@ const ReplacementAssignRequest = () => {
                       {ele?.block_asset_details?.block_details?.gp_code || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {ele?.requested_item.requested_item_details.initiatedBy ||
-                        "-"}
+                      {/* {ele?.requested_item.requested_item_details.initiatedBy ||
+                        "-"} */}
+                      {ele?.initiatedBy}
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details
@@ -377,8 +396,56 @@ const ReplacementAssignRequest = () => {
                     <TableCell align="left">
                       {moment(ele?.issueDate).format("DD-MM-YYYY") || "-"}
                     </TableCell>
-                    <TableCell align="left">
+                    {/* <TableCell align="left">
                       {ele?.replacementStatus || "-"}
+                    </TableCell> */}
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      <Select
+                        value={ele?.replacementStatus || ""}
+                        onChange={(e) =>
+                          handleStatusChange(e.target.value, ele)
+                        }
+                        displayEmpty
+                        fullWidth
+                        size="small"
+                        sx={{
+                          backgroundColor:
+                            ele?.replacementStatus === "received"
+                              ? Blue
+                              : ele?.replacementStatus === "in_transit"
+                              ? Yellow
+                              : ele?.replacementStatus === "installed"
+                              ? Green
+                              : Yellow,
+
+                          color: "#fff",
+                          borderRadius: "6px",
+                          paddingTop: "0",
+                          fontSize: "12px",
+                          height: "32px",
+                          ".MuiSelect-select": {
+                            padding: "6px 8px",
+                          },
+                          ".MuiSelect-icon": {
+                            color: "#fff",
+                          },
+                        }}
+                      >
+                        {statusOptions.map((status) => (
+                          <MenuItem key={status} value={status}>
+                            {status
+                              .replaceAll("_", " ")
+                              .replace(/\b\w/g, (c) => c.toUpperCase())}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </TableCell>
                     <TableCell align="left">{ele?.docu || "-"}</TableCell>
                     <TableCell>

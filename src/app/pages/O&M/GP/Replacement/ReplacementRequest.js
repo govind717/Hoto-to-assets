@@ -263,9 +263,7 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`gp_asset_details.condition`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -345,7 +343,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.equipment_name || "-"}
+                        {ele?.gp_asset_details?.equipment_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -355,7 +353,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.serial_no || "-"}
+                        {ele?.gp_asset_details?.serial_no || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -375,8 +373,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_name ||
-                          "-"}
+                        {ele?.gp_asset_details?.gp_details?.gp_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -386,8 +383,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_code ||
-                          "-"}
+                        {ele?.gp_asset_details?.gp_details?.gp_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -417,7 +413,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.condition || "-"}
+                        {ele?.gp_asset_details?.condition || "-"}
                       </TableCell>
                       <TableCell
                         sx={{
@@ -447,6 +443,7 @@ const ReplacementRequest = () => {
                           // startIcon={<HomeRepairServiceIcon />}
                           onClick={() => handleAssign(ele)}
                           sx={{
+                            backgroundColor: orangeSecondary,
                             "&:hover": {
                               backgroundColor: orangeSecondary,
                             },

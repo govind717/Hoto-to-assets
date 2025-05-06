@@ -22,6 +22,9 @@ import { oandm_gp_transfer_request_assign_data_disptach } from "app/redux/action
 import Div from "@jumbo/shared/Div";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
+import InfoIcon from "@mui/icons-material/Info";
+import moment from "moment";
+const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -312,98 +315,152 @@ const TransferAssignRequest = () => {
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {index + 1 || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.name || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.code || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.block?.name || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.block?.code || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.district?.name || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.district?.code || "-"}
-                      </TableCell>
-                      {/* <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        size="small"
-                        startIcon={<HomeRepairServiceIcon />}
-                        sx={{
-                          "&:hover": {
-                            backgroundColor: orangeSecondary,
-                          },
-                        }}
-                      >
-                        View
-                      </Button>
-                    </TableCell> */}
-                    </TableRow>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {index + 1 || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.transfer_id || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.assets_details?.equipment_name || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.assets_details?.serial_no || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.transfer_type || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.transfer_from?.location_name || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.transfer_to?.location_name || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.gp?.block?.code || "-"}
+                                          </TableCell>
+                    
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.document || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.document || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.remarks || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            align="left"
+                                            sx={{
+                                              textAlign: "left",
+                                              verticalAlign: "middle",
+                                              textTransform: "capitalize",
+                                            }}
+                                          >
+                                            {ele?.document || "-"}
+                                          </TableCell>
+                                          <TableCell
+                                            sx={{
+                                              ...tableBodyCell,
+                                            }}
+                                          >
+                                            <InfoIcon
+                                              sx={{
+                                                "&:hover": { cursor: "pointer", color: "black" },
+                                              }}
+                                              // onClick={() => {
+                                              //   showDetails(ele);
+                                              // }}
+                                            />
+                                          </TableCell>
+                                        </TableRow>
                   );
                 }
               )

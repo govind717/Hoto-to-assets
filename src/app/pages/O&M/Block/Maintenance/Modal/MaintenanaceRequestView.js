@@ -63,8 +63,6 @@ const patternBoxStyle = {
 function MaintenanaceRequestView({ open, closeModal, row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
-  const { state } = useLocation();
-  console.log("blockReqView : ",row);
   return (
     <div>
       <Modal
@@ -164,63 +162,81 @@ function MaintenanaceRequestView({ open, closeModal, row }) {
                 <Typography variant="h6" fontSize="14px">
                   Unit Size
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.unit_size || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Make
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.gp_detail?.make || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.make || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Model
                 </Typography>
                 <Box sx={patternBoxStyle}>
-                  {state?.gp_detail?.model || "-"}{" "}
+                  {row?.assets_details?.model || "-"}{" "}
                 </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Rack Positioning
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.rack_positioning || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   OFC Connectivity
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.ofc_connectivity || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   No. of Connectivity Entry
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.no_of_connectivity_entry || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   OFC Type
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.ofc_type || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Entry Point
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.entry_point || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Power Socket Availability
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.power_socket_availability || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Single Slot/Multy Slot
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.unit_size || "-"}{" "}
+                </Box>
               </Grid>
             </Grid>
             <Div sx={{ display: "flex", justifyContent: "center" }}>

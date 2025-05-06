@@ -89,7 +89,6 @@ const LoginAndForgotPassword = ({ setResetPassword }) => {
                 navigate("/");
             }
         } catch (error) {
-            console.log(error)
             Swal.fire({
                 icon: "error",
                 title: "Login Failed",
@@ -127,7 +126,6 @@ const LoginAndForgotPassword = ({ setResetPassword }) => {
                 })
             }
         } catch (error) {
-            console.log(error)
             setForgetPassword({
                 ...forgetPassword,
                 email: "",
@@ -171,7 +169,6 @@ const LoginAndForgotPassword = ({ setResetPassword }) => {
                 })
             }
         } catch (error) {
-            console.log(error)
             Swal.fire({
                 icon: "error",
                 title: "Failed",

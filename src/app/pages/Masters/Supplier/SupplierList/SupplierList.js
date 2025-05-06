@@ -401,7 +401,6 @@ const SupplierList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {console.log("supplierDataReducer : ", supplierDataReducer)}
             {supplierDataReducer?.data?.result?.data?.length > 0 ? (
               supplierDataReducer.data.result.data.map((ele, index) => (
                 <TableRow key={ele?.id}>

@@ -1,8 +1,10 @@
 import {
   Button,
   InputAdornment,
+  MenuItem,
   Pagination,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +27,9 @@ import { useNavigate } from "react-router-dom";
 import AssignViewModal from "./Modal/AssignViewModal";
 import moment from "moment";
 import Div from "@jumbo/shared/Div";
+import { Axios } from "index";
+import Swal from "sweetalert2";
+import { Blue, Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -105,52 +110,90 @@ const MaintenanceAssignRequest = () => {
     setRow(data);
     setOpen(true);
   };
+  const statusOptions = [
+    "installed",
+    "under_repair",
+    "repaired",
+    "assigned",
+    "not_assigned",
+  ];
+
+  const handleStatusChange = async(newStatus, rowData) => {
+    const body = {
+     repair_status:newStatus
+    }
+    Axios.patch(`/block-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,body).then((res) => {
+      if (res?.data?.statusCode === 200) {
+        dispatch(
+          oandm_block_maintenace_request_assign_data_disptach({
+            sortBy: sortBy,
+            search_value: searchTerm.trim(),
+            sort: sort,
+            page: page,
+          })
+        );
+      }
+    }).catch((err) => {
+      Swal.fire({
+                icon: "error",
+                text: err?.response?.data?.message || err.message,
+              });
+      console.log("Error : ",err);
+    });
+    
+  };
+
   return (
     <>
       {oandmBlockMaintenaceRequestAssignDataReducer?.loading && (
         <FullScreenLoader />
       )}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <TextField
-                      id="search"
-                      type="search"
-                      label="Search"
-                      value={searchTerm}
-                      size="small"
-                      onChange={(e) => {
-                        setSearchTerm(e.target.value);
-                        if (e.target.value === "") {
-                          dispatch(
-                            oandm_block_maintenace_request_assign_data_disptach(
-                              {
-                                sortBy: sortBy,
-                                search_value: "",
-                                sort: sort,
-                                page: page,
-                              }
-                            )
-                          );
-                        }
-                      }}
-                      sx={{ width: 300, my: "2%" }}
-                      InputProps={{
-                        endAdornment: (
-                          <Div sx={{ cursor: "pointer" }}>
-                            <InputAdornment position="end">
-                              <SearchIcon />
-                            </InputAdornment>
-                          </Div>
-                        ),
-                      }}
-                    />
-                    <Div sx={{ my: "2%" }}>
-                      <Button variant="outlined" sx={{borderColor : "#B0BAC9", padding : "6px 20px" , color : "#000" , borderRadius : "5px"}} 
-                      // onClick={handleDownload}
-                      >
-                        <CloudDownloadOutlinedIcon sx={{mr:'10px'}}/> Export
-                      </Button>
-                    </Div>
-                  </Div>
+        <TextField
+          id="search"
+          type="search"
+          label="Search"
+          value={searchTerm}
+          size="small"
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            if (e.target.value === "") {
+              dispatch(
+                oandm_block_maintenace_request_assign_data_disptach({
+                  sortBy: sortBy,
+                  search_value: "",
+                  sort: sort,
+                  page: page,
+                })
+              );
+            }
+          }}
+          sx={{ width: 300, my: "2%" }}
+          InputProps={{
+            endAdornment: (
+              <Div sx={{ cursor: "pointer" }}>
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              </Div>
+            ),
+          }}
+        />
+        <Div sx={{ my: "2%" }}>
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: "#B0BAC9",
+              padding: "6px 20px",
+              color: "#000",
+              borderRadius: "5px",
+            }}
+            // onClick={handleDownload}
+          >
+            <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
+          </Button>
+        </Div>
+      </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
@@ -166,7 +209,7 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "170px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`maintenance_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -178,7 +221,9 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "170px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() =>
+                    handleSort(`maintenance_request_details.createdAt`)
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -190,7 +235,7 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -199,9 +244,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -211,7 +254,7 @@ const MaintenanceAssignRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`assets_details.location_details.gp_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -225,7 +268,7 @@ const MaintenanceAssignRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`assets_details.location_details.gp_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -235,9 +278,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.condition`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -246,9 +287,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`repair_type`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -258,9 +297,7 @@ const MaintenanceAssignRequest = () => {
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(``)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -272,9 +309,7 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`issue_reported`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -307,7 +342,7 @@ const MaintenanceAssignRequest = () => {
 
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
                   onClick={() =>
@@ -322,18 +357,17 @@ const MaintenanceAssignRequest = () => {
 
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Document
-                </TableSortLabel>
               </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                  Remark
+              </TableCell>
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
@@ -491,6 +525,16 @@ const MaintenanceAssignRequest = () => {
                           "DD-MM-YYYY"
                         ) || "-"}
                       </TableCell>
+                      {/* <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.repair_status?.replaceAll("_", " ") || "-"}
+                      </TableCell> */}
                       <TableCell
                         align="left"
                         sx={{
@@ -499,7 +543,46 @@ const MaintenanceAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.repair_status?.replaceAll("_"," ") || "-"}
+                        <Select
+                          value={ele?.repair_status || ""}
+                          onChange={(e) =>
+                            handleStatusChange(e.target.value, ele)
+                          }
+                          displayEmpty
+                          fullWidth
+                          size="small"
+                          sx={{
+                            backgroundColor:
+                              ele?.repair_status === "repaired"
+                                ? Blue
+                                : ele?.repair_status === "under_repair"
+                                ? Yellow
+                                : ele?.repair_status === "installed"
+                                ? Green
+                                : ele?.repair_status === "assigned"
+                                ? Orange
+                                : Red,
+                            color: "#fff",
+                            borderRadius: "6px",
+                            paddingTop: "0",
+                            fontSize: "12px",
+                            height: "32px",
+                            ".MuiSelect-select": {
+                              padding: "6px 8px",
+                            },
+                            ".MuiSelect-icon": {
+                              color: "#fff",
+                            },
+                          }}
+                        >
+                          {statusOptions.map((status) => (
+                            <MenuItem key={status} value={status}>
+                              {status
+                                .replaceAll("_", " ")
+                                .replace(/\b\w/g, (c) => c.toUpperCase())}
+                            </MenuItem>
+                          ))}
+                        </Select>
                       </TableCell>
                       <TableCell
                         align="left"
@@ -510,6 +593,16 @@ const MaintenanceAssignRequest = () => {
                         }}
                       >
                         {ele?.document || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.remarks || "-"}
                       </TableCell>
                       <TableCell
                         sx={{

@@ -43,7 +43,6 @@ const ResetPassword = ({resetPassword,setResetPassword}) => {
                 setResetPassword((pre)=>({...pre,open:false}))
             }
         } catch (error) {
-            console.log(error)
             Swal.fire({
                 icon: "error",
                 title: error?.response?.data?.status || "Internal Server Error",

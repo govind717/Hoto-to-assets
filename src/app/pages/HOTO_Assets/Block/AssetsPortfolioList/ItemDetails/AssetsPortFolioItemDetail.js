@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import TranferTable from "./TranferTable/TranferTable";
 import MaintenanceTable from "./MaintenanceTable/MaintenanceTable";
+import ReplacementTable from "./ReplacementTable/ReplacementTable";
 
 const patternBoxStyle = {
   width: "100%",
@@ -25,7 +26,6 @@ const patternBoxStyle = {
 };
 const WarehouseItemDetail = () => {
   const { state } = useLocation();
-  console.log("details :", state);
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
@@ -39,14 +39,15 @@ const WarehouseItemDetail = () => {
           {/* Left column */}
           <Grid item xs={12} md={6}>
             <Typography>
-              <strong>GP :</strong> {state?.gp_detail?.gp_name || "-"}
+              <strong>GP :</strong> {state?.block_details?.gp_name || "-"}
             </Typography>
             <Typography>
-              <strong>Block :</strong> {state?.gp_detail?.block?.name || "-"}
+              <strong>Block :</strong>{" "}
+              {state?.block_details?.block?.name || "-"}
             </Typography>
             <Typography>
               <strong>District :</strong>{" "}
-              {state?.gp_detail?.district?.name || "-"}
+              {state?.block_details?.district?.name || "-"}
             </Typography>
             <Typography>
               <strong>POP Type :</strong> - Block
@@ -67,21 +68,23 @@ const WarehouseItemDetail = () => {
           {/* Right column */}
           <Grid item xs={12} md={5}>
             <Typography>
-              <strong>GP Code :</strong> {state?.gp_detail?.gp_code || "-"}
+              <strong>GP Code :</strong> {state?.block_details?.gp_code || "-"}
             </Typography>
             <Typography>
-              <strong>Block Code :</strong> {state?.gp_detail?.block_id || "-"}
+              <strong>Block Code :</strong>{" "}
+              {state?.block_details?.block_id || "-"}
             </Typography>
             <Typography>
               <strong>District Code :</strong>{" "}
-              {state?.gp_detail?.district_id || "-"}
+              {state?.block_details?.district_id || "-"}
             </Typography>
             <Typography>
               <strong>Landmark :</strong> -
             </Typography>
             <Typography>
-              <strong>Lat & Long :</strong> {state?.gp_detail?.latitude || "-"},{" "}
-              {state?.gp_detail?.longitude || "-"}
+              <strong>Lat & Long :</strong>{" "}
+              {state?.block_details?.latitude || "-"},{" "}
+              {state?.block_details?.longitude || "-"}
             </Typography>
           </Grid>
         </Grid>
@@ -105,19 +108,19 @@ const WarehouseItemDetail = () => {
             <Typography variant="h6" fontSize="14px">
               Make
             </Typography>
-            <Box sx={patternBoxStyle}>{state?.gp_detail?.make || "-"} </Box>
+            <Box sx={patternBoxStyle}>{state?.make || "-"} </Box>
           </Grid>
           <Grid item xs={6} md={2.4}>
             <Typography variant="h6" fontSize="14px">
               Model
             </Typography>
-            <Box sx={patternBoxStyle}>{state?.gp_detail?.model || "-"} </Box>
+            <Box sx={patternBoxStyle}>{state?.model || "-"} </Box>
           </Grid>
           <Grid item xs={6} md={2.4}>
             <Typography variant="h6" fontSize="14px">
               Rack Positioning
             </Typography>
-            <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+            <Box sx={patternBoxStyle}>{state?.rack_positioning || "-"} </Box>
           </Grid>
           <Grid item xs={6} md={2.4}>
             <Typography variant="h6" fontSize="14px">
@@ -170,14 +173,18 @@ const WarehouseItemDetail = () => {
               {/* Left side tabs */}
               <Tab label="Transfer" value="1" />
               <Tab label="Maintenance" value="2" />
+              <Tab label="Replacement" value="3" />
             </TabList>
           </Box>
 
           <TabPanel value="1" sx={{ p: 0 }}>
-            <TranferTable />
+            <TranferTable row={state} />
           </TabPanel>
           <TabPanel value="2" sx={{ p: 0 }}>
-            <MaintenanceTable />
+            <MaintenanceTable row={state} />
+          </TabPanel>
+          <TabPanel value="3" sx={{ p: 0 }}>
+            <ReplacementTable row={state} />
           </TabPanel>
         </TabContext>
       </Box>

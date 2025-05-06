@@ -51,12 +51,24 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
   const initialValues = {
     issueDate: "",
     pickupLocation: "",
-    wayOfTransport: "",
-    transporterName: "",
-    vehicleNumber: "",
-    driverName: "",
-    driverNumber: "",
+    // wayOfTransport: "",
+    // transporterName: "",
+    // vehicleNumber: "",
+    // driverName: "",
+    // driverNumber: "",
     // document: "", // or {} if using the nested object version
+
+    road: {
+      transporter_name: "",
+      vehicle_no: "",
+      driver_name: "",
+      driver_phone_no: "",
+    },
+
+    air: {
+      transporter_name: "",
+      awb_no: "",
+    },
     initiatedBy: "",
     remarks: "",
   };
@@ -64,13 +76,13 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
   const validationSchema = Yup.object().shape({
     issueDate: Yup.date().required("Issue date is required"),
     pickupLocation: Yup.string().required("Pickup location is required"),
-    wayOfTransport: Yup.string().required("Way of transport is required"),
-    transporterName: Yup.string().required("Transporter name is required"),
-    vehicleNumber: Yup.string().required("Vehicle number is required"),
-    driverName: Yup.string().required("Driver name is required"),
-    driverNumber: Yup.string()
-      .required("Driver number is required")
-      .matches(/^[0-9]{10}$/, "Driver number must be 10 digits"),
+  //  wayOfTransport: Yup.string().required("Way of transport is required"),
+  //   transporterName: Yup.string().required("Transporter name is required"),
+  //   vehicleNumber: Yup.string().required("Vehicle number is required"),
+  //   driverName: Yup.string().required("Driver name is required"),
+  //   driverNumber: Yup.string() 
+  //     .required("Driver number is required")
+  //     .matches(/^[0-9]{10}$/, "Driver number must be 10 digits"),
     // document: Yup.string().nullable(), // Adjust if using object
     initiatedBy: Yup.string().required("Initiator is required"),
     remarks: Yup.string().nullable(),
@@ -79,19 +91,22 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
   const handleSubmit = async (values) => {
     const body = {
       requested_item: {
-        requested_item_id:row?._id,
-        requested_item_details:{
-          ...row
-        }
+        requested_item_id: row?._id,
+        requested_item_details: {
+          ...row,
+        },
+      },
+      transport_details: {
+        transport_type: values?.transport_type,
       },
       issueDate: values?.issueDate,
       pickupLocation: values?.pickupLocation,
-      wayOfTransport: values?.wayOfTransport,
-      transporterName: values?.transporterName,
-      vehicleNumber: values?.vehicleNumber,
-      driverName: values?.driverName,
-      driverNumber: values?.driverName,
-      document: values?.document,
+      // wayOfTransport: values?.wayOfTransport,
+      // transporterName: values?.transporterName,
+      // vehicleNumber: values?.vehicleNumber,
+      // driverName: values?.driverName,
+      // driverNumber: values?.driverName,
+      // document: values?.document,
       // document: {
       //   invoiceNumber: "INV-20250430-001",
       //   manifest: "Manifest details or link here",
@@ -100,6 +115,19 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
       initiatedBy: values?.initiatedBy,
       remarks: values?.remarks,
     };
+     if (values.transport_type === "road") {
+       body.transport_details.road = {
+         transporter_name: values?.road?.transporter_name,
+         vehicle_no: values?.road?.vehicle_no,
+         driver_name: values?.road?.driver_name,
+         driver_phone_no: values?.road?.driver_phone_no,
+       };
+     } else {
+       body.transport_details.air = {
+         transporter_name: values?.air?.transporter_name,
+         awb_no: values?.air?.awb_no,
+       };
+     }
     setSubmitting(true);
     try {
       const res = await Axios.post("/o&m/gp/replacement/assign", body);
@@ -242,7 +270,9 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
                                 <TableCell align="left">
                                   {row?.block_asset_details?.condition || "-"}
                                 </TableCell>
-                                <TableCell align="left">{row?.status || "-"}</TableCell>
+                                <TableCell align="left">
+                                  {row?.status || "-"}
+                                </TableCell>
                               </TableRow>
                             </TableBody>
                           </Table>
@@ -306,8 +336,156 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
                               )}
                             />
                           </Grid>
-
                           <Grid item xs={12} md={3}>
+                            <Typography fontSize="14px" gutterBottom>
+                              Transport Type
+                            </Typography>
+                            <Autocomplete
+                              options={["road", "air"]}
+                              onChange={(e, val) =>
+                                setFieldValue("transport_type", val || "")
+                              }
+                              value={values.transport_type || ""}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  fullWidth
+                                  size="small"
+                                  name="transport_type"
+                                  placeholder="Select"
+                                  error={
+                                    touched.transport_type &&
+                                    Boolean(errors.transport_type)
+                                  }
+                                  helperText={
+                                    touched.transport_type &&
+                                    errors.transport_type
+                                  }
+                                />
+                              )}
+                            />
+                          </Grid>
+
+                          {values.transport_type === "road" && (
+                            <>
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Transporter Name
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Transporter Name"
+                                  name="road.transporter_name"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "road.transporter_name",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.road?.transporter_name || ""}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Vehicle No.
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Vehicle No."
+                                  name="road.vehicle_no"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "road.vehicle_no",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.road?.vehicle_no || ""}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Driver Name
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Driver Name"
+                                  name="road.driver_name"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "road.driver_name",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.road?.driver_name || ""}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Driver Phone No.
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Driver Phone No."
+                                  name="road.driver_phone_no"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "road.driver_phone_no",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.road?.driver_phone_no || ""}
+                                />
+                              </Grid>
+                            </>
+                          )}
+
+                          {values.transport_type === "air" && (
+                            <>
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  Transporter Name
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter Transporter Name"
+                                  name="air.transporter_name"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "air.transporter_name",
+                                      e.target.value
+                                    )
+                                  }
+                                  value={values.air?.transporter_name || ""}
+                                />
+                              </Grid>
+
+                              <Grid item xs={12} md={3}>
+                                <Typography fontSize="14px" gutterBottom>
+                                  AWB No.
+                                </Typography>
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  placeholder="Enter AWB No."
+                                  name="air.awb_no"
+                                  onChange={(e) =>
+                                    setFieldValue("air.awb_no", e.target.value)
+                                  }
+                                  value={values.air?.awb_no || ""}
+                                />
+                              </Grid>
+                            </>
+                          )}
+
+                          {/* <Grid item xs={12} md={3}>
                             <Typography fontSize="14px" gutterBottom>
                               Transport
                             </Typography>
@@ -363,7 +541,6 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
                             />
                           </Grid>
 
-                          {/* Row 2 */}
                           <Grid item xs={12} md={3}>
                             <Typography fontSize="14px" gutterBottom>
                               Vehicle No.
@@ -437,7 +614,7 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
                                 touched.driverNumber && errors.driverNumber
                               }
                             />
-                          </Grid>
+                          </Grid> */}
 
                           {/* <Grid item xs={12} md={3}>
                             <Typography fontSize="14px" gutterBottom>

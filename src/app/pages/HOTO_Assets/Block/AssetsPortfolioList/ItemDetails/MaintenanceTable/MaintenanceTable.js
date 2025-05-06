@@ -18,7 +18,6 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +28,8 @@ import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
+import moment from "moment";
+import { hoto_block_asset_partfolio_maintenance_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -55,19 +56,13 @@ const addBtnStyle = {
   "&:hover": { backgroundColor: " #E78F5D" },
 };
 
-const MaintenanceTable = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+const MaintenanceTable = ({row}) => {
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [coordinate, setCoordinate] = useState({
-    open: false,
-    gp_name: null,
-    lat: null,
-    log: null,
-  });
 
-  const { hotoServeyDataReducer } = useSelector((state) => state);
+  const { hotoBlockAssetPortfolioMaintenanceDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,29 +73,25 @@ const MaintenanceTable = () => {
     setPage(1);
   };
 
-  const handleCloseCoordinate = function () {
-    setCoordinate({
-      open: false,
-      gp_name: null,
-      lat: null,
-      log: null,
-    });
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleSearch = (searchTerm) => {
     setPage(1);
-    // dispatch(
-    //   hoto_servey_data_disptach({
-    //     sortBy: sortBy,
-    //     search_value: searchTerm.trim(),
-    //     sort: sort,
-    //     page: page,
-    //   })
-    // );
+    dispatch(
+      hoto_block_asset_partfolio_maintenance_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+        filters: {
+          _ids: {
+            assets_id: row._id,
+          },
+        },
+      })
+    );
   };
 
   const debouncedHandleSearch = debounce(handleSearch, 500);
@@ -115,23 +106,27 @@ const MaintenanceTable = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    // dispatch(
-    //   hoto_servey_data_disptach({
-    //     sortBy: sortBy,
-    //     search_value: searchTerm.trim(),
-    //     sort: sort,
-    //     page: page,
-    //   })
-    // );
+    dispatch(
+      hoto_block_asset_partfolio_maintenance_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+        filters: {
+          _ids: {
+            assets_id: row._id,
+          },
+        },
+      })
+    );
   }, [sort, page, sortBy, dispatch]);
 
-  const addMasterItem = () => {
-    navigate(BLOCK_MASTER);
-  };
   return (
     <>
-      {/* {hotoServeyDataReducer?.loading && <FullScreenLoader />} */}
-      {/* <Div sx={{ display: "flex", justifyContent: "space-between" }}>
+      {hotoBlockAssetPortfolioMaintenanceDataReducer?.loading && (
+        <FullScreenLoader />
+      )}
+      <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
           type="search"
@@ -142,11 +137,16 @@ const MaintenanceTable = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_servey_data_disptach({
+                hoto_block_asset_partfolio_maintenance_data_disptach({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: {
+                    _ids: {
+                      assets_id: row._id,
+                    },
+                  },
                 })
               );
             }
@@ -162,16 +162,7 @@ const MaintenanceTable = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
-          <Button
-            variant="contained"
-            sx={{ ...addBtnStyle }}
-            onClick={addMasterItem}
-          >
-            + Add Block
-          </Button>
-        </Div>
-      </Div> */}
+      </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
@@ -182,7 +173,6 @@ const MaintenanceTable = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  {" "}
                   Sr No.
                 </TableSortLabel>
               </TableCell>
@@ -196,6 +186,18 @@ const MaintenanceTable = () => {
                   sx={{ ...tableCellSort }}
                 >
                   Maintenance ID
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <TableSortLabel
+                  onClick={() => handleSort(`current_data.companyType`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Requested Date
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -239,7 +241,7 @@ const MaintenanceTable = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Vendor
+                  Allocated To
                 </TableSortLabel>
               </TableCell>
 
@@ -254,7 +256,7 @@ const MaintenanceTable = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Issue Date
+                  Assigned To
                 </TableSortLabel>
               </TableCell>
               <TableCell
@@ -283,6 +285,20 @@ const MaintenanceTable = () => {
                   sx={{ ...tableCellSort }}
                 >
                   Estimated Repair Days
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`current_data.commissionPercentage`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Issue Date
                 </TableSortLabel>
               </TableCell>
               <TableCell
@@ -317,110 +333,202 @@ const MaintenanceTable = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`current_data.commissionPercentage`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Document
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "80px" }}
+              >
                 Remark
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {
-                            hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
-                                return (
-                                    <TableRow key={ele?.id}>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize",
-                                        }}>
-                                            <IconButton aria-label="info" size="medium" onClick={() => {
-                                                setCoordinate({
-                                                    open: true,
-                                                    gp_name: ele?.gp?.name,
-                                                    lat: ele?.gp?.latitude,
-                                                    log: ele?.gp?.longitude
-                                                })
-                                            }}>
-                                                <ShareLocationIcon fontSize="medium" color='primary' />
-                                            </IconButton>
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            <Button variant="contained"
-                                                size="small"
-                                                startIcon={<HomeRepairServiceIcon />}
-                                                onClick={() => handleEquipmentDetails(ele)}
-                                                sx={{
-                                                    "&:hover": {
-                                                        backgroundColor: orangeSecondary
-                                                    }
-                                                }}
-                                            >
-                                                View
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            })
-                        } */}
-            <TableCell
-              align="left"
-              colSpan={10}
-              sx={{
-                textAlign: "center",
-                verticalAlign: "middle",
-                textTransform: "capitalize",
-              }}
-            >
-              No Data Found!
-            </TableCell>
+            {hotoBlockAssetPortfolioMaintenanceDataReducer?.data?.result?.data
+              ?.length > 0 ? (
+              hotoBlockAssetPortfolioMaintenanceDataReducer?.data?.result?.data?.map(
+                (ele, index) => {
+                  return (
+                    <TableRow key={ele?.id}>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {index + 1 || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.maintenance_id || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.equipment_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.serial_no || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.repair_type || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.maintenance_type || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.district?.code || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.issue_reported || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.district?.code || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.district?.code || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.district?.code || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.district?.code || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.district?.code || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.remarks || "-"}
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+              )
+            ) : (
+              <TableCell
+                align="left"
+                colSpan={10}
+                sx={{
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  textTransform: "capitalize",
+                }}
+              >
+                No Data Found!
+              </TableCell>
+            )}
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoBlockAssetPortfolioMaintenanceDataReducer?.data?.result?.total_pages}
           page={page}
           onChange={handleChangePage}
           sx={{
@@ -433,12 +541,6 @@ const MaintenanceTable = () => {
           }}
         />
       </TableContainer>
-      {coordinate?.open && (
-        <MapLocation
-          coordinate={coordinate}
-          handleClose={handleCloseCoordinate}
-        />
-      )}
     </>
   );
 };

@@ -29,6 +29,7 @@ const style = {
 function ReplacementModal({ open, handleClose, row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
+ 
   const initialValues = {
     issueDate: "",
     serialNumber: 3,
@@ -150,8 +151,7 @@ function ReplacementModal({ open, handleClose, row }) {
                               setFieldTouched("issueDate", true)
                             }
                             value={
-                              values?.issueDate ||
-                              new Date().toISOString().split("T")[0]
+                              values?.issueDate 
                             }
                             error={
                               touched?.issueDate &&
@@ -226,8 +226,7 @@ function ReplacementModal({ open, handleClose, row }) {
                             }
                             onBlur={() => setFieldTouched("dueDate", true)}
                             value={
-                              values?.dueDate ||
-                              new Date().toISOString().split("T")[0]
+                              values?.dueDate 
                             }
                             error={touched?.dueDate && Boolean(errors?.dueDate)}
                             helperText={touched?.dueDate && errors?.dueDate}

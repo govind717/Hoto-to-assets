@@ -18,7 +18,6 @@ function AddSupplier() {
     material_details:{}
   }
   const [finalFormData,setFinalFormData]=useState(initialstate);
-  console.log("finalFormData",finalFormData);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

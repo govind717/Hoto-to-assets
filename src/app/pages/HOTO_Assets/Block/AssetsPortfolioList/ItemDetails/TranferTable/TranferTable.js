@@ -1,4 +1,7 @@
+import Div from "@jumbo/shared/Div";
+import SearchIcon from "@mui/icons-material/Search";
 import {
+  InputAdornment,
   Pagination,
   Paper,
   Table,
@@ -8,10 +11,14 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
+  TextField,
 } from "@mui/material";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { hoto_block_asset_partfolio_transfer_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const tableCellSx = {
@@ -29,11 +36,16 @@ const tableCellSort = {
     color: "white",
   },
 };
-const TranferTable = () => {
+
+const TranferTable = ({row}) => {
   const [sortBy, setSortBy] = useState("created_at");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
+
+  const { hotoBlockAssetPortfolioTransferDataReducer } = useSelector(
+    (state) => state
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,6 +62,19 @@ const TranferTable = () => {
 
   const handleSearch = (searchTerm) => {
     setPage(1);
+    dispatch(
+      hoto_block_asset_partfolio_transfer_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+        filters: {
+          _ids: {
+            assets_id: row._id,
+          },
+        },
+      })
+    );
   };
 
   const debouncedHandleSearch = debounce(handleSearch, 500);
@@ -63,130 +88,375 @@ const TranferTable = () => {
     };
   }, [searchTerm]);
 
-  useEffect(() => {}, [sort, page, sortBy, dispatch]);
+  useEffect(() => {
+    dispatch(
+      hoto_block_asset_partfolio_transfer_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+        filters: {
+          _ids: {
+            assets_id: row._id,
+          },
+        },
+      })
+    );
+  }, [sort, page, sortBy, dispatch]);
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small">
-        <TableHead>
-          <TableRow sx={{ bgcolor: "#53B8CA" }}>
-            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                Sr No
-            </TableCell>
-            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-              <TableSortLabel
-                onClick={() => handleSort(`transfer_id`)}
-                direction={sort}
-                sx={{ ...tableCellSort }}
+    <>
+      <Div sx={{ display: "flex", justifyContent: "space-between" }}>
+        <TextField
+          id="search"
+          type="search"
+          label="Search"
+          value={searchTerm}
+          size="small"
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            if (e.target.value === "") {
+              dispatch(
+                hoto_block_asset_partfolio_transfer_data_disptach({
+                  sortBy: sortBy,
+                  search_value: "",
+                  sort: sort,
+                  page: page,
+                  filters: {
+                    _ids: {
+                      assets_id: row._id,
+                    },
+                  },
+                })
+              );
+            }
+          }}
+          sx={{ width: 300, my: "2%" }}
+          InputProps={{
+            endAdornment: (
+              <Div sx={{ cursor: "pointer" }}>
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              </Div>
+            ),
+          }}
+        />
+      </Div>
+      {hotoBlockAssetPortfolioTransferDataReducer?.loading && (
+        <FullScreenLoader />
+      )}
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} size="small">
+          <TableHead>
+            <TableRow sx={{ bgcolor: "#53B8CA" }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                Sr. No.
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`equipment`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Transfer ID
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                Transfer ID
-              </TableSortLabel>
-            </TableCell>
-            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-              <TableSortLabel
-                onClick={() =>
-                  handleSort(
-                    `equipment`
-                  )
+                <TableSortLabel
+                  onClick={() => handleSort(`equipment`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Requested Date
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`equipment`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Equipment
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`current_data.companyType`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Serial No.
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "160px" }}
+              >
+                <TableSortLabel
+                  onClick={() => handleSort(`current_data.companyType`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Transfer Type
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "160px" }}
+              >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`current_data.commissionPercentage`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Transfer From
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`current_data.commissionPercentage`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Transfer To
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "160px" }}
+              >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`current_data.commissionPercentage`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Incharge
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`current_data.commissionPercentage`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Issue Date
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`current_data.commissionPercentage`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Transfer Status
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                Document
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                Remark
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {hotoBlockAssetPortfolioTransferDataReducer?.data?.result?.data
+              ?.length > 0 ? (
+              hotoBlockAssetPortfolioTransferDataReducer?.data?.result?.data?.map(
+                (ele, index) => {
+                  return (
+                    <TableRow key={ele?.id}>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {index + 1 || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_id || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.equipment_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.serial_no || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_type || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_from?.location_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_to?.location_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.block?.code || "-"}
+                      </TableCell>
+
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.district?.name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.document || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.remarks || "-"}
+                      </TableCell>
+                    </TableRow>
+                  );
                 }
-                direction={sort}
-                sx={{ ...tableCellSort }}
-              >
-                Equipment
-              </TableSortLabel>
-            </TableCell>
-            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-              <TableSortLabel
-                onClick={() => handleSort(`current_data.companyType`)}
-                direction={sort}
-                sx={{ ...tableCellSort }}
-              >
-                Serial No.
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              align={"left"}
-              sx={{ ...tableCellSx, minWidth: "160px" }}
-            >
-              <TableSortLabel
-                onClick={() => handleSort(`current_data.companyType`)}
-                direction={sort}
-                sx={{ ...tableCellSort }}
-              >
-                Transfer Type
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              align={"left"}
-              sx={{ ...tableCellSx, minWidth: "160px" }}
-            >
-              <TableSortLabel
-                onClick={() => handleSort(`transferFrom`)}
-                direction={sort}
-                sx={{ ...tableCellSort }}
-              >
-                Transfer From
-              </TableSortLabel>
-            </TableCell>
-            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-              <TableSortLabel
-                onClick={() => handleSort(`transferTo`)}
-                direction={sort}
-                sx={{ ...tableCellSort }}
-              >
-                Transfer To
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              align={"left"}
-              sx={{ ...tableCellSx, minWidth: "160px" }}
-            >
-              <TableSortLabel
-                onClick={() => handleSort(`received_by`)}
-                direction={sort}
-                sx={{ ...tableCellSort }}
-              >
-                Received By
-              </TableSortLabel>
-            </TableCell>
-            
-            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-              Status
-            </TableCell>
-            <TableCell align={"left"} sx={{ ...tableCellSx }}>
-              Remark
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableCell
-              align="left"
-              colSpan={10}
-              sx={{
-                textAlign: "center",
-                verticalAlign: "middle",
-                textTransform: "capitalize",
-              }}
-            >
-              No Data Found!
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-      <Pagination
-        count={1}
-        page={page}
-        onChange={handleChangePage}
-        sx={{
-          position: "sticky",
-          bottom: 0,
-          left: 0,
-          p: "1%",
-          backgroundColor: "white",
-          borderTop: "1px solid #ddd",
-        }}
-      />
-    </TableContainer>
+              )
+            ) : (
+              <TableRow>
+                <TableCell
+                  align="left"
+                  colSpan={10}
+                  sx={{
+                    textAlign: "center",
+                    verticalAlign: "middle",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  No Data Found!
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+        <Pagination
+          count={
+            hotoBlockAssetPortfolioTransferDataReducer?.data?.result
+              ?.total_pages
+          }
+          page={page}
+          onChange={handleChangePage}
+          sx={{
+            position: "sticky",
+            bottom: 0,
+            left: 0,
+            p: "1%",
+            backgroundColor: "white",
+            borderTop: "1px solid #ddd",
+          }}
+        />
+      </TableContainer>
+    </>
   );
 };
+
 export default TranferTable;

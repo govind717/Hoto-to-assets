@@ -196,7 +196,6 @@ function AdduserManagement() {
       role: roleCheked,
     };
 
-    console.log("payload : ", payload);
     setSubmitting(true);
     try {
       const res =
@@ -2090,7 +2089,6 @@ function AdduserManagement() {
                 size="small"
                 variant="contained"
                 type="submit"
-                onClick={() => console.log("clicked")}
                 sx={{
                   width: "100px",
                   "&:hover": { backgroundColor: "#53B8CA" },

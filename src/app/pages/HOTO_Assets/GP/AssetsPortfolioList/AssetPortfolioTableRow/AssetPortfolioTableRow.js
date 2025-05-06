@@ -13,6 +13,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import RequestMaintenanceModal from "../Modal/RequestMaintenanceModal";
 import ReplacementModal from "../Modal/ReplacementModal";
 import TransferModal from "../Modal/TransferModal";
+import { Blue, Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -56,7 +57,7 @@ const AssetPortfolioTableRow = ({
   };
 
   const showDetails = (e) => {
-    navigate("/dashboards/hoto-survey-block-data/asset-portflio-details", {
+    navigate("/dashboards/hoto-survey-gp-data/assets-details", {
       state: e,
     });
   };
@@ -70,32 +71,18 @@ const AssetPortfolioTableRow = ({
       case "issueForReplacement":
         setRow(row);
         setOpenReplacement(true);
-        // Swal.fire({
-        //   text: "Are you sure you want to Request for Replacement?",
-        //   icon: "warning",
-        //   showCancelButton: true,
-        //   confirmButtonText: "Yes",
-        //   cancelButtonText: "No",
-        // }).then((result) => {
-        //   if (result.isConfirmed) {
-        //     console.log("Replacement : ",id);
-        //     // handleIsssueForFlitching([logId]);
-        //   }
-        // });
         break;
       case "issueForTransfer":
-         setRow(row);
+        setRow(row);
         setOpenTransfer(true);
         break;
       default:
-        
     }
   };
   const handleCloseModal = () => {
     setOpenMaintenance(false);
     setOpenReplacement(false);
     setOpenTransfer(false);
-
   };
   return (
     <>
@@ -116,21 +103,42 @@ const AssetPortfolioTableRow = ({
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>{e?.serial_no || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
-          {e?.gp_detail?.gp_name || "-"}
+          {e?.gp_details?.gp_name || "-"}
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
-          {e?.gp_detail?.gp_code || "-"}
+          {e?.gp_details?.gp_code || "-"}
         </TableCell>
-        <TableCell sx={{ ...tableBodyCell }}>{e?.sity_type || "-"}</TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>{e?.site_type || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
           {e?.warranty_status ? "Yes" : "No"}
         </TableCell>
-        <TableCell sx={{ ...tableBodyCell }}>{e?.condition || "-"}</TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>
+                  <Chip
+                    label={e?.condition ? e.condition.toUpperCase() : "-"}
+                    sx={{
+                      backgroundColor:
+                        e?.condition.toUpperCase() === "DAMAGED"
+                          ? Red
+                          : e?.condition.toUpperCase() === "SEMI-DAMAGED"
+                          ? Yellow
+                          : e?.condition.toUpperCase() === "ROBUST"
+                          ? Green
+                          : e?.condition.toUpperCase() === "MISSING"
+                          ? Orange
+                          : "",
+                      color: "#FFF",
+                      fontWeight: "bold",
+                      fontSize:"14",
+                      height: "25px",
+                      px: 2,
+                    }}
+                  />
+                </TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
             label={e?.condition_status || "-"}
             sx={{
-              backgroundColor: "#aaa",
+              // backgroundColor: grayCheapColor,
               color: "#4E4E4E",
               fontWeight: "bold",
               height: "25px",

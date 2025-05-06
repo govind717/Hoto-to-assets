@@ -5,6 +5,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
+  Chip,
   IconButton,
   InputAdornment,
   Pagination,
@@ -25,7 +26,7 @@ import { useNavigate } from "react-router-dom";
 import MapIcon from "@mui/icons-material/Map";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
+import { Green, Orange, orangeSecondary, Red, Yellow } from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
 import { hoto_gp_maintenance_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
@@ -62,9 +63,7 @@ const MaintainanceList = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { hotoGpMaintenanceDataReducer } = useSelector(
-    (state) => state
-  );
+  const { hotoGpMaintenanceDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -113,7 +112,6 @@ const MaintainanceList = () => {
     );
   }, [sort, page, sortBy, dispatch]);
 
-  
   return (
     <>
       {hotoGpMaintenanceDataReducer?.loading && <FullScreenLoader />}
@@ -259,6 +257,7 @@ const MaintainanceList = () => {
                   Issue Reported
                 </TableSortLabel>
               </TableCell>
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
@@ -270,7 +269,7 @@ const MaintainanceList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Estimated Repair Days
+                  Issue Date
                 </TableSortLabel>
               </TableCell>
               <TableCell
@@ -287,19 +286,32 @@ const MaintainanceList = () => {
                   ETA
                 </TableSortLabel>
               </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`assets_details.condition`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Condition
+                </TableSortLabel>
+              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.condition_status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Status
                 </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "80px" }}
+              >
+                Document
               </TableCell>
               <TableCell
                 align={"left"}
@@ -393,7 +405,7 @@ const MaintainanceList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {"-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -413,7 +425,7 @@ const MaintainanceList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -425,6 +437,54 @@ const MaintainanceList = () => {
                       >
                         {ele?.gp?.district?.code || "-"}
                       </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        <Chip
+                          label={
+                            ele?.assets_details?.condition
+                              ? ele?.assets_details?.condition.toUpperCase()
+                              : "-"
+                          }
+                          sx={{
+                            backgroundColor:
+                              ele?.assets_details?.condition.toUpperCase() ===
+                              "DAMAGED"
+                                ? Red
+                                : ele?.assets_details?.condition.toUpperCase() ===
+                                  "SEMI-DAMAGED"
+                                ? Yellow
+                                : ele?.assets_details?.condition.toUpperCase() ===
+                                  "ROBUST"
+                                ? Green
+                                : ele?.assets_details?.condition.toUpperCase() ===
+                                  "MISSING"
+                                ? Orange
+                                : "",
+                            color: "#FFF",
+                            fontWeight: "bold",
+                            fontSize: "14",
+                            height: "25px",
+                            px: 2,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.condition_status || "-"}
+                      </TableCell>
+
                       <TableCell
                         align="left"
                         sx={{
@@ -465,7 +525,7 @@ const MaintainanceList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoGpMaintenanceDataReducer?.data?.result?.total_pages}
           page={page}
           onChange={handleChangePage}
           sx={{

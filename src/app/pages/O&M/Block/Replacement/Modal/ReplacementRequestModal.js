@@ -61,9 +61,7 @@ const patternBoxStyle = {
   wordBreak: "break-word",
 };
 function ReplacementRequestModal({ open, closeModal, row }) {
-  const navigate = useNavigate();
-  const [isSubmitting, setSubmitting] = useState(false);
-  const { state } = useLocation();
+ 
   return (
     <div>
       <Modal
@@ -80,75 +78,6 @@ function ReplacementRequestModal({ open, closeModal, row }) {
             <Typography variant="h3" fontWeight={600} mb={2}>
               Rack
             </Typography>
-            {/* <TableContainer
-              sx={{
-                marginTop: "15px",
-                maxWidth: "1100px",
-                marginBottom: "30px",
-              }}
-              component={Paper}
-            >
-              <Table size="small">
-                <TableHead>
-                  <TableRow sx={{ bgcolor: "#53B8CA" }}>
-                    <TableCell
-                      align="left"
-                      sx={{ ...tableCellSx, minWidth: "100px" }}
-                    >
-                      Transport
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{ ...tableCellSx, minWidth: "220px" }}
-                    >
-                      Transporter Name
-                    </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Vahicle No.
-                    </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Driver Name
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{ ...tableCellSx, minWidth: "180px" }}
-                    >
-                      Driver No.
-                    </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Location
-                    </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Warranty
-                    </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Vendor Ack
-                    </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Varified By
-                    </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Photo
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-
-                <TableBody>
-                  <TableRow>
-                    <TableCell align="left">Road</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">TJS2025-05-01</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">4567856789</TableCell>
-                    <TableCell align="left">Native Site</TableCell>
-                    <TableCell align="left">2026</TableCell>
-                    <TableCell align="left">Repaired</TableCell>
-                    <TableCell align="left">in Use</TableCell>
-                    <TableCell align="left">Rajesh</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer> */}
             <Typography
               variant="h5"
               fontSize="16px"
@@ -163,63 +92,81 @@ function ReplacementRequestModal({ open, closeModal, row }) {
                 <Typography variant="h6" fontSize="14px">
                   Unit Size
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.block_asset_details?.unit_size || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Make
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.gp_detail?.make || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.block_asset_details?.make || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Model
                 </Typography>
                 <Box sx={patternBoxStyle}>
-                  {state?.gp_detail?.model || "-"}{" "}
+                  {row?.block_asset_details?.model || "-"}{" "}
                 </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Rack Positioning
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.block_asset_details?.rack_positioning || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   OFC Connectivity
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.block_asset_details?.ofc_connectivity || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   No. of Connectivity Entry
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.block_asset_details?.unit_size || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   OFC Type
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.block_asset_details?.unit_size || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Entry Point
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.block_asset_details?.unit_size || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Power Socket Availability
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.block_asset_details?.unit_size || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Single Slot/Multy Slot
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.block_asset_details?.unit_size || "-"}{" "}
+                </Box>
               </Grid>
             </Grid>
             <Div sx={{ display: "flex", justifyContent: "center" }}>

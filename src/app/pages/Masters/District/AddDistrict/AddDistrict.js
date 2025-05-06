@@ -71,7 +71,6 @@ function AddDistrict() {
   });
 
   const onUserSave = async (values) => {
-    console.log("values : ", values);
     const body = {
       packageId: values?.packageName.id,
       district: values?.district,

@@ -20,7 +20,6 @@ export const user_data_disptach = function ({ page = 1,search_value = "",sort=""
 
            
             const response = await Axios.post(`${AllApis?.users}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body)
-            console.log("user dispatch response",response)
             dispatch({
                 type: USER_DATA_SUCCESS, payload: {
                     data: response?.data

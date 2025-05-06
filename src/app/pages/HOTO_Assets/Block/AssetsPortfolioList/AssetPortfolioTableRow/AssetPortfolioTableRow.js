@@ -13,6 +13,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import RequestMaintenanceModal from "../Modal/RequestMaintenanceModal";
 import ReplacementModal from "../Modal/ReplacementModal";
 import TransferModal from "../Modal/TransferModal";
+import { Blue, grayCheapColor, Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -109,16 +110,37 @@ const AssetPortfolioTableRow = ({
         <TableCell sx={{ ...tableBodyCell }}>
           {e?.block_details?.block_id || "-"}
         </TableCell>
-        <TableCell sx={{ ...tableBodyCell }}>{e?.sity_type || "-"}</TableCell>
+        {/* <TableCell sx={{ ...tableBodyCell }}>{e?.sity_type || "-"}</TableCell> */}
         <TableCell sx={{ ...tableBodyCell }}>
           {e?.warranty_status ? "Yes" : "No"}
         </TableCell>
-        <TableCell sx={{ ...tableBodyCell }}>{e?.condition || "-"}</TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>
+          <Chip
+            label={e?.condition ? e.condition.toUpperCase() : "-"}
+            sx={{
+              backgroundColor:
+                e?.condition.toUpperCase() === "DAMAGED"
+                  ? Red
+                  : e?.condition.toUpperCase() === "SEMI-DAMAGED"
+                  ? Yellow
+                  : e?.condition.toUpperCase() === "ROBUST"
+                  ? Green
+                  : e?.condition.toUpperCase() === "MISSING"
+                  ? Orange
+                  : "",
+              color: "#FFF",
+              fontWeight: "bold",
+              fontSize:"14",
+              height: "25px",
+              px: 2,
+            }}
+          />
+        </TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
             label={e?.condition_status || "-"}
             sx={{
-              backgroundColor: "#aaa",
+              // backgroundColor: grayCheapColor,
               color: "#4E4E4E",
               fontWeight: "bold",
               height: "25px",
@@ -129,7 +151,8 @@ const AssetPortfolioTableRow = ({
 
         <TableCell
           sx={{
-            ...tableBodyCell,
+            textAlign: "left",
+            px: 1,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

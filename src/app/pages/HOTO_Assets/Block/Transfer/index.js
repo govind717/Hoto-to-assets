@@ -13,8 +13,10 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FullScreenLoader from "app/pages/Components/Loader";
 import { hoto_block_transfer_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -116,6 +118,7 @@ const Transferlist = () => {
           }}
         />
       </Div>
+      {hotoBlockTransferDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
@@ -125,11 +128,11 @@ const Transferlist = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`equipment`)}
+                  onClick={() => handleSort(`transfer_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Transfer Id
+                  Transfer ID
                 </TableSortLabel>
               </TableCell>
               <TableCell
@@ -137,7 +140,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`equipment`)}
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -146,7 +149,7 @@ const Transferlist = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`equipment`)}
+                  onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -155,7 +158,7 @@ const Transferlist = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`assets_details.serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -167,7 +170,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`transfer_type`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -179,9 +182,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_from.location_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -190,9 +191,7 @@ const Transferlist = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_to.location_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -205,7 +204,7 @@ const Transferlist = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`incharge`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -219,7 +218,21 @@ const Transferlist = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Issue Date
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`transfer_status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -259,7 +272,7 @@ const Transferlist = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.name || "-"}
+                        {ele?.transfer_id || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -269,7 +282,7 @@ const Transferlist = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.code || "-"}
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -279,7 +292,47 @@ const Transferlist = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.block?.name || "-"}
+                        {ele?.assets_details?.equipment_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.serial_no || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_type || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_from?.location_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_to?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -290,6 +343,17 @@ const Transferlist = () => {
                         }}
                       >
                         {ele?.gp?.block?.code || "-"}
+                      </TableCell>
+
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -309,7 +373,17 @@ const Transferlist = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {ele?.document || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.remarks || "-"}
                       </TableCell>
                     </TableRow>
                   );
@@ -333,7 +407,7 @@ const Transferlist = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoBlockTransferDataReducer?.data?.result?.total_pages}
           page={page}
           onChange={handleChangePage}
           sx={{

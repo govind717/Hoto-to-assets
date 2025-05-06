@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
+// import ItemDetailsModal from "./ItemDetails/GpAssetsDetail";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import Swal from "sweetalert2";
 import { debounce } from "lodash";
@@ -127,10 +127,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const handleSelectAll = function (event) {
     try {
       const checked = event.target.checked;
-      console.log(
-        "SelectAll hotoBlockAssetPortfolioDataReducer : ",
-        hotoGpAssetPortfolioDataReducer?.data?.result?.data
-      );
+     
       if (checked) {
         setSelectedIds((prev) => {
           const selecedIdsData = new Set([
@@ -156,7 +153,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
 
   const handleIsssueForMaintenance = async function () {
     try {
-      console.log("handle handleIsssueForMaintenance : ", selectedIds);
       const issueForMaintenance = await Axios.post(
         "issue for maintainance api here",
         {
@@ -190,7 +186,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     }
   };
   const handleIsssueForTransfer = async function () {
-    console.log("handle handleIsssueForTransfer : ", selectedIds);
     try {
       const issueForTransfer = await Axios.post("transfer api here", {
         log_inventory_itemids: selectedIds,
@@ -223,7 +218,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
 
   const handleIsssueForReplacement = async function () {
     try {
-      console.log("handle handleIsssueForReplacement : ", selectedIds);
       const issueForReplacement = await Axios.post(
         "Issue for Replacement api here",
         {
@@ -422,7 +416,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Equipment")}
+                    onClick={() => handleSort("equipment_name")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -434,7 +428,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Serial No.")}
+                    onClick={() => handleSort("serial_no")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -446,7 +440,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Location")}
+                    onClick={() => handleSort("gp_details.gp_name")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -458,7 +452,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Location Code")}
+                    onClick={() => handleSort("gp_details.gp_code")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -470,7 +464,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Site Type")}
+                    onClick={() => handleSort("site_type")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -482,7 +476,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Warranty")}
+                    onClick={() => handleSort("warranty_status")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -494,7 +488,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Condition")}
+                    onClick={() => handleSort("condition")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -506,7 +500,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("Status")}
+                    onClick={() => handleSort("condition_status")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -566,7 +560,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableRow>
                 <TableCell
                   colSpan={14}
-                  sx={{ textAlign: "center", py: 2, fontSize: 18 }}
+                  sx={{ textAlign: "center",  fontSize: 14 }}
                 >
                   No Data Found
                 </TableCell>
@@ -582,12 +576,12 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             position: "sticky",
             bottom: 0,
             left: 0,
-            p: "1%",
+            p: "5px",
             backgroundColor: "white",
             borderTop: "1px solid #ddd",
           }}
         />
-        <Modal
+        {/* <Modal
           open={openDetailModal}
           onClose={() => {
             setItemDetailsForModal(null);
@@ -598,7 +592,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             itemDetailsForModal={itemDetailsForModal}
             setOpenDetailModal={setOpenDetailModal}
           />
-        </Modal>
+        </Modal> */}
       </TableContainer>
     </>
   );

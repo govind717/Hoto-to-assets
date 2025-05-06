@@ -123,18 +123,14 @@ const ReplacementList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Sr No
+                Sr No
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      `replecement_id`
-                    )
-                  }
+                  onClick={() => handleSort(`replecement_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -157,7 +153,10 @@ const ReplacementList = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(
@@ -288,11 +287,14 @@ const ReplacementList = () => {
                   Replacement Status
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
-                Remark
-              </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Document
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                Remark
               </TableCell>
             </TableRow>
           </TableHead>
@@ -360,7 +362,8 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_name || "-"}
+                        {ele?.block_asset_details?.block_details?.gp_name ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -370,7 +373,8 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_code || "-"}
+                        {ele?.block_asset_details?.block_details?.gp_code ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -441,7 +445,7 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.remarks || "-"}
+                        {ele?.gp?.district?.code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -451,7 +455,7 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {ele?.remarks || "-"}
                       </TableCell>
                     </TableRow>
                   );
@@ -475,7 +479,7 @@ const ReplacementList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoBlockReplacementDataReducer?.data?.result?.total_pages}
           page={page}
           onChange={handleChangePage}
           sx={{

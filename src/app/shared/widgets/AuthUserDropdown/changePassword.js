@@ -52,7 +52,6 @@ const ChangePasswordModal = ({ open, onClose }) => {
         onClose();
       }
     } catch (error) {
-      console.log(error.response);
       setError(error?.response?.data?.message);
     } finally {
       setLoader(false);

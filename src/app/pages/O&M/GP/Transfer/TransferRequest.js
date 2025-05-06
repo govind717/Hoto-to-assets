@@ -23,6 +23,10 @@ import { oandm_gp_transfer_request_data_disptach } from "app/redux/actions/O&M/G
 import Div from "@jumbo/shared/Div";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import moment from "moment";
+import InfoIcon from "@mui/icons-material/Info";
+const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -45,6 +49,7 @@ const TransferRequest = () => {
   const [page, setPage] = useState(1);
   const [openCreateTransefer,setOpenCreateTransefer]=useState(false);
   const [openTransferRequest,setOpenTransferRequest]=useState(false);
+  const [row,setRow]=useState(null);
   const { oandmGpTransferRequestDataReducer } = useSelector(
     (state) => state
   );
@@ -101,6 +106,14 @@ const TransferRequest = () => {
   const closeTransferRequest =()=>{
     setOpenTransferRequest(false);
   }
+   const handleAssign = (data) => {
+     setRow(data);
+     setOpenCreateTransefer(true);
+   };
+   const showDetails = (data) => {
+     setRow(data);
+     setOpenTransferRequest(true);
+   };
   return (
     <>
       {oandmGpTransferRequestDataReducer?.loading && <FullScreenLoader />}
@@ -322,7 +335,7 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.name || "-"}
+                        {ele?.transfer_id || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -332,7 +345,7 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.code || "-"}
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -342,7 +355,47 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.block?.name || "-"}
+                        {ele?.assets_details?.equipment_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.serial_no || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_type || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_from?.location_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_to?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -354,6 +407,7 @@ const TransferRequest = () => {
                       >
                         {ele?.gp?.block?.code || "-"}
                       </TableCell>
+
                       <TableCell
                         align="left"
                         sx={{
@@ -362,7 +416,7 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.name || "-"}
+                        {ele?.document || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -372,29 +426,45 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {ele?.remarks || "-"}
                       </TableCell>
-                      {/* <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        size="small"
-                        startIcon={<HomeRepairServiceIcon />}
+                      <TableCell
                         sx={{
-                          "&:hover": {
+                          ...tableBodyCell,
+                        }}
+                      >
+                        <InfoIcon
+                          sx={{
+                            "&:hover": { cursor: "pointer", color: "black" },
+                          }}
+                          onClick={() => {
+                            showDetails(ele);
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          size="small"
+                          // startIcon={<HomeRepairServiceIcon />}
+                          onClick={() => handleAssign(ele)}
+                          sx={{
                             backgroundColor: orangeSecondary,
-                          },
-                        }}
-                      >
-                        View
-                      </Button>
-                    </TableCell> */}
+                            "&:hover": {
+                              backgroundColor: orangeSecondary,
+                            },
+                          }}
+                        >
+                          Assign
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   );
                 }
@@ -431,9 +501,11 @@ const TransferRequest = () => {
       <CreateTransferModal
         open={openCreateTransefer}
         closeModal={closeCreateTransefer}
+        row={row}
       />
       <TransferRequestViewModel
         open={openTransferRequest}
+        row={row}
         closeModal={closeTransferRequest}
       />
     </>

@@ -7,7 +7,6 @@ const Login = () => {
         open: false,
         email: ""
     })
-    console.log(resetPassword)
     return (
         <>
             {!resetPassword?.open ?

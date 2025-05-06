@@ -39,7 +39,15 @@ export const oandm_gp_maintenace_request_data_disptach = function ({
     const body = {
       filters: {},
       searchFields: {
-        string: [],
+        string: [
+          "maintenance_id",
+          "assets_details.equipment_name",
+          "assets_details.serial_no",
+          "assets_details.location_details.gp_name",
+          "assets_details.location_details.gp_code",
+          "assets_details.condition",
+          "repair_type",
+        ],
         numbers: [],
         arrayField: [],
         boolean: [],
@@ -77,7 +85,16 @@ export const oandm_gp_maintenace_request_assign_data_disptach = function ({
       const body = {
         filters: {},
         searchFields: {
-          string: [],
+          string: [
+            "maintenance_id",
+            "assets_details.equipment_name",
+            "assets_details.serial_no",
+            "assets_details.location_details?.gp_name",
+            "assets_details.location_details?.gp_code",
+            "assets_details.condition",
+            "repair_type",
+            "issue_reported",
+          ],
           numbers: [],
           arrayField: [],
           boolean: [],
@@ -127,10 +144,7 @@ export const oandm_gp_replacement_request_data_disptach = function ({
       const response = await Axios.post(
         `${oandmApis?.gp?.replacement?.replacement_request_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
       );
-      console.log(
-        "this is block assets portfolio list",
-        response.data?.result?.data
-      );
+     
       dispatch({
         type: OANDM_GP_REPLACEMENT_REQUEST_DATA_SUCCESS,
         payload: {
@@ -209,10 +223,7 @@ export const oandm_gp_transfer_request_data_disptach = function ({
       const response = await Axios.post(
         `${oandmApis?.gp?.transfer?.transfer_request_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
       );
-      console.log(
-        "Response",
-        response.data?.result?.data
-      );
+     
       dispatch({
         type: OANDM_GP_TRANSFER_REQUEST_DATA_SUCCESS,
         payload: {
@@ -289,10 +300,7 @@ export const oandm_gp_scrap_request_data_disptach = function ({
       const response = await Axios.post(
         `${oandmApis?.gp?.scrap?.scrap_request_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
       );
-      console.log(
-        "this is block assets portfolio list",
-        response.data?.result?.data
-      );
+      
       dispatch({
         type: OANDM_GP_SCRAP_REQUEST_DATA_SUCCESS,
         payload: {

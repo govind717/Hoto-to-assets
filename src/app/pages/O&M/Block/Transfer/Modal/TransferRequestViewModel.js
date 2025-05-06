@@ -60,12 +60,11 @@ const patternBoxStyle = {
   whiteSpace: "pre-wrap",
   wordBreak: "break-word",
 };
-function TransferRequestViewModel({ open, closeModal }) {
+function TransferRequestViewModel({ open, closeModal,row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const { state } = useLocation();
-  const handleSubmit = ({ values }) => {};
-
+  console.log("Row4 : ",row);
   return (
     <div>
       <Modal
@@ -177,58 +176,54 @@ function TransferRequestViewModel({ open, closeModal }) {
                   <TableRow sx={{ bgcolor: "#53B8CA" }}>
                     <TableCell
                       align="left"
-                      sx={{ ...tableCellSx, minWidth: "100px" }}
+                      sx={{ ...tableCellSx, minWidth: "180px" }}
                     >
-                      Transport
+                      Equipment
                     </TableCell>
                     <TableCell
                       align="left"
-                      sx={{ ...tableCellSx, minWidth: "220px" }}
+                      sx={{ ...tableCellSx, minWidth: "120px" }}
                     >
-                      Transporter Name
+                      Serial No.
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Vahicle No.
+                      Transfer Type
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Driver Name
+                      Transfer From
                     </TableCell>
                     <TableCell
                       align="left"
                       sx={{ ...tableCellSx, minWidth: "180px" }}
                     >
-                      Driver No.
+                      Transfer To
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Location
+                      Received By
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Warranty
+                      Status
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Vendor Ack
-                    </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Varified By
-                    </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Photo
+                      Remark
                     </TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
                   <TableRow>
-                    <TableCell align="left">Road</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">TJS2025-05-01</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">4567856789</TableCell>
-                    <TableCell align="left">Native Site</TableCell>
-                    <TableCell align="left">2026</TableCell>
-                    <TableCell align="left">Repaired</TableCell>
-                    <TableCell align="left">in Use</TableCell>
-                    <TableCell align="left">Rajesh</TableCell>
+                    <TableCell align="left">
+                      {row?.assets_details?.equipment_name}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.assets_details?.serial_no}
+                    </TableCell>
+                    <TableCell align="left">{row?.transfer_type}</TableCell>
+                    <TableCell align="left">{row?.transfer_from?.location_name}</TableCell>
+                    <TableCell align="left">{row?.transfer_to?.location_name}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{row?.remarks}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

@@ -14,7 +14,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import EditModal from "../Modal/EditModal";
-
+import EditIcon from "@mui/icons-material/Edit";
+import InfoIcon from "@mui/icons-material/Info";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -30,15 +31,16 @@ const tableCellSort = {
     color: "white",
   },
 };
-const AssetDetailTable = () => {
+const AssetDetailTable = ({ data }) => {
   const [sortBy, setSortBy] = useState("created_at");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
+  const [row,setRow]=useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -68,6 +70,7 @@ const AssetDetailTable = () => {
   const handleCloseModal = () => {
     setOpen(false);
   };
+  const showDetails = (data) => {};
   return (
     <>
       <TableContainer component={Paper}>
@@ -137,19 +140,125 @@ const AssetDetailTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell
-                align="left"
-                colSpan={10}
-                sx={{
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  textTransform: "capitalize",
-                }}
-              >
-                No Data Found!
-              </TableCell>
-            </TableRow>
+            {data.length > 0 ? (
+              data.map((ele, index) => {
+                return (
+                  <TableRow>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {index + 1 || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.equipment_name || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.serial_no || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.warranty_status ? "True" : "false"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.condition || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.condition_status || "-"}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        // textAlign: "left",
+                        // px: 1,
+                        // display: "flex",
+                        // alignItems: "center",
+                        // justifyContent: "center",
+                      }}
+                    >
+                      <InfoIcon
+                        sx={{
+                          "&:hover": { cursor: "pointer", color: "black" },
+                        }}
+                        onClick={() => {
+                          showDetails(ele);
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        // textAlign: "left",
+                        // px: 1,
+                        // display: "flex",
+                        // alignItems: "center",
+                        // justifyContent: "center",
+                      }}
+                    >
+                      <EditIcon
+                        sx={{
+                          "&:hover": { cursor: "pointer", color: "black" },
+                        }}
+                        onClick={() => {
+                          setRow(ele);
+                          setOpen(true);
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableRow>
+                <TableCell
+                  align="left"
+                  colSpan={10}
+                  sx={{
+                    textAlign: "center",
+                    verticalAlign: "middle",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  No Data Found!
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
         <Pagination
@@ -166,7 +275,7 @@ const AssetDetailTable = () => {
           }}
         />
       </TableContainer>
-      <EditModal open={open} handleClose={handleCloseModal} />
+      <EditModal open={open} handleClose={handleCloseModal} row={row}/>
     </>
   );
 };

@@ -172,7 +172,7 @@ const BlockWiseAssetList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`block.name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -181,7 +181,7 @@ const BlockWiseAssetList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`block_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -190,9 +190,7 @@ const BlockWiseAssetList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`district.name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -201,9 +199,7 @@ const BlockWiseAssetList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`district_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -215,7 +211,7 @@ const BlockWiseAssetList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                Details
+                Assets
               </TableCell>
             </TableRow>
           </TableHead>
@@ -291,6 +287,7 @@ const BlockWiseAssetList = () => {
                           onClick={() => showDetails(ele)}
                           // onClike={() => showDetails(ele)}
                           sx={{
+                            backgroundColor: orangeSecondary,
                             "&:hover": {
                               backgroundColor: orangeSecondary,
                             },
@@ -319,7 +316,7 @@ const BlockWiseAssetList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoBlockWiseAssetDataReducer?.data?.result?.total_pages}
           page={page}
           onChange={handleChangePage}
           sx={{

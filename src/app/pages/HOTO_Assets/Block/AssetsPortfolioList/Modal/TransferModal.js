@@ -26,68 +26,90 @@ const style = {
   minWidth: "1000px",
 };
 
-
-
 function TransferModal({ open, handleClose, row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
-
-   const initialValues = {
-     transfer_type: "",
-     transfer_from: "",
-     transfer_to: "",
-     remarks: "",
-   };
-     const validationSchema = Yup.object().shape({
-       transfer_type: Yup.string().required("Transfer type is required"),
-       transfer_from: Yup.string().required("Transfer From is required"),
-       transfer_to: Yup.string().required("Transfer To is Required"),
-       remarks: Yup.string(),
-     });
-  
-    const handleSubmit = async (values) => {
-      const body = {
-        assets_ids: [row?._id],
-        other_details: {
-          transfer_type: values?.transfer_type,
-          transfer_from: values?.transfer_from,
-          transfer_to: values?.transfer_to,
-          remarks: values?.remarks,
-        },
-      };
-      console.log("Transfer model body : ",body);
-      setSubmitting(true);
-      try {
-        const res = await Axios.post(
-          "/block-transfer-request/add-transfer-request",
-          body
-        );
-  
-        const statusCode = res?.data?.statusCode;
-  
-        if (statusCode === 200 || statusCode === 201) {
-          Swal.fire({
-            icon: "success",
-            text: "Transfer request send successfully",
-            timer: 1000,
-            showConfirmButton: false,
-          });
-          handleClose();
-        } else {
-          throw new Error(res?.data?.message || "Unknown Error");
+  const [transferToOprtions, setTransferToOprtions] = useState([]);
+  console.log("transferToOprtions : ", transferToOprtions);
+  const initialValues = {
+    transfer_type: "",
+    transfer_from: row
+      ? {
+          location_type: row?.block_details?.location_type || "warehouse",
+          location_name: row?.block_details?.gp_name,
+          location_code: row?.block_details?.gp_code,
         }
-      } catch (err) {
+      : null,
+    transfer_to_type:"",
+    transfer_to: null,
+    remarks: "",
+  };
+  const validationSchema = Yup.object().shape({
+    transfer_type: Yup.string().required("Transfer type is required"),
+    transfer_from: Yup.object()
+      .nullable()
+      .required("Transfer From is required"),
+    transfer_to_type:Yup.string().required("Transfer to type is required"),
+    transfer_to: Yup.object().nullable().required("Transfer To is Required"),
+    remarks: Yup.string(),
+  });
+
+  const handleSubmit = async (values) => {
+    const body = {
+      assets_ids: [row?._id],
+      other_details: {
+        transfer_type: values?.transfer_type,
+        transfer_from: {
+          location_type: row?.block_details?.location_type || "warehouse",
+          location_name: row?.block_details?.gp_name,
+          location_code: row?.block_details?.gp_code,
+        },
+        transfer_to: {
+          location_type: values?.transfer_to_type,
+          location_name:
+            values?.transfer_to_type === "block"
+              ? values?.transfer_to?.blockName
+              : values?.transfer_to?.warehouse_name,
+          location_code:
+            values?.transfer_to_type === "block"
+              ? values?.transfer_to?.blockCode
+              : values?.transfer_to?.code,
+        },
+        remarks: values?.remarks,
+      },
+    };
+    console.log("Body : " ,body);
+    setSubmitting(true);
+    try {
+      const res = await Axios.post(
+        "/block-transfer-request/add-transfer-request",
+        body
+      );
+
+      const statusCode = res?.data?.statusCode;
+
+      if (statusCode === 200 || statusCode === 201) {
         Swal.fire({
-          icon: "error",
-          text: err?.response?.data?.message || err.message,
+          icon: "success",
+          text: "Transfer request send successfully",
+          timer: 1000,
+          showConfirmButton: false,
         });
         handleClose();
-      } finally {
-        setSubmitting(false);
-        handleClose();
+      } else {
+        throw new Error(res?.data?.message || "Unknown Error");
       }
-    };
-  
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        text: err?.response?.data?.message || err.message,
+      });
+      handleClose();
+    } finally {
+      setSubmitting(false);
+      handleClose();
+    }
+  };
 
   return (
     <div>
@@ -118,9 +140,10 @@ function TransferModal({ open, handleClose, row }) {
                 setValues,
               }) => (
                 <Form noValidate autoComplete="off">
+                {console.log("type : ", values?.transfer_to_type)}
                   <Div sx={{ mt: 0 }}>
                     <Div
-                      sx={{
+                      sx={{ 
                         display: "flex",
                         width: "100%",
                         flexWrap: "wrap",
@@ -190,7 +213,7 @@ function TransferModal({ open, handleClose, row }) {
                             Transfer Type
                           </Typography>
                           <Autocomplete
-                            options={["Internal", "External"]}
+                            options={["internal", "external"]}
                             getOptionLabel={(option) => option || ""}
                             // value={}
                             onChange={(e, newValue) => {
@@ -217,6 +240,7 @@ function TransferModal({ open, handleClose, row }) {
                             )}
                           />
                         </Grid>
+
                         <Grid item xs={6} md={3}>
                           <Typography variant="h6" fontSize="14px">
                             Transferd From
@@ -232,7 +256,13 @@ function TransferModal({ open, handleClose, row }) {
                             onBlur={() =>
                               setFieldTouched("transfer_from", true)
                             }
-                            value={values?.transfer_from}
+                            disabled
+                            value={`${
+                              values?.transfer_from?.location_type ||
+                              "warehouse"
+                            },${values?.transfer_from?.location_name},${
+                              values?.transfer_from?.location_code
+                            }`}
                             error={
                               touched?.transfer_from &&
                               Boolean(errors?.transfer_from)
@@ -244,11 +274,82 @@ function TransferModal({ open, handleClose, row }) {
                         </Grid>
                         <Grid item xs={12} md={3}>
                           <Typography variant="h6" fontSize="14px" mb={0.5}>
+                            Transfer to Type
+                          </Typography>
+                          <Autocomplete
+                            options={["block", "warehouse"]}
+                            getOptionLabel={(option) => option || ""}
+                            onChange={(e, newValue) => {
+                              if (newValue === "block") {
+                                Axios.get("/master/block/dropdown")
+                                  .then((res) => {
+                                    setTransferToOprtions(res?.data?.result);
+                                  })
+                                  .catch((err) => {
+                                    console.log(
+                                      "Error while fetching block dropdown"
+                                    );
+                                  });
+                              } else {
+                                Axios.get("/master/warehouse/dropdown")
+                                  .then((res) => {
+                                    setTransferToOprtions(res?.data?.result);
+                                  })
+                                  .catch((err) => {
+                                    console.log(
+                                      "Error while fetching warehouse dropdown"
+                                    );
+                                  });
+                              }
+                               setFieldValue("transfer_to_type", newValue);
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                fullWidth
+                                size="small"
+                                placeholder="Select transfer to Type"
+                                name="transfer_to_type"
+                                error={
+                                  touched.transfer_to_type &&
+                                  Boolean(errors.transfer_to_type)
+                                }
+                                helperText={
+                                  touched.transfer_to_type &&
+                                  errors.transfer_to_type
+                                }
+                              />
+                            )}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <Typography variant="h6" fontSize="14px" mb={0.5}>
                             Transfer To
                           </Typography>
                           <Autocomplete
-                            options={["45672", "27382"]}
-                            getOptionLabel={(option) => option || ""}
+                            // options={[
+                            //   {
+                            //     location_type: "gp",
+                            //     location_name:
+                            //       "Gram Panchayat Office - Block A",
+                            //     location_code: "GP-101",
+                            //   },
+                            //   {
+                            //     location_type: "block",
+                            //     location_name:
+                            //       "Gram Panchayat Office - Block A",
+                            //     location_code: "block-101",
+                            //   },
+                            // ]}
+                            options={transferToOprtions}
+                            getOptionLabel={(option) => {
+                              
+                              if (values?.transfer_to_type === "block") {
+                                return option?.blockName || ""; 
+                              } else {
+                                return option?.warehouse_name || ""; 
+                              }
+                            }}
                             // value={}
                             onChange={(e, newValue) => {
                               setFieldValue(
@@ -312,13 +413,8 @@ function TransferModal({ open, handleClose, row }) {
                             }
                             onBlur={() => setFieldTouched("remarks", true)}
                             value={values?.remarks}
-                            error={
-                              touched?.remarks &&
-                              Boolean(errors?.remarks)
-                            }
-                            helperText={
-                              touched?.remarks && errors?.remarks
-                            }
+                            error={touched?.remarks && Boolean(errors?.remarks)}
+                            helperText={touched?.remarks && errors?.remarks}
                           />
                         </Grid>
                       </Grid>

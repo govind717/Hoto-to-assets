@@ -80,7 +80,6 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
         assign_to: values?.assign_to,
         remarks: values?.remarks,
       };
-      console.log("body : ",body);
       setSubmitting(true);
       try {
         const res = await Axios.post(
@@ -143,7 +142,6 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                   setValues,
                 }) => (
                   <Form noValidate autoComplete="off">
-                    {console.log("values : ",values)}
                     <Div sx={{ mt: 0 }}>
                       <Div
                         sx={{
