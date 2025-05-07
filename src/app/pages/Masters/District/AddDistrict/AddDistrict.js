@@ -1,48 +1,25 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
   Autocomplete,
   Button,
   Grid,
-  IconButton,
-  InputAdornment,
-  Pagination,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import * as yup from "yup";
-import { Form, Formik } from "formik";
-import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
+import MasterApis from "app/Apis/master";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import { addDistrict, updateDistrict } from "app/services/apis/master";
 import {
   DISTRICT_MASTER,
   DISTRICT_MASTER_EDIT,
 } from "app/utils/constants/routeConstants";
-import { addDistrict, updateDistrict } from "app/services/apis/master";
+import { Form, Formik } from "formik";
 import { Axios } from "index";
-import MasterApis from "app/Apis/master";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as yup from "yup";
 
 function AddDistrict() {
   const navigate = useNavigate();
@@ -80,7 +57,7 @@ function AddDistrict() {
     setSubmitting(true);
     try {
       if (pathname === DISTRICT_MASTER_EDIT) {
-        const data = await updateDistrict(body, state?.id);
+        const data = await updateDistrict(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(DISTRICT_MASTER);
           Swal.fire({
@@ -136,14 +113,14 @@ function AddDistrict() {
           console.log("Error : ", error);
         });
     })();
-    return () => {};
+    return () => { };
   }, []);
 
   useEffect(() => {
     if (packageList.length && state) {
       setFormInitialValues({
         packageName: state?.packageId
-          ? packageList.find((opt) => opt.id === state.packageId)
+          ? packageList.find((opt) => opt._id === state.packageId)
           : "",
         district: state?.district || "",
         districtCode: state?.districtCode || "",
@@ -188,7 +165,7 @@ function AddDistrict() {
                           size="small"
                           options={packageList}
                           getOptionLabel={(option) => option.packageName || ""}
-                          isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                          isOptionEqualToValue={(opt, val) => opt?._id === val.id}
                           value={values.packageName}
                           onChange={(_, value) => {
                             setFieldValue("packageName", value);

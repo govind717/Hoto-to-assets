@@ -67,7 +67,7 @@ const UserManagementList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  
+
 
   const { userDataReducer } = useSelector((state) => state);
 
@@ -91,7 +91,7 @@ const UserManagementList = () => {
     });
   };
 
- 
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -135,34 +135,34 @@ const UserManagementList = () => {
     navigate("/user-management/add");
   };
 
-   const updateStatus = async (body, id) => {
-      const data = await Axios.patch(`${AllApis?.Auth?.updateUser}/${id}`, body)
-      if (data?.data?.statusCode === 200) {
-        Swal.fire({
-          icon: "success",
-          text: "Status Updated Successfully",
-          timer: 1000,
-          showConfirmButton: false,
-        });
-  
-        //  After successful update, fetch the latest list again
-        dispatch(
-          user_data_disptach({
-            sortBy: sortBy,
-            search_value: searchTerm.trim(),
-            sort: sort,
-            page: page,
-          })
-        );
-      } else {
-        Swal.fire({
-          icon: "error",
-          text: data?.data?.message
-            ? data?.data?.message
-            : "Error while updating Status",
-        });
-      }
-    };
+  const updateStatus = async (body, id) => {
+    const data = await Axios.patch(`${AllApis?.Auth?.updateUser}/${id}`, body)
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+
+      //  After successful update, fetch the latest list again
+      dispatch(
+        user_data_disptach({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
+  };
   return (
     <>
       {userDataReducer?.loading && <FullScreenLoader />}
@@ -211,8 +211,8 @@ const UserManagementList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"100px" }}>
-                  Sr No.
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "100px" }}>
+                Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -475,7 +475,7 @@ const UserManagementList = () => {
                     >
                       {ele?.type || "-"}
                     </TableCell>
-                    
+
                     <TableCell
                       align="left"
                       sx={{
@@ -533,7 +533,7 @@ const UserManagementList = () => {
                         onChange={(event) => {
                           const newStatus = event.target.checked;
                           const body = { ...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
+                          updateStatus(body, ele?._id);
                         }}
                         color="primary"
                       />

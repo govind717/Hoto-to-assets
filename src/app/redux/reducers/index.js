@@ -1,7 +1,7 @@
 import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
 import { hotoServeyBlockDataReducer, hotoServeyDataReducer } from './Hoto_servey_data';
-import { blockDataReducer, categoryDataReducer, departmentDataReducer, districtDataReducer, gpDataReducer, gstDataReducer, hsnCodeDataReducer, materialDataReducer, organisationDataReducer, packageDataReducer, subCategoryDataReducer, teamDataReducer, uomDataReducer, warehouseDataReducer } from './Master';
+import { blockDataReducer, categoryDataReducer, departmentDataReducer, districtDataReducer, gpDataReducer, gstDataReducer, hsnCodeDataReducer, materialDataReducer, organisationDataReducer, packageDataReducer, subCategoryDataReducer, supplierDataReducer, teamDataReducer, uomDataReducer, warehouseDataReducer } from './Master';
 import { userDataReducer } from './userManagement';
 import { hotoBlockAssetPortfolioDataReducer, hotoBlockAssetPortfolioMaintenanceDataReducer, hotoBlockAssetPortfolioReplacementDataReducer, hotoBlockAssetPortfolioTransferDataReducer, hotoBlockMaintenanceDataReducer, hotoBlockReplacementDataReducer, hotoBlockTransferDataReducer, hotoBlockWarehouseDataReducer, hotoBlockWiseAssetDataReducer } from './Hoto_servey_data/Block';
 import { hotoGpAssetPortfolioDataReducer, hotoGpAssetPortfolioMaintenanceDataReducer, hotoGpAssetPortfolioReplacementDataReducer, hotoGpAssetPortfolioTransferDataReducer, hotoGpMaintenanceDataReducer, hotoGpReplacementDataReducer, hotoGpTransferDataReducer, hotoGpWarehouseDataReducer, hotoGpWiseAssetDataReducer } from './Hoto_servey_data/GP';
@@ -31,6 +31,7 @@ const exportReducers = history => {
       hsnCodeDataReducer: hsnCodeDataReducer,
       gstDataReducer: gstDataReducer,
       warehouseDataReducer: warehouseDataReducer,
+      supplierDataReducer:supplierDataReducer,
       userDataReducer: userDataReducer,
       hotoBlockAssetPortfolioDataReducer: hotoBlockAssetPortfolioDataReducer,
       hotoBlockAssetPortfolioMaintenanceDataReducer,

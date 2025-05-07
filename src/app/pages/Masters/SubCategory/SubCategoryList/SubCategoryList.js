@@ -1,5 +1,5 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
+import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
@@ -16,18 +16,17 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import { sub_category_data_dispatch } from "app/redux/actions/Master";
+import { updateSubCategory } from "app/services/apis/master";
+import { SUB_CATEGORY_MASTER_ADD, SUB_CATEGORY_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import { SUB_CATEGORY_MASTER_ADD, SUB_CATEGORY_MASTER_EDIT } from "app/utils/constants/routeConstants";
-import moment from "moment";
-import { sub_category_data_dispatch } from "app/redux/actions/Master";
-import { Edit } from "@mui/icons-material";
 import Swal from "sweetalert2";
-import { updateSubCategory } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -71,12 +70,12 @@ const SubCategoryList = () => {
     setPage(1);
   };
 
-   
+
   const handleEdit = function (data) {
-    navigate(SUB_CATEGORY_MASTER_EDIT, {state: data});
+    navigate(SUB_CATEGORY_MASTER_EDIT, { state: data });
   };
 
-  
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -129,7 +128,7 @@ const SubCategoryList = () => {
         timer: 1000,
         showConfirmButton: false,
       });
-  
+
       // 👇 After successful update, fetch the latest list again
       dispatch(
         sub_category_data_dispatch({
@@ -197,7 +196,7 @@ const SubCategoryList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Sr No.
+                Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -208,7 +207,7 @@ const SubCategoryList = () => {
                   Category
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`subcategory`)}
                   direction={sort}
@@ -217,20 +216,7 @@ const SubCategoryList = () => {
                   Sub Category
                 </TableSortLabel>
               </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
-              </TableCell>
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
@@ -291,6 +277,20 @@ const SubCategoryList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`status`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "80px" }}
+              >
                 Actions
               </TableCell>
             </TableRow>
@@ -328,19 +328,9 @@ const SubCategoryList = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      {ele?.subcategory	 || "-"}
+                      {ele?.subcategory || "-"}
                     </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      <Switch
-                        checked={ele?.status === true}
-                        onChange={(event) => {
-                          const newStatus = event.target.checked;
-                          const body = {...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
-                        }}
-                        color="primary"
-                      />
-                    </TableCell>
+
                     <TableCell
                       align="left"
                       sx={{
@@ -380,6 +370,17 @@ const SubCategoryList = () => {
                       }}
                     >
                       {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

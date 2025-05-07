@@ -129,7 +129,7 @@ const GSTList = () => {
         timer: 1000,
         showConfirmButton: false,
       });
-  
+
       // 👇 After successful update, fetch the latest list again
       dispatch(
         gst_data_dispatch({
@@ -197,7 +197,7 @@ const GSTList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Sr No.
+                Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -208,17 +208,7 @@ const GSTList = () => {
                   GST %
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
-              </TableCell>
+
 
               <TableCell
                 align={"left"}
@@ -276,6 +266,17 @@ const GSTList = () => {
                   Updated Date
                 </TableSortLabel>
               </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`status`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
@@ -286,7 +287,7 @@ const GSTList = () => {
           </TableHead>
           <TableBody>
             {gstDataReducer?.data?.result?.data.length > 0 ? (
-              gstDataReducer?.data?.result?.data.map((ele, index) => {
+              gstDataReducer?.data?.result?.data?.map((ele, index) => {
                 return (
                   <TableRow key={ele?.id}>
                     <TableCell
@@ -309,19 +310,9 @@ const GSTList = () => {
                     >
                       {ele?.gst || "-"}
                     </TableCell>
-                    
-                   
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      <Switch
-                        checked={ele?.status === true}
-                        onChange={(event) => {
-                          const newStatus = event.target.checked;
-                          const body = {...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
-                        }}
-                        color="primary"
-                      />
-                    </TableCell>
+
+
+
                     <TableCell
                       align="left"
                       sx={{
@@ -361,6 +352,17 @@ const GSTList = () => {
                       }}
                     >
                       {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

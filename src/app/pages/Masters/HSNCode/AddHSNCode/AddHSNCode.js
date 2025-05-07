@@ -1,41 +1,25 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
   Autocomplete,
   Button,
   Grid,
-  IconButton,
-  InputAdornment,
-  Pagination,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import * as yup from "yup";
-import { Form, Formik } from "formik";
-import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
+import MasterApis from "app/Apis/master";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import { addHSNCode, updateHSNCode } from "app/services/apis/master";
 import {
   HSN_CODE_MASTER,
   HSN_CODE_MASTER_EDIT,
 } from "app/utils/constants/routeConstants";
-import { addHSNCode, updateHSNCode } from "app/services/apis/master";
-import MasterApis from "app/Apis/master";
+import { Form, Formik } from "formik";
 import { Axios } from "index";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as yup from "yup";
 
 function AddHSNCode() {
   const navigate = useNavigate();
@@ -43,7 +27,7 @@ function AddHSNCode() {
   const { state } = useLocation();
   const [gstOptions, setGstOptions] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
-  const [formInitialValues,setFormInitialValues]=useState(null);
+  const [formInitialValues, setFormInitialValues] = useState(null);
   const initialValues = {
     gst: state?.gst ? state.gst : "",
     hsn_code: state?.hsn_code ? state?.hsn_code : "",
@@ -60,13 +44,13 @@ function AddHSNCode() {
 
   const onUserSave = async (values) => {
     const body = {
-      gstId: values?.gst.id,
+      gstId: values?.gst._id,
       hsn_code: values?.hsn_code,
     };
     setSubmitting(true);
     try {
       if (pathname === HSN_CODE_MASTER_EDIT) {
-        const data = await updateHSNCode(body, state?.id);
+        const data = await updateHSNCode(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(HSN_CODE_MASTER);
           Swal.fire({
@@ -125,15 +109,15 @@ function AddHSNCode() {
   }, []);
 
   useEffect(() => {
-      if (gstOptions.length) {
-        setFormInitialValues({
-          gst: state?.gstId
-            ? gstOptions.find((opt) => opt.id === state.gstId)
-            : null,
-          hsn_code: state?.hsn_code || "",
-        });
-      }
-    }, [gstOptions]);
+    if (gstOptions.length) {
+      setFormInitialValues({
+        gst: state?.gstId
+          ? gstOptions.find((opt) => opt?._id === state.gstId)
+          : null,
+        hsn_code: state?.hsn_code || "",
+      });
+    }
+  }, [gstOptions]);
   return (
     <>
       <HotoHeader />
@@ -165,7 +149,7 @@ function AddHSNCode() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                    {pathname === HSN_CODE_MASTER_EDIT ? "Edit HSN Code" : "Add HSN Code"}
+                      {pathname === HSN_CODE_MASTER_EDIT ? "Edit HSN Code" : "Add HSN Code"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -194,7 +178,7 @@ function AddHSNCode() {
                           size="small"
                           options={gstOptions}
                           getOptionLabel={(option) => option.gst || ""}
-                          isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                          isOptionEqualToValue={(opt, val) => opt?._id === val.id}
                           value={values.gst}
                           onChange={(_, value) =>
                             setFieldValue("gst", value)

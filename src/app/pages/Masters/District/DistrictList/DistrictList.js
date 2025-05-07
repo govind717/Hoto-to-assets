@@ -1,7 +1,6 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
+import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
-import moment from "moment";
 import {
   Button,
   InputAdornment,
@@ -17,20 +16,20 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
+import { district_data_dispatch } from "app/redux/actions/Master";
+import { updateDistrict } from "app/services/apis/master";
 import {
   DISTRICT_MASTER_ADD,
   DISTRICT_MASTER_EDIT,
 } from "app/utils/constants/routeConstants";
-import { district_data_dispatch } from "app/redux/actions/Master";
-import { Edit } from "@mui/icons-material";
+import { debounce } from "lodash";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { updateDistrict } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -128,7 +127,7 @@ const DistrictList = () => {
         timer: 1000,
         showConfirmButton: false,
       });
-  
+
       // 👇 After successful update, fetch the latest list again
       dispatch(
         district_data_dispatch({
@@ -195,7 +194,7 @@ const DistrictList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:'100px' }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: '100px' }}>
                 <TableSortLabel
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -203,7 +202,7 @@ const DistrictList = () => {
                   Sr No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`package_details.packageName`)}
                   direction={sort}
@@ -234,17 +233,7 @@ const DistrictList = () => {
                   District Code
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
-              </TableCell>
+
 
               <TableCell
                 align={"left"}
@@ -302,6 +291,17 @@ const DistrictList = () => {
                   Updated Date
                 </TableSortLabel>
               </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`status`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
@@ -355,17 +355,7 @@ const DistrictList = () => {
                     >
                       {ele?.districtCode || "-"}
                     </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      <Switch
-                        checked={ele?.status === true}
-                        onChange={(event) => {
-                          const newStatus = event.target.checked;
-                          const body = {...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
-                        }}
-                        color="primary"
-                      />
-                    </TableCell>
+
                     <TableCell
                       align="left"
                       sx={{
@@ -405,6 +395,17 @@ const DistrictList = () => {
                       }}
                     >
                       {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

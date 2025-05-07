@@ -1,34 +1,31 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
+import { LoadingButton } from "@mui/lab";
 import {
+  Autocomplete,
   Button,
   Grid,
-  TextField,
-  Typography,
-  Switch,
-  FormControlLabel,
-  TableContainer,
   Paper,
   Table,
+  TableBody,
+  TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  TableCell,
-  TableBody,
-  Autocomplete,
+  TextField,
+  Typography
 } from "@mui/material";
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import * as yup from "yup";
-import { Form, Formik } from "formik";
-import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import { addWarehouse, updateWarehouse } from "app/services/apis/master";
 import {
   WAREHOUSE_MASTER,
   WAREHOUSE_MASTER_EDIT,
 } from "app/utils/constants/routeConstants";
-import { addWarehouse, updateWarehouse } from "app/services/apis/master";
-import { Country, State, City } from "country-state-city";
+import { City, State } from "country-state-city";
+import { Form, Formik } from "formik";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as yup from "yup";
 function AddWarehouse() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -38,6 +35,7 @@ function AddWarehouse() {
   const [cities, setCities] = useState([]);
   const initialValues = {
     warehouse_name: state?.warehouse_name || "",
+    code: state?.code || "",
     warehouse_type: state?.warehouse_type || "",
     address: state?.address || "",
     state: state?.state || "",
@@ -48,7 +46,7 @@ function AddWarehouse() {
     capacity: state?.capacity || "",
     status: state?.status ?? true,
     latitude: state?.latitude || "",
-    logitude: state?.logitude || "",
+    longitude: state?.longitude || "",
     contact_persons: state?.contact_persons || [],
     newContact: { name: "", email: "", mobile: "" }, // Added initial value for new contact
   };
@@ -64,6 +62,7 @@ function AddWarehouse() {
 
   const validationSchema = yup.object({
     warehouse_name: yup.string().required("Warehouse Name is required"),
+    code: yup.string().required("Warehouse Code is required"),
     warehouse_type: yup.string().required("Warehouse Type is required"),
     address: yup.string().required("Address is required"),
     state: yup.string().required("State is required"),
@@ -76,7 +75,7 @@ function AddWarehouse() {
       .required("Pincode is required"),
     capacity: yup.string().required("Capacity is required"),
     latitude: yup.string().required("Latitude is required"),
-    logitude: yup.string().required("Longitude is required"),
+    longitude: yup.string().required("Longitude is required"),
     contact_persons: yup.array().of(contactPersonValidationSchema),
   });
 
@@ -84,6 +83,7 @@ function AddWarehouse() {
     const body = {
       warehouse_name: values.warehouse_name,
       warehouse_type: values.warehouse_type,
+      code: values.code,
       address: values.address,
       state: values.state,
       district: values.district,
@@ -92,9 +92,11 @@ function AddWarehouse() {
       pincode: values.pincode,
       capacity: values.capacity,
       latitude: values.latitude,
-      logitude: values.logitude,
+      longitude: values.longitude,
       contact_persons: values.contact_persons,
     };
+
+
 
     if (body?.contact_persons?.length <= 0) {
       Swal.fire({
@@ -105,7 +107,7 @@ function AddWarehouse() {
       setSubmitting(true);
       try {
         if (pathname === WAREHOUSE_MASTER_EDIT) {
-          const data = await updateWarehouse(body, state?.id);
+          const data = await updateWarehouse(body, state?._id);
           if (data?.data?.statusCode === 200) {
             navigate(WAREHOUSE_MASTER);
             Swal.fire({
@@ -189,6 +191,29 @@ function AddWarehouse() {
                       }
                       helperText={
                         touched.warehouse_name && errors.warehouse_name
+                      }
+                    />
+                  </Grid>
+
+                  <Grid item xs={6} md={3}>
+                    <Typography variant="h6" fontSize="14px">
+                      Warehouse Code
+                    </Typography>
+                    <TextField
+                      sx={{ width: "100%" }}
+                      size="small"
+                      name="code"
+                      placeholder="Enter Warehouse Code"
+                      value={values.code}
+                      onChange={(e) =>
+                        setFieldValue("code", e.target.value)
+                      }
+                      onBlur={() => setFieldTouched("code")}
+                      error={
+                        touched.code && Boolean(errors.code)
+                      }
+                      helperText={
+                        touched.code && errors.code
                       }
                     />
                   </Grid>
@@ -420,15 +445,15 @@ function AddWarehouse() {
                     <TextField
                       sx={{ width: "100%" }}
                       size="small"
-                      name="logitude"
+                      name="longitude"
                       placeholder="Enter Longitude"
-                      value={values.logitude}
+                      value={values.longitude}
                       onChange={(e) =>
-                        setFieldValue("logitude", e.target.value)
+                        setFieldValue("longitude", e.target.value)
                       }
-                      onBlur={() => setFieldTouched("logitude")}
-                      error={touched.logitude && Boolean(errors.logitude)}
-                      helperText={touched.logitude && errors.logitude}
+                      onBlur={() => setFieldTouched("longitude")}
+                      error={touched.longitude && Boolean(errors.longitude)}
+                      helperText={touched.longitude && errors.longitude}
                     />
                   </Grid>
 

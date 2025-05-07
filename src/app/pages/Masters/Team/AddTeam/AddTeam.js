@@ -57,7 +57,7 @@ function AddTeam() {
     setSubmitting(true);
     try {
       if (pathname === TEAM_MASTER_EDIT) {
-        const data = await updateTeam(body, state?.id);
+        const data = await updateTeam(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(TEAM_MASTER);
           Swal.fire({
@@ -116,7 +116,7 @@ function AddTeam() {
     if (departmentOptions.length) {
       setFormInitialValues({
         departmentName: state?.departmentId
-          ? departmentOptions.find((opt) => opt.id === state.departmentId)
+          ? departmentOptions.find((opt) => opt?._id === state.departmentId)
           : null,
         teamName: state?.teamName || "",
       });
@@ -168,7 +168,7 @@ function AddTeam() {
                               option?.departmentName || ""
                             }
                             isOptionEqualToValue={(opt, val) =>
-                              opt.id === val.id
+                              opt?._id === val.id
                             }
                             value={values.departmentName}
                             onChange={(_, value) =>

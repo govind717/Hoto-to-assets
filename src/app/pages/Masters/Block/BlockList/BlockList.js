@@ -1,5 +1,5 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
+import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
@@ -16,21 +16,20 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
+import { block_data_dispatch } from "app/redux/actions/Master";
+import { updateBlock } from "app/services/apis/master";
 import {
   BLOCK_MASTER_ADD,
   BLOCK_MASTER_EDIT,
 } from "app/utils/constants/routeConstants";
+import { debounce } from "lodash";
 import moment from "moment";
-import { Edit } from "@mui/icons-material";
-import { block_data_dispatch } from "app/redux/actions/Master";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { updateBlock } from "app/services/apis/master";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -199,7 +198,7 @@ const BlockList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "100px" }}
               >
-                  Sr No.
+                Sr No.
               </TableCell>
               <TableCell
                 align={"left"}
@@ -240,15 +239,7 @@ const BlockList = () => {
                   Block Code
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`status`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
-              </TableCell>
+
 
               <TableCell
                 align={"left"}
@@ -296,6 +287,15 @@ const BlockList = () => {
                   sx={{ ...tableCellSort }}
                 >
                   Updated Date
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`status`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
                 </TableSortLabel>
               </TableCell>
               <TableCell
@@ -361,17 +361,7 @@ const BlockList = () => {
                     >
                       {ele?.blockCode || "-"}
                     </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      <Switch
-                        checked={ele?.status === true}
-                        onChange={(event) => {
-                          const newStatus = event.target.checked;
-                          const body = { ...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
-                        }}
-                        color="primary"
-                      />
-                    </TableCell>
+
                     <TableCell
                       align="left"
                       sx={{
@@ -411,6 +401,17 @@ const BlockList = () => {
                       }}
                     >
                       {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"

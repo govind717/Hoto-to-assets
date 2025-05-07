@@ -421,6 +421,8 @@ const ReplacementRequest = () => {
                           variant="contained"
                           size="small"
                           // startIcon={<HomeRepairServiceIcon />}
+                          disabled={!ele?.isCancelled || !ele?.isCreated}
+
                           onClick={() => handleAssign(ele)}
                           sx={{
                             backgroundColor: orangeSecondary,

@@ -161,12 +161,22 @@ const menus = [
     children: [
       {
         uri: "/dashboards/hoto-survey-block-data",
+        isActiveUri: [
+          "/dashboards/hoto-survey-block-data/asset-portflio-details",
+          "/dashboards/hoto-survey-block-data/block-wise-details",
+          "/dashboards/hoto-survey-block-data/block-wise-details/rack-details",
+        ],
         label: "Block",
         type: "nav-item",
       },
       {
         uri: "/dashboards/hoto-survey-gp-data",
         label: "GP",
+        isActiveUri: [
+          "/dashboards/hoto-survey-gp-data/assets-details",
+          "/dashboards/hoto-survey-gp-data/gp-wise-details/rack-details",
+          "/dashboards/hoto-survey-gp-data/gp-wise-details",
+        ],
         type: "nav-item",
       },
       {
@@ -176,7 +186,7 @@ const menus = [
       },
     ],
   },
-{
+  {
     uri: "/warehouse",
     label: "HOTO Warehouse",
     type: "nav-item",
@@ -226,7 +236,7 @@ const menus = [
       },
     ],
   },
-  
+
   // {
   //   uri: "/indent",
   //   label: "Indent",

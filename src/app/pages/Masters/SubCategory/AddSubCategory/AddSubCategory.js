@@ -1,8 +1,5 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
   Autocomplete,
   Button,
@@ -10,24 +7,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import * as yup from "yup";
-import { Form, Formik } from "formik";
-import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { SUB_CATEGORY_MASTER, SUB_CATEGORY_MASTER_EDIT } from "app/utils/constants/routeConstants";
-import { addSubCategory, updateSubCategory } from "app/services/apis/master";
-import { Axios } from "index";
 import MasterApis from "app/Apis/master";
+import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import { addSubCategory, updateSubCategory } from "app/services/apis/master";
+import { SUB_CATEGORY_MASTER, SUB_CATEGORY_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { Form, Formik } from "formik";
+import { Axios } from "index";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as yup from "yup";
 
 function AddSubCategory() {
   const navigate = useNavigate();
@@ -47,13 +36,13 @@ function AddSubCategory() {
 
   const onUserSave = async (values) => {
     const body = {
-      categoryId: values?.category.id,
+      categoryId: values?.category?._id,
       subcategory: values?.subCategory,
     };
     setSubmitting(true);
     try {
       if (pathname === SUB_CATEGORY_MASTER_EDIT) {
-        const data = await updateSubCategory(body, state?.id);
+        const data = await updateSubCategory(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(SUB_CATEGORY_MASTER);
           Swal.fire({
@@ -107,7 +96,7 @@ function AddSubCategory() {
   useEffect(() => {
     if (state?.categoryId && categoryOptions.length) {
       const selectedCategory = categoryOptions.find(
-        (opt) => opt.id === state.categoryId
+        (opt) => opt?._id === state.categoryId
       );
       setFormInitialValues({
         category: selectedCategory || null,
@@ -166,7 +155,7 @@ function AddSubCategory() {
                             options={categoryOptions}
                             getOptionLabel={(option) => option.category || ""}
                             isOptionEqualToValue={(opt, val) =>
-                              opt.id === val.id
+                              opt?._id === val._id
                             }
                             value={values.category}
                             onChange={(_, value) =>

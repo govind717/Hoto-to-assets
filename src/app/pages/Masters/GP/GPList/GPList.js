@@ -1,5 +1,5 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
+import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
@@ -16,18 +16,17 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import { gp_data_dispatch } from "app/redux/actions/Master";
+import { updateGP } from "app/services/apis/master";
+import { GP_MASTER_ADD, GP_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import { GP_MASTER_ADD, GP_MASTER_EDIT } from "app/utils/constants/routeConstants";
-import moment from "moment";
-import { gp_data_dispatch } from "app/redux/actions/Master";
-import { Edit } from "@mui/icons-material";
 import Swal from "sweetalert2";
-import { updateGP } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -59,7 +58,7 @@ const GPList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  
+
 
   const { gpDataReducer } = useSelector((state) => state);
 
@@ -73,9 +72,9 @@ const GPList = () => {
   };
 
   const handleEdit = function (data) {
-     navigate(GP_MASTER_EDIT, {state: data});
-   };
- 
+    navigate(GP_MASTER_EDIT, { state: data });
+  };
+
 
 
   const handleChangePage = (event, newPage) => {
@@ -129,7 +128,7 @@ const GPList = () => {
         timer: 1000,
         showConfirmButton: false,
       });
-  
+
       // 👇 After successful update, fetch the latest list again
       dispatch(
         gp_data_dispatch({
@@ -196,9 +195,10 @@ const GPList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"100px" }}>
-                  Sr No.
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "100px" }}>
+                Sr No.
               </TableCell>
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() => handleSort(`gpName`)}
@@ -206,6 +206,33 @@ const GPList = () => {
                   sx={{ ...tableCellSort }}
                 >
                   GP Name
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`package_details.packageName`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Package Name
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`district_details.district`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  District Name
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`block_details.blockName`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Block Name
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -263,17 +290,7 @@ const GPList = () => {
                   GP Status
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
-              </TableCell>
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
@@ -293,7 +310,7 @@ const GPList = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                 SR Status
+                  SR Status
                 </TableSortLabel>
               </TableCell>
               <TableCell
@@ -352,6 +369,17 @@ const GPList = () => {
                   Updated Date
                 </TableSortLabel>
               </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() =>
+                    handleSort(`status`)
+                  }
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
@@ -384,6 +412,36 @@ const GPList = () => {
                       }}
                     >
                       {ele?.gpName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.package_details?.packageName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.district_details?.district || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.block_details?.blockName || "-"}
                     </TableCell>
                     <TableCell
                       align="left"
@@ -435,17 +493,7 @@ const GPList = () => {
                     >
                       {ele?.gpStatus || "-"}
                     </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx }}>
-                      <Switch
-                        checked={ele?.status === true}
-                        onChange={(event) => {
-                          const newStatus = event.target.checked;
-                          const body = {...ele, status: newStatus };
-                          updateStatus(body, ele?.id);
-                        }}
-                        color="primary"
-                      />
-                    </TableCell>
+
                     <TableCell
                       align="left"
                       sx={{
@@ -505,6 +553,17 @@ const GPList = () => {
                       }}
                     >
                       {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell
                       align="left"
