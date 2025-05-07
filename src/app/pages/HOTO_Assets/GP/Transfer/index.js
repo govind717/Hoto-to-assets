@@ -39,59 +39,59 @@ const tableCellSort = {
 
 const Transferlist = () => {
   const [sortBy, setSortBy] = useState("created_at");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sort, setSort] = useState("desc");
-    const [page, setPage] = useState(1);
-  
-    const { hotoGpTransferDataReducer } = useSelector((state) => state);
-  
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-  
-    const handleSort = (property) => {
-      setSort(sort === "asc" ? "desc" : "asc");
-      setSortBy(property);
-      setPage(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sort, setSort] = useState("desc");
+  const [page, setPage] = useState(1);
+
+  const { hotoGpTransferDataReducer } = useSelector((state) => state);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSort = (property) => {
+    setSort(sort === "asc" ? "desc" : "asc");
+    setSortBy(property);
+    setPage(1);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setPage(1);
+    dispatch(
+      hoto_gp_transfer_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
+  };
+
+  const debouncedHandleSearch = debounce(handleSearch, 500);
+
+  useEffect(() => {
+    if (searchTerm !== "") {
+      debouncedHandleSearch(searchTerm);
+    }
+    return () => {
+      debouncedHandleSearch.cancel();
     };
-  
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-  
-    const handleSearch = (searchTerm) => {
-      setPage(1);
-      dispatch(
-        hoto_gp_transfer_data_disptach({
-          sortBy: sortBy,
-          search_value: searchTerm.trim(),
-          sort: sort,
-          page: page,
-        })
-      );
-    };
-  
-    const debouncedHandleSearch = debounce(handleSearch, 500);
-  
-    useEffect(() => {
-      if (searchTerm !== "") {
-        debouncedHandleSearch(searchTerm);
-      }
-      return () => {
-        debouncedHandleSearch.cancel();
-      };
-    }, [searchTerm]);
-  
-    useEffect(() => {
-      dispatch(
-        hoto_gp_transfer_data_disptach({
-          sortBy: sortBy,
-          search_value: searchTerm.trim(),
-          sort: sort,
-          page: page,
-        })
-      );
-    }, [sort, page, sortBy, dispatch]);
-  
+  }, [searchTerm]);
+
+  useEffect(() => {
+    dispatch(
+      hoto_gp_transfer_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
+  }, [sort, page, sortBy, dispatch]);
+
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -136,7 +136,7 @@ const Transferlist = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`equipment`)}
+                  onClick={() => handleSort(`transfer_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -148,7 +148,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`equipment`)}
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -157,7 +157,7 @@ const Transferlist = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`equipment`)}
+                  onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -166,7 +166,7 @@ const Transferlist = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`assets_details.serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -178,7 +178,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`transfer_type`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -190,9 +190,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_from.location_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -201,9 +199,7 @@ const Transferlist = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_to.location_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -216,7 +212,7 @@ const Transferlist = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`incharge`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -230,7 +226,7 @@ const Transferlist = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(``)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -244,7 +240,7 @@ const Transferlist = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`tansfer_status`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -354,7 +350,7 @@ const Transferlist = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.block?.code || "-"}
+                        {ele?.incharge || "-"}
                       </TableCell>
 
                       <TableCell
@@ -375,7 +371,7 @@ const Transferlist = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.name || "-"}
+                        {ele?.transfer_status || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -419,7 +415,7 @@ const Transferlist = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoGpTransferDataReducer?.data?.result?.total_pages}
+          count={hotoGpTransferDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

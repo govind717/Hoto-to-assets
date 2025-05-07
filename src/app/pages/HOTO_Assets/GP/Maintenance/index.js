@@ -26,7 +26,13 @@ import { useNavigate } from "react-router-dom";
 import MapIcon from "@mui/icons-material/Map";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
-import { Green, Orange, orangeSecondary, Red, Yellow } from "app/pages/Constants/colors";
+import {
+  Green,
+  Orange,
+  orangeSecondary,
+  Red,
+  Yellow,
+} from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
 import { hoto_gp_maintenance_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
@@ -525,7 +531,7 @@ const MaintainanceList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoGpMaintenanceDataReducer?.data?.result?.total_pages}
+          count={hotoGpMaintenanceDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

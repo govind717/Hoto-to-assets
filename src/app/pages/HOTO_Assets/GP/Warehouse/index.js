@@ -61,8 +61,8 @@ const WarehouseList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [row,setRow]=useState(null);
-    const [open,setOpen]=useState(false);
+  const [row, setRow] = useState(null);
+  const [open, setOpen] = useState(false);
   const { hotoGpWarehouseDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -112,8 +112,6 @@ const WarehouseList = () => {
     );
   }, [sort, page, sortBy, dispatch]);
 
-  
-   
   const showDetails = (data) => {
     setRow(data);
     setOpen(true);
@@ -166,9 +164,7 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -178,9 +174,7 @@ const WarehouseList = () => {
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -190,7 +184,7 @@ const WarehouseList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`rack_no`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -201,7 +195,7 @@ const WarehouseList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`condition`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -311,7 +305,7 @@ const WarehouseList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoGpWarehouseDataReducer?.data?.result?.total_pages}
+          count={hotoGpWarehouseDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

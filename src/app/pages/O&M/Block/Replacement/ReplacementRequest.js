@@ -137,7 +137,7 @@ const ReplacementRequest = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -150,7 +150,7 @@ const ReplacementRequest = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -422,7 +422,6 @@ const ReplacementRequest = () => {
                           size="small"
                           // startIcon={<HomeRepairServiceIcon />}
                           disabled={!ele?.isCancelled || !ele?.isCreated}
-
                           onClick={() => handleAssign(ele)}
                           sx={{
                             backgroundColor: orangeSecondary,
@@ -454,7 +453,10 @@ const ReplacementRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmBlockReplacementRequestDataReducer?.data?.result
+              ?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

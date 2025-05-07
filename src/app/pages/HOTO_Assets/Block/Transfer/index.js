@@ -39,59 +39,59 @@ const tableCellSort = {
 
 const Transferlist = () => {
   const [sortBy, setSortBy] = useState("created_at");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sort, setSort] = useState("desc");
-    const [page, setPage] = useState(1);
-  
-    const { hotoBlockTransferDataReducer } = useSelector((state) => state);
-  
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-  
-    const handleSort = (property) => {
-      setSort(sort === "asc" ? "desc" : "asc");
-      setSortBy(property);
-      setPage(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sort, setSort] = useState("desc");
+  const [page, setPage] = useState(1);
+
+  const { hotoBlockTransferDataReducer } = useSelector((state) => state);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSort = (property) => {
+    setSort(sort === "asc" ? "desc" : "asc");
+    setSortBy(property);
+    setPage(1);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setPage(1);
+    dispatch(
+      hoto_block_transfer_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
+  };
+
+  const debouncedHandleSearch = debounce(handleSearch, 500);
+
+  useEffect(() => {
+    if (searchTerm !== "") {
+      debouncedHandleSearch(searchTerm);
+    }
+    return () => {
+      debouncedHandleSearch.cancel();
     };
-  
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-  
-    const handleSearch = (searchTerm) => {
-      setPage(1);
-      dispatch(
-        hoto_block_transfer_data_disptach({
-          sortBy: sortBy,
-          search_value: searchTerm.trim(),
-          sort: sort,
-          page: page,
-        })
-      );
-    };
-  
-    const debouncedHandleSearch = debounce(handleSearch, 500);
-  
-    useEffect(() => {
-      if (searchTerm !== "") {
-        debouncedHandleSearch(searchTerm);
-      }
-      return () => {
-        debouncedHandleSearch.cancel();
-      };
-    }, [searchTerm]);
-  
-    useEffect(() => {
-      dispatch(
-        hoto_block_transfer_data_disptach({
-          sortBy: sortBy,
-          search_value: searchTerm.trim(),
-          sort: sort,
-          page: page,
-        })
-      );
-    }, [sort, page, sortBy, dispatch]);
-  
+  }, [searchTerm]);
+
+  useEffect(() => {
+    dispatch(
+      hoto_block_transfer_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
+  }, [sort, page, sortBy, dispatch]);
+
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -203,9 +203,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`incharge`)
-                  }
+                  onClick={() => handleSort(`incharge`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -217,9 +215,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdAt`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -231,9 +227,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`transfer_status`)
-                  }
+                  onClick={() => handleSort(`transfer_status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -407,7 +401,7 @@ const Transferlist = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoBlockTransferDataReducer?.data?.result?.total_pages}
+          count={hotoBlockTransferDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

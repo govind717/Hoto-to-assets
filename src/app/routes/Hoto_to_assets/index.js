@@ -93,10 +93,10 @@ export const blockRoute = [
         element: <Page component={GpRackDetails} />,
       },
  
-      // {
-      //   path: "/dashboards/hoto-survey-gp-data/assets-details",
-      //   element: <Page component={GpAssetsDetail} />,
-      // },
+      {
+        path: "/dashboards/hoto-survey-gp-data/assets-details",
+        element: <Page component={GpAssetsDetail} />,
+      },
 
     ],
   },

@@ -479,7 +479,9 @@ const ReplacementList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoBlockReplacementDataReducer?.data?.result?.total_pages}
+          count={
+            hotoBlockReplacementDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

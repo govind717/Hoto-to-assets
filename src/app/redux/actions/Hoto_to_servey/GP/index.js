@@ -246,7 +246,7 @@ export const hoto_gp_warehouse_data_disptach = function ({
        const body = {
          filters: {},
          searchFields: {
-           string: [],
+           string: ["equipment_name", "serial_no", "condition"],
            numbers: [],
            arrayField: [],
            boolean: [],
@@ -372,7 +372,15 @@ export const hoto_gp_transfer_data_disptach = function ({
        const body = {
          filters: {},
          searchFields: {
-           string: [],
+           string: [
+             "transfer_id",
+             "createdAt",
+             "assets_details.equipment_name",
+             "assets_details.serial_no",
+             "transfer_type",
+             "transfer_from.location_name",
+             "transfer_to?.location_name",
+           ],
            numbers: [],
            arrayField: [],
            boolean: [],

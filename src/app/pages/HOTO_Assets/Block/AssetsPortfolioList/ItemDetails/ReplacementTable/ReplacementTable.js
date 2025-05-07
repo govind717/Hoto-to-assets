@@ -14,7 +14,10 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { hoto_block_asset_partfolio_replacement_data_disptach, hoto_block_replacement_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import {
+  hoto_block_asset_partfolio_replacement_data_disptach,
+  hoto_block_replacement_data_disptach,
+} from "app/redux/actions/Hoto_to_servey/Block";
 import { debounce } from "lodash";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -37,7 +40,7 @@ const tableCellSort = {
   },
 };
 
-const ReplacementTable = ({row}) => {
+const ReplacementTable = ({ row }) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
@@ -113,19 +116,19 @@ const ReplacementTable = ({row}) => {
           onChange={(e) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
-                 dispatch(
-                   hoto_block_asset_partfolio_replacement_data_disptach({
-                     sortBy: sortBy,
-                     search_value: "",
-                     sort: sort,
-                     page: page,
-                     filters: {
-                       _ids: {
-                         "requested_item.requested_item_id": row?._id,
-                       },
-                     },
-                   })
-                 );
+              dispatch(
+                hoto_block_asset_partfolio_replacement_data_disptach({
+                  sortBy: sortBy,
+                  search_value: "",
+                  sort: sort,
+                  page: page,
+                  filters: {
+                    _ids: {
+                      "requested_item.requested_item_id": row?._id,
+                    },
+                  },
+                })
+              );
             }
           }}
           sx={{ width: 300, my: "2%" }}
@@ -501,7 +504,9 @@ const ReplacementTable = ({row}) => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoBlockReplacementDataReducer?.data?.result?.total_pages}
+          count={
+            hotoBlockReplacementDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

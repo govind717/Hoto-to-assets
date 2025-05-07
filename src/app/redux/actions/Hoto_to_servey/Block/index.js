@@ -240,7 +240,7 @@ export const hoto_block_warehouse_data_disptach = function ({
         const body = {
           filters: {},
           searchFields: {
-            string: [],
+            string: ["equipment_name", "serial_no","condition"],
             numbers: [],
             arrayField: [],
             boolean: [],

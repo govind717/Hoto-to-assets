@@ -441,7 +441,7 @@ const TranferTable = ({row}) => {
         <Pagination
           count={
             hotoGpAssetPortfolioTransferDataReducer?.data?.result
-              ?.total_pages
+              ?.total_pages || 1
           }
           page={page}
           onChange={handleChangePage}

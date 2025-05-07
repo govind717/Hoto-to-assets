@@ -162,11 +162,7 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      `equipment_name`
-                    )
-                  }
+                  onClick={() => handleSort(`equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -481,7 +477,7 @@ const ReplacementList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoGpReplacementDataReducer?.data?.result?.total_pages}
+          count={hotoGpReplacementDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

@@ -216,6 +216,15 @@ const PackageList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
+                  onClick={() => handleSort(`code`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Code
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
                   onClick={() => handleSort(`state`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -314,6 +323,16 @@ const PackageList = () => {
                       }}
                     >
                       {ele?.packageName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.code || "-"}
                     </TableCell>
                     <TableCell
                       align="left"

@@ -47,6 +47,10 @@ const TranferTable = ({row}) => {
     (state) => state
   );
 
+  console.log(
+    "hotoBlockAssetPortfolioTransferDataReducer : ",
+    hotoBlockAssetPortfolioTransferDataReducer
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -441,7 +445,7 @@ const TranferTable = ({row}) => {
         <Pagination
           count={
             hotoBlockAssetPortfolioTransferDataReducer?.data?.result
-              ?.total_pages
+              ?.total_pages || 1
           }
           page={page}
           onChange={handleChangePage}

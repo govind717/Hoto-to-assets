@@ -108,32 +108,34 @@ const AssetPortfolioTableRow = ({
         <TableCell sx={{ ...tableBodyCell }}>
           {e?.gp_details?.gp_code || "-"}
         </TableCell>
-        <TableCell sx={{ ...tableBodyCell }}>{e?.site_type || "-"}</TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>
+          {e?.gp_details?.location_type || "-"}
+        </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
           {e?.warranty_status ? "Yes" : "No"}
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
-                  <Chip
-                    label={e?.condition ? e.condition.toUpperCase() : "-"}
-                    sx={{
-                      backgroundColor:
-                        e?.condition.toUpperCase() === "DAMAGED"
-                          ? Red
-                          : e?.condition.toUpperCase() === "SEMI-DAMAGED"
-                          ? Yellow
-                          : e?.condition.toUpperCase() === "ROBUST"
-                          ? Green
-                          : e?.condition.toUpperCase() === "MISSING"
-                          ? Orange
-                          : "",
-                      color: "#FFF",
-                      fontWeight: "bold",
-                      fontSize:"14",
-                      height: "25px",
-                      px: 2,
-                    }}
-                  />
-                </TableCell>
+          <Chip
+            label={e?.condition ? e.condition.toUpperCase() : "-"}
+            sx={{
+              backgroundColor:
+                e?.condition.toUpperCase() === "DAMAGED"
+                  ? Red
+                  : e?.condition.toUpperCase() === "SEMI-DAMAGED"
+                  ? Yellow
+                  : e?.condition.toUpperCase() === "ROBUST"
+                  ? Green
+                  : e?.condition.toUpperCase() === "MISSING"
+                  ? Orange
+                  : "",
+              color: "#FFF",
+              fontWeight: "bold",
+              fontSize: "14",
+              height: "25px",
+              px: 2,
+            }}
+          />
+        </TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
             label={e?.condition_status || "-"}

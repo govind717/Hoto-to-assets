@@ -323,11 +323,11 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`logitude`)}
+                  onClick={() => handleSort(`longitude`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Logitude
+                  Longitude
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -454,7 +454,7 @@ const WarehouseList = () => {
                     {ele?.capacity || "-"}
                   </TableCell>
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
-                    {ele?.logitude || "-"}
+                    {ele?.longitude || "-"}
                   </TableCell>
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
                     {ele?.latitude || "-"}

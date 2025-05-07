@@ -145,7 +145,7 @@ const MaintenanceRequest = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -158,7 +158,7 @@ const MaintenanceRequest = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -496,7 +496,7 @@ const MaintenanceRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={oandmGpMaintenaceRequestDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

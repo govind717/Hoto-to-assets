@@ -108,7 +108,9 @@ const TransferAssignRequest = () => {
     setOpen(false);
   };
 
-
+  const showDetails =()=>{
+    setOpen(true);
+  }
   return (
     <>
       {oandmBlockTransferRequestAssignDataReducer?.loading && (
@@ -145,7 +147,7 @@ const TransferAssignRequest = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -158,7 +160,7 @@ const TransferAssignRequest = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -170,30 +172,33 @@ const TransferAssignRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
-              >
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`transfer_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Transfer Id
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -202,20 +207,19 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Serial No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_type`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -227,9 +231,7 @@ const TransferAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_from.location_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -241,9 +243,7 @@ const TransferAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_to.location_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -263,20 +263,19 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Issue Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -284,38 +283,14 @@ const TransferAssignRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Remark
-                </TableSortLabel>
+                Remark
               </TableCell>
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Document
-                </TableSortLabel>
+                Document
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Details
-                </TableSortLabel>
+                Details
               </TableCell>
             </TableRow>
           </TableHead>
@@ -435,9 +410,9 @@ const TransferAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.transfer_status?.replaceAll("_"," ") || "-"}
+                        {ele?.transfer_status?.replaceAll("_", " ") || "-"}
                       </TableCell>
-                     
+
                       <TableCell
                         align="left"
                         sx={{
@@ -467,9 +442,9 @@ const TransferAssignRequest = () => {
                           sx={{
                             "&:hover": { cursor: "pointer", color: "black" },
                           }}
-                          // onClick={() => {
-                          //   showDetails(ele);
-                          // }}
+                          onClick={() => {
+                            showDetails(ele);
+                          }}
                         />
                       </TableCell>
                     </TableRow>
@@ -492,7 +467,10 @@ const TransferAssignRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmBlockTransferRequestAssignDataReducer?.data?.result
+              ?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

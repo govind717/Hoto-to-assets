@@ -148,7 +148,7 @@ const MaintenanceRequest = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -161,7 +161,7 @@ const MaintenanceRequest = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -258,7 +258,10 @@ const MaintenanceRequest = () => {
                   Repair Type
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx , minWidth:"180px"}}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`issue_reported`)}
                   direction={sort}
@@ -278,7 +281,10 @@ const MaintenanceRequest = () => {
                   Initiated By
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(`current_data.commissionPercentage`)
@@ -504,7 +510,7 @@ const MaintenanceRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={oandmBlockMaintenaceRequestDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

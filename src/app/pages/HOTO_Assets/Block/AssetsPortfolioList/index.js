@@ -564,7 +564,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoBlockAssetPortfolioDataReducer?.data?.result?.total_pages}
+          count={
+            hotoBlockAssetPortfolioDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{
