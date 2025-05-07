@@ -28,6 +28,7 @@ function AddPackage() {
 
   const initialValues = {
     packageName: state?.packageName ? state.packageName : "",
+    code: state?.code ? state.code : "",
     state: state?.state ? state.state : "",
   };
 
@@ -36,12 +37,14 @@ function AddPackage() {
       .string("Enter Package Name")
       .trim()
       .required("Package Name is required"),
+    code: yup.string("Enter Code").trim().required("Code is required"),
     state: yup.string("Enter State").trim().required("State is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
       packageName: values?.packageName,
+      code: values?.code,
       state: values?.state,
     };
 
@@ -152,6 +155,28 @@ function AddPackage() {
                           }
                           helperText={
                             touched?.packageName && errors?.packageName
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={6} md={6}>
+                        <Typography variant="h6" fontSize="14px">
+                          Package Code
+                        </Typography>
+                        <TextField
+                          sx={{ width: "100%" }}
+                          size="small"
+                          placeholder="Enter Code"
+                          name="code"
+                          onChange={(e) =>
+                            setFieldValue("code", e.target.value)
+                          }
+                          onBlur={() => setFieldTouched("code", true)}
+                          value={values?.code}
+                          error={
+                            touched?.code && Boolean(errors?.code)
+                          }
+                          helperText={
+                            touched?.code && errors?.code
                           }
                         />
                       </Grid>

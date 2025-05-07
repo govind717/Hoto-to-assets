@@ -118,6 +118,7 @@ function AdduserManagement() {
         view: state?.role?.hoto_assets?.supplierMaster?.view || false,
         edit: state?.role?.hoto_assets?.supplierMaster?.edit || false,
       },
+      
     },
   };
   const [roleCheked, setRoleChecked] = useState(roleInitialVal);
@@ -180,9 +181,9 @@ function AdduserManagement() {
 
   const onUserSave = async (values) => {
     const payload = {
-      organisationId: values?.organisationName?.id,
-      departmentId: values?.departmentName?.id,
-      teamId: values?.teamName?.id,
+      organisationId: values?.organisationName?._id,
+      departmentId: values?.departmentName?._id,
+      teamId: values?.teamName?._id,
       firstName: values?.firstName,
       lastName: values?.lastName,
       type: values?.type,
@@ -201,9 +202,9 @@ function AdduserManagement() {
       const res =
         pathname === USER_MANAGEMENT_EDIT
           ? await Axios.patch(
-            `${AllApis?.Auth?.updateUser}/${state?._id}`,
-            payload
-          )
+              `${AllApis?.Auth?.updateUser}/${state?._id}`,
+              payload
+            )
           : await Axios.post(AllApis?.Auth?.addUser, payload);
 
       const statusCode = res?.data?.statusCode;
@@ -251,15 +252,15 @@ function AdduserManagement() {
       setFormInitialValues({
         organisationName: state?.organisationId
           ? organisationNameOptions.find(
-            (ele) => ele.id === state?.organisationId
-          ) || null
+              (ele) => ele._id === state?.organisationId
+            ) || null
           : null,
         departmentName: state?.departmentId
-          ? departmentOptions.find((opt) => opt?._id === state.departmentId) ||
-          null
+          ? departmentOptions.find((opt) => opt._id === state.departmentId) ||
+            null
           : null,
         teamName: state?.teamId
-          ? teamOptions.find((opt) => opt?._id === state.teamId) || null
+          ? teamOptions.find((opt) => opt._id === state.teamId) || null
           : null,
         firstName: state?.firstName || "",
         lastName: state?.lastName || "",
@@ -298,13 +299,13 @@ function AdduserManagement() {
                   size="small"
                   options={organisationNameOptions}
                   getOptionLabel={(option) => option.organisationName || ""}
-                  isOptionEqualToValue={(opt, val) => opt?._id === val?.id}
+                  isOptionEqualToValue={(opt, val) => opt._id === val?._id}
                   value={values.organisationName}
                   onChange={(_, value) => {
                     setFieldValue("organisationName", value);
                     setFieldValue("departmentName", null);
                     setFieldValue("teamName", null);
-                    if (value) fetchDepartments(value.id);
+                    if (value) fetchDepartments(value._id);
                   }}
                   renderInput={(params) => (
                     <TextField
@@ -330,12 +331,12 @@ function AdduserManagement() {
                   size="small"
                   options={departmentOptions}
                   getOptionLabel={(option) => option.departmentName || ""}
-                  isOptionEqualToValue={(opt, val) => opt?._id === val?.id}
+                  isOptionEqualToValue={(opt, val) => opt._id === val?._id}
                   value={values.departmentName}
                   onChange={(_, value) => {
                     setFieldValue("departmentName", value);
                     setFieldValue("teamName", null);
-                    if (value) fetchTeams(value.id);
+                    if (value) fetchTeams(value._id);
                   }}
                   renderInput={(params) => (
                     <TextField
@@ -360,7 +361,7 @@ function AdduserManagement() {
                   size="small"
                   options={teamOptions}
                   getOptionLabel={(option) => option.teamName || ""}
-                  isOptionEqualToValue={(opt, val) => opt?._id === val?.id}
+                  isOptionEqualToValue={(opt, val) => opt._id === val?._id}
                   value={values.teamName}
                   onChange={(_, value) => setFieldValue("teamName", value)}
                   renderInput={(params) => (
