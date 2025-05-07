@@ -155,7 +155,7 @@ function AssignViewModal({ open, closeModal }) {
                 <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
               </Grid>
             </Grid>
-            <Typography
+            {/* <Typography
               variant="h5"
               fontSize="16px"
               fontWeight="600"
@@ -225,8 +225,8 @@ function AssignViewModal({ open, closeModal }) {
                   </TableRow>
                 </TableBody>
               </Table>
-            </TableContainer>
-            <Div sx={{ display: "flex", justifyContent: "center" }}>
+            </TableContainer> */}
+            <Div sx={{ display: "flex", justifyContent: "center",marginTop:"30px" }}>
               <Button variant="outlined" size="small" onClick={closeModal}>
                 Cancel
               </Button>

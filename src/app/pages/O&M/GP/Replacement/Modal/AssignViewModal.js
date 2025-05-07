@@ -45,10 +45,7 @@ const tableCellSx = {
   verticalAlign: "middle",
 };
 function AssignViewModal({ open, closeModal,row }) {
-  const navigate = useNavigate();
-  const [isSubmitting, setSubmitting] = useState(false);
-
-  const handleSubmit = ({ values }) => {};
+ console.log("Row12 : ",row);
 
   return (
     <div>
@@ -134,7 +131,9 @@ function AssignViewModal({ open, closeModal,row }) {
                     <TableCell align="left">
                       {row?.driverNumber || "-"}
                     </TableCell>
-                    <TableCell align="left">{row?.location || "-"}</TableCell>
+                    <TableCell align="left">
+                      {row?.pickupLocation || "-"}
+                    </TableCell>
                     <TableCell align="left">
                       {/* {row?.requested_item.requested_item_details
                         .block_asset_details.warranty_date || "-"} */}
@@ -145,9 +144,7 @@ function AssignViewModal({ open, closeModal,row }) {
                     <TableCell align="left">
                       {row?.initiatedBy || "-"}
                     </TableCell>
-                    <TableCell align="left">
-                      {row?.photo || "-"}
-                    </TableCell>
+                    <TableCell align="left">{row?.photo || "-"}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

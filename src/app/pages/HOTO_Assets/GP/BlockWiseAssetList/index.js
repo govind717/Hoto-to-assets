@@ -76,8 +76,6 @@ const BlockWiseAssetList = () => {
   //     }
   // }
 
- 
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -351,7 +349,7 @@ const BlockWiseAssetList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoGpWiseAssetDataReducer?.data?.result?.total_pages}
+          count={hotoGpWiseAssetDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

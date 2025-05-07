@@ -67,8 +67,8 @@ const WarehouseList = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-const [row,setRow]=useState(null);
-  const [open,setOpen]=useState(false);
+  const [row, setRow] = useState(null);
+  const [open, setOpen] = useState(false);
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -113,7 +113,6 @@ const [row,setRow]=useState(null);
     );
   }, [sort, page, sortBy, dispatch]);
 
-   
   const showDetails = (data) => {
     setRow(data);
     setOpen(true);
@@ -166,9 +165,7 @@ const [row,setRow]=useState(null);
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -178,9 +175,7 @@ const [row,setRow]=useState(null);
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -190,7 +185,7 @@ const [row,setRow]=useState(null);
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`rack_no`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -201,7 +196,7 @@ const [row,setRow]=useState(null);
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`condition`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -311,7 +306,7 @@ const [row,setRow]=useState(null);
           </TableBody>
         </Table>
         <Pagination
-          count={hotoBlockWarehouseDataReducer?.data?.result?.total_pages}
+          count={hotoBlockWarehouseDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{
@@ -324,7 +319,7 @@ const [row,setRow]=useState(null);
           }}
         />
       </TableContainer>
-       <DetailModal row={row} open={open} closeModal={closeModal} />
+      <DetailModal row={row} open={open} closeModal={closeModal} />
     </>
   );
 };

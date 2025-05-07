@@ -177,7 +177,7 @@ const MaintenanceAssignRequest = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -190,7 +190,7 @@ const MaintenanceAssignRequest = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -207,7 +207,7 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`maintenance_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -219,7 +219,9 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() =>
+                    handleSort(`maintenance_request_details.createdAt`)
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -228,7 +230,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -237,9 +239,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -249,7 +249,7 @@ const MaintenanceAssignRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`assets_details.location_details.gp_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -263,7 +263,7 @@ const MaintenanceAssignRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`assets_details.location_details.gp_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -273,9 +273,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.condition`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -287,9 +285,7 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`repair_type`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -299,9 +295,7 @@ const MaintenanceAssignRequest = () => {
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assign_to`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -310,9 +304,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`issue_reported`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -321,9 +313,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -333,9 +323,7 @@ const MaintenanceAssignRequest = () => {
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`estimate_arrival_date`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -348,9 +336,7 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`repair_status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -362,29 +348,13 @@ const MaintenanceAssignRequest = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Document
-                </TableSortLabel>
+                Document
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Details
-                </TableSortLabel>
+                Details
               </TableCell>
             </TableRow>
           </TableHead>
@@ -632,7 +602,10 @@ const MaintenanceAssignRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmGpMaintenaceRequestAssignDataReducer?.data?.result
+              ?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

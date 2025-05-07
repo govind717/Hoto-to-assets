@@ -179,7 +179,7 @@ const MaintenanceAssignRequest = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -192,7 +192,7 @@ const MaintenanceAssignRequest = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -355,17 +355,14 @@ const MaintenanceAssignRequest = () => {
                 </TableSortLabel>
               </TableCell>
 
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx }}
-              >
-                  Document
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                Document
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                  Remark
+                Remark
               </TableCell>
 
               <TableCell
@@ -638,7 +635,7 @@ const MaintenanceAssignRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={oandmBlockMaintenaceRequestAssignDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

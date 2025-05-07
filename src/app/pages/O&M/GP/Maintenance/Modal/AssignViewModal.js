@@ -44,11 +44,8 @@ const tableCellSx = {
   minWidth: "150px",
   verticalAlign: "middle",
 };
-function AssignViewModal({ open, closeModal }) {
-  const navigate = useNavigate();
-  const [isSubmitting, setSubmitting] = useState(false);
-
-  const handleSubmit = ({ values }) => {};
+function AssignViewModal({ open, closeModal,row }) {
+  console.log("row11 : ",row);
 
   return (
     <div>
@@ -121,24 +118,24 @@ function AssignViewModal({ open, closeModal }) {
 
                 <TableBody>
                   <TableRow>
-                    <TableCell align="left">Road</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">TJS2025-05-01</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">4567856789</TableCell>
-                    <TableCell align="left">Native Site</TableCell>
-                    <TableCell align="left">2026</TableCell>
-                    <TableCell align="left">Repaired</TableCell>
-                    <TableCell align="left">in Use</TableCell>
-                    <TableCell align="left">Rajesh</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left"> {"-"}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{"-"}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
-            <Div sx={{display:"flex",justifyContent:"center"}}>
-            <Button variant="outlined" size="small" onClick={closeModal}>
-              Cancel
-            </Button>
+            <Div sx={{ display: "flex", justifyContent: "center" }}>
+              <Button variant="outlined" size="small" onClick={closeModal}>
+                Cancel
+              </Button>
             </Div>
           </Div>
         </>

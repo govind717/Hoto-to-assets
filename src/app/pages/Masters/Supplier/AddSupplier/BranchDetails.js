@@ -55,10 +55,9 @@ function BranchDetails({
   const { pathname } = useLocation();
   const { state } = useLocation();
   const [isSubmitting, setSubmitting] = useState(false);
-  const [branches, setBranches] = useState([]);
+  const [branches, setBranches] = useState(state?.branch_details || []);
   const states = State.getStatesOfCountry("IN"); // Replace "IN" if needed
   const [cities, setCities] = useState([]);
-  const [materialOptions, setMaterialOptions] = useState([]);
   const [contactPersonInput, setContactPersonInput] = useState({
     firstName: "",
     lastName: "",
@@ -69,7 +68,8 @@ function BranchDetails({
   const [contactPersons, setContactPersons] = useState(
     state?.contactPerson || []
   );
-
+  console.log("state2 : ",state);
+  console.log("branches : ", branches);
   const initialValues = {
     branchName: "",
     email: "",
@@ -98,7 +98,7 @@ function BranchDetails({
     state: yup.string().required("State is required"),
     city: yup.string().required("City is required"),
   });
-
+ console.log("last : ",finalFormData);
   const onUserSave = async () => {
     if (finalFormData?.branch_details?.length > 0) {
       setSubmitting(true);
@@ -120,8 +120,9 @@ function BranchDetails({
             });
           }
         } else {
-          const data = await Axios.post(
-            "/master/supplier/update",
+          console.log("update Data", finalFormData);
+          const data = await Axios.patch(
+            `/master/supplier/update/${state?._id}`,
             finalFormData
           );
           if (data?.data?.statusCode === 200) {
@@ -131,7 +132,7 @@ function BranchDetails({
               timer: 1000,
               showConfirmButton: false,
             });
-            navigate(WAREHOUSE_MASTER);
+            navigate(SUPPLIER_MASTER);
           } else {
             Swal.fire({
               icon: "error",
@@ -153,7 +154,7 @@ function BranchDetails({
       });
     }
   };
- console.log("finalFormData :", finalFormData);
+ 
   const handleAddBranch = (values) => {
     const branch = {
       ...values,
@@ -207,7 +208,12 @@ function BranchDetails({
     // setFieldValue("setBranches", updated);
     setBranches(updated);
   };
-
+  useEffect(()=>{
+    setFinalFormData((prev)=>({
+      ...prev,
+     branch_details:state?.branch_details
+    }))
+  },[])
   return (
     <Div sx={{ mt: 0 }}>
       <Formik
@@ -609,18 +615,15 @@ function BranchDetails({
               <TableContainer component={Paper} sx={{ mt: 2 }}>
                 <Table>
                   <TableHead sx={{ backgroundColor: "#53B8CA" }}>
-                    <TableRow>
-                      <TableCell sx={{ padding: "8px" }}>Sr No</TableCell>
-                      <TableCell sx={{ padding: "8px" }}>Branch Name</TableCell>
-                      <TableCell sx={{ padding: "8px" }}>Location</TableCell>
-                      <TableCell sx={{ padding: "8px" }}>
-                        Contact Person
-                      </TableCell>
-                      <TableCell sx={{ padding: "8px" }}>Email</TableCell>
-                      <TableCell sx={{ padding: "8px" }}>Phone No.</TableCell>
-                      <TableCell sx={{ padding: "8px" }}>State</TableCell>
-                      <TableCell sx={{ padding: "8px" }}>Address</TableCell>
-                      <TableCell sx={{ padding: "8px" }}>Pincode</TableCell>
+                    <TableRow >
+                      <TableCell sx={{ padding: "8px", color:"#fff"}}>Sr No</TableCell>
+                      <TableCell sx={{ padding: "8px", color:"#fff"}}>Banch Name</TableCell>
+                      <TableCell sx={{ padding: "8px", color:"#fff"}}>Email</TableCell>
+                      <TableCell sx={{ padding: "8px", color:"#fff"}}>Phone No.</TableCell>
+                      <TableCell sx={{ padding: "8px", color:"#fff"}}>Address</TableCell>
+                      <TableCell sx={{ padding: "8px", color:"#fff"}}>City</TableCell>
+                      <TableCell sx={{ padding: "8px", color:"#fff"}}>State</TableCell>
+                      <TableCell sx={{ padding: "8px", color:"#fff"}}>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -633,22 +636,20 @@ function BranchDetails({
                           {branch.branchName || "-"}
                         </TableCell>
                         <TableCell sx={{ padding: "8px" }}>
-                          {branch.branchLocationName || "-"}
-                        </TableCell>
-                        <TableCell sx={{ padding: "8px" }}>
-                          {branch.contactPersonName || "-"}
-                        </TableCell>
-                        <TableCell sx={{ padding: "8px" }}>
                           {branch.email || "-"}
                         </TableCell>
                         <TableCell sx={{ padding: "8px" }}>
                           {branch.phoneNumber || "-"}
                         </TableCell>
-                        <TableCell sx={{ padding: "8px" }}>
-                          {branch.state || "-"}
-                        </TableCell>
+
                         <TableCell sx={{ padding: "8px" }}>
                           {branch.address || "-"}
+                        </TableCell>
+                        <TableCell sx={{ padding: "8px" }}>
+                          {branch.city || "-"}
+                        </TableCell>
+                        <TableCell sx={{ padding: "8px" }}>
+                          {branch.state || "-"}
                         </TableCell>
                         <TableCell
                           align="left"

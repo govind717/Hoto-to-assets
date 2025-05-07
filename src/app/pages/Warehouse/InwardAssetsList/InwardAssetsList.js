@@ -453,6 +453,7 @@ const InwardAssetsList = () => {
                         <Button
                           variant="contained"
                           size="small"
+                          disabled={ele?.transfer_status==="received"}
                           // startIcon={<HomeRepairServiceIcon />}
                           onClick={() => handleInward(ele)}
                           sx={{

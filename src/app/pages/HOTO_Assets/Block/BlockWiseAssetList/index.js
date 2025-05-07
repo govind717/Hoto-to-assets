@@ -316,7 +316,7 @@ const BlockWiseAssetList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoBlockWiseAssetDataReducer?.data?.result?.total_pages}
+          count={hotoBlockWiseAssetDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{
