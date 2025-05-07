@@ -14,14 +14,15 @@ function AddSupplier() {
   const initialstate={
     supplier_details:{},
     branch_details:{},  
-    kyc_details:{},
-    material_details:{}
+    // kyc_details:{},
+    // material_details:{}
   }
   const [finalFormData,setFinalFormData]=useState(initialstate);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  
   const goToNextTab = () => {
     if (value === "1") setValue("2");
     else if (value === "2") setValue("3");
@@ -45,25 +46,39 @@ function AddSupplier() {
         </Typography>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList  aria-label="lab API tabs example">
+            <TabList aria-label="lab API tabs example">
               <Tab label="Supplier Details" value="1" />
               <Tab label="Branch Details" value="2" />
-              <Tab label="KYC" value="3" />
-              <Tab label="Material" value="4" />
+              {/* <Tab label="KYC" value="3" />
+              <Tab label="Material" value="4" /> */}
             </TabList>
           </Box>
           <TabPanel value="1" sx={{ p: 0 }}>
-            <SupplierDetails goToNextTab={goToNextTab} setFinalFormData={setFinalFormData} />
+            <SupplierDetails
+              goToNextTab={goToNextTab}
+              finalFormData={finalFormData}
+              setFinalFormData={setFinalFormData}
+            />
           </TabPanel>
           <TabPanel value="2" sx={{ p: 0 }}>
-            <BranchDetails goToNextTab={goToNextTab} setFinalFormData={setFinalFormData} goToBackTab={goToBackTab}/>
+            <BranchDetails
+              goToNextTab={goToNextTab}
+              finalFormData={finalFormData}
+              setFinalFormData={setFinalFormData}
+              goToBackTab={goToBackTab}
+            />
           </TabPanel>
-          <TabPanel value="3" sx={{ p: 0 }}>
-            <KYC goToNextTab={goToNextTab} setFinalFormData={setFinalFormData} goToBackTab={goToBackTab}/>
-          </TabPanel>
-          <TabPanel value="4" sx={{ p: 0 }}>
+          {/* <TabPanel value="3" sx={{ p: 0 }}>
+            <KYC
+              // goToNextTab={goToNextTab}
+              finalFormData={finalFormData}
+              setFinalFormData={setFinalFormData}
+              goToBackTab={goToBackTab}
+            />
+          </TabPanel> */}
+          {/* <TabPanel value="4" sx={{ p: 0 }}>
             <Material  setFinalFormData={setFinalFormData} goToBackTab={goToBackTab}/>
-          </TabPanel>
+          </TabPanel> */}
         </TabContext>
       </Box>
     </>

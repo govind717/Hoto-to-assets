@@ -472,7 +472,7 @@ const MaintenanceRequest = () => {
                         <Button
                           variant="contained"
                           size="small"
-                          // startIcon={<HomeRepairServiceIcon />}
+                          disabled={!ele?.is_created || !ele?.is_cancelled}
                           onClick={() => handleAssign(ele)}
                           sx={{
                             backgroundColor: orangeSecondary,

@@ -16,7 +16,7 @@ import {
   TableBody,
   Autocomplete,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { Form, Formik } from "formik";
@@ -25,6 +25,7 @@ import { LoadingButton } from "@mui/lab";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import {
   SUPPLIER_MASTER,
+  SUPPLIER_MASTER_ADD,
   SUPPLIER_MASTER_EDIT,
   WAREHOUSE_MASTER,
   WAREHOUSE_MASTER_EDIT,
@@ -36,118 +37,175 @@ import {
   updateWarehouse,
 } from "app/services/apis/master";
 import { Country, State, City } from "country-state-city";
-function BranchDetails({goToNextTab,goToBackTab,setFinalFormData}) {
+import { Axios } from "index";
+const tableCellSx = {
+  textTransform: "capitalize",
+  color: "white",
+  textAlign: "left",
+  minWidth: "150px",
+  verticalAlign: "middle",
+};
+function BranchDetails({
+  goToNextTab,
+  goToBackTab,
+  finalFormData,
+  setFinalFormData,
+}) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
   const [isSubmitting, setSubmitting] = useState(false);
   const [branches, setBranches] = useState([]);
-
   const states = State.getStatesOfCountry("IN"); // Replace "IN" if needed
   const [cities, setCities] = useState([]);
+  const [materialOptions, setMaterialOptions] = useState([]);
+  const [contactPersonInput, setContactPersonInput] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobileNumber: "",
+  });
+
+  const [contactPersons, setContactPersons] = useState(
+    state?.contactPerson || []
+  );
+
   const initialValues = {
-    branchName: state?.branchName || "",
-    branchLocationName: state?.branchLocationName || "",
-    contactPersonName: state?.contactPersonName || "",
-    email: state?.email || "",
-    phoneNo: state?.phoneNo || "",
-    address: state?.address || "",
-    state: state?.state || "",
-    district: state?.district || "",
-    gp: state?.gp || "",
-    pincode: state?.pincode || "",
-    enterpriseSize: state?.enterpriseSize || "",
+    branchName: "",
+    email: "",
+    phoneNumber: "",
+    panNo: "",
+    gstNo: "",
+    address: "",
+    state: "",
+    city: "",
+    contactPerson: [],
   };
 
   const validationSchema = yup.object({
-    branchName: yup
-      .string()
-      .required("Branch Name is required"),
-    
-    branchLocationName: yup
-      .string()
-      .required("Branch Location Name is required"),
-    
-    contactPersonName: yup
-      .string()
-      .required("Primary Contact Name is required"),
-    
+    branchName: yup.string().required("Branch Name is required"),
     email: yup
       .string()
       .email("Invalid email format")
       .required("Email is required"),
-    
-    phoneNo: yup
+    phoneNumber: yup
       .string()
       .matches(/^[0-9]{10}$/, "Phone Number must be 10 digits")
       .required("Phone Number is required"),
-    
-    address: yup
-      .string()
-      .required("Address is required"),
-    
-    state: yup
-      .string()
-      .required("State is required"),
-    
-    district: yup
-      .string()
-      .required("District is required"),
-    
-    gp: yup
-      .string()
-      .required("GP is required"),
-    
-    pincode: yup
-      .string()
-      .matches(/^[0-9]{6}$/, "Pincode must be exactly 6 digits")
-      .required("Pincode is required"),
-    
-    enterpriseSize: yup
-      .string()
-      .required("Enterprise Size is required"),
+    panNo: yup.string().required("Address is required"),
+    gstNo: yup.string().required("Address is required"),
+    address: yup.string().required("Address is required"),
+    state: yup.string().required("State is required"),
+    city: yup.string().required("City is required"),
   });
-  
 
-  const onUserSave = async (values) => {
-    const body = {
-      branchName: values?.branchName || "",
-    branchLocationName: values?.branchLocationName || "",
-    contactPersonName: values?.contactPersonName || "",
-    email: values?.email || "",
-    phoneNo: values?.phoneNo || "",
-    address: values?.address || "",
-    state: values?.state || "",
-    district: values?.district || "",
-    gp: values?.gp || "",
-    pincode: values?.pincode || "",
-    enterpriseSize: values?.enterpriseSize || "",
-    };
-    setFinalFormData((prev) => ({
-      ...prev,
-      branch_details: body
-    }));
-
-    goToNextTab();
-    
+  const onUserSave = async () => {
+    if (finalFormData?.branch_details?.length > 0) {
+      setSubmitting(true);
+      try {
+        if (pathname === SUPPLIER_MASTER_ADD) {
+          const data = await Axios.post("/master/supplier/add", finalFormData);
+          if (data?.data?.statusCode === 201) {
+            navigate(SUPPLIER_MASTER);
+            Swal.fire({
+              icon: "success",
+              text: "Supplier Added Successfully",
+              timer: 1000,
+              showConfirmButton: false,
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              text: data?.data?.message || "Error while updating Supplier",
+            });
+          }
+        } else {
+          const data = await Axios.post(
+            "/master/supplier/update",
+            finalFormData
+          );
+          if (data?.data?.statusCode === 200) {
+            Swal.fire({
+              icon: "success",
+              text: "Supplier Updated Successfully",
+              timer: 1000,
+              showConfirmButton: false,
+            });
+            navigate(WAREHOUSE_MASTER);
+          } else {
+            Swal.fire({
+              icon: "error",
+              text: data?.data?.message || "Error while adding Supplier",
+            });
+          }
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          text: error?.response?.data?.message || "Something went wrong",
+        });
+      }
+      setSubmitting(false);
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: "Add atleast one branch",
+      });
+    }
   };
-
+ console.log("finalFormData :", finalFormData);
   const handleAddBranch = (values) => {
     const branch = {
-      branchName: values.branchName,
-      branchLocationName: values.branchLocationName,
-      contactPersonName: values.contactPersonName,
-      email: values.email,
-      phoneNo: values.phoneNo,
-      state: values.state,
-      district: values.district,
-      address: values.address,
-      pincode: values.pincode,
-      gp: values.gp,
-      enterpriseSize: values.enterpriseSize,
+      ...values,
+      isPrimary: true,
+      country: "India",
     };
-
+   
     setBranches([...branches, branch]);
+    setFinalFormData((prev) => ({
+      ...prev,
+      branch_details: [...branches, branch],
+    }));
+  };
+ 
+  const handleStateChange = (newValue, setFieldValue) => {
+    if (newValue) {
+      setFieldValue("state", newValue.name);
+      const stateCities = City.getCitiesOfState("IN", newValue.isoCode);
+      setCities(stateCities);
+      setFieldValue("city", "");
+    } else {
+      setFieldValue("state", "");
+      setCities([]);
+      setFieldValue("city", "");
+    }
+  };
+
+  const handleAddContactPerson = (setFieldValue) => {
+    const { firstName, lastName, email, mobileNumber } = contactPersonInput;
+    if (!firstName || !lastName || !email || !mobileNumber) {
+      Swal.fire("Error", "All contact fields are required", "error");
+      return;
+    }
+    setContactPersons([...contactPersons, contactPersonInput]);
+    setFieldValue("contactPerson", [...contactPersons, contactPersonInput]);
+    setContactPersonInput({
+      firstName: "",
+      lastName: "",
+      email: "",
+      mobileNumber: "",
+    });
+  };
+
+  const handleRemoveContactPerson = (index, setFieldValue) => {
+    const updated = contactPersons.filter((_, i) => i !== index);
+    setFieldValue("contactPerson", updated);
+    setContactPersons(updated);
+  };
+  const handleRemoveBranch = (index, setFieldValue) => {
+    const updated = branches.filter((_, i) => i !== index);
+    // setFieldValue("setBranches", updated);
+    setBranches(updated);
   };
 
   return (
@@ -157,14 +215,13 @@ function BranchDetails({goToNextTab,goToBackTab,setFinalFormData}) {
         initialValues={initialValues}
         enableReinitialize
         validationSchema={validationSchema}
-        onSubmit={onUserSave}
+        onSubmit={handleAddBranch}
       >
         {({ values, touched, errors, setFieldValue, setFieldTouched }) => (
           <Form noValidate autoComplete="off">
+            {console.log("values : ", values)}
             <Div sx={{ mt: 4 }}>
               <Grid container rowSpacing={2} columnSpacing={3}>
-                {/* Warehouse Info */}
-
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
                     Branch Name
@@ -185,48 +242,20 @@ function BranchDetails({goToNextTab,goToBackTab,setFinalFormData}) {
                 </Grid>
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
-                    Branch Location Name
+                    Phone No.
                   </Typography>
                   <TextField
                     sx={{ width: "100%" }}
                     size="small"
-                    name="branchLocationName"
-                    placeholder="Enter Branch Location Name"
-                    value={values.branchLocationName}
+                    name="phoneNumber"
+                    placeholder="Enter Phone N0."
+                    value={values.phoneNumber}
                     onChange={(e) =>
-                      setFieldValue("branchLocationName", e.target.value)
+                      setFieldValue("phoneNumber", e.target.value)
                     }
-                    onBlur={() => setFieldTouched("branchLocationName")}
-                    error={
-                      touched.branchLocationName &&
-                      Boolean(errors.branchLocationName)
-                    }
-                    helperText={
-                      touched.branchLocationName && errors.branchLocationName
-                    }
-                  />
-                </Grid>
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    Contact Person Name
-                  </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="contactPersonName"
-                    placeholder="Enter Primary Contact Name"
-                    value={values.contactPersonName}
-                    onChange={(e) =>
-                      setFieldValue("contactPersonName", e.target.value)
-                    }
-                    onBlur={() => setFieldTouched("contactPersonName")}
-                    error={
-                      touched.contactPersonName &&
-                      Boolean(errors.contactPersonName)
-                    }
-                    helperText={
-                      touched.contactPersonName && errors.contactPersonName
-                    }
+                    onBlur={() => setFieldTouched("phoneNumber")}
+                    error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+                    helperText={touched.phoneNumber && errors.phoneNumber}
                   />
                 </Grid>
                 <Grid item xs={6} md={3}>
@@ -247,18 +276,34 @@ function BranchDetails({goToNextTab,goToBackTab,setFinalFormData}) {
                 </Grid>
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
-                    Phone No.
+                    Pan Number
                   </Typography>
                   <TextField
                     sx={{ width: "100%" }}
                     size="small"
-                    name="phoneNo"
-                    placeholder="Enter Phone N0."
-                    value={values.phoneNo}
-                    onChange={(e) => setFieldValue("phoneNo", e.target.value)}
-                    onBlur={() => setFieldTouched("phoneNo")}
-                    error={touched.phoneNo && Boolean(errors.phoneNo)}
-                    helperText={touched.phoneNo && errors.phoneNo}
+                    name="panNo"
+                    placeholder="Enter Pan Number"
+                    value={values.panNo}
+                    onChange={(e) => setFieldValue("panNo", e.target.value)}
+                    onBlur={() => setFieldTouched("panNo")}
+                    error={touched.panNo && Boolean(errors.panNo)}
+                    helperText={touched.panNo && errors.panNo}
+                  />
+                </Grid>
+                <Grid item xs={6} md={3}>
+                  <Typography variant="h6" fontSize="14px">
+                    GST Number
+                  </Typography>
+                  <TextField
+                    sx={{ width: "100%" }}
+                    size="small"
+                    name="gstNo"
+                    placeholder="Enter GST Number"
+                    value={values.gstNo}
+                    onChange={(e) => setFieldValue("gstNo", e.target.value)}
+                    onBlur={() => setFieldTouched("gstNo")}
+                    error={touched.gstNo && Boolean(errors.gstNo)}
+                    helperText={touched.gstNo && errors.gstNo}
                   />
                 </Grid>
 
@@ -286,24 +331,10 @@ function BranchDetails({goToNextTab,goToBackTab,setFinalFormData}) {
                   <Autocomplete
                     options={states}
                     getOptionLabel={(option) => option.name || ""}
-                    value={
-                      states.find((state) => state.name === values.state) ||
-                      null
-                    }
+                    value={states.find((s) => s.name === values.state) || null}
+                    onBlur={() => setFieldTouched("state")}
                     onChange={(e, newValue) => {
-                      if (newValue) {
-                        setFieldValue("state", newValue.name);
-                        setFieldValue("city", ""); // Clear city when state changes
-                        const stateCities = City.getCitiesOfState(
-                          "IN",
-                          newValue.isoCode
-                        );
-                        setCities(stateCities || []);
-                      } else {
-                        setFieldValue("state", "");
-                        setFieldValue("city", "");
-                        setCities([]);
-                      }
+                      handleStateChange(newValue, setFieldValue);
                     }}
                     renderInput={(params) => (
                       <TextField
@@ -318,102 +349,261 @@ function BranchDetails({goToNextTab,goToBackTab,setFinalFormData}) {
                     )}
                   />
                 </Grid>
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    District
-                  </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="district"
-                    placeholder="Enter District"
-                    value={values.district}
-                    onChange={(e) => setFieldValue("district", e.target.value)}
-                    onBlur={() => setFieldTouched("district")}
-                    error={touched.district && Boolean(errors.district)}
-                    helperText={touched.district && errors.district}
-                  />
-                </Grid>
 
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    GP
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px" mb={0.5}>
+                    City
                   </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="gp"
-                    placeholder="Enter GP"
-                    value={values.gp}
-                    onChange={(e) => setFieldValue("gp", e.target.value)}
-                    onBlur={() => setFieldTouched("gp")}
-                    error={touched.gp && Boolean(errors.gp)}
-                    helperText={touched.gp && errors.gp}
-                  />
-                </Grid>
-
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    Pincode
-                  </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="pincode"
-                    placeholder="Enter Pincode"
-                    value={values.pincode}
-                    onChange={(e) => setFieldValue("pincode", e.target.value)}
-                    onBlur={() => setFieldTouched("pincode")}
-                    error={touched.pincode && Boolean(errors.pincode)}
-                    helperText={touched.pincode && errors.pincode}
-                  />
-                </Grid>
-
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    Enterprise Size
-                  </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="enterpriseSize"
-                    placeholder="Enter Enterprise Size"
-                    value={values.enterpriseSize}
-                    onChange={(e) =>
-                      setFieldValue("enterpriseSize", e.target.value)
-                    }
-                    onBlur={() => setFieldTouched("enterpriseSize")}
-                    error={
-                      touched.enterpriseSize && Boolean(errors.enterpriseSize)
-                    }
-                    helperText={touched.enterpriseSize && errors.enterpriseSize}
-                  />
-                </Grid>
-                <Grid container>
-                  <Grid
-                    item
-                    xs={6}
-                    md={3}
-                    sx={{
-                      marginLeft: "auto",
-                      display: "flex",
-                      justifyContent: "right",
+                  <Autocomplete
+                    options={cities}
+                    getOptionLabel={(option) => option.name || ""}
+                    value={cities.find((c) => c.name === values.city) || null}
+                    onBlur={() => setFieldTouched("city")}
+                    onChange={(e, newValue) => {
+                      if (newValue) {
+                        setFieldValue("city", newValue.name);
+                      } else {
+                        setFieldValue("city", "");
+                      }
                     }}
-                  >
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        size="small"
+                        placeholder="Select City"
+                        name="city"
+                        error={touched.city && Boolean(errors.city)}
+                        helperText={touched.city && errors.city}
+                      />
+                    )}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={12} mt={3}>
+                <Typography variant="h6" fontSize="16px" mb={1}>
+                  Contact Person
+                </Typography>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={2.4}>
+                    <TextField
+                      label="First Name"
+                      size="small"
+                      fullWidth
+                      value={contactPersonInput.firstName}
+                      onChange={(e) =>
+                        setContactPersonInput({
+                          ...contactPersonInput,
+                          firstName: e.target.value,
+                        })
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={2.4}>
+                    <TextField
+                      label="Last Name"
+                      size="small"
+                      fullWidth
+                      value={contactPersonInput.lastName}
+                      onChange={(e) =>
+                        setContactPersonInput({
+                          ...contactPersonInput,
+                          lastName: e.target.value,
+                        })
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={2.4}>
+                    <TextField
+                      label="Email"
+                      size="small"
+                      fullWidth
+                      value={contactPersonInput.email}
+                      onChange={(e) =>
+                        setContactPersonInput({
+                          ...contactPersonInput,
+                          email: e.target.value,
+                        })
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={2.4}>
+                    <TextField
+                      label="Mobile Number"
+                      size="small"
+                      fullWidth
+                      value={contactPersonInput.mobileNumber}
+                      onChange={(e) =>
+                        setContactPersonInput({
+                          ...contactPersonInput,
+                          mobileNumber: e.target.value,
+                        })
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={2.4}>
                     <Button
                       variant="contained"
-                      color="primary"
-                      onClick={() => handleAddBranch(values)}
+                      size="small"
+                      onClick={() => handleAddContactPerson(setFieldValue)}
                       sx={{
-                        mt: 2,
-                        padding: "5px 8px",
-                        fontSize:"12px",
+                        my: "2%",
+                        minWidth: "100%",
                         "&:hover": { backgroundColor: "#53B8CA" },
                       }}
                     >
-                      Add Branch
+                      Add
                     </Button>
                   </Grid>
+                </Grid>
+                <TableContainer component={Paper} sx={{ mt: "20px" }}>
+                  <Table sx={{ minWidth: 650 }} size="small">
+                    <TableHead>
+                      <TableRow sx={{ bgcolor: "#53B8CA" }}>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20%" }}
+                        >
+                          Firstname
+                        </TableCell>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20%" }}
+                        >
+                          Lastname
+                        </TableCell>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20%" }}
+                        >
+                          Email
+                        </TableCell>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20px" }}
+                        >
+                          Contact
+                        </TableCell>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20px" }}
+                        >
+                          Actions
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {contactPersons?.length > 0 ? (
+                        contactPersons.map((person, index) => {
+                          return (
+                            <TableRow key={index}>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {person.firstName || ""}
+                              </TableCell>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {person.lastName || ""}
+                              </TableCell>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {person.email || ""}
+                              </TableCell>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {person.mobileNumber || ""}
+                              </TableCell>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                <Button
+                                  color="error"
+                                  variant="outlined"
+                                  size="small"
+                                  onClick={() =>
+                                    handleRemoveContactPerson(
+                                      index,
+                                      setFieldValue
+                                    )
+                                  }
+                                >
+                                  Delete
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })
+                      ) : (
+                        <TableCell
+                          align="left"
+                          colSpan={10}
+                          sx={{
+                            textAlign: "center",
+                            verticalAlign: "middle",
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          No Contact
+                        </TableCell>
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+              <Grid container>
+                <Grid
+                  item
+                  xs={6}
+                  md={3}
+                  sx={{
+                    marginLeft: "auto",
+                    display: "flex",
+                    justifyContent: "right",
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    sx={{
+                      mt: 2,
+                      padding: "5px 8px",
+                      fontSize: "12px",
+                      "&:hover": { backgroundColor: "#53B8CA" },
+                    }}
+                  >
+                    Add Branch
+                  </Button>
                 </Grid>
               </Grid>
               <TableContainer component={Paper} sx={{ mt: 2 }}>
@@ -452,7 +642,7 @@ function BranchDetails({goToNextTab,goToBackTab,setFinalFormData}) {
                           {branch.email || "-"}
                         </TableCell>
                         <TableCell sx={{ padding: "8px" }}>
-                          {branch.phoneNo || "-"}
+                          {branch.phoneNumber || "-"}
                         </TableCell>
                         <TableCell sx={{ padding: "8px" }}>
                           {branch.state || "-"}
@@ -460,8 +650,24 @@ function BranchDetails({goToNextTab,goToBackTab,setFinalFormData}) {
                         <TableCell sx={{ padding: "8px" }}>
                           {branch.address || "-"}
                         </TableCell>
-                        <TableCell sx={{ padding: "8px" }}>
-                          {branch.pincode || "-"}
+                        <TableCell
+                          align="left"
+                          sx={{
+                            textAlign: "left",
+                            verticalAlign: "middle",
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          <Button
+                            color="error"
+                            variant="outlined"
+                            size="small"
+                            onClick={() =>
+                              handleRemoveBranch(index, setFieldValue)
+                            }
+                          >
+                            Delete
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -479,25 +685,21 @@ function BranchDetails({goToNextTab,goToBackTab,setFinalFormData}) {
                   mt: 3,
                 }}
               >
-                <Button
-                  variant="outlined"
-                  size="small"
-                  onClick={goToBackTab}
-                >
+                <Button variant="outlined" size="small" onClick={goToBackTab}>
                   Back
                 </Button>
 
                 <LoadingButton
                   size="small"
                   variant="contained"
-                  type="submit"
+                  onClick={onUserSave}
                   sx={{
                     width: "100px",
                     "&:hover": { backgroundColor: "#53B8CA" },
                   }}
                   loading={isSubmitting}
                 >
-                  Next
+                  Submit
                 </LoadingButton>
               </Div>
             </Div>

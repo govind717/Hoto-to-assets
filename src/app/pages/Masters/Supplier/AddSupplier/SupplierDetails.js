@@ -5,16 +5,15 @@ import {
   Grid,
   TextField,
   Typography,
-  Switch,
-  FormControlLabel,
+  Autocomplete,
   TableContainer,
   Paper,
   Table,
   TableHead,
   TableRow,
   TableCell,
+  TableSortLabel,
   TableBody,
-  Autocomplete,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,104 +21,137 @@ import * as yup from "yup";
 import { Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import {
-  SUPPLIER_MASTER,
-} from "app/utils/constants/routeConstants";
+import { SUPPLIER_MASTER } from "app/utils/constants/routeConstants";
 
 import { Country, State, City } from "country-state-city";
 import { Axios } from "index";
 import MasterApis from "app/Apis/master";
+const tableCellSx = {
+  textTransform: "capitalize",
+  color: "white",
+  textAlign: "left",
+  minWidth: "150px",
+  verticalAlign: "middle",
+};
 function SupplierDetails({ goToNextTab, setFinalFormData }) {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const { state } = useLocation();
   const [isSubmitting, setSubmitting] = useState(false);
-  const [districtOptions, setDistrictOptions] = useState([]);
-  const [gpOptions, setGpOptions] = useState([]);
-  const states = State.getStatesOfCountry("IN"); // Replace "IN" if needed
+  const states = State.getStatesOfCountry("IN");
+  const [cities, setCities] = useState([]);
+  const [materialOptions, setMaterialOptions] = useState([]);
+  const [contactPersonInput, setContactPersonInput] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobileNumber: "",
+  });
+
+  const [contactPersons, setContactPersons] = useState(
+    state?.contactPerson || []
+  );
+
   const initialValues = {
     supplierName: state?.supplierName || "",
-    registrationNo: state?.registrationNo || "",
-    taxIdentificationNo: state?.taxIdentificationNo || "",
-    supplierType: state?.supplierType || "",
-    primaryContactName: state?.primaryContactName || "",
+    onBoardingDate: state?.onBoardingDate || "",
     email: state?.email || "",
-    phoneNo: state?.phoneNo || "",
+    phoneNumber: state?.phoneNumber || "",
+    panNo: state?.panNo || "",
+    gstNo: state?.gstNo || "",
     address: state?.address || "",
+    country: state?.country || "",
     state: state?.state || "",
-    district: state?.district || null,
-    gp: state?.gp || null,
-    pincode: state?.pincode || "",
-    yearEstablished: state?.yearEstablished || "",
-    ownershipStructure: state?.ownershipStructure || "",
-    enterpriseSize: state?.enterpriseSize || "",
+    city: state?.city || "",
+    materials: state?.materials || [],
+    contactPerson: state?.contactPerson || [],
   };
 
   const validationSchema = yup.object({
     supplierName: yup.string().required("Supplier Name is required"),
-    registrationNo: yup.string().required("Registration No. is required"), // Optional, no validation written in form
-    taxIdentificationNo: yup.string().required('Tax Identification No. is required'), // Optional
-    supplierType: yup.string().required("Supplier Type is required"),
-    primaryContactName: yup.string().required("Primary Contact No. is required"), // Optional
-    email: yup.string().email("Invalid email format").required("Email is required"), // Optional but should be email if given
-    phoneNo: yup.string().matches(/^[0-9]{10}$/, "Phone No. must be 10 digits").required("Phone Number is required"), // Optional, but format if filled
+    onBoardingDate: yup.string().required("on Boarding Date is required"),
+    email: yup
+      .string()
+      .email("Invalid email format")
+      .required("Email is required"), // Optional but should be email if given
+    phoneNumber: yup
+      .string()
+      .matches(/^[0-9]{10}$/, "Phone No. must be 10 digits")
+      .required("Phone Number is required"), // Optional, but format if filled
+    panNo: yup.string().required("Pan Number is required"),
+    gstNo: yup.string().required("GST Number is required"),
     address: yup.string().required("Address is required"),
     state: yup.string().required("State is required"),
-    district: yup.object().nullable().required("District is required"),
-    gp: yup.object().nullable().required("Gp is required"), // GP field exists, but no validation shown
-    pincode: yup
-      .string()
-      .matches(/^\d{6}$/, "Pincode must be 6 digits")
-      .required("Pincode is required"),
-    yearEstablished: yup.string().required("Year Established is required"), // Optional
-    ownershipStructure: yup.string().required("Ownership Structure is required"), // Optional
-    enterpriseSize: yup.string().required("Enterprise Size is required"), // Optional
+    city: yup.string().required("State is required"),
+    materials: yup
+      .array()
+      .min(1, "At least one material is required")
+      .required("Material is required"),
+
+    contactPerson: yup
+      .array()
+      .min(1, "At least one contact person is required")
+      .required("Contact person is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
-      supplierName: values?.supplierName || "",
-      registrationNo: values?.registrationNo || "",
-      taxIdentificationNo: values?.taxIdentificationNo || "",
-      supplierType: values?.supplierType || "",
-      primaryContactName: values?.primaryContactName || "",
-      email: values?.email || "",
-      phoneNo: values?.phoneNo || "",
-      address: values?.address || "",
-      state: values?.state || "",
-      district: values?.district || null,
-      gp: values?.gp || null,
-      pincode: values?.pincode || "",
-      yearEstablished: values?.yearEstablished || "",
-      ownershipStructure: values?.ownershipStructure || "",
-      enterpriseSize: values?.enterpriseSize || "",
+      ...values,
+      country: "India",
+      materials: values?.materials.map((material) => material._id),
+      contactPerson: contactPersons,
     };
     setFinalFormData((prev) => ({
       ...prev,
-      supplier_details: body
+      supplier_details: body,
     }));
-
-    goToNextTab()
-
+    goToNextTab();
   };
 
   useEffect(() => {
-    Axios.get(MasterApis?.district?.districtDropdown)
-      .then((res) => {
-        setDistrictOptions(res?.data?.result);
+    Axios.get("/master/material/dropdown")
+      .then((result) => {
+        setMaterialOptions(result?.data?.result);
       })
       .catch((err) => {
-        console.log("Error occur while fetching district dropdown", err);
-      });
-    Axios.get(MasterApis?.gp?.gpDropdown)
-      .then((res) => {
-        setGpOptions(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log("Error occur while fetching district dropdown", err);
+        console.log("Error : ", err);
       });
   }, []);
+
+  const handleStateChange = (newValue, setFieldValue) => {
+    if (newValue) {
+      setFieldValue("state", newValue.name);
+      const stateCities = City.getCitiesOfState("IN", newValue.isoCode);
+      setCities(stateCities);
+      setFieldValue("city", "");
+    } else {
+      setFieldValue("state", "");
+      setCities([]);
+      setFieldValue("city", "");
+    }
+  };
+
+  const handleAddContactPerson = (setFieldValue) => {
+    const { firstName, lastName, email, mobileNumber } = contactPersonInput;
+    if (!firstName || !lastName || !email || !mobileNumber) {
+      Swal.fire("Error", "All contact fields are required", "error");
+      return;
+    }
+    setContactPersons([...contactPersons, contactPersonInput]);
+    setFieldValue("contactPerson", [...contactPersons, contactPersonInput]);
+    setContactPersonInput({
+      firstName: "",
+      lastName: "",
+      email: "",
+      mobileNumber: "",
+    });
+  };
+
+  const handleRemoveContactPerson = (index, setFieldValue) => {
+    const updated = contactPersons.filter((_, i) => i !== index);
+    setFieldValue("contactPerson", updated);
+    setContactPersons(updated);
+  };
+
   return (
     <Div sx={{ mt: 0 }}>
       <Formik
@@ -153,96 +185,40 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                     helperText={touched.supplierName && errors.supplierName}
                   />
                 </Grid>
+
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
-                    Registration No.
+                    On Boarding Date
                   </Typography>
                   <TextField
                     sx={{ width: "100%" }}
                     size="small"
-                    name="registrationNo"
-                    placeholder="Enter Registration No"
-                    value={values.registrationNo}
-                    onChange={(e) =>
-                      setFieldValue("registrationNo", e.target.value)
-                    }
-                    onBlur={() => setFieldTouched("registrationNo")}
-                    error={
-                      touched.registrationNo && Boolean(errors.registrationNo)
-                    }
-                    helperText={touched.registrationNo && errors.registrationNo}
+                    type="date"
+                    name="onBoardingDate"
+                    onChange={(e) => setFieldValue("onBoardingDate", e.target.value)}
+                    onBlur={() => setFieldTouched("onBoardingDate", true)}
+                    value={values?.onBoardingDate}
+                    error={touched?.onBoardingDate && Boolean(errors?.onBoardingDate)}
+                    helperText={touched?.onBoardingDate && errors?.onBoardingDate}
                   />
                 </Grid>
+
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
-                    Tax Identification No.
+                    Phone Number
                   </Typography>
                   <TextField
                     sx={{ width: "100%" }}
                     size="small"
-                    name="taxIdentificationNo"
-                    placeholder="Enter Tax Identification No."
-                    value={values.taxIdentificationNo}
+                    name="phoneNumber"
+                    placeholder="Enter Phone Number"
+                    value={values.phoneNumber}
                     onChange={(e) =>
-                      setFieldValue("taxIdentificationNo", e.target.value)
+                      setFieldValue("phoneNumber", e.target.value)
                     }
-                    onBlur={() => setFieldTouched("taxIdentificationNo")}
-                    error={
-                      touched.taxIdentificationNo &&
-                      Boolean(errors.taxIdentificationNo)
-                    }
-                    helperText={
-                      touched.taxIdentificationNo && errors.taxIdentificationNo
-                    }
-                  />
-                </Grid>
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    Supplier Type
-                  </Typography>
-                  <Autocomplete
-                    options={["zonal", "district"]}
-                    value={values?.supplierType || ""}
-                    onChange={(e, newValue) =>
-                      setFieldValue("supplierType", newValue)
-                    }
-                    onBlur={() => setFieldTouched("supplierType", true)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        size="small"
-                        placeholder="Select Sypplier Type"
-                        error={
-                          touched?.supplierType && Boolean(errors?.supplierType)
-                        }
-                        helperText={
-                          touched?.supplierType && errors?.supplierType
-                        }
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    Primary Contact Name
-                  </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="primaryContactName"
-                    placeholder="Enter Primary Contact Name"
-                    value={values.primaryContactName}
-                    onChange={(e) =>
-                      setFieldValue("primaryContactName", e.target.value)
-                    }
-                    onBlur={() => setFieldTouched("primaryContactName")}
-                    error={
-                      touched.primaryContactName &&
-                      Boolean(errors.primaryContactName)
-                    }
-                    helperText={
-                      touched.primaryContactName && errors.primaryContactName
-                    }
+                    onBlur={() => setFieldTouched("phoneNumber")}
+                    error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+                    helperText={touched.phoneNumber && errors.phoneNumber}
                   />
                 </Grid>
                 <Grid item xs={6} md={3}>
@@ -263,24 +239,40 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                 </Grid>
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
-                    Phone No.
+                    Pan Number
                   </Typography>
                   <TextField
                     sx={{ width: "100%" }}
                     size="small"
-                    name="phoneNo"
-                    placeholder="Enter Phone Number"
-                    value={values.phoneNo}
-                    onChange={(e) => setFieldValue("phoneNo", e.target.value)}
-                    onBlur={() => setFieldTouched("phoneNo")}
-                    error={touched.phoneNo && Boolean(errors.phoneNo)}
-                    helperText={touched.phoneNo && errors.phoneNo}
+                    name="panNo"
+                    placeholder="Enter Pan Number"
+                    value={values.panNo}
+                    onChange={(e) => setFieldValue("panNo", e.target.value)}
+                    onBlur={() => setFieldTouched("panNo")}
+                    error={touched.panNo && Boolean(errors.panNo)}
+                    helperText={touched.panNo && errors.panNo}
+                  />
+                </Grid>
+                <Grid item xs={6} md={3}>
+                  <Typography variant="h6" fontSize="14px">
+                    GST Number
+                  </Typography>
+                  <TextField
+                    sx={{ width: "100%" }}
+                    size="small"
+                    name="gstNo"
+                    placeholder="Enter GST Number"
+                    value={values.gstNo}
+                    onChange={(e) => setFieldValue("gstNo", e.target.value)}
+                    onBlur={() => setFieldTouched("gstNo")}
+                    error={touched.gstNo && Boolean(errors.gstNo)}
+                    helperText={touched.gstNo && errors.gstNo}
                   />
                 </Grid>
 
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
-                    Main Address
+                    Address
                   </Typography>
                   <TextField
                     sx={{ width: "100%" }}
@@ -302,21 +294,10 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                   <Autocomplete
                     options={states}
                     getOptionLabel={(option) => option.name || ""}
-                    value={
-                      states.find((state) => state.name === values.state) ||
-                      null
-                    }
+                    value={states.find((s) => s.name === values.state) || null}
                     onBlur={() => setFieldTouched("state")}
                     onChange={(e, newValue) => {
-                      if (newValue) {
-                        setFieldValue("state", newValue.name);
-                        const stateCities = City.getCitiesOfState(
-                          "IN",
-                          newValue.isoCode
-                        );
-                      } else {
-                        setFieldValue("state", "");
-                      }
+                      handleStateChange(newValue, setFieldValue);
                     }}
                     renderInput={(params) => (
                       <TextField
@@ -331,134 +312,259 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                     )}
                   />
                 </Grid>
+
                 <Grid item xs={12} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    District
+                  <Typography variant="h6" fontSize="14px" mb={0.5}>
+                    City
                   </Typography>
                   <Autocomplete
-                    size="small"
-                    options={districtOptions}
-                    getOptionLabel={(option) => option.district || ""}
-                    isOptionEqualToValue={(opt, val) => opt?._id === val.id}
-                    value={values.district}
-                    onChange={(_, value) => setFieldValue("district", value)}
-                    onBlur={() => setFieldTouched("district")}
+                    options={cities}
+                    getOptionLabel={(option) => option.name || ""}
+                    value={cities.find((c) => c.name === values.city) || null}
+                    onBlur={() => setFieldTouched("city")}
+                    onChange={(e, newValue) => {
+                      if (newValue) {
+                        setFieldValue("city", newValue.name);
+                      } else {
+                        setFieldValue("city", "");
+                      }
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        placeholder="Select District"
-                        error={touched.district && Boolean(errors.district)}
-                        helperText={touched.district && errors.district}
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    GP
-                  </Typography>
-                  <Autocomplete
-                    size="small"
-                    options={gpOptions}
-                    getOptionLabel={(option) => option.gpName || ""}
-                    value={values.gp}
-                    onChange={(_, value) => setFieldValue("gp", value)}
-                    onBlur={() => setFieldTouched("gp")}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        placeholder="Select GP"
-                        error={touched.gp && Boolean(errors.gp)}
-                        helperText={touched.gp && errors.gp}
+                        fullWidth
+                        size="small"
+                        placeholder="Select City"
+                        name="city"
+                        error={touched.city && Boolean(errors.city)}
+                        helperText={touched.city && errors.city}
                       />
                     )}
                   />
                 </Grid>
 
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    Pincode
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px" mb={0.5}>
+                    Material
                   </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="pincode"
-                    placeholder="Enter Pincode"
-                    value={values.pincode}
-                    onChange={(e) => setFieldValue("pincode", e.target.value)}
-                    onBlur={() => setFieldTouched("pincode")}
-                    error={touched.pincode && Boolean(errors.pincode)}
-                    helperText={touched.pincode && errors.pincode}
+                  <Autocomplete
+                    multiple
+                    options={materialOptions}
+                    getOptionLabel={(option) => option?.materialName || ""}
+                    value={values.materials || []}
+                    onChange={(e, newValue) => {
+                      setFieldValue("materials", newValue);
+                    }}
+                    onBlur={() => setFieldTouched("materials")}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        size="small"
+                        placeholder="Select materials"
+                        name="materials"
+                        error={touched.materials && Boolean(errors.materials)}
+                        helperText={touched.materials && errors.materials}
+                      />
+                    )}
                   />
                 </Grid>
+              </Grid>
+              <Grid item xs={12} mt={3}>
+                <Typography variant="h6" fontSize="16px" mb={1}>
+                  Contact Person
+                </Typography>
 
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    Year Established
-                  </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="yearEstablished"
-                    placeholder="Enter Year Established"
-                    value={values.yearEstablished}
-                    onChange={(e) =>
-                      setFieldValue("yearEstablished", e.target.value)
-                    }
-                    onBlur={() => setFieldTouched("yearEstablished")}
-                    error={
-                      touched.yearEstablished && Boolean(errors.yearEstablished)
-                    }
-                    helperText={
-                      touched.yearEstablished && errors.yearEstablished
-                    }
-                  />
+                <Grid container spacing={2}>
+                  <Grid item xs={2.4}>
+                    <TextField
+                      label="First Name"
+                      size="small"
+                      fullWidth
+                      value={contactPersonInput.firstName}
+                      onChange={(e) =>
+                        setContactPersonInput({
+                          ...contactPersonInput,
+                          firstName: e.target.value,
+                        })
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={2.4}>
+                    <TextField
+                      label="Last Name"
+                      size="small"
+                      fullWidth
+                      value={contactPersonInput.lastName}
+                      onChange={(e) =>
+                        setContactPersonInput({
+                          ...contactPersonInput,
+                          lastName: e.target.value,
+                        })
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={2.4}>
+                    <TextField
+                      label="Email"
+                      size="small"
+                      fullWidth
+                      value={contactPersonInput.email}
+                      onChange={(e) =>
+                        setContactPersonInput({
+                          ...contactPersonInput,
+                          email: e.target.value,
+                        })
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={2.4}>
+                    <TextField
+                      label="Mobile Number"
+                      size="small"
+                      fullWidth
+                      value={contactPersonInput.mobileNumber}
+                      onChange={(e) =>
+                        setContactPersonInput({
+                          ...contactPersonInput,
+                          mobileNumber: e.target.value,
+                        })
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={2.4}>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => handleAddContactPerson(setFieldValue)}
+                      sx={{ my: "2%", minWidth: "100%" }}
+                    >
+                      Add
+                    </Button>
+                  </Grid>
                 </Grid>
-
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    Ownership Structure
-                  </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="ownershipStructure"
-                    placeholder="Enter Ownership Structure"
-                    value={values.ownershipStructure}
-                    onChange={(e) =>
-                      setFieldValue("ownershipStructure", e.target.value)
-                    }
-                    onBlur={() => setFieldTouched("ownershipStructure")}
-                    error={
-                      touched.ownershipStructure &&
-                      Boolean(errors.ownershipStructure)
-                    }
-                    helperText={
-                      touched.ownershipStructure && errors.ownershipStructure
-                    }
-                  />
-                </Grid>
-
-                <Grid item xs={6} md={3}>
-                  <Typography variant="h6" fontSize="14px">
-                    Enterprise Size
-                  </Typography>
-                  <TextField
-                    sx={{ width: "100%" }}
-                    size="small"
-                    name="enterpriseSize"
-                    placeholder="Enter Enterprise Size"
-                    value={values.enterpriseSize}
-                    onChange={(e) =>
-                      setFieldValue("enterpriseSize", e.target.value)
-                    }
-                    onBlur={() => setFieldTouched("enterpriseSize")}
-                    error={
-                      touched.enterpriseSize && Boolean(errors.enterpriseSize)
-                    }
-                    helperText={touched.enterpriseSize && errors.enterpriseSize}
-                  />
-                </Grid>
+                <TableContainer component={Paper} sx={{ mt: "20px" }}>
+                  <Table sx={{ minWidth: 650 }} size="small">
+                    <TableHead>
+                      <TableRow sx={{ bgcolor: "#53B8CA" }}>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20%" }}
+                        >
+                          Firstname
+                        </TableCell>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20%" }}
+                        >
+                          Lastname
+                        </TableCell>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20%" }}
+                        >
+                          Email
+                        </TableCell>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20px" }}
+                        >
+                          Contact
+                        </TableCell>
+                        <TableCell
+                          align={"left"}
+                          sx={{ ...tableCellSx, minWidth: "20px" }}
+                        >
+                          Actions
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {contactPersons?.length > 0 ? (
+                        contactPersons.map((person, index) => {
+                          return (
+                            <TableRow key={index}>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {person.firstName || ""}
+                              </TableCell>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {person.lastName || ""}
+                              </TableCell>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {person.email || ""}
+                              </TableCell>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                {person.mobileNumber || ""}
+                              </TableCell>
+                              <TableCell
+                                align="left"
+                                sx={{
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                <Button
+                                  color="error"
+                                  variant="outlined"
+                                  size="small"
+                                  onClick={() =>
+                                    handleRemoveContactPerson(
+                                      index,
+                                      setFieldValue
+                                    )
+                                  }
+                                >
+                                  Delete
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })
+                      ) : (
+                        <TableCell
+                          align="left"
+                          colSpan={10}
+                          sx={{
+                            textAlign: "center",
+                            verticalAlign: "middle",
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          No Contact
+                        </TableCell>
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </Grid>
 
               <Div

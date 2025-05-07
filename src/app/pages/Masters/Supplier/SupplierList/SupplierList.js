@@ -84,7 +84,7 @@ const SupplierList = () => {
   const [selectedContacts, setSelectedContacts] = useState([]);
 
   const { supplierDataReducer } = useSelector((state) => state);
-
+   console.log("supplierDataReducer : ", supplierDataReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -230,22 +230,40 @@ const SupplierList = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
-                  onClick={() => handleSort(`warehouse_name`)}
+                  onClick={() => handleSort(`supplierName`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Warehouse Name
+                  Supplier Name
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
-                  onClick={() => handleSort(`warehouse_type`)}
+                  onClick={() => handleSort(`phoneNumber`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Warehouse Type
+                  Phone Number
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <TableSortLabel
+                  onClick={() => handleSort(`onBoardingDate`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  on Boarding Date
                 </TableSortLabel>
               </TableCell>
               <TableCell
@@ -270,18 +288,6 @@ const SupplierList = () => {
                   sx={{ ...tableCellSort }}
                 >
                   City
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
-              >
-                <TableSortLabel
-                  onClick={() => handleSort(`district`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  District
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -407,26 +413,23 @@ const SupplierList = () => {
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
                     {index + 1}
                   </TableCell>
-                  <TableCell
-                    align="left"
-                    sx={{ ...commonCellStyle, minWidth: "220px" }}
-                  >
-                    {ele?.warehouse_name || "-"}
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.supplierName || "-"}
+                  </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.phoneNumber || "-"}
                   </TableCell>
                   <TableCell
                     align="left"
                     sx={{ ...commonCellStyle, minWidth: "220px" }}
                   >
-                    {ele?.warehouse_type || "-"}
+                    {moment(ele?.onBoardingDate).format("DD-MM-YYYY") || "-"}
                   </TableCell>
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
                     {ele?.address || "-"}
                   </TableCell>
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
                     {ele?.city || "-"}
-                  </TableCell>
-                  <TableCell align="left" sx={{ ...commonCellStyle }}>
-                    {ele?.district || "-"}
                   </TableCell>
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
                     {ele?.state || "-"}
@@ -546,9 +549,15 @@ const SupplierList = () => {
             <MuiTable>
               <MuiTableHead>
                 <MuiTableRow>
-                  <MuiTableCell><strong>Name</strong></MuiTableCell>
-                  <MuiTableCell><strong>Email</strong></MuiTableCell>
-                  <MuiTableCell><strong>Mobile No</strong></MuiTableCell>
+                  <MuiTableCell>
+                    <strong>Name</strong>
+                  </MuiTableCell>
+                  <MuiTableCell>
+                    <strong>Email</strong>
+                  </MuiTableCell>
+                  <MuiTableCell>
+                    <strong>Mobile No</strong>
+                  </MuiTableCell>
                 </MuiTableRow>
               </MuiTableHead>
               <MuiTableBody>

@@ -70,7 +70,11 @@ const AssetDetailTable = ({ data }) => {
   const handleCloseModal = () => {
     setOpen(false);
   };
-  const showDetails = (data) => {};
+  const showDetails = (data) => {
+    navigate(
+      "/dashboards/hoto-survey-block-data/block-wise-details/rack-details"
+    );
+  };
   return (
     <>
       <TableContainer component={Paper}>
