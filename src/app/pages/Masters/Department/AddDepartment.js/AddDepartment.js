@@ -1,48 +1,32 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
+  Autocomplete,
   Button,
   Grid,
-  IconButton,
-  InputAdornment,
-  Pagination,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import * as yup from "yup";
-import { Form, Formik } from "formik";
-import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
+import MasterApis from "app/Apis/master";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { DEPARTMENT_MASTER, DEPARTMENT_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { addDepartment, updateDepartment } from "app/services/apis/master";
+import {
+  DEPARTMENT_MASTER,
+  DEPARTMENT_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
+import { Form, Formik } from "formik";
+import { Axios } from "index";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as yup from "yup";
 
 function AddDepartment() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const [organisationNameOptions, setOrganisationNameOptions] = useState([]);
+  const [formInitialValues, setFormInitialValues] = useState(null);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
@@ -51,23 +35,24 @@ function AddDepartment() {
   };
 
   const validationSchema = yup.object({
-    organisationName: yup
-      .string("Enter Organisation Name")
-      .trim()
+    organisationName: yup.object().nullable()
       .required("Organisation Name is required"),
-    departmentName: yup.string("Enter Department Name").trim().required("Department Name is required"),
+    departmentName: yup
+      .string("Enter Department Name")
+      .trim()
+      .required("Department Name is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
-      organisationName: values?.organisationName,
+      organisationId: values?.organisationName?._id,
       departmentName: values?.departmentName,
     };
 
     setSubmitting(true);
     try {
       if (pathname === DEPARTMENT_MASTER_EDIT) {
-          const data = await updateDepartment(body, state?._id);
+        const data = await updateDepartment(body, state?._id);
         if (data?.data?.statusCode === 200) {
           navigate(DEPARTMENT_MASTER);
           Swal.fire({
@@ -117,136 +102,164 @@ function AddDepartment() {
   };
 
   useEffect(() => {
-    (async () => {})();
-    return () => {};
+    Axios.get(MasterApis?.organisation?.organisationDropdown)
+      .then((res) => {
+        const organisations = res?.data?.result || [];
+        setOrganisationNameOptions(organisations);
+      })
+      .catch((err) => console.error("Package Fetch Error: ", err));
   }, []);
 
+  useEffect(() => {
+    if (
+      organisationNameOptions.length &&
+      (!state?.packageId || organisationNameOptions.length || !state?.districtId)
+    ) {
+
+
+      setFormInitialValues({
+        organisationName: state?.organisationId
+          ? organisationNameOptions.find((opt) => opt?._id === state.organisationId)
+          : null,
+        departmentName: state?.departmentName || "",
+      });
+    }
+  }, [organisationNameOptions]);
   return (
     <>
       <HotoHeader />
       <Div sx={{ mt: 0 }}>
         <Div>
-          <Formik
-            validateOnChange={true}
-            initialValues={initialValues}
-            enableReinitialize={true}
-            validationSchema={validationSchema}
-            onSubmit={onUserSave}
-          >
-            {({
-              setFieldValue,
-              values,
-              touched,
-              errors,
-              setFieldTouched,
-              setValues,
-            }) => (
-              <Form noValidate autoComplete="off">
-                <Div sx={{ mt: 4 }}>
-                  <Div
-                    sx={{
-                      display: "flex",
-                      width: "100%",
-                      flexWrap: "wrap",
-                      columnGap: 5,
-                    }}
-                  >
-                    <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add Department
-                    </Typography>
-                    <Grid container rowSpacing={2} columnSpacing={3}>
-                      <Grid item xs={6} md={3}>
-                        <Typography variant="h6" fontSize="14px">
-                          Organization Name
-                        </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
-                          size="small"
-                          placeholder="Enter Organization Name"
-                          name="organisationName"
-                          onChange={(e) =>
-                            setFieldValue("organisationName", e.target.value)
-                          }
-                          onBlur={() =>
-                            setFieldTouched("organisationName", true)
-                          }
-                          value={values?.organisationName}
-                          error={
-                            touched?.organisationName &&
-                            Boolean(errors?.organisationName)
-                          }
-                          helperText={
-                            touched?.organisationName &&
-                            errors?.organisationName
-                          }
-                        />
-                      </Grid>
-
-                      <Grid item xs={6} md={3}>
-                        <Typography variant="h6" fontSize="14px">
-                          Department Name
-                        </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
-                          size="small"
-                          placeholder="Enter Department Name"
-                          name="departmentName"
-                          onChange={(e) =>
-                            setFieldValue("address", e.target.value)
-                          }
-                          onBlur={() => setFieldTouched("address", true)}
-                          value={values?.departmentName}
-                          error={touched?.departmentName && Boolean(errors?.departmentName)}
-                          helperText={touched?.departmentName && errors?.departmentName}
-                        />
-                      </Grid>
-
-                    </Grid>
-                  </Div>
-                  <Div
-                    sx={{
-                      width: "93.5%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      gap: 3,
-                      mt: 3,
-                    }}
-                  >
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={() => {
-                        Swal.fire({
-                          title: "Are you sure you want to cancel?",
-                          icon: "warning",
-                          showCancelButton: true,
-                          confirmButtonText: "Yes",
-                          cancelButtonText: "No",
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            navigate();
-                          }
-                        });
+          {
+            formInitialValues &&
+            <Formik
+              validateOnChange={true}
+              initialValues={formInitialValues}
+              enableReinitialize={true}
+              validationSchema={validationSchema}
+              onSubmit={onUserSave}
+            >
+              {({
+                setFieldValue,
+                values,
+                touched,
+                errors,
+                setFieldTouched,
+                setValues,
+              }) => (
+                <Form noValidate autoComplete="off">
+                  <Div sx={{ mt: 4 }}>
+                    <Div
+                      sx={{
+                        display: "flex",
+                        width: "100%",
+                        flexWrap: "wrap",
+                        columnGap: 5,
                       }}
                     >
-                      Cancel
-                    </Button>
+                      <Typography variant="h3" fontWeight={600} mb={2}>
+                        {pathname === DEPARTMENT_MASTER_EDIT ? "Edit Department" : "Add Department"}
+                      </Typography>
+                      <Grid container rowSpacing={2} columnSpacing={3}>
+                        <Grid item xs={12} md={6}>
+                          <Typography variant="h6" fontSize="14px">
+                            Organization Name
+                          </Typography>
+                          <Autocomplete
+                            size="small"
+                            options={organisationNameOptions}
+                            getOptionLabel={(option) => option.organisationName || ""}
+                            isOptionEqualToValue={(opt, val) => opt?._id === val.id}
+                            value={values.organisationName}
+                            onChange={(_, value) => {
+                              setFieldValue("organisationName", value);
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                placeholder="Select Organisation Name"
+                                error={
+                                  touched.organisationName && Boolean(errors.organisationName)
+                                }
+                                helperText={touched.organisationName && errors.organisationName}
+                              />
+                            )}
+                          />
+                        </Grid>
 
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
-                      loading={isSubmitting}
+                        <Grid item xs={6} md={6}>
+                          <Typography variant="h6" fontSize="14px">
+                            Department Name
+                          </Typography>
+                          <TextField
+                            sx={{ width: "100%" }}
+                            size="small"
+                            placeholder="Enter Department Name"
+                            name="departmentName"
+                            onChange={(e) =>
+                              setFieldValue("departmentName", e.target.value)
+                            }
+                            onBlur={() => setFieldTouched("departmentName", true)}
+                            value={values?.departmentName}
+                            error={
+                              touched?.departmentName &&
+                              Boolean(errors?.departmentName)
+                            }
+                            helperText={
+                              touched?.departmentName && errors?.departmentName
+                            }
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                    <Div
+                      sx={{
+                        width: "93.5%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: 3,
+                        mt: 3,
+                      }}
                     >
-                      Submit
-                    </LoadingButton>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => {
+                          Swal.fire({
+                            title: "Are you sure you want to cancel?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Yes",
+                            cancelButtonText: "No",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              navigate(DEPARTMENT_MASTER);
+                            }
+                          });
+                        }}
+                      >
+                        Cancel
+                      </Button>
+
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        type="submit"
+                        sx={{
+                          width: "100px",
+                          "&:hover": { backgroundColor: "#53B8CA" },
+                        }}
+                        loading={isSubmitting}
+                      >
+                        Submit
+                      </LoadingButton>
+                    </Div>
                   </Div>
-                </Div>
-              </Form>
-            )}
-          </Formik>
+                </Form>
+              )}
+            </Formik>
+          }
         </Div>
       </Div>
     </>

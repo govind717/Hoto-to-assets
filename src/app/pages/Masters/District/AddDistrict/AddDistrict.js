@@ -1,70 +1,57 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
+  Autocomplete,
   Button,
   Grid,
-  IconButton,
-  InputAdornment,
-  Pagination,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import * as yup from "yup";
-import { Form, Formik } from "formik";
-import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
+import MasterApis from "app/Apis/master";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { DISTRICT_MASTER, DISTRICT_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { addDistrict, updateDistrict } from "app/services/apis/master";
+import {
+  DISTRICT_MASTER,
+  DISTRICT_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
+import { Form, Formik } from "formik";
+import { Axios } from "index";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as yup from "yup";
 
 function AddDistrict() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const [packageList, setPackageList] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
-
-  const initialValues = {
-    packageName: state?.packageName ? state.packageName : "",
-    district: state?.district ? state.district : "",
-    districtCode: state?.districtCode ? state.districtCode : "",
-  };
+  const [formInitialValues, setFormInitialValues] = useState({
+    packageName: state?.packageName || "",
+    district: state?.district || "",
+    districtCode: state?.districtCode || "",
+  });
 
   const validationSchema = yup.object({
     packageName: yup
-      .string("Enter Package Name")
-      .trim()
+      .object().nullable()
       .required("Package Name is required"),
-    district: yup.string("Enter District").trim().required("District is required"),
-    districtCode: yup.string("Enter District Code").trim().required("District Code is required"),
+    district: yup
+      .string("Enter District")
+      .trim()
+      .required("District is required"),
+    districtCode: yup
+      .string("Enter District Code")
+      .trim()
+      .required("District Code is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
-        packageName:values?.packageName,
-        district:values?.district,
-        districtCode:values?.districtCode,
+      packageId: values?.packageName.id,
+      district: values?.district,
+      districtCode: values?.districtCode,
     };
 
     setSubmitting(true);
@@ -76,7 +63,6 @@ function AddDistrict() {
           Swal.fire({
             icon: "success",
             text: "District Updated Successfully",
-            // text: "",
             timer: 1000,
             showConfirmButton: false,
           });
@@ -86,7 +72,6 @@ function AddDistrict() {
             text: data?.data?.message
               ? data?.data?.message
               : "Error while updating District",
-            // text: "",
           });
         }
       } else {
@@ -105,7 +90,6 @@ function AddDistrict() {
             text: data?.data?.message
               ? data?.data?.message
               : "Error while adding District",
-            // text: "",
           });
         }
       }
@@ -120,9 +104,29 @@ function AddDistrict() {
   };
 
   useEffect(() => {
-    (async () => {})();
-    return () => {};
+    (async () => {
+      Axios.get(MasterApis?.package?.packageDropdown)
+        .then((success) => {
+          setPackageList(success?.data?.result);
+        })
+        .catch((error) => {
+          console.log("Error : ", error);
+        });
+    })();
+    return () => { };
   }, []);
+
+  useEffect(() => {
+    if (packageList.length && state) {
+      setFormInitialValues({
+        packageName: state?.packageId
+          ? packageList.find((opt) => opt._id === state.packageId)
+          : "",
+        district: state?.district || "",
+        districtCode: state?.districtCode || "",
+      });
+    }
+  }, [packageList, state]);
 
   return (
     <>
@@ -131,19 +135,12 @@ function AddDistrict() {
         <Div>
           <Formik
             validateOnChange={true}
-            initialValues={initialValues}
+            initialValues={formInitialValues}
             enableReinitialize={true}
             validationSchema={validationSchema}
             onSubmit={onUserSave}
           >
-            {({
-              setFieldValue,
-              values,
-              touched,
-              errors,
-              setFieldTouched,
-              setValues,
-            }) => (
+            {({ setFieldValue, values, touched, errors, setFieldTouched }) => (
               <Form noValidate autoComplete="off">
                 <Div sx={{ mt: 4 }}>
                   <Div
@@ -155,45 +152,48 @@ function AddDistrict() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add District
+                      {pathname === DISTRICT_MASTER_EDIT
+                        ? "Edit District"
+                        : "Add District"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
-                      <Grid item xs={6} md={4}>
+                      <Grid item xs={12} md={4}>
                         <Typography variant="h6" fontSize="14px">
                           Package Name
                         </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
+                        <Autocomplete
                           size="small"
-                          placeholder="Enter Package Name"
-                          name="packageName"
-                          onChange={(e) =>
-                            setFieldValue("packageName", e.target.value)
-                          }
-                          onBlur={() =>
-                            setFieldTouched("packageName", true)
-                          }
-                          value={values?.packageName}
-                          error={
-                            touched?.packageName &&
-                            Boolean(errors?.packageName)
-                          }
-                          helperText={
-                            touched?.packageName &&
-                            errors?.packageName
-                          }
+                          options={packageList}
+                          getOptionLabel={(option) => option.packageName || ""}
+                          isOptionEqualToValue={(opt, val) => opt?._id === val.id}
+                          value={values.packageName}
+                          onChange={(_, value) => {
+                            setFieldValue("packageName", value);
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Select Package"
+                              error={
+                                touched.packageName &&
+                                Boolean(errors.packageName)
+                              }
+                              helperText={
+                                touched.packageName && errors.packageName
+                              }
+                            />
+                          )}
                         />
                       </Grid>
 
-
                       <Grid item xs={6} md={4}>
                         <Typography variant="h6" fontSize="14px">
-                        District
+                          District
                         </Typography>
                         <TextField
                           sx={{ width: "100%" }}
                           size="small"
-                          placeholder="Enter District"
+                          placeholder="Enter District Name"
                           name="district"
                           onChange={(e) =>
                             setFieldValue("district", e.target.value)
@@ -206,7 +206,7 @@ function AddDistrict() {
                       </Grid>
                       <Grid item xs={6} md={4}>
                         <Typography variant="h6" fontSize="14px">
-                        District Code
+                          District Code
                         </Typography>
                         <TextField
                           sx={{ width: "100%" }}
@@ -218,8 +218,13 @@ function AddDistrict() {
                           }
                           onBlur={() => setFieldTouched("districtCode", true)}
                           value={values?.districtCode}
-                          error={touched?.districtCode && Boolean(errors?.districtCode)}
-                          helperText={touched?.districtCode && errors?.districtCode}
+                          error={
+                            touched?.districtCode &&
+                            Boolean(errors?.districtCode)
+                          }
+                          helperText={
+                            touched?.districtCode && errors?.districtCode
+                          }
                         />
                       </Grid>
                     </Grid>
@@ -246,7 +251,7 @@ function AddDistrict() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(DISTRICT_MASTER);
                           }
                         });
                       }}
@@ -258,7 +263,10 @@ function AddDistrict() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{
+                        width: "100px",
+                        "&:hover": { backgroundColor: "#53B8CA" },
+                      }}
                       loading={isSubmitting}
                     >
                       Submit
@@ -273,4 +281,5 @@ function AddDistrict() {
     </>
   );
 }
+
 export default AddDistrict;

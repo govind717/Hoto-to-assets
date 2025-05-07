@@ -46,24 +46,20 @@ function AddUOM() {
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
-    departmentName: state?.departmentName ? state.departmentName : "",
-    teamName: state?.teamName ? state.teamName : "",
+    uom: state?.uom ? state.uom : "",
   };
 
   const validationSchema = yup.object({
-    teamName: yup
-      .string("Enter Team Name")
+    uom: yup
+      .string("Enter UOM Name")
       .trim()
-      .required("Team Name is required"),
-    departmentName: yup.string("Enter Department Name").trim().required("Department Name is required"),
+      .required("UOM Name is required"),
   });
 
   const onUserSave = async (values) => {
     const body = {
-      organisationName: values?.organisationName,
-      teamName:values?.teamName
+      uom: values?.uom,
     };
-
     setSubmitting(true);
     try {
       if (pathname === UOM_MASTER_EDIT) {
@@ -116,10 +112,6 @@ function AddUOM() {
     }
   };
 
-  useEffect(() => {
-    (async () => {})();
-    return () => {};
-  }, []);
 
   return (
     <>
@@ -152,7 +144,7 @@ function AddUOM() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add UOM
+                      {pathname === UOM_MASTER_EDIT ? "Edit UOM" : "Add UOM"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -163,14 +155,14 @@ function AddUOM() {
                           sx={{ width: "100%" }}
                           size="small"
                           placeholder="Enter UOM Name"
-                          name="uomName"
+                          name="uom"
                           onChange={(e) =>
-                            setFieldValue("uomName", e.target.value)
+                            setFieldValue("uom", e.target.value)
                           }
-                          onBlur={() => setFieldTouched("uomName", true)}
-                          value={values?.uomName}
-                          error={touched?.uomName && Boolean(errors?.uomName)}
-                          helperText={touched?.uomName && errors?.uomName}
+                          onBlur={() => setFieldTouched("uom", true)}
+                          value={values?.uom}
+                          error={touched?.uom && Boolean(errors?.uom)}
+                          helperText={touched?.uom && errors?.uom}
                         />
                       </Grid>
                     </Grid>
@@ -197,7 +189,7 @@ function AddUOM() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(UOM_MASTER);
                           }
                         });
                       }}
@@ -209,7 +201,7 @@ function AddUOM() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{ width: "100px", "&:hover": { backgroundColor: "#53B8CA" } }}
                       loading={isSubmitting}
                     >
                       Submit

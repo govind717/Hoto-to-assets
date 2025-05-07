@@ -7,19 +7,24 @@ import axios from 'axios';
 import "./app/App.css"
 
 
+// export const Axios = axios.create({
+//   baseURL: process.env.BACKEND_BASE_URL
+// })
 export const Axios = axios.create({
-  baseURL: process.env.LOCALURL
-})
-
-Axios.interceptors.request.use(function (request) {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    request.headers.Authorization = token;
-  }
-
-  return request;
+  baseURL: "http://localhost:2000/api/v1/",
+  withCredentials: true
 });
+
+
+// Axios.interceptors.request.use(function (request) {
+//   const token = localStorage.getItem("token");
+
+//   // if (token) {
+//   //   request.headers.Authorization = token;
+//   // }
+
+//   return request;
+// });
 
 
 ReactDOM.render(

@@ -1,14 +1,12 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -18,17 +16,17 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import { uom_data_dispatch } from "app/redux/actions/Master";
+import { updateUOM } from "app/services/apis/master";
+import { UOM_MASTER_ADD, UOM_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import { UOM_MASTER_ADD } from "app/utils/constants/routeConstants";
+import Swal from "sweetalert2";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -56,18 +54,13 @@ const addBtnStyle = {
 };
 
 const UOMList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [coordinate, setCoordinate] = useState({
-    open: false,
-    gp_name: null,
-    lat: null,
-    log: null,
-  });
 
-  const { hotoServeyDataReducer } = useSelector((state) => state);
+
+  const { uomDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,13 +71,9 @@ const UOMList = () => {
     setPage(1);
   };
 
-  const handleCloseCoordinate = function () {
-    setCoordinate({
-      open: false,
-      gp_name: null,
-      lat: null,
-      log: null,
-    });
+
+  const handleEdit = function (data) {
+    navigate(UOM_MASTER_EDIT, { state: data });
   };
 
   const handleChangePage = (event, newPage) => {
@@ -94,7 +83,7 @@ const UOMList = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_servey_data_disptach({
+      uom_data_dispatch({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -116,7 +105,7 @@ const UOMList = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_servey_data_disptach({
+      uom_data_dispatch({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -128,9 +117,38 @@ const UOMList = () => {
   const addMasterItem = () => {
     navigate(UOM_MASTER_ADD);
   };
+
+  const updateStatus = async (body, id) => {
+    const data = await updateUOM(body, id);
+    if (data?.data?.statusCode === 200) {
+      Swal.fire({
+        icon: "success",
+        text: "Status Updated Successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+
+      // 👇 After successful update, fetch the latest list again
+      dispatch(
+        uom_data_dispatch({
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        })
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: data?.data?.message
+          ? data?.data?.message
+          : "Error while updating Status",
+      });
+    }
+  };
   return (
     <>
-      {hotoServeyDataReducer?.loading && <FullScreenLoader />}
+      {uomDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -142,7 +160,7 @@ const UOMList = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_servey_data_disptach({
+                uom_data_dispatch({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -177,17 +195,11 @@ const UOMList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Sr No.
-                </TableSortLabel>
+                Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`uom`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -197,11 +209,11 @@ const UOMList = () => {
 
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`created_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -211,11 +223,11 @@ const UOMList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updated_user_details.firstName`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -225,11 +237,11 @@ const UOMList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`createdAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -239,11 +251,11 @@ const UOMList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`updatedAt`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -251,6 +263,16 @@ const UOMList = () => {
                   Updated Date
                 </TableSortLabel>
               </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <TableSortLabel
+                  onClick={() => handleSort(`status`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Status
+                </TableSortLabel>
+              </TableCell>
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
@@ -260,101 +282,120 @@ const UOMList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {
-                            hotoServeyDataReducer?.hoto_servey_data?.data?.data?.map((ele, index) => {
-                                return (
-                                    <TableRow key={ele?.id}>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.block?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.name || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            {ele?.gp?.district?.code || "-"}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize",
-                                        }}>
-                                            <IconButton aria-label="info" size="medium" onClick={() => {
-                                                setCoordinate({
-                                                    open: true,
-                                                    gp_name: ele?.gp?.name,
-                                                    lat: ele?.gp?.latitude,
-                                                    log: ele?.gp?.longitude
-                                                })
-                                            }}>
-                                                <ShareLocationIcon fontSize="medium" color='primary' />
-                                            </IconButton>
-                                        </TableCell>
-                                        <TableCell align="left" sx={{
-                                            textAlign: "left",
-                                            verticalAlign: "middle",
-                                            textTransform: "capitalize"
-                                        }}>
-                                            <Button variant="contained"
-                                                size="small"
-                                                startIcon={<HomeRepairServiceIcon />}
-                                                onClick={() => handleEquipmentDetails(ele)}
-                                                sx={{
-                                                    "&:hover": {
-                                                        backgroundColor: orangeSecondary
-                                                    }
-                                                }}
-                                            >
-                                                View
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            })
-                        } */}
-            <TableCell
-              align="left"
-              colSpan={10}
-              sx={{
-                textAlign: "center",
-                verticalAlign: "middle",
-                textTransform: "capitalize",
-              }}
-            >
-              No Data Found!
-            </TableCell>
+            {uomDataReducer?.data?.result?.data.length > 0 ? (
+              uomDataReducer?.data?.result?.data.map((ele, index) => {
+                return (
+                  <TableRow key={ele?.id}>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {index + 1 || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.uom || "-"}
+                    </TableCell>
+
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.created_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.updated_user_details?.firstName || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {moment(ele?.updatedAt).format("DD-MM-YYYY") || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      <Switch
+                        checked={ele?.status === true}
+                        onChange={(event) => {
+                          const newStatus = event.target.checked;
+                          const body = { ...ele, status: newStatus };
+                          updateStatus(body, ele?._id);
+                        }}
+                        color="primary"
+                      />
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Edit />}
+                        onClick={() => handleEdit(ele)}
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: orangeSecondary,
+                          },
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableCell
+                align="left"
+                colSpan={10}
+                sx={{
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  textTransform: "capitalize",
+                }}
+              >
+                No Data Found!
+              </TableCell>
+            )}
           </TableBody>
         </Table>
         <Pagination
@@ -371,12 +412,6 @@ const UOMList = () => {
           }}
         />
       </TableContainer>
-      {coordinate?.open && (
-        <MapLocation
-          coordinate={coordinate}
-          handleClose={handleCloseCoordinate}
-        />
-      )}
     </>
   );
 };

@@ -16,7 +16,7 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField,
+  TextField, Typography,
 } from "@mui/material";
 import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
 import { debounce } from "lodash";
@@ -28,6 +28,7 @@ import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import MapLocation from "../../MapLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
+import { CloudDownloadOutlined } from "@mui/icons-material";
 import DownloadFullEquipmentExcel from "./DownloadExcel";
 
 const tableCellSx = {
@@ -143,7 +144,7 @@ const Gp_list = () => {
     <>
       {hotoServeyDataReducer?.loading && <FullScreenLoader />}
 
-      <Div sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Div sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <TextField
           id="search"
           type="search"
@@ -174,6 +175,9 @@ const Gp_list = () => {
             ),
           }}
         />
+        <Div>
+          <Button variant="outlined" size="medium" startIcon={<CloudDownloadOutlined color="action" />}><Typography color="ButtonText">Export</Typography></Button>
+        </Div>
         <Div sx={{ my: "2%" }}>
           <DownloadFullEquipmentExcel
             data={hotoServeyDataReducer?.hoto_servey_data?.data?.data}
@@ -185,7 +189,7 @@ const Gp_list = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-            <TableCell
+              <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "100px" }}
               >
@@ -232,7 +236,7 @@ const Gp_list = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Block 
+                  Block
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -300,7 +304,7 @@ const Gp_list = () => {
               (ele, index) => {
                 return (
                   <TableRow key={ele?.id}>
-                  <TableCell
+                    <TableCell
                       align="left"
                       sx={{
                         textAlign: "left",
@@ -308,7 +312,7 @@ const Gp_list = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                     {index+1}
+                      {index + 1}
                     </TableCell>
                     <TableCell
                       align="left"

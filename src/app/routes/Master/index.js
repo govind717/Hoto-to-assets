@@ -34,6 +34,8 @@ import HSNCode from "app/pages/Masters/HSNCode";
 import AddHSNCode from "app/pages/Masters/HSNCode/AddHSNCode/AddHSNCode";
 import Warehouse from "app/pages/Masters/Warehouse";
 import AddWarehouse from "app/pages/Masters/Warehouse/AddWarehouse/AddWarehouse";
+import Supplier from "app/pages/Masters/Supplier";
+import AddSupplier from "app/pages/Masters/Supplier/AddSupplier/AddSupplier";
 
 const routesName = "/dashboards/hoto-survey-data";
 
@@ -193,6 +195,10 @@ export const MasterRoute = [
         element: <Page component={AddGST} />,
       },
       {
+        path: `/masters/gst/edit`,
+        element: <Page component={AddGST} />,
+      },
+      {
         path: `/masters/hsn-code`,
         element: <Page component={HSNCode} />,
       },
@@ -218,7 +224,19 @@ export const MasterRoute = [
         path: `/masters/warehouse/edit`,
         element: <Page component={AddWarehouse} />,
       },
-     
+      {
+        path: `/masters/supplier`,
+        element: <Page component={Supplier} />,
+      },
+      
+      {
+        path: `/masters/supplier/add`,
+        element: <Page component={AddSupplier} />,
+      },
+      {
+        path: `/masters/supplier/edit`,
+        element: <Page component={AddSupplier} />,
+      },
     ],
   },
 ];

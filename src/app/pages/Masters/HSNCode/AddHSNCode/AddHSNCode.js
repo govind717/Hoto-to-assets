@@ -1,61 +1,42 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
+  Autocomplete,
   Button,
   Grid,
-  IconButton,
-  InputAdornment,
-  Pagination,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import * as yup from "yup";
-import { Form, Formik } from "formik";
-import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
+import MasterApis from "app/Apis/master";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { HSN_CODE_MASTER, HSN_CODE_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { addHSNCode, updateHSNCode } from "app/services/apis/master";
+import {
+  HSN_CODE_MASTER,
+  HSN_CODE_MASTER_EDIT,
+} from "app/utils/constants/routeConstants";
+import { Form, Formik } from "formik";
+import { Axios } from "index";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as yup from "yup";
 
 function AddHSNCode() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { state } = useLocation();
-
+  const [gstOptions, setGstOptions] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
-
+  const [formInitialValues, setFormInitialValues] = useState(null);
   const initialValues = {
     gst: state?.gst ? state.gst : "",
-    HSNCode:state?.HSNCode ? state?.HSNCode : ""
+    hsn_code: state?.hsn_code ? state?.hsn_code : "",
   };
 
   const validationSchema = yup.object({
-    gst: yup
-      .string("Enter GST Percentage")
-      .trim()
+    gst: yup.object().nullable()
       .required("GST Percentage is required"),
-    HSNCode: yup
+    hsn_code: yup
       .string("Enter HSN Code")
       .trim()
       .required("HSN Code is required"),
@@ -63,9 +44,9 @@ function AddHSNCode() {
 
   const onUserSave = async (values) => {
     const body = {
-       gst:values?.gst
+      gstId: values?.gst._id,
+      hsn_code: values?.hsn_code,
     };
-
     setSubmitting(true);
     try {
       if (pathname === HSN_CODE_MASTER_EDIT) {
@@ -119,10 +100,24 @@ function AddHSNCode() {
   };
 
   useEffect(() => {
-    (async () => {})();
-    return () => {};
+    Axios.get(MasterApis?.gst?.gstDropdown)
+      .then((res) => {
+        const gsts = res?.data?.result || [];
+        setGstOptions(gsts);
+      })
+      .catch((err) => console.error("Package Fetch Error: ", err));
   }, []);
 
+  useEffect(() => {
+    if (gstOptions.length) {
+      setFormInitialValues({
+        gst: state?.gstId
+          ? gstOptions.find((opt) => opt?._id === state.gstId)
+          : null,
+        hsn_code: state?.hsn_code || "",
+      });
+    }
+  }, [gstOptions]);
   return (
     <>
       <HotoHeader />
@@ -130,7 +125,7 @@ function AddHSNCode() {
         <Div>
           <Formik
             validateOnChange={true}
-            initialValues={initialValues}
+            initialValues={formInitialValues || initialValues}
             enableReinitialize={true}
             validationSchema={validationSchema}
             onSubmit={onUserSave}
@@ -154,10 +149,10 @@ function AddHSNCode() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add GST
+                      {pathname === HSN_CODE_MASTER_EDIT ? "Edit HSN Code" : "Add HSN Code"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
-                    <Grid item xs={6} md={6}>
+                      <Grid item xs={6} md={6}>
                         <Typography variant="h6" fontSize="14px">
                           HSN Code
                         </Typography>
@@ -165,48 +160,39 @@ function AddHSNCode() {
                           sx={{ width: "100%" }}
                           size="small"
                           placeholder="Enter HSN Code"
-                          name="HSNCode"
+                          name="hsn_code"
                           onChange={(e) =>
-                            setFieldValue("HSNCode", e.target.value)
+                            setFieldValue("hsn_code", e.target.value)
                           }
-                          onBlur={() =>
-                            setFieldTouched("HSNCode", true)
-                          }
-                          value={values?.HSNCode}
-                          error={
-                            touched?.HSNCode &&
-                            Boolean(errors?.HSNCode)
-                          }
-                          helperText={
-                            touched?.HSNCode &&
-                            errors?.HSNCode
-                          }
+                          onBlur={() => setFieldTouched("hsn_code", true)}
+                          value={values?.hsn_code}
+                          error={touched?.hsn_code && Boolean(errors?.hsn_code)}
+                          helperText={touched?.hsn_code && errors?.hsn_code}
                         />
                       </Grid>
-                      <Grid item xs={6} md={6}>
+                      <Grid item xs={12} md={6}>
                         <Typography variant="h6" fontSize="14px">
-                          GST %
+                          GST%
                         </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
+                        <Autocomplete
                           size="small"
-                          placeholder="Enter GST Percentage"
-                          name="gst"
-                          onChange={(e) =>
-                            setFieldValue("gst", e.target.value)
+                          options={gstOptions}
+                          getOptionLabel={(option) => option.gst || ""}
+                          isOptionEqualToValue={(opt, val) => opt?._id === val.id}
+                          value={values.gst}
+                          onChange={(_, value) =>
+                            setFieldValue("gst", value)
                           }
-                          onBlur={() =>
-                            setFieldTouched("gst", true)
-                          }
-                          value={values?.gst}
-                          error={
-                            touched?.gst &&
-                            Boolean(errors?.gst)
-                          }
-                          helperText={
-                            touched?.gst &&
-                            errors?.gst
-                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Select GST"
+                              error={
+                                touched.gst && Boolean(errors.gst)
+                              }
+                              helperText={touched.gst && errors.gst}
+                            />
+                          )}
                         />
                       </Grid>
                     </Grid>
@@ -233,7 +219,7 @@ function AddHSNCode() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(HSN_CODE_MASTER);
                           }
                         });
                       }}
@@ -245,7 +231,10 @@ function AddHSNCode() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{
+                        width: "100px",
+                        "&:hover": { backgroundColor: "#53B8CA" },
+                      }}
                       loading={isSubmitting}
                     >
                       Submit

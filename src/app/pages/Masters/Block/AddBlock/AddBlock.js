@@ -1,297 +1,265 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
+  Autocomplete,
+  Box,
   Button,
   Grid,
-  IconButton,
-  InputAdornment,
-  Pagination,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
   TextField,
   Typography,
 } from "@mui/material";
-import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import * as yup from "yup";
-import { Form, Formik } from "formik";
-import Swal from "sweetalert2";
-import { LoadingButton } from "@mui/lab";
+import MasterApis from "app/Apis/master";
 import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { BLOCK_MASTER, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { addBlock, updateBlock } from "app/services/apis/master";
+import { BLOCK_MASTER, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { Form, Formik } from "formik";
+import { Axios } from "index";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as yup from "yup";
 
 function AddBlock() {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const { state } = useLocation();
-
+  const { pathname, state } = useLocation();
+  const [packageOptions, setPackageOptions] = useState([]);
+  const [districtOptions, setDistrictOptions] = useState([]);
+  const [formInitialValues, setFormInitialValues] = useState(null);
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
-    packageName: state?.packageName ? state.packageName : "",
-    district: state?.district ? state.district : "",
-    blockName: state?.blockName ? state.blockName : "",
-    blockCode: state?.blockCode ? state.blockCode : "",
+    packageName: null,
+    district: null,
+    blockName: state?.blockName || "",
+    blockCode: state?.blockCode || "",
   };
-
   const validationSchema = yup.object({
-    packageName: yup
-      .string("Enter Package Name")
-      .trim()
-      .required("Package Name is required"),
-    district: yup.string("Enter District").trim().required("District is required"),
-    blockName: yup.string("Enter Block Name").trim().required("Block Name is required"),
-    blockCode: yup.string("Enter Block Code").trim().required("Block Code is required"),
+    packageName: yup.object().nullable().required("Package Name is required"),
+    district: yup.object().nullable().required("District Name is required"),
+    blockName: yup.string().required("Block Name is required"),
+    blockCode: yup.string().required("Block Code is required"),
   });
+
+  const fetchDistrictDropdown = (packageId) => {
+    Axios.get(`${MasterApis?.district?.districtDropdown}?id=${packageId}`)
+      .then((res) => setDistrictOptions(res?.data?.result || []))
+      .catch((err) => console.error("District Fetch Error: ", err));
+  };
 
   const onUserSave = async (values) => {
     const body = {
-        packageName:values?.packageName,
-        district:values?.district,
-        blockName:values?.blockName,
-        blockCode:values?.blockCode,
+      packageId: values?.packageName?.id,
+      districtId: values?.district?.id,
+      blockName: values?.blockName,
+      blockCode: values?.blockCode,
     };
 
     setSubmitting(true);
     try {
-      if (pathname === BLOCK_MASTER_EDIT) {
-        const data = await updateBlock(body, state?._id);
-        if (data?.data?.statusCode === 200) {
-          navigate(BLOCK_MASTER);
-          Swal.fire({
-            icon: "success",
-            text: "Block Updated Successfully",
-            // text: "",
-            timer: 1000,
-            showConfirmButton: false,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            text: data?.data?.message
-              ? data?.data?.message
-              : "Error while updating Block",
-            // text: "",
-          });
-        }
+      const res = pathname === BLOCK_MASTER_EDIT
+        ? await updateBlock(body, state?._id)
+        : await addBlock(body);
+
+      const statusCode = res?.data?.statusCode;
+
+      if (statusCode === 200 || statusCode === 201) {
+        Swal.fire({
+          icon: "success",
+          text: pathname === BLOCK_MASTER_EDIT ? "Block Updated Successfully" : "Block Added Successfully",
+          timer: 1000,
+          showConfirmButton: false,
+        });
+        navigate(BLOCK_MASTER);
       } else {
-        const data = await addBlock(body);
-        if (data?.data?.statusCode === 201) {
-          Swal.fire({
-            icon: "success",
-            text: "Block Added Successfully",
-            timer: 1000,
-            showConfirmButton: false,
-          });
-          navigate(BLOCK_MASTER);
-        } else {
-          Swal.fire({
-            icon: "error",
-            text: data?.data?.message
-              ? data?.data?.message
-              : "Error while adding Block",
-            // text: "",
-          });
-        }
+        throw new Error(res?.data?.message || "Unknown Error");
       }
-      setSubmitting(false);
-    } catch (error) {
-      setSubmitting(false);
+    } catch (err) {
       Swal.fire({
         icon: "error",
-        text: error?.response?.data?.message,
+        text: err?.response?.data?.message || err.message,
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
   useEffect(() => {
-    (async () => {})();
-    return () => {};
+    Axios.get(MasterApis?.package?.packageDropdown)
+      .then((res) => {
+        const packages = res?.data?.result || [];
+        setPackageOptions(packages);
+
+        if (state?.packageId) {
+          const selectedPackage = packages.find((opt) => opt?._id === state.packageId);
+          if (selectedPackage) {
+            fetchDistrictDropdown(selectedPackage._id);
+          }
+        }
+      })
+      .catch((err) => console.error("Package Fetch Error: ", err));
   }, []);
+
+  useEffect(() => {
+    if (
+      packageOptions.length &&
+      (!state?.packageId || districtOptions.length || !state?.districtId)
+    ) {
+      setFormInitialValues({
+        packageName: state?.packageId
+          ? packageOptions.find((opt) => opt?._id === state.packageId)
+          : null,
+        district: state?.districtId
+          ? districtOptions.find((opt) => opt?._id === state.districtId)
+          : null,
+        blockName: state?.blockName || "",
+        blockCode: state?.blockCode || "",
+      });
+    }
+  }, [packageOptions, districtOptions]);
 
   return (
     <>
       <HotoHeader />
-      <Div sx={{ mt: 0 }}>
-        <Div>
-          <Formik
-            validateOnChange={true}
-            initialValues={initialValues}
-            enableReinitialize={true}
-            validationSchema={validationSchema}
-            onSubmit={onUserSave}
-          >
-            {({
-              setFieldValue,
-              values,
-              touched,
-              errors,
-              setFieldTouched,
-              setValues,
-            }) => (
-              <Form noValidate autoComplete="off">
-                <Div sx={{ mt: 4 }}>
-                  <Div
-                    sx={{
-                      display: "flex",
-                      width: "100%",
-                      flexWrap: "wrap",
-                      columnGap: 5,
+      <Div sx={{ mt: 4 }}>
+        <Typography variant="h3" fontWeight={600} mb={3}>
+          {pathname === BLOCK_MASTER_EDIT ? "Edit Block" : "Add Block"}
+        </Typography>
+
+        <Formik
+          initialValues={formInitialValues || initialValues}
+          enableReinitialize
+          validationSchema={validationSchema}
+          onSubmit={onUserSave}
+        >
+          {({ values, touched, errors, setFieldValue, setFieldTouched }) => (
+            <Form noValidate autoComplete="off">
+              <Grid container spacing={3}>
+                {/* Package Name */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px">Package Name</Typography>
+                  <Autocomplete
+                    size="small"
+                    options={packageOptions}
+                    getOptionLabel={(option) => option.packageName || ""}
+                    isOptionEqualToValue={(opt, val) => opt?._id === val.id}
+                    value={values.packageName}
+                    onChange={(_, value) => {
+                      setFieldValue("packageName", value);
+                      setFieldValue("district", null);
+                      if (value?.id) fetchDistrictDropdown(value.id);
                     }}
-                  >
-                    <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add Block
-                    </Typography>
-                    <Grid container rowSpacing={2} columnSpacing={3}>
-                      <Grid item xs={6} md={3}>
-                        <Typography variant="h6" fontSize="14px">
-                          Package Name
-                        </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
-                          size="small"
-                          placeholder="Enter Package Name"
-                          name="packageName"
-                          onChange={(e) =>
-                            setFieldValue("packageName", e.target.value)
-                          }
-                          onBlur={() =>
-                            setFieldTouched("packageName", true)
-                          }
-                          value={values?.packageName}
-                          error={
-                            touched?.packageName &&
-                            Boolean(errors?.packageName)
-                          }
-                          helperText={
-                            touched?.packageName &&
-                            errors?.packageName
-                          }
-                        />
-                      </Grid>
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Select Package"
+                        error={touched.packageName && Boolean(errors.packageName)}
+                        helperText={touched.packageName && errors.packageName}
+                      />
+                    )}
+                  />
+                </Grid>
 
+                {/* District */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px">District</Typography>
+                  <Autocomplete
+                    size="small"
+                    options={districtOptions}
+                    getOptionLabel={(option) => option.district || ""}
+                    isOptionEqualToValue={(opt, val) => opt?._id === val.id}
+                    value={values.district}
+                    onChange={(_, value) => setFieldValue("district", value)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Select District"
+                        error={touched.district && Boolean(errors.district)}
+                        helperText={touched.district && errors.district}
+                      />
+                    )}
+                  />
+                </Grid>
 
-                      <Grid item xs={6} md={3}>
-                        <Typography variant="h6" fontSize="14px">
-                        District
-                        </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
-                          size="small"
-                          placeholder="Enter District"
-                          name="district"
-                          onChange={(e) =>
-                            setFieldValue("district", e.target.value)
-                          }
-                          onBlur={() => setFieldTouched("district", true)}
-                          value={values?.district}
-                          error={touched?.district && Boolean(errors?.district)}
-                          helperText={touched?.district && errors?.district}
-                        />
-                      </Grid>
-                      <Grid item xs={6} md={3}>
-                        <Typography variant="h6" fontSize="14px">
-                        Block
-                        </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
-                          size="small"
-                          placeholder="Enter Block Name"
-                          name="blockName"
-                          onChange={(e) =>
-                            setFieldValue("blockName", e.target.value)
-                          }
-                          onBlur={() => setFieldTouched("blockName", true)}
-                          value={values?.blockName}
-                          error={touched?.blockName && Boolean(errors?.blockName)}
-                          helperText={touched?.blockName && errors?.blockName}
-                        />
-                      </Grid>
-                      <Grid item xs={6} md={3}>
-                        <Typography variant="h6" fontSize="14px">
-                        Block Code
-                        </Typography>
-                        <TextField
-                          sx={{ width: "100%" }}
-                          size="small"
-                          placeholder="Enter Block Code"
-                          name="blockCode"
-                          onChange={(e) =>
-                            setFieldValue("blockCode", e.target.value)
-                          }
-                          onBlur={() => setFieldTouched("blockCode", true)}
-                          value={values?.blockCode}
-                          error={touched?.blockCode && Boolean(errors?.blockCode)}
-                          helperText={touched?.blockCode && errors?.blockCode}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Div>
-                  <Div
-                    sx={{
-                      width: "93.5%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      gap: 3,
-                      mt: 3,
-                    }}
-                  >
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={() => {
-                        Swal.fire({
-                          title: "Are you sure you want to cancel?",
-                          icon: "warning",
-                          showCancelButton: true,
-                          confirmButtonText: "Yes",
-                          cancelButtonText: "No",
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            navigate();
-                          }
-                        });
-                      }}
-                    >
-                      Cancel
-                    </Button>
+                {/* Block Name */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px">Block Name</Typography>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    placeholder="Enter Block Name"
+                    name="blockName"
+                    value={values.blockName}
+                    onChange={(e) => setFieldValue("blockName", e.target.value)}
+                    onBlur={() => setFieldTouched("blockName", true)}
+                    error={touched.blockName && Boolean(errors.blockName)}
+                    helperText={touched.blockName && errors.blockName}
+                  />
+                </Grid>
 
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
-                      loading={isSubmitting}
-                    >
-                      Submit
-                    </LoadingButton>
-                  </Div>
-                </Div>
-              </Form>
-            )}
-          </Formik>
-        </Div>
+                {/* Block Code */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" fontSize="14px">Block Code</Typography>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    placeholder="Enter Block Code"
+                    name="blockCode"
+                    value={values.blockCode}
+                    onChange={(e) => setFieldValue("blockCode", e.target.value)}
+                    onBlur={() => setFieldTouched("blockCode", true)}
+                    error={touched.blockCode && Boolean(errors.blockCode)}
+                    helperText={touched.blockCode && errors.blockCode}
+                  />
+                </Grid>
+              </Grid>
+
+              {/* Actions */}
+              <Box
+                sx={{
+                  width: "93.5%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 3,
+                  mt: 3,
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    Swal.fire({
+                      title: "Are you sure you want to cancel?",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "Yes",
+                      cancelButtonText: "No",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        navigate(BLOCK_MASTER);
+                      }
+                    });
+                  }}
+                >
+                  Cancel
+                </Button>
+                <LoadingButton
+                  size="small"
+                  type="submit"
+                  variant="contained"
+                  loading={isSubmitting}
+                  sx={{ width: 100, "&:hover": { backgroundColor: "#53B8CA" } }}
+                >
+                  Submit
+                </LoadingButton>
+              </Box>
+            </Form>
+          )}
+        </Formik>
+
       </Div>
     </>
   );
 }
+
 export default AddBlock;

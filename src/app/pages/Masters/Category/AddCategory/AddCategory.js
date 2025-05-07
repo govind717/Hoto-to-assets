@@ -46,11 +46,11 @@ function AddCategory() {
   const [isSubmitting, setSubmitting] = useState(false);
 
   const initialValues = {
-    categoryName: state?.categoryName ? state.categoryName : "",
+    category: state?.category ? state.category : "",
   };
 
   const validationSchema = yup.object({
-    categoryName: yup
+    category: yup
       .string("Enter Category Name")
       .trim()
       .required("Category Name is required"),
@@ -58,7 +58,7 @@ function AddCategory() {
 
   const onUserSave = async (values) => {
     const body = {
-      categoryName: values?.categoryName,
+      category: values?.category,
     };
 
     setSubmitting(true);
@@ -84,7 +84,7 @@ function AddCategory() {
           });
         }
       } else {
-          const data = await addCategory(body);
+        const data = await addCategory(body);
         if (data?.data?.statusCode === 201) {
           Swal.fire({
             icon: "success",
@@ -113,10 +113,6 @@ function AddCategory() {
     }
   };
 
-  useEffect(() => {
-    (async () => {})();
-    return () => {};
-  }, []);
 
   return (
     <>
@@ -149,7 +145,7 @@ function AddCategory() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add Category
+                      {pathname === CATEGORY_MASTER_EDIT ? "Edit Category" : "Add Category"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -160,21 +156,21 @@ function AddCategory() {
                           sx={{ width: "100%" }}
                           size="small"
                           placeholder="Enter Category Name"
-                          name="categoryName"
+                          name="category"
                           onChange={(e) =>
-                            setFieldValue("categoryName", e.target.value)
+                            setFieldValue("category", e.target.value)
                           }
                           onBlur={() =>
-                            setFieldTouched("categoryName", true)
+                            setFieldTouched("category", true)
                           }
-                          value={values?.categoryName}
+                          value={values?.category}
                           error={
-                            touched?.categoryName &&
-                            Boolean(errors?.categoryName)
+                            touched?.category &&
+                            Boolean(errors?.category)
                           }
                           helperText={
-                            touched?.categoryName &&
-                            errors?.categoryName
+                            touched?.category &&
+                            errors?.category
                           }
                         />
                       </Grid>
@@ -203,7 +199,7 @@ function AddCategory() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(CATEGORY_MASTER);
                           }
                         });
                       }}
@@ -215,7 +211,7 @@ function AddCategory() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{ width: "100px", "&:hover": { backgroundColor: "#53B8CA" } }}
                       loading={isSubmitting}
                     >
                       Submit

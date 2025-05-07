@@ -54,3 +54,13 @@ export const HSN_CODE_MASTER_EDIT="/masters/hsn-code/edit";
 export const WAREHOUSE_MASTER="/masters/warehouse";
 export const WAREHOUSE_MASTER_ADD="/masters/warehouse/add";
 export const WAREHOUSE_MASTER_EDIT="/masters/warehouse/edit";
+
+export const SUPPLIER_MASTER="/masters/supplier";
+export const SUPPLIER_MASTER_ADD="/masters/supplier/add";
+export const SUPPLIER_MASTER_EDIT="/masters/supplier/edit";
+
+
+//userManagement
+export const USER_MANAGEMENT ="/user-management";
+export const USER_MANAGEMENT_ADD="/user-management/add";
+export const USER_MANAGEMENT_EDIT="/user-management/edit";

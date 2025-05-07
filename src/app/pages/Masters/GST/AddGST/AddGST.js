@@ -47,7 +47,7 @@ function AddGST() {
 
   const initialValues = {
     gst: state?.gst ? state.gst : "",
-   
+
   };
 
   const validationSchema = yup.object({
@@ -59,7 +59,7 @@ function AddGST() {
 
   const onUserSave = async (values) => {
     const body = {
-       gst:values?.gst
+      gst: values?.gst
     };
 
     setSubmitting(true);
@@ -114,10 +114,6 @@ function AddGST() {
     }
   };
 
-  useEffect(() => {
-    (async () => {})();
-    return () => {};
-  }, []);
 
   return (
     <>
@@ -150,7 +146,7 @@ function AddGST() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={600} mb={2}>
-                      Add GST
+                      {pathname === GST_MASTER_EDIT ? "Edit GST" : "Add GST"}
                     </Typography>
                     <Grid container rowSpacing={2} columnSpacing={3}>
                       <Grid item xs={6} md={6}>
@@ -203,7 +199,7 @@ function AddGST() {
                           cancelButtonText: "No",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate();
+                            navigate(GST_MASTER);
                           }
                         });
                       }}
@@ -215,7 +211,7 @@ function AddGST() {
                       size="small"
                       variant="contained"
                       type="submit"
-                      sx={{ width: "100px" ,"&:hover":{backgroundColor:"#53B8CA"} }}
+                      sx={{ width: "100px", "&:hover": { backgroundColor: "#53B8CA" } }}
                       loading={isSubmitting}
                     >
                       Submit
