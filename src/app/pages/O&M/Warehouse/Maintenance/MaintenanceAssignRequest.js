@@ -123,7 +123,7 @@ const MaintenanceAssignRequest = () => {
       repair_status: newStatus,
     };
     Axios.patch(
-      `/block-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,
+      `/warehouse-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,
       body
     )
       .then((res) => {

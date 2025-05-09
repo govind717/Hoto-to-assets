@@ -26,7 +26,7 @@ export const hoto_apis = {
     warehouse_list: "/warehouse/listing-warehouse-details",
     maintenance_list:
       "/warehouse-maintenance-request/listing-maintenance-request",
-    replacement_list: "/hoto-to-assets/gp/replacement/list",
+    replacement_list: "/hoto-to-assets/warehouse/replacement/list",
     transfer_list: "/warehouse-transfer-request/listing-transfer-request",
   },
   rkm: {

@@ -126,7 +126,7 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
    
     setSubmitting(true);
     try {
-      const res = await Axios.post("/o&m/block/replacement/assign", body);
+      const res = await Axios.post("/o&m/warehouse/replacement/assign", body);
 
       const statusCode = res?.data?.statusCode;
 

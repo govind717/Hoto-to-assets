@@ -43,7 +43,7 @@ const ReplacementList = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { hotoBlockReplacementDataReducer } = useSelector((state) => state);
+  const { hotoWarehouseReplacementDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -307,8 +307,8 @@ const ReplacementList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoBlockReplacementDataReducer?.data?.result?.data?.length > 0 ? (
-              hotoBlockReplacementDataReducer?.data?.result?.data?.map(
+            {hotoWarehouseReplacementDataReducer?.data?.result?.data?.length > 0 ? (
+              hotoWarehouseReplacementDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>
@@ -488,7 +488,7 @@ const ReplacementList = () => {
         </Table>
         <Pagination
           count={
-            hotoBlockReplacementDataReducer?.data?.result?.total_pages || 1
+            hotoWarehouseReplacementDataReducer?.data?.result?.total_pages || 1
           }
           page={page}
           onChange={handleChangePage}

@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { Axios } from "index";
+import { hoto_warehouse_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/Warehouse";
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -49,9 +50,9 @@ function ReplacementModal({ open, handleClose, row }) {
 
   const handleSubmit = async (values ) => {
     const body = {
-      block_asset_id: row?._id,
-      block_asset_details:{
-        ...row
+      warehouse_asset_id: row?._id,
+      warehouse_asset_details: {
+        ...row,
       },
       issueDate: values?.issueDate,
       serialNumber: values?.serialNumber,
@@ -63,7 +64,7 @@ function ReplacementModal({ open, handleClose, row }) {
     setSubmitting(true);
     try {
       const res = await Axios.post(
-        "/hoto-to-assets/block/replacement/add",
+        "/hoto-to-assets/warehouse/replacement/add",
         body
       );
 
@@ -76,6 +77,7 @@ function ReplacementModal({ open, handleClose, row }) {
           timer: 1000,
           showConfirmButton: false,
         });
+        hoto_warehouse_asset_partfolio_data_disptach({})
         handleClose();
       } else {
         throw new Error(res?.data?.message || "Unknown Error");

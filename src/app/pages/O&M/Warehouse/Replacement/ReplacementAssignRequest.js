@@ -124,7 +124,7 @@ const ReplacementAssignRequest = () => {
       repair_status: newStatus,
     };
     Axios.patch(
-      `/o&m/block/replacement/update-status?id=${rowData?._id}&status=${newStatus}`
+      `/o&m/warehouse/replacement/update-status?id=${rowData?._id}&status=${newStatus}`
     )
       .then((res) => {
         if (res?.data?.statusCode === 200 || res?.data?.statusCode === 201) {

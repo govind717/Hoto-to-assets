@@ -108,7 +108,7 @@ function CreateTransferModal({ open, closeModal, row }) {
     setSubmitting(true);
     try {
       const res = await Axios.post(
-        `/block-transfer-received/received-transfer-request/${row._id}`,
+        `/warehouse-transfer-received/received-transfer-request//${row._id}`,
         body
       );
 

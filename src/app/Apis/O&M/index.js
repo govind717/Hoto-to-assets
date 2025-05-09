@@ -44,18 +44,19 @@ export const oandmApis = {
   warehouse: {
     maintenace: {
       maintenace_request_list:
-        "/gp-maintenance-request/listing-maintenance-request",
+        "/warehouse-maintenance-request/listing-maintenance-request",
       maintenace_request_assign_list:
-        "/gp-maintenance-issued/listing-maintenance-issued",
+        "/warehouse-maintenance-issued/listing-maintenance-issued",
     },
     replacement: {
-      replacement_request_list: "/o&m/gp/replacement/list",
-      replacement_request_assign_list: "/o&m/gp/replacement/assign-list",
+      replacement_request_list: "/o&m/warehouse/replacement/list",
+      replacement_request_assign_list: "/o&m/warehouse/replacement/assign-list",
     },
     transfer: {
-      transfer_request_list: "/gp-transfer-request/listing-transfer-request",
+      transfer_request_list:
+        "/warehouse-transfer-request/listing-transfer-request",
       transfer_request_assign_list:
-        "/gp-transfer-received/listing-transfer-received",
+        "/warehouse-transfer-received/listing-transfer-received",
     },
     scrap: {
       scrap_request_list: "",

@@ -85,7 +85,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
       setSubmitting(true);
       try {
         const res = await Axios.post(
-          `/block-maintenance-issued/issued-maintenance-request/${row._id}`,
+          `/warehouse-maintenance-issued/issued-maintenance-request/${row._id}`,
           body
         );
   
