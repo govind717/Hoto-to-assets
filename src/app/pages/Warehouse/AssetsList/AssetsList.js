@@ -27,7 +27,13 @@ import MapIcon from "@mui/icons-material/Map";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import InfoIcon from "@mui/icons-material/Info";
 import FullScreenLoader from "app/pages/Components/Loader";
-import { Green, Orange, orangeSecondary, Red, Yellow } from "app/pages/Constants/colors";
+import {
+  Green,
+  Orange,
+  orangeSecondary,
+  Red,
+  Yellow,
+} from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
 import { hoto_warehouse_assets_data_disptach } from "app/redux/actions/HotoWarehouse";
@@ -59,12 +65,12 @@ const addBtnStyle = {
 };
 
 const AssetsList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [row,setRow]=useState(null);
-  const [open,setOpen]=useState(false);
+  const [row, setRow] = useState(null);
+  const [open, setOpen] = useState(false);
   const { hotoWarehouseAssetsDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -75,8 +81,6 @@ const AssetsList = () => {
     setSortBy(property);
     setPage(1);
   };
-
- 
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -115,15 +119,15 @@ const AssetsList = () => {
       })
     );
   }, [sort, page, sortBy, dispatch]);
-  
-  const showDetails= (data) => {
+
+  const showDetails = (data) => {
     setRow(data);
     setOpen(true);
-  }
+  };
 
-  const closeModal = () =>{
+  const closeModal = () => {
     setOpen(false);
-  }
+  };
   return (
     <>
       {hotoWarehouseAssetsDataReducer?.loading && <FullScreenLoader />}
@@ -163,7 +167,10 @@ const AssetsList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"100px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "100px" }}
+              >
                 Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -267,23 +274,18 @@ const AssetsList = () => {
                       >
                         <Chip
                           label={
-                            ele?.condition
-                              ? ele?.condition?.toUpperCase()
-                              : "-"
+                            ele?.condition ? ele?.condition?.toUpperCase() : "-"
                           }
                           sx={{
                             backgroundColor:
-                              ele?.condition?.toUpperCase() ===
-                              "DAMAGED"
+                              ele?.condition?.toUpperCase() === "DAMAGED"
                                 ? Red
                                 : ele?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
                                 ? Yellow
-                                : ele?.condition?.toUpperCase() ===
-                                  "ROBUST"
+                                : ele?.condition?.toUpperCase() === "ROBUST"
                                 ? Green
-                                : ele?.condition?.toUpperCase() ===
-                                  "MISSING"
+                                : ele?.condition?.toUpperCase() === "MISSING"
                                 ? Orange
                                 : "",
                             color: "#FFF",
@@ -331,7 +333,7 @@ const AssetsList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoWarehouseAssetsDataReducer?.data?.result?.total_pages}
+          count={hotoWarehouseAssetsDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

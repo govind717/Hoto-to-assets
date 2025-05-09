@@ -105,10 +105,10 @@ const AssetPortfolioTableRow = ({
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>{e?.serial_no || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
-          {e?.block_details?.block?.name || "-"}
+          {e?.equipment_details?.location_name || "-"}
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
-          {e?.block_details?.block_id || "-"}
+          {e?.equipment_details?.location_code || "-"}
         </TableCell>
         {/* <TableCell sx={{ ...tableBodyCell }}>{e?.sity_type || "-"}</TableCell> */}
         <TableCell sx={{ ...tableBodyCell }}>
@@ -130,12 +130,13 @@ const AssetPortfolioTableRow = ({
                   : "",
               color: "#FFF",
               fontWeight: "bold",
-              fontSize:"14",
+              fontSize: "14",
               height: "25px",
               px: 2,
             }}
           />
         </TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>{e?.issued_for || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
             label={e?.condition_status || "-"}
@@ -169,32 +170,25 @@ const AssetPortfolioTableRow = ({
           <JumboDdMenu
             icon={<MoreHorizIcon />}
             menuItems={[
-              // {
-              //   icon: <EditIcon />,
-              //   title: "Edit",
-              //   action: "edit",
-              //   show: true,
-              //   row: e,
-              // },
               {
                 icon: <AddCircleOutlineIcon />,
                 title: "Request Maintenance",
                 action: "issueForMaintenance",
-                show: true,
+                show: e?.issued_for === null,
                 row: e,
               },
               {
                 icon: <AddCircleOutlineIcon />,
                 title: "Request Replacement",
                 action: "issueForReplacement",
-                show: true,
+                show: e?.issued_for === null,
                 row: e,
               },
               {
                 icon: <AddCircleOutlineIcon />,
                 title: "Request Transfer",
                 action: "issueForTransfer",
-                show: true,
+                show: e?.issued_for === null,
                 row: e,
               },
             ].filter((ele) => ele?.show)}

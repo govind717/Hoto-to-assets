@@ -171,7 +171,7 @@ export const oandm_block_replacement_request_data_disptach = function ({
   };
 };
 
-//===========Assign Request
+//===========Assign Request 
 export const oandm_block_replacement_request_assign_data_disptach = function ({
   page = 1,
   search_value = "",
@@ -185,15 +185,14 @@ export const oandm_block_replacement_request_assign_data_disptach = function ({
         string: [
           "requested_item.requested_item_details.replacementId",
           "requested_item.requested_item_details.issueDate",
-          "requested_item?.requested_item_details.block_asset_details.equipment_name",
+          "requested_item.requested_item_details.block_asset_details.equipment_name",
           "requested_item.requested_item_details.block_asset_details.serial_no",
           "requested_item.requested_item_details.dueDate",
-          "block_asset_details?.block_details?.gp_name",
-          "block_asset_details?.block_details?.gp_code",
-          "requested_item.requested_item_details.initiatedBy",
+          "block_asset_details.block_details.gp_name",
+          "block_asset_details.block_details.gp_code",
           "requested_item.requested_item_details.block_asset_details.condition",
-          "replacementStatus",
           "pickupLocation",
+          "issueDate"
         ],
         numbers: [],
         arrayField: [],
@@ -245,6 +244,7 @@ export const oandm_block_transfer_request_data_disptach = function ({
           "assets_details.location_details.gp_code",
           "assets_details.condition",
           "repair_type",
+          "remarks"
         ],
         numbers: [],
         arrayField: [],

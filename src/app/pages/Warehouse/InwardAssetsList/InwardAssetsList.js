@@ -27,7 +27,13 @@ import { useNavigate } from "react-router-dom";
 import MapIcon from "@mui/icons-material/Map";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
-import { Green, Orange, orangeSecondary, Red, Yellow } from "app/pages/Constants/colors";
+import {
+  Green,
+  Orange,
+  orangeSecondary,
+  Red,
+  Yellow,
+} from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
 import { hoto_warehouse_inward_assets_data_disptach } from "app/redux/actions/HotoWarehouse";
@@ -60,14 +66,14 @@ const addBtnStyle = {
 };
 
 const InwardAssetsList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [row, setRow] = useState(null);
   const [open, setOpen] = useState(false);
   const [openInward, setOpenInward] = useState(false);
-  const { hotoWarehouseInwardAssetsDataReducer } = useSelector(
+  const { outhotoWarehouseInwardAssetsDataReducer } = useSelector(
     (state) => state
   );
 
@@ -129,13 +135,13 @@ const InwardAssetsList = () => {
   const closeInward = () => {
     setOpenInward(false);
   };
-  const handleInward = (data) =>{
-     setRow(data);
-     setOpenInward(true);
-  }
+  const handleInward = (data) => {
+    setRow(data);
+    setOpenInward(true);
+  };
   return (
     <>
-      {hotoWarehouseInwardAssetsDataReducer?.loading && <FullScreenLoader />}
+      {outhotoWarehouseInwardAssetsDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -277,9 +283,9 @@ const InwardAssetsList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoWarehouseInwardAssetsDataReducer?.data?.result?.data?.length >
-            0 ? (
-              hotoWarehouseInwardAssetsDataReducer?.data?.result?.data?.map(
+            {outhotoWarehouseInwardAssetsDataReducer?.data?.result?.data
+              ?.length > 0 ? (
+              outhotoWarehouseInwardAssetsDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?._id}>
@@ -453,6 +459,7 @@ const InwardAssetsList = () => {
                         <Button
                           variant="contained"
                           size="small"
+                          disabled={ele?.transfer_status === "received"}
                           // startIcon={<HomeRepairServiceIcon />}
                           onClick={() => handleInward(ele)}
                           sx={{

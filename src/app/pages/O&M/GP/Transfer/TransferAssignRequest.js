@@ -45,7 +45,7 @@ const TransferAssignRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [open,setOpen]=useState(false);
+  const [open, setOpen] = useState(false);
   const { oandmGpTransferRequestAssignDataReducer } = useSelector(
     (state) => state
   );
@@ -97,9 +97,9 @@ const TransferAssignRequest = () => {
     );
   }, [sort, page, sortBy, dispatch]);
 
-  const closeModal = ()=>{
+  const closeModal = () => {
     setOpen(false);
-  }
+  };
   return (
     <>
       {oandmGpTransferRequestAssignDataReducer?.loading && <FullScreenLoader />}
@@ -134,7 +134,7 @@ const TransferAssignRequest = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -147,7 +147,7 @@ const TransferAssignRequest = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -164,7 +164,7 @@ const TransferAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`transfer_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -173,7 +173,7 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -182,7 +182,7 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -191,9 +191,7 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assets_details.serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -202,9 +200,7 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_type`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -216,9 +212,7 @@ const TransferAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_from.location_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -230,9 +224,7 @@ const TransferAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_to.location_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -241,9 +233,7 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`initiatedBy`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -252,9 +242,7 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -263,9 +251,7 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`transfer_status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -275,7 +261,7 @@ const TransferAssignRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`remarks`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -315,152 +301,152 @@ const TransferAssignRequest = () => {
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {index + 1 || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.transfer_id || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.assets_details?.equipment_name || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.assets_details?.serial_no || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.transfer_type || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.transfer_from?.location_name || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.transfer_to?.location_name || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.gp?.block?.code || "-"}
-                                          </TableCell>
-                    
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.document || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.document || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.remarks || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            sx={{
-                                              textAlign: "left",
-                                              verticalAlign: "middle",
-                                              textTransform: "capitalize",
-                                            }}
-                                          >
-                                            {ele?.document || "-"}
-                                          </TableCell>
-                                          <TableCell
-                                            sx={{
-                                              ...tableBodyCell,
-                                            }}
-                                          >
-                                            <InfoIcon
-                                              sx={{
-                                                "&:hover": { cursor: "pointer", color: "black" },
-                                              }}
-                                              // onClick={() => {
-                                              //   showDetails(ele);
-                                              // }}
-                                            />
-                                          </TableCell>
-                                        </TableRow>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {index + 1 || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_id || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.equipment_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.serial_no || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_type || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_from?.location_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_to?.location_name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.block?.code || "-"}
+                      </TableCell>
+
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.transfer_status || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.remarks || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.document || "-"}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          ...tableBodyCell,
+                        }}
+                      >
+                        <InfoIcon
+                          sx={{
+                            "&:hover": { cursor: "pointer", color: "black" },
+                          }}
+                          // onClick={() => {
+                          //   showDetails(ele);
+                          // }}
+                        />
+                      </TableCell>
+                    </TableRow>
                   );
                 }
               )

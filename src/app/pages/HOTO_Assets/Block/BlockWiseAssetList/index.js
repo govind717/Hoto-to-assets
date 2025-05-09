@@ -46,7 +46,7 @@ const tableCellSort = {
 };
 
 const BlockWiseAssetList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -316,7 +316,7 @@ const BlockWiseAssetList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoBlockWiseAssetDataReducer?.data?.result?.total_pages}
+          count={hotoBlockWiseAssetDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

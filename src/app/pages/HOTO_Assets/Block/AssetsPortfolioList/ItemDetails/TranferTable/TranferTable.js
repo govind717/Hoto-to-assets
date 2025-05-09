@@ -37,8 +37,8 @@ const tableCellSort = {
   },
 };
 
-const TranferTable = ({row}) => {
-  const [sortBy, setSortBy] = useState("created_at");
+const TranferTable = ({ row }) => {
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -47,6 +47,10 @@ const TranferTable = ({row}) => {
     (state) => state
   );
 
+  console.log(
+    "hotoBlockAssetPortfolioTransferDataReducer : ",
+    hotoBlockAssetPortfolioTransferDataReducer
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -231,20 +235,6 @@ const TranferTable = ({row}) => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "160px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Incharge
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
@@ -374,17 +364,6 @@ const TranferTable = ({row}) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.block?.code || "-"}
-                      </TableCell>
-
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
                         {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
@@ -395,7 +374,7 @@ const TranferTable = ({row}) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.name || "-"}
+                        {ele?.transfer_status || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -441,7 +420,7 @@ const TranferTable = ({row}) => {
         <Pagination
           count={
             hotoBlockAssetPortfolioTransferDataReducer?.data?.result
-              ?.total_pages
+              ?.total_pages || 1
           }
           page={page}
           onChange={handleChangePage}

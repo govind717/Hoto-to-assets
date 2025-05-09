@@ -21,14 +21,19 @@ import { useNavigate } from "react-router-dom";
 import AssignViewModal from "./Modal/AssignViewModal";
 import moment from "moment";
 import InfoIcon from "@mui/icons-material/Info";
-import { Blue, Green, orangeSecondary, Yellow } from "app/pages/Constants/colors";
-import { oandm_gp_replacement_request_assign_data_disptach } from "app/redux/actions/O&M/GP";
+import {
+  Blue,
+  Green,
+  orangeSecondary,
+  Yellow,
+} from "app/pages/Constants/colors";
 import Div from "@jumbo/shared/Div";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import FullScreenLoader from "app/pages/Components/Loader";
 import Swal from "sweetalert2";
 import { Axios } from "index";
+import { oandm_gp_replacement_request_assign_data_disptach } from "app/redux/actions/O&M/GP";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -46,16 +51,16 @@ const tableCellSort = {
   },
 };
 const ReplacementAssignRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [row,setRow]=useState(null);
-  const [open,setOpen]=useState(false);
+  const [row, setRow] = useState(null);
+  const [open, setOpen] = useState(false);
   const { oandmGpReplacementRequestAssignDataReducer } = useSelector(
     (state) => state
   );
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -103,47 +108,43 @@ const ReplacementAssignRequest = () => {
     );
   }, [sort, page, sortBy, dispatch]);
 
-  const closeModal = () =>{
+  const closeModal = () => {
     setOpen(false);
-  }
-  const showDetails = (data)=>{
-     setRow(data);
-     setOpen(true);
   };
-  const statusOptions = [
-      "installed",
-      "in_transit",
-      "received",
-    ];
-  
-    const handleStatusChange = async (newStatus, rowData) => {
-      const body = {
-        repair_status: newStatus,
-      };
-      Axios.patch(
-        `/o&m/gp/replacement/update-status?id=${rowData?._id}&status=${newStatus}`
-      )
-        .then((res) => {
-          if (res?.data?.statusCode === 200 || res?.data?.statusCode === 201) {
-            dispatch(
-              oandm_gp_replacement_request_assign_data_disptach({
-                sortBy: sortBy,
-                search_value: searchTerm.trim(),
-                sort: sort,
-                page: page,
-              })
-            );
-          }
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            text: err?.response?.data?.message || err.message,
-          });
-          console.log("Error : ", err);
-        });
+  const showDetails = (data) => {
+    setRow(data);
+    setOpen(true);
+  };
+  const statusOptions = ["installed", "in_transit", "received"];
+
+  const handleStatusChange = async (newStatus, rowData) => {
+    const body = {
+      repair_status: newStatus,
     };
-  
+    Axios.patch(
+      `/o&m/gp/replacement/update-status?id=${rowData?._id}&status=${newStatus}`
+    )
+      .then((res) => {
+        if (res?.data?.statusCode === 200 || res?.data?.statusCode === 201) {
+          dispatch(
+            oandm_gp_replacement_request_assign_data_disptach({
+              sortBy: sortBy,
+              search_value: searchTerm.trim(),
+              sort: sort,
+              page: page,
+            })
+          );
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          text: err?.response?.data?.message || err.message,
+        });
+        console.log("Error : ", err);
+      });
+  };
+
   return (
     <>
       {oandmGpReplacementRequestAssignDataReducer?.loading && (
@@ -180,7 +181,7 @@ const ReplacementAssignRequest = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -193,7 +194,7 @@ const ReplacementAssignRequest = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -207,7 +208,11 @@ const ReplacementAssignRequest = () => {
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort("current_data.companyType")}
+                  onClick={() =>
+                    handleSort(
+                      "requested_item.requested_item_details.replacementId"
+                    )
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -216,7 +221,11 @@ const ReplacementAssignRequest = () => {
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort("current_data.companyType")}
+                  onClick={() =>
+                    handleSort(
+                      "requested_item.requested_item_details.issueDate"
+                    )
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -225,7 +234,11 @@ const ReplacementAssignRequest = () => {
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort("current_data.companyType")}
+                  onClick={() =>
+                    handleSort(
+                      "requested_item.requested_item_details.gp_asset_details.equipment_name"
+                    )
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -235,7 +248,9 @@ const ReplacementAssignRequest = () => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("current_data.commissionPercentage")
+                    handleSort(
+                      "requested_item.requested_item_details.gp_asset_details.serial_no"
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -245,9 +260,7 @@ const ReplacementAssignRequest = () => {
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort("current_data.commissionPercentage")
-                  }
+                  onClick={() => handleSort("")}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -257,7 +270,7 @@ const ReplacementAssignRequest = () => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("current_data.commissionPercentage")
+                    handleSort("block_asset_details.block_details.gp_name")
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -271,7 +284,7 @@ const ReplacementAssignRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("current_data.commissionPercentage")
+                    handleSort("block_asset_details.block_details.gp_code")
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -282,7 +295,9 @@ const ReplacementAssignRequest = () => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("current_data.commissionPercentage")
+                    handleSort(
+                      "requested_item.requested_item_details.initiatedBy"
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -303,9 +318,7 @@ const ReplacementAssignRequest = () => {
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort("current_data.commissionPercentage")
-                  }
+                  onClick={() => handleSort("pickupLocation")}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -314,9 +327,7 @@ const ReplacementAssignRequest = () => {
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort("current_data.commissionPercentage")
-                  }
+                  onClick={() => handleSort("issueDate")}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -325,9 +336,7 @@ const ReplacementAssignRequest = () => {
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort("current_data.commissionPercentage")
-                  }
+                  onClick={() => handleSort("replacementStatus")}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -335,26 +344,10 @@ const ReplacementAssignRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort("current_data.commissionPercentage")
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Document
-                </TableSortLabel>
+                Document
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort("current_data.commissionPercentage")
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Details
-                </TableSortLabel>
+                Details
               </TableCell>
             </TableRow>
           </TableHead>
@@ -389,17 +382,20 @@ const ReplacementAssignRequest = () => {
                       ).format("DD-MM-YY") || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {ele?.block_asset_details?.block_details?.gp_name || "-"}
+                      {ele?.requested_item.requested_item_details
+                        .gp_asset_details?.gp_details?.gp_name || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {ele?.block_asset_details?.block_details?.gp_code || "-"}
+                      {ele?.requested_item.requested_item_details
+                        .gp_asset_details?.gp_details?.gp_code || "-"}
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details
                         ?.initiatedBy || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {/* {ele?.requested_item?.requested_item_details?.gp_asset_details.condition || "-"} */}
+                      {ele?.requested_item.requested_item_details
+                        .gp_asset_details?.condition || "-"}
                     </TableCell>
                     <TableCell align="left">
                       {ele?.pickupLocation || "-"}

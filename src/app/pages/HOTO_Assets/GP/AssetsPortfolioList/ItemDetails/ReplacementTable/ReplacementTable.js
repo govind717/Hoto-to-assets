@@ -37,7 +37,7 @@ const tableCellSort = {
   },
 };
 
-const ReplacementTable = ({row}) => {
+const ReplacementTable = ({ row }) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
@@ -113,19 +113,19 @@ const ReplacementTable = ({row}) => {
           onChange={(e) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
-                 dispatch(
-                   hoto_gp_asset_partfolio_replacement_data_disptach({
-                     sortBy: sortBy,
-                     search_value: "",
-                     sort: sort,
-                     page: page,
-                     filters: {
-                       _ids: {
-                         "requested_item.requested_item_id": row?._id,
-                       },
-                     },
-                   })
-                 );
+              dispatch(
+                hoto_gp_asset_partfolio_replacement_data_disptach({
+                  sortBy: sortBy,
+                  search_value: "",
+                  sort: sort,
+                  page: page,
+                  filters: {
+                    _ids: {
+                      "requested_item.requested_item_id": row?._id,
+                    },
+                  },
+                })
+              );
             }
           }}
           sx={{ width: 300, my: "2%" }}
@@ -501,7 +501,7 @@ const ReplacementTable = ({row}) => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoGpReplacementDataReducer?.data?.result?.total_pages}
+          count={hotoGpReplacementDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

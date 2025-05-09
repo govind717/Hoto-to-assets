@@ -41,15 +41,15 @@ export const oandm_gp_maintenace_request_data_disptach = function ({
       searchFields: {
         string: [
           "maintenance_id",
+          "createdAt",
           "assets_details.equipment_name",
           "assets_details.serial_no",
-          "assets_details.location_details.gp_name",
-          "assets_details.location_details.gp_code",
           "assets_details.condition",
           "repair_type",
+          "issue_reported",
         ],
         numbers: [],
-        arrayField: [],
+        arrayField: ["assets_details.location_details.gp_name","assets_details.location_details.gp_code",],
         boolean: [],
       },
     };
@@ -131,14 +131,24 @@ export const oandm_gp_replacement_request_data_disptach = function ({
   return async (dispatch) => {
     try {
       const body = {
-          filters: {},
-          searchFields: {
-            string: [],
-            numbers: [],
-            arrayField: [],
-            boolean: [],
-          },
-        };
+        filters: {},
+        searchFields: {
+          string: [
+            "replacementId",
+            "issueDate",
+            "gp_asset_details.equipment_name",
+            "gp_asset_details.serial_no",
+            "dueDate",
+            "gp_asset_details.gp_details.gp_name",
+            "gp_asset_details.gp_details.gp_code",
+            "replacementReason",
+            "gp_asset_details.condition",
+          ],
+          numbers: [],
+          arrayField: [],
+          boolean: [],
+        },
+      };
       dispatch({ type: OANDM_GP_REPLACEMENT_REQUEST_DATA_REQUEST });
 
       const response = await Axios.post(
@@ -170,14 +180,28 @@ export const oandm_gp_replacement_request_assign_data_disptach = function ({
   return async (dispatch) => {
     try {
       const body = {
-          filters: {},
-          searchFields: {
-            string: [],
-            numbers: [],
-            arrayField: [],
-            boolean: [],
-          },
-        };
+        filters: {},
+        searchFields: {
+          string: [
+            "requested_item.requested_item_details.replacementId",
+            "requested_item.requested_item_details.issueDate",
+            "requested_item.requested_item_details.gp_asset_details.equipment_name",
+            "requested_item.requested_item_details.gp_asset_details.serial_no",
+            "requested_item.requested_item_details.dueDate",
+            "requested_item.requested_item_details.gp_asset_details.condition",
+            "requested_item.requested_item_details.gp_asset_details.gp_details.gp_name",
+            "requested_item.requested_item_details.gp_asset_details.gp_details.gp_code",
+            "requested_item.requested_item_details.initiatedBy",
+            "requested_item.requested_item_details.gp_asset_details.condition",
+            "pickupLocation",
+            "replacementStatus",
+            "issueDate",
+          ],
+          numbers: [],
+          arrayField: [],
+          boolean: [],
+        },
+      };
       dispatch({ type: OANDM_GP_REPLACEMENT_REQUEST_ASSIGN_DATA_REQUEST });
 
       const response = await Axios.post(
@@ -210,14 +234,24 @@ export const oandm_gp_transfer_request_data_disptach = function ({
   return async (dispatch) => {
     try {
       const body = {
-          filters: {},
-          searchFields: {
-            string: [],
-            numbers: [],
-            arrayField: [],
-            boolean: [],
-          },
-        };
+        filters: {},
+        searchFields: {
+          string: [
+            "transfer_id",
+            "createdAt",
+            "assets_details.equipment_name",
+            "assets_details.serial_no",
+            "transfer_type",
+            "transfer_from.location_name",
+            "transfer_to.location_name",
+            "assets_details.location_details.gp_name",
+            "assets_details.location_details.gp_code",
+          ],
+          numbers: [],
+          arrayField: [],
+          boolean: [],
+        },
+      };
       dispatch({ type: OANDM_GP_TRANSFER_REQUEST_DATA_REQUEST });
 
       const response = await Axios.post(
@@ -248,14 +282,24 @@ export const oandm_gp_transfer_request_assign_data_disptach = function ({
   return async (dispatch) => {
     try {
       const body = {
-          filters: {},
-          searchFields: {
-            string: [],
-            numbers: [],
-            arrayField: [],
-            boolean: [],
-          },
-        };
+        filters: {},
+        searchFields: {
+          string: [
+            "transfer_id",
+            "createdAt",
+            "assets_details.equipment_name",
+            "assets_details.serial_no",
+            "transfer_type",
+            "transfer_from.location_name",
+            "transfer_to.location_name",
+            "createdAt",
+            "transfer_status",
+          ],
+          numbers: [],
+          arrayField: [],
+          boolean: [],
+        },
+      };
       dispatch({ type: OANDM_GP_TRANSFER_REQUEST_ASSIGN_DATA_REQUEST });
 
       const response = await Axios.post(

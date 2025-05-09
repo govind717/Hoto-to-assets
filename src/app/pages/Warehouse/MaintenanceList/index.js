@@ -29,7 +29,7 @@ import { orangeSecondary } from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
 import moment from "moment";
-import { hoto_warehouse_maintenance_data_disptach } from "app/redux/actions/HotoWarehouse";
+import { out_hoto_warehouse_maintenance_data_disptach } from "app/redux/actions/HotoWarehouse";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -62,7 +62,7 @@ const MaintainanceList = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { hotoWarehouseMaintenanceDataReducer } = useSelector((state) => state);
+  const { outhotoWarehouseMaintenanceDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ const MaintainanceList = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_warehouse_maintenance_data_disptach({
+      out_hoto_warehouse_maintenance_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -102,7 +102,7 @@ const MaintainanceList = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_warehouse_maintenance_data_disptach({
+      out_hoto_warehouse_maintenance_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -113,7 +113,7 @@ const MaintainanceList = () => {
 
   return (
     <>
-      {hotoWarehouseMaintenanceDataReducer?.loading && <FullScreenLoader />}
+      {outhotoWarehouseMaintenanceDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -125,7 +125,7 @@ const MaintainanceList = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_warehouse_maintenance_data_disptach({
+                out_hoto_warehouse_maintenance_data_disptach({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -287,9 +287,9 @@ const MaintainanceList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoWarehouseMaintenanceDataReducer?.data?.result?.data?.length >
+            {outhotoWarehouseMaintenanceDataReducer?.data?.result?.data?.length >
             0 ? (
-              hotoWarehouseMaintenanceDataReducer?.data?.result?.data?.map(
+              outhotoWarehouseMaintenanceDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>

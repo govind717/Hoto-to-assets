@@ -45,7 +45,7 @@ const tableCellSort = {
 };
 
 const BlockWiseAssetList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -75,8 +75,6 @@ const BlockWiseAssetList = () => {
   //             break;
   //     }
   // }
-
- 
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -254,7 +252,7 @@ const BlockWiseAssetList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp_name || "-"}
+                        {ele?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -264,7 +262,7 @@ const BlockWiseAssetList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp_code || "-"}
+                        {ele?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -351,7 +349,7 @@ const BlockWiseAssetList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoGpWiseAssetDataReducer?.data?.result?.total_pages}
+          count={hotoGpWiseAssetDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

@@ -44,7 +44,7 @@ import { supplier_data_dispatch } from "app/redux/actions/Master";
 import moment from "moment";
 import { Edit } from "@mui/icons-material";
 import Swal from "sweetalert2";
-import { updateWarehouse } from "app/services/apis/master";
+import { updateSupplier, updateWarehouse } from "app/services/apis/master";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -149,7 +149,13 @@ const SupplierList = () => {
     navigate(SUPPLIER_MASTER_ADD);
   };
   const updateStatus = async (body, id) => {
-    const data = await updateWarehouse(body, id);
+    const newBody = {
+      supplier_details: {
+        ...body,
+      },
+      branch_details:body?.branch_details
+    };
+    const data = await updateSupplier(newBody, id);
     if (data?.data?.statusCode === 200) {
       Swal.fire({
         icon: "success",
@@ -259,6 +265,18 @@ const SupplierList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
+                  onClick={() => handleSort(`email`)}
+                  direction={sort}
+                  sx={{ ...tableCellSort }}
+                >
+                  Email
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <TableSortLabel
                   onClick={() => handleSort(`onBoardingDate`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -300,42 +318,6 @@ const SupplierList = () => {
                 </TableSortLabel>
               </TableCell>
 
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`pincode`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Pincode
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`capacity`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Capacity
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`logitude`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Logitude
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`latitude`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Latitude
-                </TableSortLabel>
-              </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 Contact Details
               </TableCell>
@@ -419,6 +401,9 @@ const SupplierList = () => {
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
                     {ele?.phoneNumber || "-"}
                   </TableCell>
+                  <TableCell align="left" sx={{ ...commonCellStyle }}>
+                    {ele?.email || "-"}
+                  </TableCell>
                   <TableCell
                     align="left"
                     sx={{ ...commonCellStyle, minWidth: "220px" }}
@@ -434,22 +419,9 @@ const SupplierList = () => {
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
                     {ele?.state || "-"}
                   </TableCell>
-
-                  <TableCell align="left" sx={{ ...commonCellStyle }}>
-                    {ele?.pincode || "-"}
-                  </TableCell>
-                  <TableCell align="left" sx={{ ...commonCellStyle }}>
-                    {ele?.capacity || "-"}
-                  </TableCell>
-                  <TableCell align="left" sx={{ ...commonCellStyle }}>
-                    {ele?.logitude || "-"}
-                  </TableCell>
-                  <TableCell align="left" sx={{ ...commonCellStyle }}>
-                    {ele?.latitude || "-"}
-                  </TableCell>
                   <TableCell align="left" sx={{ ...commonCellStyle }}>
                     <IconButton
-                      onClick={() => handleOpenDialog(ele?.contact_persons)}
+                      onClick={() => handleOpenDialog(ele?.contactPerson)}
                       color="primary"
                     >
                       <InfoOutlinedIcon />
@@ -545,34 +517,83 @@ const SupplierList = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          {selectedContacts?.length > 0 ? (
-            <MuiTable>
-              <MuiTableHead>
-                <MuiTableRow>
-                  <MuiTableCell>
-                    <strong>Name</strong>
-                  </MuiTableCell>
-                  <MuiTableCell>
-                    <strong>Email</strong>
-                  </MuiTableCell>
-                  <MuiTableCell>
-                    <strong>Mobile No</strong>
-                  </MuiTableCell>
-                </MuiTableRow>
-              </MuiTableHead>
-              <MuiTableBody>
-                {selectedContacts.map((contact, index) => (
-                  <MuiTableRow key={index}>
-                    <MuiTableCell>{contact?.name || "-"}</MuiTableCell>
-                    <MuiTableCell>{contact?.email || "-"}</MuiTableCell>
-                    <MuiTableCell>{contact?.mobile || "-"}</MuiTableCell>
-                  </MuiTableRow>
-                ))}
-              </MuiTableBody>
-            </MuiTable>
-          ) : (
-            <p>No contact details available.</p>
-          )}
+          <Table sx={{ minWidth: 650 }} size="small">
+            <TableHead>
+              <TableRow sx={{ bgcolor: "#53B8CA" }}>
+                <TableCell
+                  align={"left"}
+                  sx={{ ...tableCellSx, minWidth: "100px" }}
+                >
+                  Sr No.
+                </TableCell>
+                <TableCell
+                  align={"left"}
+                  sx={{ ...tableCellSx, minWidth: "220px" }}
+                >
+                  <TableSortLabel
+                    onClick={() => handleSort(`supplierName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Name
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell
+                  align={"left"}
+                  sx={{ ...tableCellSx, minWidth: "220px" }}
+                >
+                  <TableSortLabel
+                    onClick={() => handleSort(`phoneNumber`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Phone Number
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell
+                  align={"left"}
+                  sx={{ ...tableCellSx, minWidth: "220px" }}
+                >
+                  <TableSortLabel
+                    onClick={() => handleSort(`email`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Email
+                  </TableSortLabel>
+                </TableCell>
+              
+              
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {selectedContacts?.length > 0 ? (
+                selectedContacts?.map((ele, index) => (
+                  <TableRow key={ele?.id}>
+                    <TableCell align="left" sx={{ ...commonCellStyle }}>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...commonCellStyle }}>
+                      {ele?.supplierName || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...commonCellStyle }}>
+                      {ele?.email || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...commonCellStyle }}>
+                      {ele?.phoneNumber || "-"}
+                    </TableCell>
+                   
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell align="center" colSpan={10} sx={commonCellStyle}>
+                    No contact details available
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </DialogContent>
       </Dialog>
     </>

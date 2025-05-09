@@ -56,13 +56,15 @@ const addBtnStyle = {
   "&:hover": { backgroundColor: " #E78F5D" },
 };
 
-const MaintenanceTable = ({row}) => {
+const MaintenanceTable = ({ row }) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { hotoBlockAssetPortfolioMaintenanceDataReducer } = useSelector((state) => state);
+  const { hotoBlockAssetPortfolioMaintenanceDataReducer } = useSelector(
+    (state) => state
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -284,26 +286,12 @@ const MaintenanceTable = ({row}) => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Estimated Repair Days
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Issue Date
                 </TableSortLabel>
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, }}
               >
                 <TableSortLabel
                   onClick={() =>
@@ -317,7 +305,7 @@ const MaintenanceTable = ({row}) => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, }}
               >
                 <TableSortLabel
                   onClick={() =>
@@ -331,7 +319,7 @@ const MaintenanceTable = ({row}) => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, }}
               >
                 <TableSortLabel
                   onClick={() =>
@@ -345,7 +333,7 @@ const MaintenanceTable = ({row}) => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, }}
               >
                 Remark
               </TableCell>
@@ -436,7 +424,7 @@ const MaintenanceTable = ({row}) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {ele?.assign_to || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -456,7 +444,17 @@ const MaintenanceTable = ({row}) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {moment(ele?.issue_date).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                        >
+                        {moment(ele?.estimate_arrival_date).format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -466,7 +464,7 @@ const MaintenanceTable = ({row}) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {ele?.repair_status || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -476,27 +474,7 @@ const MaintenanceTable = ({row}) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.district?.code || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.district?.code || "-"}
+                        {"-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -528,7 +506,10 @@ const MaintenanceTable = ({row}) => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoBlockAssetPortfolioMaintenanceDataReducer?.data?.result?.total_pages}
+          count={
+            hotoBlockAssetPortfolioMaintenanceDataReducer?.data?.result
+              ?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

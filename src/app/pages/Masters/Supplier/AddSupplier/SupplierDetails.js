@@ -50,7 +50,7 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
   const [contactPersons, setContactPersons] = useState(
     state?.contactPerson || []
   );
-
+   console.log("State : ",state);
   const initialValues = {
     supplierName: state?.supplierName || "",
     onBoardingDate: state?.onBoardingDate || "",

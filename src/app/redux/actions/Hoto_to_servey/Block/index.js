@@ -31,9 +31,16 @@ export const hoto_block_asset_partfolio_data_disptach = function ({
   return async (dispatch) => {
     try {
         const body = {
-          filters: {},
+          filters: {
+            "equipment_details.location_type": "block",
+          },
           searchFields: {
-            string: ["equipment_name", "block_details?.block?.name"],
+            string: [
+              "equipment_name",
+              "serial_no",
+              "equipment_details.location_name",
+              "equipment_details.location_code",
+            ],
             numbers: [],
             arrayField: [],
             boolean: [],
@@ -200,7 +207,9 @@ export const hoto_block_wise_asset_data_disptach = function ({
 } = {}) {
   return async (dispatch) => {
     const body = {
-      filters: {},
+      filters: {
+        "location_type":"block"
+      },
       searchFields: {
         string: ["block.name", "block_id", "district.name", "district_id"],
         numbers: [],
@@ -240,7 +249,7 @@ export const hoto_block_warehouse_data_disptach = function ({
         const body = {
           filters: {},
           searchFields: {
-            string: [],
+            string: ["equipment_name", "serial_no","condition"],
             numbers: [],
             arrayField: [],
             boolean: [],

@@ -74,7 +74,7 @@ const GpWiseItemDetail = () => {
             </Typography>
           </Grid>
         </Grid>
-        <AssetDetailTable data={state?.equipment_details} />
+        <AssetDetailTable data={state?.equipments} />
       </Box>
     </>
   );

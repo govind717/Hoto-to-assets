@@ -13,7 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 
-import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { oandm_block_maintenace_request_data_disptach } from "app/redux/actions/O&M/Block";
 import { debounce } from "lodash";
@@ -44,12 +44,12 @@ const tableCellSort = {
   },
 };
 const MaintenanceRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
-  const [openRequestManagement,setOpenRequestManagement]=useState(false);
+  const [openRequestManagement, setOpenRequestManagement] = useState(false);
   const [row, setRow] = useState(null);
   const { oandmBlockMaintenaceRequestDataReducer } = useSelector(
     (state) => state
@@ -148,7 +148,7 @@ const MaintenanceRequest = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -161,7 +161,7 @@ const MaintenanceRequest = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -258,7 +258,10 @@ const MaintenanceRequest = () => {
                   Repair Type
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx , minWidth:"180px"}}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`issue_reported`)}
                   direction={sort}
@@ -278,7 +281,10 @@ const MaintenanceRequest = () => {
                   Initiated By
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(`current_data.commissionPercentage`)
@@ -472,7 +478,7 @@ const MaintenanceRequest = () => {
                         <Button
                           variant="contained"
                           size="small"
-                          disabled={!ele?.is_created || !ele?.is_cancelled}
+                          disabled={ele?.is_created || ele?.is_cancelled}
                           onClick={() => handleAssign(ele)}
                           sx={{
                             backgroundColor: orangeSecondary,
@@ -504,7 +510,10 @@ const MaintenanceRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmBlockMaintenaceRequestDataReducer?.data?.result?.total_pages ||
+            1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

@@ -9,6 +9,7 @@ import GPOandM from "app/pages/O&M/GP";
 import OandMWarehouse from "app/pages/O&MWarehouse/Warehouse";
 import OandMMaterialInward from "app/pages/O&MWarehouse/MaterialInward";
 import OandMMaterialRequest from "app/pages/O&MWarehouse/MaterialRequest";
+import WarehouseOandM from "app/pages/O&M/Warehouse";
 
 export const OandMRoute = [
   {
@@ -26,6 +27,12 @@ export const OandMRoute = [
       {
         path: "/o&m/gp",
         element: <Page component={GPOandM} layout={"vertical-default"} />,
+      },
+      {
+        path: "/o&m/warehouse",
+        element: (
+          <Page component={WarehouseOandM} layout={"vertical-default"} />
+        ),
       },
       {
         path: "/o&mwarehouse/warehouse",

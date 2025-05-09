@@ -103,37 +103,40 @@ const AssetPortfolioTableRow = ({
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>{e?.serial_no || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
-          {e?.gp_details?.gp_name || "-"}
+          {e?.equipment_details?.location_name || "-"}
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
-          {e?.gp_details?.gp_code || "-"}
+          {e?.equipment_details?.location_code || "-"}
         </TableCell>
-        <TableCell sx={{ ...tableBodyCell }}>{e?.site_type || "-"}</TableCell>
+        {/* <TableCell sx={{ ...tableBodyCell }}>
+          {e?.equipment_details?.location_type || "-"}
+        </TableCell> */}
         <TableCell sx={{ ...tableBodyCell }}>
           {e?.warranty_status ? "Yes" : "No"}
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
-                  <Chip
-                    label={e?.condition ? e.condition.toUpperCase() : "-"}
-                    sx={{
-                      backgroundColor:
-                        e?.condition.toUpperCase() === "DAMAGED"
-                          ? Red
-                          : e?.condition.toUpperCase() === "SEMI-DAMAGED"
-                          ? Yellow
-                          : e?.condition.toUpperCase() === "ROBUST"
-                          ? Green
-                          : e?.condition.toUpperCase() === "MISSING"
-                          ? Orange
-                          : "",
-                      color: "#FFF",
-                      fontWeight: "bold",
-                      fontSize:"14",
-                      height: "25px",
-                      px: 2,
-                    }}
-                  />
-                </TableCell>
+          <Chip
+            label={e?.condition ? e.condition.toUpperCase() : "-"}
+            sx={{
+              backgroundColor:
+                e?.condition.toUpperCase() === "DAMAGED"
+                  ? Red
+                  : e?.condition.toUpperCase() === "SEMI-DAMAGED"
+                  ? Yellow
+                  : e?.condition.toUpperCase() === "ROBUST"
+                  ? Green
+                  : e?.condition.toUpperCase() === "MISSING"
+                  ? Orange
+                  : "",
+              color: "#FFF",
+              fontWeight: "bold",
+              fontSize: "14",
+              height: "25px",
+              px: 2,
+            }}
+          />
+        </TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>{e?.issued_for || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
             label={e?.condition_status || "-"}
@@ -177,21 +180,21 @@ const AssetPortfolioTableRow = ({
                 icon: <AddCircleOutlineIcon />,
                 title: "Request Maintenance",
                 action: "issueForMaintenance",
-                show: true,
+                show: e?.issued_for ===null,
                 row: e,
               },
               {
                 icon: <AddCircleOutlineIcon />,
                 title: "Request Replacement",
                 action: "issueForReplacement",
-                show: true,
+                show: e?.issued_for === null,
                 row: e,
               },
               {
                 icon: <AddCircleOutlineIcon />,
                 title: "Request Transfer",
                 action: "issueForTransfer",
-                show: true,
+                show: e?.issued_for === null,
                 row: e,
               },
             ].filter((ele) => ele?.show)}
