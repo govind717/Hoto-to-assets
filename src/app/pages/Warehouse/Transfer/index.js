@@ -14,7 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import FullScreenLoader from "app/pages/Components/Loader";
-import { hoto_warehouse_transfer_data_disptach } from "app/redux/actions/HotoWarehouse";
+import { out_hoto_warehouse_transfer_data_disptach } from "app/redux/actions/HotoWarehouse";
 import { debounce } from "lodash";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -38,60 +38,60 @@ const tableCellSort = {
 };
 
 const Transferlist = () => {
-  const [sortBy, setSortBy] = useState("created_at");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sort, setSort] = useState("desc");
-    const [page, setPage] = useState(1);
-  
-    const { hotoWarehousetransferDataReducer } = useSelector((state) => state);
-  
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-  
-    const handleSort = (property) => {
-      setSort(sort === "asc" ? "desc" : "asc");
-      setSortBy(property);
-      setPage(1);
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sort, setSort] = useState("desc");
+  const [page, setPage] = useState(1);
+
+  const { outhotoWarehousetransferDataReducer } = useSelector((state) => state);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSort = (property) => {
+    setSort(sort === "asc" ? "desc" : "asc");
+    setSortBy(property);
+    setPage(1);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setPage(1);
+    dispatch(
+      out_hoto_warehouse_transfer_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
+  };
+
+  const debouncedHandleSearch = debounce(handleSearch, 500);
+
+  useEffect(() => {
+    if (searchTerm !== "") {
+      debouncedHandleSearch(searchTerm);
+    }
+    return () => {
+      debouncedHandleSearch.cancel();
     };
-  
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-  
-    const handleSearch = (searchTerm) => {
-      setPage(1);
-      dispatch(
-        hoto_warehouse_transfer_data_disptach({
-          sortBy: sortBy,
-          search_value: searchTerm.trim(),
-          sort: sort,
-          page: page,
-        })
-      );
-    };
-  
-    const debouncedHandleSearch = debounce(handleSearch, 500);
-  
-    useEffect(() => {
-      if (searchTerm !== "") {
-        debouncedHandleSearch(searchTerm);
-      }
-      return () => {
-        debouncedHandleSearch.cancel();
-      };
-    }, [searchTerm]);
-  
-    useEffect(() => {
-      dispatch(
-        hoto_warehouse_transfer_data_disptach({
-          sortBy: sortBy,
-          search_value: searchTerm.trim(),
-          sort: sort,
-          page: page,
-        })
-      );
-    }, [sort, page, sortBy, dispatch]);
-  
+  }, [searchTerm]);
+
+  useEffect(() => {
+    dispatch(
+      out_hoto_warehouse_transfer_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
+  }, [sort, page, sortBy, dispatch]);
+
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -105,7 +105,7 @@ const Transferlist = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_warehouse_transfer_data_disptach({
+                out_hoto_warehouse_transfer_data_disptach({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -126,7 +126,7 @@ const Transferlist = () => {
           }}
         />
       </Div>
-      {hotoWarehousetransferDataReducer?.loading && <FullScreenLoader />}
+      {outhotoWarehousetransferDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
@@ -197,7 +197,10 @@ const Transferlist = () => {
                   Transfer From
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`transfer_to.location_name`)}
                   direction={sort}
@@ -253,9 +256,9 @@ const Transferlist = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoWarehousetransferDataReducer?.data?.result?.data?.length >
+            {outhotoWarehousetransferDataReducer?.data?.result?.data?.length >
             0 ? (
-              hotoWarehousetransferDataReducer?.data?.result?.data?.map(
+              outhotoWarehousetransferDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>

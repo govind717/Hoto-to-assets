@@ -14,7 +14,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import { hoto_warehouse_replacement_data_disptach } from "app/redux/actions/HotoWarehouse";
+import { out_hoto_warehouse_replacement_data_disptach } from "app/redux/actions/HotoWarehouse";
 import { debounce } from "lodash";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -43,7 +43,7 @@ const ReplacementList = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { hotoWarehouseReplacementDataReducer } = useSelector((state) => state);
+  const { outhotoWarehouseReplacementDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,7 +61,7 @@ const ReplacementList = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_warehouse_replacement_data_disptach({
+      out_hoto_warehouse_replacement_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -83,7 +83,7 @@ const ReplacementList = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_warehouse_replacement_data_disptach({
+      out_hoto_warehouse_replacement_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -105,7 +105,7 @@ const ReplacementList = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_warehouse_replacement_data_disptach({
+                out_hoto_warehouse_replacement_data_disptach({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -315,9 +315,9 @@ const ReplacementList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoWarehouseReplacementDataReducer?.data?.result?.data?.length >
+            {outhotoWarehouseReplacementDataReducer?.data?.result?.data?.length >
             0 ? (
-              hotoWarehouseReplacementDataReducer?.data?.result?.data?.map(
+              outhotoWarehouseReplacementDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>

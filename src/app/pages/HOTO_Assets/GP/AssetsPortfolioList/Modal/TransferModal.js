@@ -30,14 +30,15 @@ function TransferModal({ open, handleClose, row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const [transferToOprtions, setTransferToOprtions] = useState([]);
-  console.log("transferToOprtions : ", transferToOprtions);
   const initialValues = {
     transfer_type: "",
-    transfer_from: {
-      location_type: row?.gp_details?.location_type || "warehouse",
-      location_name: row?.gp_details?.gp_name,
-      location_code: row?.gp_details?.gp_code,
-    },
+    transfer_from: row
+      ? {
+          location_type: row?.equipment_details?.location_type,
+          location_name: row?.equipment_details?.location_name,
+          location_code: row?.equipment_details?.location_code,
+        }
+      : null,
     transfer_to_type: "",
     transfer_to: null,
     remarks: "",
@@ -53,31 +54,41 @@ function TransferModal({ open, handleClose, row }) {
   });
 
   const handleSubmit = async (values) => {
-    console.log("")
+    let tranfer_to = {};
+    if (values?.transfer_to_type === "block") {
+      tranfer_to = {
+        location_type: values?.transfer_to_type,
+        location_name: values?.transfer_to?.blockName,
+        location_code: values?.transfer_to?.blockCode,
+      };
+    }
+    if (values?.transfer_to_type === "gp") {
+      tranfer_to = {
+        location_type: values?.transfer_to_type,
+        location_name: values?.transfer_to?.gpName,
+        location_code: values?.transfer_to?.LGDCode,
+      };
+    }
+    if (values?.transfer_to_type === "warehouse") {
+      tranfer_to = {
+        location_type: values?.transfer_to_type,
+        location_name: values?.transfer_to?.warehouse_name,
+        location_code: values?.transfer_to?.code,
+      };
+    }
     const body = {
       assets_ids: [row?._id],
       other_details: {
         transfer_type: values?.transfer_type,
         transfer_from: {
-          location_type: row?.gp_details?.location_type || "warehouse",
-          location_name: row?.gp_details?.gp_name,
-          location_code: row?.gp_details?.gp_code,
+          location_type: row?.equipment_details?.location_type,
+          location_name: row?.equipment_details?.location_name,
+          location_code: row?.equipment_details?.location_code,
         },
-        transfer_to: {
-          location_type: values?.transfer_to_type,
-          location_name:
-            values?.transfer_to_type === "gp"
-              ? values?.transfer_to?.gpName
-              : values?.transfer_to?.warehouse_name,
-          location_code:
-            values?.transfer_to_type === "gp"
-              ? values?.transfer_to?.LGDCode
-              : values?.transfer_to?.code,
-        },
+        transfer_to: tranfer_to,
         remarks: values?.remarks,
       },
     };
-    console.log("Body : ", body);
     setSubmitting(true);
     try {
       const res = await Axios.post(
@@ -139,7 +150,6 @@ function TransferModal({ open, handleClose, row }) {
                 setValues,
               }) => (
                 <Form noValidate autoComplete="off">
-                  {console.log("type : ", values?.transfer_to_type)}
                   <Div sx={{ mt: 0 }}>
                     <Div
                       sx={{
@@ -153,60 +163,6 @@ function TransferModal({ open, handleClose, row }) {
                         Request Transfer
                       </Typography>
                       <Grid container rowSpacing={2} columnSpacing={3}>
-                        {/* <Grid item xs={6} md={3}>
-                          <Typography variant="h6" fontSize="14px">
-                            Requested Date
-                          </Typography>
-                          <TextField
-                            sx={{ width: "100%" }}
-                            size="small"
-                            type="date"
-                            name="requestedDate"
-                            onChange={(e) =>
-                              setFieldValue("requestedDate", e.target.value)
-                            }
-                            onBlur={() =>
-                              setFieldTouched("requestedDate", true)
-                            }
-                            value={
-                              values?.requestedDate ||
-                              new Date().toISOString().split("T")[0]
-                            }
-                            error={
-                              touched?.requestedDate &&
-                              Boolean(errors?.requestedDate)
-                            }
-                            helperText={
-                              touched?.requestedDate && errors?.requestedDate
-                            }
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                          />
-                        </Grid>
-
-                        <Grid item xs={6} md={3}>
-                          <Typography variant="h6" fontSize="14px">
-                            Transfer ID
-                          </Typography>
-                          <TextField
-                            sx={{ width: "100%" }}
-                            size="small"
-                            placeholder="Enter Transfer ID"
-                            name="transferId"
-                            onChange={(e) =>
-                              setFieldValue("transferId", e.target.value)
-                            }
-                            onBlur={() => setFieldTouched("transferId", true)}
-                            value={values?.transferId}
-                            error={
-                              touched?.transferId && Boolean(errors?.transferId)
-                            }
-                            helperText={
-                              touched?.transferId && errors?.transferId
-                            }
-                          />
-                        </Grid> */}
                         <Grid item xs={12} md={3}>
                           <Typography variant="h6" fontSize="14px" mb={0.5}>
                             Transfer Type
@@ -276,27 +232,37 @@ function TransferModal({ open, handleClose, row }) {
                             Transfer to Type
                           </Typography>
                           <Autocomplete
-                            options={["gp", "warehouse"]}
+                            options={["block", "gp", "warehouse"]}
                             getOptionLabel={(option) => option || ""}
                             onChange={(e, newValue) => {
-                              if (newValue === "gp") {
-                                Axios.get("/master/gp/dropdown")
+                              if (newValue === "block") {
+                                Axios.get("/master/block/dropdown")
                                   .then((res) => {
                                     setTransferToOprtions(res?.data?.result);
                                   })
                                   .catch((err) => {
                                     console.log(
-                                      "Error while fetching gp dropdown"
+                                      "Error while fetching block dropdown"
                                     );
                                   });
-                              } else {
+                              } else if (newValue === "warehouse") {
                                 Axios.get("/master/warehouse/dropdown")
                                   .then((res) => {
                                     setTransferToOprtions(res?.data?.result);
                                   })
                                   .catch((err) => {
                                     console.log(
-                                      "Error while fetching Warehouse dropdown"
+                                      "Error while fetching warehouse dropdown"
+                                    );
+                                  });
+                              } else {
+                                Axios.get("/master/gp/dropdown")
+                                  .then((res) => {
+                                    setTransferToOprtions(res?.data?.result);
+                                  })
+                                  .catch((err) => {
+                                    console.log(
+                                      "Error while fetching warehouse dropdown"
                                     );
                                   });
                               }
@@ -326,29 +292,19 @@ function TransferModal({ open, handleClose, row }) {
                             Transfer To
                           </Typography>
                           <Autocomplete
-                            // options={[
-                            //   {
-                            //     location_type: "gp",
-                            //     location_name:
-                            //       "Gram Panchayat Office - Block A",
-                            //     location_code: "GP-101",
-                            //   },
-                            //   {
-                            //     location_type: "block",
-                            //     location_name:
-                            //       "Gram Panchayat Office - Block A",
-                            //     location_code: "block-101",
-                            //   },
-                            // ]}
                             options={transferToOprtions}
                             getOptionLabel={(option) => {
-                              if (values?.transfer_to_type === "gp") {
-                                return option?.gpName || "";
-                              } else {
+                              if (values?.transfer_to_type === "block") {
+                                return option?.blockName || "";
+                              } else if (
+                                values?.transfer_to_type === "warehouse"
+                              ) {
                                 return option?.warehouse_name || "";
+                              } else {
+                                return option?.gpName || "";
                               }
                             }}
-                            // value={}
+                            value={values?.tranfer_to}
                             onChange={(e, newValue) => {
                               setFieldValue(
                                 "transfer_to",
@@ -374,29 +330,6 @@ function TransferModal({ open, handleClose, row }) {
                           />
                         </Grid>
 
-                        {/* <Grid item xs={6} md={3}>
-                          <Typography variant="h6" fontSize="14px">
-                            Initiated By
-                          </Typography>
-                          <TextField
-                            sx={{ width: "100%" }}
-                            size="small"
-                            placeholder="Enter Package Name"
-                            name="packageName"
-                            onChange={(e) =>
-                              setFieldValue("packageName", e.target.value)
-                            }
-                            onBlur={() => setFieldTouched("packageName", true)}
-                            value={values?.packageName}
-                            error={
-                              touched?.packageName &&
-                              Boolean(errors?.packageName)
-                            }
-                            helperText={
-                              touched?.packageName && errors?.packageName
-                            }
-                          />
-                        </Grid> */}
                         <Grid item xs={6} md={3}>
                           <Typography variant="h6" fontSize="14px">
                             remarks

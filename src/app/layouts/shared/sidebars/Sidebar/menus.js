@@ -80,27 +80,7 @@ const menus = [
         label: "Team",
         type: "nav-item",
       },
-      // {
-      //     uri: "/masters/Users",
-      //     label: 'users',
-      //     type: "nav-item",
-      // },
-
-      // {
-      //     uri: "/masters/district-master",
-      //     label: 'District Master',
-      //     type: "nav-item",
-      // },
-      // {
-      //     uri: "/masters/block-master",
-      //     label: 'Block Master',
-      //     type: "nav-item",
-      // },
-      // {
-      //     uri: "/masters/gp-master",
-      //     label: "GP Master",
-      //     type: "nav-item",
-      // },
+    
       {
         uri: "/masters/category",
         isActiveUri: ["/masters/category/add", "/masters/category/edit"],
@@ -180,6 +160,16 @@ const menus = [
         type: "nav-item",
       },
       {
+        uri: "/dashboards/hoto-survey-warehouse-data",
+        label: "Warehouse",
+        isActiveUri: [
+          "/dashboards/hoto-survey-warehouse-data/assets-details",
+          "/dashboards/hoto-survey-warehouse-data/warehouse-wise-details/rack-details",
+          "/dashboards/hoto-survey-warehouse-data/warehouse-wise-details",
+        ],
+        type: "nav-item",
+      },
+      {
         uri: "/dashboards/hoto-survey-rkm-data",
         label: "RKM",
         type: "nav-item",
@@ -207,6 +197,12 @@ const menus = [
         uri: "/o&m/gp",
         // isActiveUri :["/masters/district/add"],
         label: "GP",
+        type: "nav-item",
+      },
+      {
+        uri: "/o&m/warehouse",
+        // isActiveUri :["/masters/district/add"],
+        label: "Warehouse",
         type: "nav-item",
       },
     ],

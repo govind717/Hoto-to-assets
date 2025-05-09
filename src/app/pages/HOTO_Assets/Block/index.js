@@ -40,7 +40,7 @@ const HotoBlock = () => {
                 {/* Left side tabs */}
                 <Tab label="Asset Portfolio" value="1" />
                 <Tab label="Block-Wise Assets" value="2" />
-                <Tab label="Warehouse" value="3" />
+                {/* <Tab label="Warehouse" value="3" /> */}
 
                 {/* Push next tab to the right using margin-left: auto */}
                 <Tab

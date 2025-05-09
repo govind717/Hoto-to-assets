@@ -56,7 +56,7 @@ const addBtnStyle = {
 };
 
 const MaintainanceList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -77,8 +77,6 @@ const MaintainanceList = () => {
     setSortBy(property);
     setPage(1);
   };
-
-  
 
   const handleCloseCoordinate = function () {
     setCoordinate({
@@ -187,7 +185,10 @@ const MaintainanceList = () => {
                   Sr No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`current_data.companyType`)}
                   direction={sort}
@@ -240,7 +241,7 @@ const MaintainanceList = () => {
                   Vendor
                 </TableSortLabel>
               </TableCell>
-              
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}

@@ -1,10 +1,18 @@
-import { Pagination, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material";
+import {
+  Pagination,
+  Paper,
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from "@mui/material";
 import { oandm_block_maintenace_request_data_disptach } from "app/redux/actions/O&M/Block";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -22,62 +30,62 @@ const tableCellSort = {
   },
 };
 const ScrapRequest = () => {
-    const [sortBy, setSortBy] = useState("created_at");
-      const [searchTerm, setSearchTerm] = useState("");
-      const [sort, setSort] = useState("desc");
-      const [page, setPage] = useState(1);
-    
-      const { oandmBlockMaintenaceRequestDataReducer } = useSelector(
-        (state) => state
-      );
-    
-      const dispatch = useDispatch();
-      const navigate = useNavigate();
-    
-      const handleSort = (property) => {
-        setSort(sort === "asc" ? "desc" : "asc");
-        setSortBy(property);
-        setPage(1);
-      };
-    
-      const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-      };
-    
-      const handleSearch = (searchTerm) => {
-        setPage(1);
-        dispatch(
-          oandm_block_maintenace_request_data_disptach({
-            sortBy: sortBy,
-            search_value: searchTerm.trim(),
-            sort: sort,
-            page: page,
-          })
-        );
-      };
-    
-      const debouncedHandleSearch = debounce(handleSearch, 500);
-    
-      useEffect(() => {
-        if (searchTerm !== "") {
-          debouncedHandleSearch(searchTerm);
-        }
-        return () => {
-          debouncedHandleSearch.cancel();
-        };
-      }, [searchTerm]);
-    
-      useEffect(() => {
-        dispatch(
-          oandm_block_maintenace_request_data_disptach({
-            sortBy: sortBy,
-            search_value: searchTerm.trim(),
-            sort: sort,
-            page: page,
-          })
-        );
-      }, [sort, page, sortBy, dispatch]);
-    
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sort, setSort] = useState("desc");
+  const [page, setPage] = useState(1);
+
+  const { oandmBlockMaintenaceRequestDataReducer } = useSelector(
+    (state) => state
+  );
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSort = (property) => {
+    setSort(sort === "asc" ? "desc" : "asc");
+    setSortBy(property);
+    setPage(1);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setPage(1);
+    dispatch(
+      oandm_block_maintenace_request_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
+  };
+
+  const debouncedHandleSearch = debounce(handleSearch, 500);
+
+  useEffect(() => {
+    if (searchTerm !== "") {
+      debouncedHandleSearch(searchTerm);
+    }
+    return () => {
+      debouncedHandleSearch.cancel();
+    };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    dispatch(
+      oandm_block_maintenace_request_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
+  }, [sort, page, sortBy, dispatch]);
+
   return (
     <TableContainer sx={{ marginTop: "15px" }} component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small">
@@ -182,7 +190,6 @@ const ScrapRequest = () => {
             </TableCell>
           </TableRow>
         </TableHead>
-        
       </Table>
       <Pagination
         count={1}

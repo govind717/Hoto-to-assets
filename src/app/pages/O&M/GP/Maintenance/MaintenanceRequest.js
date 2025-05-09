@@ -43,7 +43,7 @@ const tableCellSort = {
   },
 };
 const MaintenanceRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -496,7 +496,9 @@ const MaintenanceRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={oandmGpMaintenaceRequestDataReducer?.data?.result?.total_pages || 1}
+          count={
+            oandmGpMaintenaceRequestDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

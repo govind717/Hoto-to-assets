@@ -31,16 +31,17 @@ export const hoto_gp_asset_partfolio_data_disptach = function ({
   return async (dispatch) => {
     try {
        const body = {
-         filters: {},
+         filters: {
+           "equipment_details.location_type":"gp"
+         },
          searchFields: {
            string: [
              "equipment_name",
              "serial_no",
-             "gp_details.gp_name",
-             "gp_details.gp_code",
+             "equipment_details.location_name",
+             "equipment_details.location_code",
              "warranty_status",
-             "site_type",
-             "condition"
+             "condition",
            ],
            numbers: [],
            arrayField: [],
@@ -207,9 +208,11 @@ export const hoto_gp_wise_asset_data_disptach = function ({
   return async (dispatch) => {
     try {
        const body = {
-         filters: {},
+         filters: {
+          location_type:"gp"
+         },
          searchFields: {
-           string: ["block.name", "block_id", "district.name", "district_id"],
+           string: ["block.name","location_name","location_code", "block_id", "district.name", "district_id"],
            numbers: [],
            arrayField: [],
            boolean: [],

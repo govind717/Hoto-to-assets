@@ -45,7 +45,7 @@ const tableCellSort = {
 };
 
 const BlockWiseAssetList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -252,7 +252,7 @@ const BlockWiseAssetList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp_name || "-"}
+                        {ele?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -262,7 +262,7 @@ const BlockWiseAssetList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp_code || "-"}
+                        {ele?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

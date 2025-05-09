@@ -13,7 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 
-import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { oandm_block_maintenace_request_data_disptach } from "app/redux/actions/O&M/Block";
 import { debounce } from "lodash";
@@ -44,12 +44,12 @@ const tableCellSort = {
   },
 };
 const MaintenanceRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
-  const [openRequestManagement,setOpenRequestManagement]=useState(false);
+  const [openRequestManagement, setOpenRequestManagement] = useState(false);
   const [row, setRow] = useState(null);
   const { oandmBlockMaintenaceRequestDataReducer } = useSelector(
     (state) => state
@@ -510,7 +510,10 @@ const MaintenanceRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={oandmBlockMaintenaceRequestDataReducer?.data?.result?.total_pages || 1}
+          count={
+            oandmBlockMaintenaceRequestDataReducer?.data?.result?.total_pages ||
+            1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{
