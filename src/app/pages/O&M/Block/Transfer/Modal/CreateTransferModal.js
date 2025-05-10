@@ -24,6 +24,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { Axios } from "index";
+import moment from "moment";
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -50,8 +51,8 @@ function CreateTransferModal({ open, closeModal, row }) {
   const [transferOptions, setTransferOptions] = useState([]);
   console.log("Row5 : ", row);
   const initialValues = {
-    issueDate: "",
-    transfer_type: "",
+    issueDate: row?.createdAt || "",
+    transfer_type: row?.transfer_type || "",
     transfer_to: row?.transfer_to || null,
     transport_type: "",
 
@@ -66,7 +67,7 @@ function CreateTransferModal({ open, closeModal, row }) {
       transporter_name: "",
       awb_no: "",
     },
-    transfer_location_type: "",
+    transfer_location_type: row?.transfer_from?.location_type,
     remarks: "",
   };
   const validationSchema = Yup.object().shape({
@@ -247,7 +248,7 @@ function CreateTransferModal({ open, closeModal, row }) {
                                   Transfer To
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Received By
+                                  Initaited By
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Status
@@ -275,8 +276,8 @@ function CreateTransferModal({ open, closeModal, row }) {
                                 <TableCell align="left">
                                   {row?.transfer_to?.location_name}
                                 </TableCell>
-                                <TableCell align="left">{"-"}</TableCell>
-                                <TableCell align="left">{"-"}</TableCell>
+                                <TableCell align="left">{row?.created_user_details?.firstName}</TableCell>
+                                <TableCell align="left">{row?.assets_details?.condition}</TableCell>
                                 <TableCell align="left">
                                   {row?.remarks}
                                 </TableCell>
@@ -296,10 +297,11 @@ function CreateTransferModal({ open, closeModal, row }) {
                               type="date"
                               name="issueDate"
                               onChange={(e) =>
-                                setFieldValue("issueDate", e.target.value)
+                                setFieldValue("issueDate", moment(e.target.value).format("YYYY-MM-DD"))
                               }
                               onBlur={() => setFieldTouched("issueDate", true)}
-                              value={values?.issueDate || ""}
+                              // value={values?.issueDate || ""}
+                              value={moment(values?.issue_date).format("YYYY-MM-DD") || "-"}
                               error={
                                 touched?.issueDate && Boolean(errors?.issueDate)
                               }

@@ -389,7 +389,7 @@ const TransferAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.block?.code || "-"}
+                        {ele?.created_user_details?.firstName || "-"}
                       </TableCell>
 
                       <TableCell
@@ -400,7 +400,7 @@ const TransferAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.document || "-"}
+                        {ele?.assets_details?.condition || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

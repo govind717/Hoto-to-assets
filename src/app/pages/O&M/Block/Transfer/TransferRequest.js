@@ -391,7 +391,7 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_name || "-"}
+                        {ele?.assets_details?.location_details?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -401,7 +401,7 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_code || "-"}
+                        {ele?.assets_details?.location_details?.location_code || "-"}
                       </TableCell>
 
                       <TableCell
@@ -412,7 +412,7 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.document || "-"}
+                        {ele?.created_user_details?.firstName || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

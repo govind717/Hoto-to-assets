@@ -419,7 +419,7 @@ const MaintainanceList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {ele?.assign_to || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

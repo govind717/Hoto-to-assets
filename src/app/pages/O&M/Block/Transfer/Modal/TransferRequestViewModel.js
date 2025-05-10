@@ -221,8 +221,8 @@ function TransferRequestViewModel({ open, closeModal,row }) {
                     <TableCell align="left">{row?.transfer_type}</TableCell>
                     <TableCell align="left">{row?.transfer_from?.location_name}</TableCell>
                     <TableCell align="left">{row?.transfer_to?.location_name}</TableCell>
-                    <TableCell align="left">{"-"}</TableCell>
-                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{row?.created_user_details?.firstName}</TableCell>
+                    <TableCell align="left">{row?.assets_details?.condition}</TableCell>
                     <TableCell align="left">{row?.remarks}</TableCell>
                   </TableRow>
                 </TableBody>
