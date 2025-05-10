@@ -51,7 +51,7 @@ function CreateTransferModal({ open, closeModal, row }) {
   const [transferOptions, setTransferOptions] = useState([]);
   console.log("Row5 : ", row);
   const initialValues = {
-    issueDate: row?.createdAt || "",
+    issueDate: moment(row?.createdAt).format("YYYY-MM-DD") || "",
     transfer_type: row?.transfer_type || "",
     transfer_to: row?.transfer_to || null,
     transport_type: "",
@@ -297,11 +297,11 @@ function CreateTransferModal({ open, closeModal, row }) {
                               type="date"
                               name="issueDate"
                               onChange={(e) =>
-                                setFieldValue("issueDate", moment(e.target.value).format("YYYY-MM-DD"))
+                                setFieldValue("issueDate", e.target.value)
                               }
                               onBlur={() => setFieldTouched("issueDate", true)}
                               // value={values?.issueDate || ""}
-                              value={moment(values?.issue_date).format("YYYY-MM-DD") || "-"}
+                              value={values?.issueDate || "-"}
                               error={
                                 touched?.issueDate && Boolean(errors?.issueDate)
                               }
@@ -320,6 +320,7 @@ function CreateTransferModal({ open, closeModal, row }) {
                               onChange={(e, val) =>
                                 setFieldValue("transfer_type", val || "")
                               }
+                              value={values?.transfer_type || null}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
