@@ -38,7 +38,7 @@ const tableCellSort = {
 };
 
 const Transferlist = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -211,9 +211,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`incharge`)
-                  }
+                  onClick={() => handleSort(`incharge`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -225,9 +223,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(``)
-                  }
+                  onClick={() => handleSort(``)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -239,9 +235,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`tansfer_status`)
-                  }
+                  onClick={() => handleSort(`tansfer_status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >

@@ -1,16 +1,38 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
-import Div from '@jumbo/shared/Div';
-import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
+import Div from "@jumbo/shared/Div";
+import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from '@mui/icons-material/Search';
-import { Box, Button, IconButton, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Typography, Popper, ClickAwayListener, Checkbox, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import { hoto_servey_block_data_disptach } from 'app/redux/actions/Hoto_to_servey';
-import { debounce } from 'lodash';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import MapIcon from '@mui/icons-material/Map';
-import ShareLocationIcon from '@mui/icons-material/ShareLocation';
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Pagination,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+  TextField,
+  Typography,
+  Popper,
+  ClickAwayListener,
+  Checkbox,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@mui/material";
+import { hoto_servey_block_data_disptach } from "app/redux/actions/Hoto_to_servey";
+import { debounce } from "lodash";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import MapIcon from "@mui/icons-material/Map";
+import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import MapLocation from "../../MapLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
@@ -18,9 +40,8 @@ import EquipmentModal from "../Gp_equipment_details/Gp_equipments/Equipment_deta
 import Gp_details from "../Gp_equipment_details/Gp_details";
 import AddTransfer from "../Transfer/Add_transfer";
 import AddRepair from "../Transfer/Add_repair";
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { equipment_types } from "app/utils/constants/constants";
-
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -28,7 +49,7 @@ const tableCellSx = {
   textAlign: "left",
   minWidth: "150px",
   verticalAlign: "middle",
-}
+};
 
 const tableCellSort = {
   color: "white",
@@ -36,16 +57,14 @@ const tableCellSort = {
   "&.MuiTableSortLabel-root.Mui-active": {
     color: "white",
   },
-}
-
+};
 
 const Assets_Portfolio_List = () => {
-
   const { hotoServeyBlockDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [sortBy, setSortBy] = useState("created_at");
-  const [searchTerm, setSearchTerm] = useState("")
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -61,28 +80,28 @@ const Assets_Portfolio_List = () => {
     open: false,
     gp_name: null,
     lat: null,
-    log: null
+    log: null,
   });
   const [equipmentFilterName, setEquipmentFilterName] = useState("racks");
   const [equipment_show, set_equipment_show] = useState({
     open: false,
     equipment_name: equipmentFilterName,
-    equipment_details: {}
+    equipment_details: {},
   });
   const handleOpen = (equipment_details) => {
     set_equipment_show({
       open: true,
       equipment_name: equipmentFilterName,
-      equipment_details: equipment_details
-    })
-  }
+      equipment_details: equipment_details,
+    });
+  };
   const handleClose = () => {
     set_equipment_show({
       open: false,
       equipment_name: equipmentFilterName,
-      equipment_details: {}
-    })
-  }
+      equipment_details: {},
+    });
+  };
 
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
@@ -95,16 +114,16 @@ const Assets_Portfolio_List = () => {
       open: false,
       gp_name: null,
       lat: null,
-      log: null
-    })
-  }
+      log: null,
+    });
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleSearch = (searchTerm) => {
-    setPage(1)
+    setPage(1);
     // dispatch(hoto_servey_block_data_disptach({
     //   sortBy: sortBy,
     //   search_value: searchTerm.trim(),
@@ -124,16 +143,16 @@ const Assets_Portfolio_List = () => {
     };
   }, [searchTerm]);
 
-
   useEffect(() => {
-    dispatch(hoto_servey_block_data_disptach({
-      sortBy: sortBy,
-      search_value: searchTerm.trim(),
-      sort: sort,
-      page: page,
-    }));
-  }, [sort, page, sortBy, dispatch])
-
+    dispatch(
+      hoto_servey_block_data_disptach({
+        sortBy: sortBy,
+        search_value: searchTerm.trim(),
+        sort: sort,
+        page: page,
+      })
+    );
+  }, [sort, page, sortBy, dispatch]);
 
   const handleCheckboxChange = (event) => {
     setEquipmentFilterName(event.target.value);
@@ -251,87 +270,88 @@ const Assets_Portfolio_List = () => {
                             </TableCell>
                         </TableRow>
                     </TableHead> */}
-                    <TableHead>
-                        <TableRow sx={{ bgcolor: "#53B8CA" }}>
-                            {/* Equipment column with dropdown */}
-                            <TableCell align="left" sx={{ ...tableCellSx }}>
-                                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                                        <TableSortLabel
-                                            direction={sort}
-                                            sx={{ ...tableCellSort }}
-                                        >
-                                            Sr No
-                                        </TableSortLabel>
-                                    </Box>
-                                </TableCell>
-                            <TableCell align="left" sx={{ ...tableCellSx }}>
-                                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                                    Equipment
-                                    <IconButton size="small" onClick={handleFilterClick}>
-                                        <FilterListIcon sx={{ color: "white" }} />
-                                    </IconButton>
-                                </Box>
+          <TableHead>
+            <TableRow sx={{ bgcolor: "#53B8CA" }}>
+              {/* Equipment column with dropdown */}
+              <TableCell align="left" sx={{ ...tableCellSx }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel direction={sort} sx={{ ...tableCellSort }}>
+                    Sr No
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
+              <TableCell align="left" sx={{ ...tableCellSx }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  Equipment
+                  <IconButton size="small" onClick={handleFilterClick}>
+                    <FilterListIcon sx={{ color: "white" }} />
+                  </IconButton>
+                </Box>
 
-                                {/* Filter popper with RadioGroup */}
-                                <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start">
-                                    <ClickAwayListener onClickAway={handleCancel}>
-                                        <Box
-                                            sx={{
-                                                p: 2,
-                                                bgcolor: "white",
-                                                boxShadow: 3,
-                                                borderRadius: 2,
-                                                minWidth: 200,
-                                                zIndex: 10
-                                            }}
-                                        >
-                                            <RadioGroup
-                                                value={equipmentFilterName}
-                                                onChange={(e) => {
-                                                    setEquipmentFilterName(e.target.value);
-                                                    setAnchorEl(null); // auto-close popper
-                                                }}
-                                            >
-                                                {Object.keys(equipment_types).map((option) => (
-                                                    <FormControlLabel
-                                                        key={option}
-                                                        value={equipment_types?.[option]}
-                                                        control={<Radio size="small" />}
-                                                        label={option}
-                                                        sx={{ textTransform: "uppercase" }}
-                                                    />
-                                                ))}
-                                            </RadioGroup>
-                                        </Box>
-                                    </ClickAwayListener>
-                                </Popper>
-                            </TableCell>
+                {/* Filter popper with RadioGroup */}
+                <Popper
+                  open={Boolean(anchorEl)}
+                  anchorEl={anchorEl}
+                  placement="bottom-start"
+                >
+                  <ClickAwayListener onClickAway={handleCancel}>
+                    <Box
+                      sx={{
+                        p: 2,
+                        bgcolor: "white",
+                        boxShadow: 3,
+                        borderRadius: 2,
+                        minWidth: 200,
+                        zIndex: 10,
+                      }}
+                    >
+                      <RadioGroup
+                        value={equipmentFilterName}
+                        onChange={(e) => {
+                          setEquipmentFilterName(e.target.value);
+                          setAnchorEl(null); // auto-close popper
+                        }}
+                      >
+                        {Object.keys(equipment_types).map((option) => (
+                          <FormControlLabel
+                            key={option}
+                            value={equipment_types?.[option]}
+                            control={<Radio size="small" />}
+                            label={option}
+                            sx={{ textTransform: "uppercase" }}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </Box>
+                  </ClickAwayListener>
+                </Popper>
+              </TableCell>
 
-                            {/* Other columns with sort icons */}
-                            {[
-                                "Serial No.",
-                                "Location",
-                                "Location Code",
-                                "Site Type",
-                                "Warranty",
-                                "Condition",
-                                "Status",
-                                "Details",
-                            ].map((label) => (
-                                <TableCell key={label} align="left" sx={{ ...tableCellSx }}>
-                                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                                        <TableSortLabel
-                                            onClick={() => handleSort(label)}
-                                            direction={sort}
-                                            sx={{ ...tableCellSort }}
-                                        >
-                                            {label}
-                                        </TableSortLabel>
-                                    </Box>
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
+              {/* Other columns with sort icons */}
+              {[
+                "Serial No.",
+                "Location",
+                "Location Code",
+                "Site Type",
+                "Warranty",
+                "Condition",
+                "Status",
+                "Details",
+              ].map((label) => (
+                <TableCell key={label} align="left" sx={{ ...tableCellSx }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <TableSortLabel
+                      onClick={() => handleSort(label)}
+                      direction={sort}
+                      sx={{ ...tableCellSort }}
+                    >
+                      {label}
+                    </TableSortLabel>
+                  </Box>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
 
           <TableBody>
             {/* {hotoServeyBlockDataReducer?.hoto_servey_data?.data?.data?.map(
@@ -647,13 +667,15 @@ const Assets_Portfolio_List = () => {
                 );
               }
             )} */}
-            <TableCell align="left"
+            <TableCell
+              align="left"
               colSpan={10}
               sx={{
                 textAlign: "center",
                 verticalAlign: "middle",
-                textTransform: "capitalize"
-              }}>
+                textTransform: "capitalize",
+              }}
+            >
               No Data Found!
             </TableCell>
           </TableBody>
@@ -683,184 +705,284 @@ const Assets_Portfolio_List = () => {
           equipment_show={equipment_show}
           handleClose={handleClose}
           equipment_details={equipment_show?.equipment_details}
-          TransferRecTable={<>
-            <Div>
-              <Div sx={{ mt: 2, mb: 4 }}>
-                <Typography variant="h5" sx={{ fontWeight: 500 }}>Transfer</Typography>
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} size="small" >
-                    <TableHead>
-                      <TableRow sx={{ bgcolor: "#53B8CA" }}>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Equipment</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.companyType`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Type</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.companyType`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Serial No.</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "160px" }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.companyType`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Transfer Type</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "160px" }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.commissionPercentage`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Transfer From</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.commissionPercentage`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Transfer To</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "160px" }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.commissionPercentage`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Transfer Date</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.commissionPercentage`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Received By</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          Status
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          Remark
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="left"
-                          colSpan={10}
-                          sx={{
-                            textAlign: "center",
-                            verticalAlign: "middle",
-                            textTransform: "capitalize"
-                          }}>
-                          No Data Found!
-                        </TableCell>
-
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Div>
+          TransferRecTable={
+            <>
               <Div>
-                <Typography variant="h5" sx={{ fontWeight: 500 }}>Repair</Typography>
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} size="small" >
-                    <TableHead>
-                      <TableRow sx={{ bgcolor: "#53B8CA" }}>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.marketExecutiveId.current_data.contact_person_details.first_name`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Equipment</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.companyType`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Type</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.companyType`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Serial No.</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "160px" }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.companyType`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Vendor</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "160px" }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.commissionPercentage`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Sent Date</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.commissionPercentage`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Estimated Repair Days</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "180px" }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.commissionPercentage`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Estimated Date</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          Status
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "180px" }}>
-                          <TableSortLabel
-                            onClick={() => handleSort(`current_data.commissionPercentage`)}
-                            direction={sort}
-                            sx={{ ...tableCellSort }}
-                          >Issue Reported</TableSortLabel>
-                        </TableCell>
-                        <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                          Remark
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="left"
-                          colSpan={10}
-                          sx={{
-                            textAlign: "center",
-                            verticalAlign: "middle",
-                            textTransform: "capitalize"
-                          }}>
-                          No Data Found!
-                        </TableCell>
-
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                <Div sx={{ mt: 2, mb: 4 }}>
+                  <Typography variant="h5" sx={{ fontWeight: 500 }}>
+                    Transfer
+                  </Typography>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} size="small">
+                      <TableHead>
+                        <TableRow sx={{ bgcolor: "#53B8CA" }}>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(
+                                  `current_data.marketExecutiveId.current_data.contact_person_details.first_name`
+                                )
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Equipment
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.companyType`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Type
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.companyType`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Serial No.
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell
+                            align={"left"}
+                            sx={{ ...tableCellSx, minWidth: "160px" }}
+                          >
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.companyType`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Transfer Type
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell
+                            align={"left"}
+                            sx={{ ...tableCellSx, minWidth: "160px" }}
+                          >
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.commissionPercentage`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Transfer From
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.commissionPercentage`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Transfer To
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell
+                            align={"left"}
+                            sx={{ ...tableCellSx, minWidth: "160px" }}
+                          >
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.commissionPercentage`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Transfer Date
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.commissionPercentage`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Received By
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            Status
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            Remark
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell
+                            align="left"
+                            colSpan={10}
+                            sx={{
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                              textTransform: "capitalize",
+                            }}
+                          >
+                            No Data Found!
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Div>
+                <Div>
+                  <Typography variant="h5" sx={{ fontWeight: 500 }}>
+                    Repair
+                  </Typography>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} size="small">
+                      <TableHead>
+                        <TableRow sx={{ bgcolor: "#53B8CA" }}>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(
+                                  `current_data.marketExecutiveId.current_data.contact_person_details.first_name`
+                                )
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Equipment
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.companyType`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Type
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.companyType`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Serial No.
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell
+                            align={"left"}
+                            sx={{ ...tableCellSx, minWidth: "160px" }}
+                          >
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.companyType`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Vendor
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell
+                            align={"left"}
+                            sx={{ ...tableCellSx, minWidth: "160px" }}
+                          >
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.commissionPercentage`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Sent Date
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell
+                            align={"left"}
+                            sx={{ ...tableCellSx, minWidth: "220px" }}
+                          >
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.commissionPercentage`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Estimated Repair Days
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell
+                            align={"left"}
+                            sx={{ ...tableCellSx, minWidth: "180px" }}
+                          >
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.commissionPercentage`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Estimated Date
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            Status
+                          </TableCell>
+                          <TableCell
+                            align={"left"}
+                            sx={{ ...tableCellSx, minWidth: "180px" }}
+                          >
+                            <TableSortLabel
+                              onClick={() =>
+                                handleSort(`current_data.commissionPercentage`)
+                              }
+                              direction={sort}
+                              sx={{ ...tableCellSort }}
+                            >
+                              Issue Reported
+                            </TableSortLabel>
+                          </TableCell>
+                          <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                            Remark
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell
+                            align="left"
+                            colSpan={10}
+                            sx={{
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                              textTransform: "capitalize",
+                            }}
+                          >
+                            No Data Found!
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Div>
               </Div>
-            </Div>
-          </>}
+            </>
+          }
         >
           <Box>
             <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
@@ -881,4 +1003,4 @@ const Assets_Portfolio_List = () => {
   );
 };
 
-export default Assets_Portfolio_List
+export default Assets_Portfolio_List;

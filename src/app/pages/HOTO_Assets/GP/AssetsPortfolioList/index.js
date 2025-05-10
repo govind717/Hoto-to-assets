@@ -405,12 +405,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   size="small"
                 />
               </TableCell> */}
-              <TableCell align="left" sx={{ ...tableCellSx }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                  <TableSortLabel direction={sort} sx={{ ...tableCellSx }}>
-                    Sr No
-                  </TableSortLabel>
-                </Box>
+              <TableCell align="left" sx={{ ...tableCellSx, minWidth: "80px" }}>
+                Sr No
               </TableCell>
 
               <TableCell align="left" sx={{ ...tableCellSx }}>
@@ -440,7 +436,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("gp_details.gp_name")}
+                    onClick={() =>
+                      handleSort("equipment_details.location_name")
+                    }
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -452,7 +450,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("gp_details.gp_code")}
+                    onClick={() =>
+                      handleSort("equipment_details.location_code")
+                    }
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -460,7 +460,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   </TableSortLabel>
                 </Box>
               </TableCell>
-
+              {/* 
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
@@ -471,7 +471,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     Site Type
                   </TableSortLabel>
                 </Box>
-              </TableCell>
+              </TableCell> */}
 
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
@@ -496,7 +496,17 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   </TableSortLabel>
                 </Box>
               </TableCell>
-
+              <TableCell align="left" sx={{ ...tableCellSx }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("issued_for")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Issued For
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
@@ -560,7 +570,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableRow>
                 <TableCell
                   colSpan={14}
-                  sx={{ textAlign: "center",  fontSize: 14 }}
+                  sx={{ textAlign: "center", fontSize: 14 }}
                 >
                   No Data Found
                 </TableCell>

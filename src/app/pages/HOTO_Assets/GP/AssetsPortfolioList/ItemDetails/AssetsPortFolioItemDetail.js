@@ -39,21 +39,22 @@ const GpAssetsDetail = () => {
           {/* Left column */}
           <Grid item xs={12} md={6}>
             <Typography>
-              <strong>GP :</strong> {state?.gp_details?.gp_name || "-"}
+              <strong>GP :</strong> {state?.equipment_details?.location_name || "-"}
             </Typography>
             <Typography>
-              <strong>Block :</strong> {state?.gp_details?.block?.name || "-"}
+              <strong>Block :</strong>{" "}
+              {state?.equipment_details?.block?.name || "-"}
             </Typography>
             <Typography>
               <strong>District :</strong>{" "}
-              {state?.gp_details?.district?.name || "-"}
+              {state?.equipment_details?.district?.name || "-"}
             </Typography>
             <Typography>
               <strong>POP Type :</strong> - Block
             </Typography>
             <Typography>
               <strong>Address :</strong>{" "}
-              {state?.gp_detail?.district?.name || "-"}
+              {state?.equipment_details?.district?.name || "-"}
             </Typography>
           </Grid>
 
@@ -67,21 +68,24 @@ const GpAssetsDetail = () => {
           {/* Right column */}
           <Grid item xs={12} md={5}>
             <Typography>
-              <strong>GP Code :</strong> {state?.gp_details?.gp_code || "-"}
+              <strong>GP Code :</strong>{" "}
+              {state?.equipment_details?.location_code || "-"}
             </Typography>
             <Typography>
-              <strong>Block Code :</strong> {state?.gp_details?.block_id || "-"}
+              <strong>Block Code :</strong>{" "}
+              {state?.equipment_details?.block_id || "-"}
             </Typography>
             <Typography>
               <strong>District Code :</strong>{" "}
-              {state?.gp_details?.district_id || "-"}
+              {state?.equipment_details?.district_id || "-"}
             </Typography>
             <Typography>
               <strong>Landmark :</strong> -
             </Typography>
             <Typography>
-              <strong>Lat & Long :</strong> {state?.gp_details?.latitude || "-"}
-              , {state?.gp_details?.longitude || "-"}
+              <strong>Lat & Long :</strong>{" "}
+              {state?.equipment_details?.latitude || "-"},{" "}
+              {state?.equipment_details?.longitude || "-"}
             </Typography>
           </Grid>
         </Grid>

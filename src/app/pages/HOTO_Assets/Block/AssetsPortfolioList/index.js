@@ -435,7 +435,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("block_details.block.name")}
+                    onClick={() =>
+                      handleSort("equipment_details.location_name")
+                    }
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -447,7 +449,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
-                    onClick={() => handleSort("block_details.block_id")}
+                    onClick={() =>
+                      handleSort("equipment_details?.location_code")
+                    }
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
@@ -487,6 +491,17 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     sx={{ ...tableCellSx }}
                   >
                     Condition
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
+              <TableCell align="left" sx={{ ...tableCellSx }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("issued_for")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Issued For
                   </TableSortLabel>
                 </Box>
               </TableCell>

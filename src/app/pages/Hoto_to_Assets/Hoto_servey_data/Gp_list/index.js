@@ -16,7 +16,8 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField, Typography,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { hoto_servey_data_disptach } from "app/redux/actions/Hoto_to_servey";
 import { debounce } from "lodash";
@@ -48,7 +49,7 @@ const tableCellSort = {
 };
 
 const Gp_list = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -144,7 +145,13 @@ const Gp_list = () => {
     <>
       {hotoServeyDataReducer?.loading && <FullScreenLoader />}
 
-      <Div sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <Div
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <TextField
           id="search"
           type="search"
@@ -176,7 +183,13 @@ const Gp_list = () => {
           }}
         />
         <Div>
-          <Button variant="outlined" size="medium" startIcon={<CloudDownloadOutlined color="action" />}><Typography color="ButtonText">Export</Typography></Button>
+          <Button
+            variant="outlined"
+            size="medium"
+            startIcon={<CloudDownloadOutlined color="action" />}
+          >
+            <Typography color="ButtonText">Export</Typography>
+          </Button>
         </Div>
         <Div sx={{ my: "2%" }}>
           <DownloadFullEquipmentExcel

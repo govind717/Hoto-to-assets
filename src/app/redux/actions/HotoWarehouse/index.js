@@ -1,6 +1,6 @@
 import { hoto_warehouse_apis } from "app/Apis/hoto_assest";
 import { Axios } from "index";
-import { HOTO_WAREHOUSE_ASSETS_DATA_FAILED, HOTO_WAREHOUSE_ASSETS_DATA_REQUEST, HOTO_WAREHOUSE_ASSETS_DATA_SUCCESS, HOTO_WAREHOUSE_INWARD_ASSETS_DATA_FAILED, HOTO_WAREHOUSE_INWARD_ASSETS_DATA_REQUEST, HOTO_WAREHOUSE_INWARD_ASSETS_DATA_SUCCESS, HOTO_WAREHOUSE_MAINTENANCE_DATA_FAILED, HOTO_WAREHOUSE_MAINTENANCE_DATA_REQUEST, HOTO_WAREHOUSE_MAINTENANCE_DATA_SUCCESS, HOTO_WAREHOUSE_REPLACEMENT_DATA_FAILED, HOTO_WAREHOUSE_REPLACEMENT_DATA_REQUEST, HOTO_WAREHOUSE_REPLACEMENT_DATA_SUCCESS, HOTO_WAREHOUSE_TRANSFER_DATA_FAILED, HOTO_WAREHOUSE_TRANSFER_DATA_REQUEST, HOTO_WAREHOUSE_TRANSFER_DATA_SUCCESS } from "./constants";
+import { OUT_HOTO_WAREHOUSE_ASSETS_DATA_FAILED, OUT_HOTO_WAREHOUSE_ASSETS_DATA_REQUEST, OUT_HOTO_WAREHOUSE_ASSETS_DATA_SUCCESS, HOTO_WAREHOUSE_INWARD_ASSETS_DATA_FAILED, HOTO_WAREHOUSE_INWARD_ASSETS_DATA_REQUEST, HOTO_WAREHOUSE_INWARD_ASSETS_DATA_SUCCESS, HOTO_WAREHOUSE_MAINTENANCE_DATA_FAILED, HOTO_WAREHOUSE_MAINTENANCE_DATA_REQUEST, HOTO_WAREHOUSE_MAINTENANCE_DATA_SUCCESS, HOTO_WAREHOUSE_REPLACEMENT_DATA_FAILED, HOTO_WAREHOUSE_REPLACEMENT_DATA_REQUEST, HOTO_WAREHOUSE_REPLACEMENT_DATA_SUCCESS, HOTO_WAREHOUSE_TRANSFER_DATA_FAILED, HOTO_WAREHOUSE_TRANSFER_DATA_REQUEST, HOTO_WAREHOUSE_TRANSFER_DATA_SUCCESS, OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_REQUEST, OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_SUCCESS, OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_FAILED, OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_REQUEST, OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_SUCCESS, OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_FAILED, OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_REQUEST, OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_SUCCESS, OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_FAILED, OUT_HOTO_WAREHOUSE_TRANSFER_DATA_REQUEST, OUT_HOTO_WAREHOUSE_TRANSFER_DATA_SUCCESS, OUT_HOTO_WAREHOUSE_TRANSFER_DATA_FAILED } from "./constants";
 
 export const hoto_warehouse_assets_data_disptach = function ({
   page = 1,
@@ -19,21 +19,21 @@ export const hoto_warehouse_assets_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_WAREHOUSE_ASSETS_DATA_REQUEST });
+      dispatch({ type: OUT_HOTO_WAREHOUSE_ASSETS_DATA_REQUEST });
 
       const response = await Axios.post(
         `${hoto_warehouse_apis?.assets?.listing}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_WAREHOUSE_ASSETS_DATA_SUCCESS,
+        type: OUT_HOTO_WAREHOUSE_ASSETS_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_WAREHOUSE_ASSETS_DATA_FAILED,
+        type: OUT_HOTO_WAREHOUSE_ASSETS_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }
@@ -65,21 +65,21 @@ export const hoto_warehouse_inward_assets_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_WAREHOUSE_INWARD_ASSETS_DATA_REQUEST });
+      dispatch({ type: OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_REQUEST });
 
       const response = await Axios.post(
         `${hoto_warehouse_apis?.inward_assets?.listing}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_WAREHOUSE_INWARD_ASSETS_DATA_SUCCESS,
+        type: OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_WAREHOUSE_INWARD_ASSETS_DATA_FAILED,
+        type: OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }
@@ -87,7 +87,7 @@ export const hoto_warehouse_inward_assets_data_disptach = function ({
 };
 
 
-export const hoto_warehouse_maintenance_data_disptach = function ({
+export const out_hoto_warehouse_maintenance_data_disptach = function ({
   page = 1,
   search_value = "",
   sort = "",
@@ -117,21 +117,21 @@ export const hoto_warehouse_maintenance_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_WAREHOUSE_MAINTENANCE_DATA_REQUEST });
+      dispatch({ type: OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_REQUEST });
 
       const response = await Axios.post(
         `${hoto_warehouse_apis?.maintenance?.listing}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_WAREHOUSE_MAINTENANCE_DATA_SUCCESS,
+        type: OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_WAREHOUSE_MAINTENANCE_DATA_FAILED,
+        type: OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }
@@ -139,7 +139,7 @@ export const hoto_warehouse_maintenance_data_disptach = function ({
 };
 
 
-export const hoto_warehouse_replacement_data_disptach = function ({
+export const out_hoto_warehouse_replacement_data_disptach = function ({
   page = 1,
   search_value = "",
   sort = "",
@@ -166,21 +166,21 @@ export const hoto_warehouse_replacement_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_WAREHOUSE_REPLACEMENT_DATA_REQUEST });
+      dispatch({ type: OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_REQUEST });
 
       const response = await Axios.post(
         `${hoto_warehouse_apis?.replacement?.listing}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_WAREHOUSE_REPLACEMENT_DATA_SUCCESS,
+        type: OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_WAREHOUSE_REPLACEMENT_DATA_FAILED,
+        type: OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }
@@ -188,7 +188,7 @@ export const hoto_warehouse_replacement_data_disptach = function ({
 };
 
 
-export const hoto_warehouse_transfer_data_disptach = function ({
+export const out_hoto_warehouse_transfer_data_disptach = function ({
   page = 1,
   search_value = "",
   sort = "",
@@ -216,21 +216,21 @@ export const hoto_warehouse_transfer_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_WAREHOUSE_TRANSFER_DATA_REQUEST });
+      dispatch({ type: OUT_HOTO_WAREHOUSE_TRANSFER_DATA_REQUEST});
 
       const response = await Axios.post(
         `${hoto_warehouse_apis?.transfer?.listing}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_WAREHOUSE_TRANSFER_DATA_SUCCESS,
+        type: OUT_HOTO_WAREHOUSE_TRANSFER_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_WAREHOUSE_TRANSFER_DATA_FAILED,
+        type: OUT_HOTO_WAREHOUSE_TRANSFER_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }

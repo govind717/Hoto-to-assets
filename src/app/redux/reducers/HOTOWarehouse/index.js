@@ -1,4 +1,4 @@
-import { HOTO_WAREHOUSE_ASSETS_DATA_FAILED, HOTO_WAREHOUSE_ASSETS_DATA_REQUEST, HOTO_WAREHOUSE_ASSETS_DATA_SUCCESS, HOTO_WAREHOUSE_INWARD_ASSETS_DATA_FAILED, HOTO_WAREHOUSE_INWARD_ASSETS_DATA_REQUEST, HOTO_WAREHOUSE_INWARD_ASSETS_DATA_SUCCESS, HOTO_WAREHOUSE_MAINTENANCE_DATA_FAILED, HOTO_WAREHOUSE_MAINTENANCE_DATA_REQUEST, HOTO_WAREHOUSE_MAINTENANCE_DATA_SUCCESS, HOTO_WAREHOUSE_REPLACEMENT_DATA_FAILED, HOTO_WAREHOUSE_REPLACEMENT_DATA_REQUEST, HOTO_WAREHOUSE_REPLACEMENT_DATA_SUCCESS, HOTO_WAREHOUSE_TRANSFER_DATA_FAILED, HOTO_WAREHOUSE_TRANSFER_DATA_REQUEST, HOTO_WAREHOUSE_TRANSFER_DATA_SUCCESS } from "app/redux/actions/HotoWarehouse/constants";
+import { OUT_HOTO_WAREHOUSE_ASSETS_DATA_FAILED, OUT_HOTO_WAREHOUSE_ASSETS_DATA_REQUEST, OUT_HOTO_WAREHOUSE_ASSETS_DATA_SUCCESS, OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_FAILED, OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_REQUEST, OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_SUCCESS, OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_FAILED, OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_REQUEST, OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_SUCCESS, OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_FAILED, OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_REQUEST, OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_SUCCESS, OUT_HOTO_WAREHOUSE_TRANSFER_DATA_FAILED, OUT_HOTO_WAREHOUSE_TRANSFER_DATA_REQUEST, OUT_HOTO_WAREHOUSE_TRANSFER_DATA_SUCCESS } from "app/redux/actions/HotoWarehouse/constants";
 
 const INTI_STATE = {
     loading: false,
@@ -8,20 +8,20 @@ const INTI_STATE = {
 }
 
 
-export const hotoWarehouseAssetsDataReducer = (state = INTI_STATE, action) => {
+export const outhotoWarehouseAssetsDataReducer = (state = INTI_STATE, action) => {
     switch (action.type) {
-      case HOTO_WAREHOUSE_ASSETS_DATA_REQUEST:
+      case OUT_HOTO_WAREHOUSE_ASSETS_DATA_REQUEST:
         return {
           ...state,
           loading: true,
         };
-      case HOTO_WAREHOUSE_ASSETS_DATA_SUCCESS:
+      case OUT_HOTO_WAREHOUSE_ASSETS_DATA_SUCCESS:
         return {
           ...state,
           data: action.payload.data,
           loading: false,
         };
-      case HOTO_WAREHOUSE_ASSETS_DATA_FAILED:
+      case OUT_HOTO_WAREHOUSE_ASSETS_DATA_FAILED:
         return {
           user_data: {},
           error: true,
@@ -34,20 +34,20 @@ export const hotoWarehouseAssetsDataReducer = (state = INTI_STATE, action) => {
 };
 
 
-export const hotoWarehouseInwardAssetsDataReducer = (state = INTI_STATE, action) => {
+export const outhotoWarehouseInwardAssetsDataReducer = (state = INTI_STATE, action) => {
   switch (action.type) {
-    case HOTO_WAREHOUSE_INWARD_ASSETS_DATA_REQUEST:
+    case OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case HOTO_WAREHOUSE_INWARD_ASSETS_DATA_SUCCESS:
+    case OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_SUCCESS:
       return {
         ...state,
         data: action.payload.data,
         loading: false,
       };
-    case HOTO_WAREHOUSE_INWARD_ASSETS_DATA_FAILED:
+    case OUT_HOTO_WAREHOUSE_INWARD_ASSETS_DATA_FAILED:
       return {
         data: {},
         error: true,
@@ -59,20 +59,20 @@ export const hotoWarehouseInwardAssetsDataReducer = (state = INTI_STATE, action)
   }
 };
 
-export const hotoWarehouseMaintenanceDataReducer = (state = INTI_STATE, action) => {
+export const outhotoWarehouseMaintenanceDataReducer = (state = INTI_STATE, action) => {
   switch (action.type) {
-    case HOTO_WAREHOUSE_MAINTENANCE_DATA_REQUEST:
+    case OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case HOTO_WAREHOUSE_MAINTENANCE_DATA_SUCCESS:
+    case OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_SUCCESS:
       return {
         ...state,
         data: action.payload.data,
         loading: false,
       };
-    case HOTO_WAREHOUSE_MAINTENANCE_DATA_FAILED:
+    case OUT_HOTO_WAREHOUSE_MAINTENANCE_DATA_FAILED:
       return {
         data: {},
         error: true,
@@ -84,20 +84,20 @@ export const hotoWarehouseMaintenanceDataReducer = (state = INTI_STATE, action) 
   }
 };
 
-export const hotoWarehouseReplacementDataReducer = (state = INTI_STATE, action) => {
+export const outhotoWarehouseReplacementDataReducer = (state = INTI_STATE, action) => {
   switch (action.type) {
-    case HOTO_WAREHOUSE_REPLACEMENT_DATA_REQUEST:
+    case OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case HOTO_WAREHOUSE_REPLACEMENT_DATA_SUCCESS:
+    case OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_SUCCESS:
       return {
         ...state,
         data: action.payload.data,
         loading: false,
       };
-    case HOTO_WAREHOUSE_REPLACEMENT_DATA_FAILED:
+    case OUT_HOTO_WAREHOUSE_REPLACEMENT_DATA_FAILED:
       return {
         data: {},
         error: true,
@@ -109,20 +109,20 @@ export const hotoWarehouseReplacementDataReducer = (state = INTI_STATE, action) 
   }
 };
 
-export const hotoWarehousetransferDataReducer = (state = INTI_STATE, action) => {
+export const outhotoWarehousetransferDataReducer = (state = INTI_STATE, action) => {
   switch (action.type) {
-    case HOTO_WAREHOUSE_TRANSFER_DATA_REQUEST:
+    case OUT_HOTO_WAREHOUSE_TRANSFER_DATA_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case HOTO_WAREHOUSE_TRANSFER_DATA_SUCCESS:
+    case OUT_HOTO_WAREHOUSE_TRANSFER_DATA_SUCCESS:
       return {
         ...state,
         data: action.payload.data,
         loading: false,
       };
-    case HOTO_WAREHOUSE_TRANSFER_DATA_FAILED:
+    case OUT_HOTO_WAREHOUSE_TRANSFER_DATA_FAILED:
       return {
         data: {},
         error: true,

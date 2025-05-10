@@ -183,7 +183,11 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() =>
+                    handleSort(
+                      `gp_asset_details.equipment_details.location_name`
+                    )
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -195,7 +199,11 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() =>
+                    handleSort(
+                      `gp_asset_details.equipment_details.location_code`
+                    )
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -362,7 +370,8 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp_asset_details?.gp_details?.gp_name || "-"}
+                        {ele?.gp_asset_details?.equipment_details
+                          ?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -372,7 +381,8 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp_asset_details?.gp_details?.gp_code || "-"}
+                        {ele?.gp_asset_details?.equipment_details
+                          ?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -432,7 +442,7 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.replacementStatus || "-"}
+                        {ele?.replacementStatus?.replaceAll("_"," ") || "-"}
                       </TableCell>
 
                       <TableCell

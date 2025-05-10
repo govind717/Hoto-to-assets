@@ -21,7 +21,12 @@ import { useNavigate } from "react-router-dom";
 import AssignViewModal from "./Modal/AssignViewModal";
 import moment from "moment";
 import InfoIcon from "@mui/icons-material/Info";
-import { Blue, Green, orangeSecondary, Yellow } from "app/pages/Constants/colors";
+import {
+  Blue,
+  Green,
+  orangeSecondary,
+  Yellow,
+} from "app/pages/Constants/colors";
 import Div from "@jumbo/shared/Div";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
@@ -46,16 +51,16 @@ const tableCellSort = {
   },
 };
 const ReplacementAssignRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [row,setRow]=useState(null);
-  const [open,setOpen]=useState(false);
+  const [row, setRow] = useState(null);
+  const [open, setOpen] = useState(false);
   const { oandmGpReplacementRequestAssignDataReducer } = useSelector(
     (state) => state
   );
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -103,47 +108,43 @@ const ReplacementAssignRequest = () => {
     );
   }, [sort, page, sortBy, dispatch]);
 
-  const closeModal = () =>{
+  const closeModal = () => {
     setOpen(false);
-  }
-  const showDetails = (data)=>{
-     setRow(data);
-     setOpen(true);
   };
-  const statusOptions = [
-      "installed",
-      "in_transit",
-      "received",
-    ];
-  
-    const handleStatusChange = async (newStatus, rowData) => {
-      const body = {
-        repair_status: newStatus,
-      };
-      Axios.patch(
-        `/o&m/gp/replacement/update-status?id=${rowData?._id}&status=${newStatus}`
-      )
-        .then((res) => {
-          if (res?.data?.statusCode === 200 || res?.data?.statusCode === 201) {
-            dispatch(
-              oandm_gp_replacement_request_assign_data_disptach({
-                sortBy: sortBy,
-                search_value: searchTerm.trim(),
-                sort: sort,
-                page: page,
-              })
-            );
-          }
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            text: err?.response?.data?.message || err.message,
-          });
-          console.log("Error : ", err);
-        });
+  const showDetails = (data) => {
+    setRow(data);
+    setOpen(true);
+  };
+  const statusOptions = ["installed", "in_transit", "received"];
+
+  const handleStatusChange = async (newStatus, rowData) => {
+    const body = {
+      repair_status: newStatus,
     };
-  
+    Axios.patch(
+      `/o&m/gp/replacement/update-status?id=${rowData?._id}&status=${newStatus}`
+    )
+      .then((res) => {
+        if (res?.data?.statusCode === 200 || res?.data?.statusCode === 201) {
+          dispatch(
+            oandm_gp_replacement_request_assign_data_disptach({
+              sortBy: sortBy,
+              search_value: searchTerm.trim(),
+              sort: sort,
+              page: page,
+            })
+          );
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          text: err?.response?.data?.message || err.message,
+        });
+        console.log("Error : ", err);
+      });
+  };
+
   return (
     <>
       {oandmGpReplacementRequestAssignDataReducer?.loading && (
@@ -269,7 +270,9 @@ const ReplacementAssignRequest = () => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("block_asset_details.block_details.gp_name")
+                    handleSort(
+                      "requested_item.requested_item_details.gp_asset_details.equipment_details.location_name"
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -283,7 +286,9 @@ const ReplacementAssignRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("block_asset_details.block_details.gp_code")
+                    handleSort(
+                      "requested_item.requested_item_details.gp_asset_details.equipment_details.location_code"
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -382,11 +387,13 @@ const ReplacementAssignRequest = () => {
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details
-                        .gp_asset_details?.gp_details?.gp_name || "-"}
+                        .gp_asset_details?.equipment_details?.location_name ||
+                        "-"}
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details
-                        .gp_asset_details?.gp_details?.gp_code || "-"}
+                        .gp_asset_details?.equipment_details?.location_code ||
+                        "-"}
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details

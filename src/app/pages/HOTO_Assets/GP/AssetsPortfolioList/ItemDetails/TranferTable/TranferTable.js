@@ -37,8 +37,8 @@ const tableCellSort = {
   },
 };
 
-const TranferTable = ({row}) => {
-  const [sortBy, setSortBy] = useState("created_at");
+const TranferTable = ({ row }) => {
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -143,9 +143,7 @@ const TranferTable = ({row}) => {
           }}
         />
       </Div>
-      {hotoGpAssetPortfolioTransferDataReducer?.loading && (
-        <FullScreenLoader />
-      )}
+      {hotoGpAssetPortfolioTransferDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>

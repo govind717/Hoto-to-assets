@@ -29,7 +29,7 @@ const BlockWiseItemDetail = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
- 
+  console.log("state : ",state);
   return (
     <>
       <HotoHeader />
@@ -75,7 +75,7 @@ const BlockWiseItemDetail = () => {
             </Typography>
           </Grid>
         </Grid>
-        <AssetDetailTable data={state?.equipment_details} />
+        <AssetDetailTable data={state?.equipments} />
       </Box>
     </>
   );

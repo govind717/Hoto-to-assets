@@ -43,7 +43,7 @@ const tableCellSort = {
   },
 };
 const MaintenanceRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -209,7 +209,7 @@ const MaintenanceRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_name`)
+                    handleSort(`assets_details.location_details.location_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -223,7 +223,7 @@ const MaintenanceRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_code`)
+                    handleSort(`assets_details.location_details.location_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -376,7 +376,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details?.gp_name || "-"}
+                        {ele?.assets_details.location_details?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -386,7 +386,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details?.gp_code || "-"}
+                        {ele?.assets_details.location_details?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -463,7 +463,7 @@ const MaintenanceRequest = () => {
                         <Button
                           variant="contained"
                           size="small"
-                          disabled={!ele?.is_created || !ele?.is_cancelled}
+                          disabled={ele?.is_created || ele?.is_cancelled}
                           // startIcon={<HomeRepairServiceIcon />}
                           onClick={() => handleAssign(ele)}
                           sx={{
@@ -496,7 +496,9 @@ const MaintenanceRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={oandmGpMaintenaceRequestDataReducer?.data?.result?.total_pages || 1}
+          count={
+            oandmGpMaintenaceRequestDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

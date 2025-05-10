@@ -46,7 +46,7 @@ const tableCellSort = {
   },
 };
 const MaintenanceAssignRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -110,18 +110,22 @@ const MaintenanceAssignRequest = () => {
     setOpen(true);
   };
   const statusOptions = [
-      "installed",
-      "under_repair",
-      "repaired",
-      "assigned",
-      "not_assigned",
-    ];
-  
-    const handleStatusChange = async(newStatus, rowData) => {
-      const body = {
-       repair_status:newStatus
-      }
-      Axios.patch(`/gp-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,body).then((res) => {
+    "installed",
+    "under_repair",
+    "repaired",
+    "assigned",
+    "not_assigned",
+  ];
+
+  const handleStatusChange = async (newStatus, rowData) => {
+    const body = {
+      repair_status: newStatus,
+    };
+    Axios.patch(
+      `/gp-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,
+      body
+    )
+      .then((res) => {
         if (res?.data?.statusCode === 200) {
           dispatch(
             oandm_gp_maintenace_request_assign_data_disptach({
@@ -132,15 +136,15 @@ const MaintenanceAssignRequest = () => {
             })
           );
         }
-      }).catch((err) => {
+      })
+      .catch((err) => {
         Swal.fire({
-                  icon: "error",
-                  text: err?.response?.data?.message || err.message,
-                });
-        console.log("Error : ",err);
+          icon: "error",
+          text: err?.response?.data?.message || err.message,
+        });
+        console.log("Error : ", err);
       });
-      
-    };
+  };
   return (
     <>
       {oandmGpMaintenaceRequestAssignDataReducer?.loading && (

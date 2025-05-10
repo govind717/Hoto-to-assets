@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { Axios } from "index";
+import { hoto_block_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -30,18 +31,18 @@ function RequestMaintenanceModal({ open, handleClose, row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
 
- const initialValues = {
-     repair_type: "",
-     maintenance_type: "",
-     issue_reported: "",
-     remark: "",
-   };
-   const validationSchema = Yup.object().shape({
-     repair_type: Yup.string().required("Repair type is required"),
-     maintenance_type: Yup.string().required("Maintenance type is required"),
-     issue_reported: Yup.string().required("Issue Reported is Required"),
-     remark: Yup.string(),
-   });
+  const initialValues = {
+    repair_type: "",
+    maintenance_type: "",
+    issue_reported: "",
+    remark: "",
+  };
+  const validationSchema = Yup.object().shape({
+    repair_type: Yup.string().required("Repair type is required"),
+    maintenance_type: Yup.string().required("Maintenance type is required"),
+    issue_reported: Yup.string().required("Issue Reported is Required"),
+    remark: Yup.string(),
+  });
 
   const handleSubmit = async (values) => {
     const body = {
@@ -69,6 +70,7 @@ function RequestMaintenanceModal({ open, handleClose, row }) {
           timer: 1000,
           showConfirmButton: false,
         });
+        hoto_block_asset_partfolio_data_disptach({});
         handleClose();
       } else {
         throw new Error(res?.data?.message || "Unknown Error");

@@ -1,4 +1,3 @@
-
 import {
   Pagination,
   Paper,
@@ -33,14 +32,15 @@ const tableCellSort = {
   },
 };
 
-
 const OpenRequestList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { oandmMaterialRequestOpenRequestDataReducer } = useSelector((state) => state);
+  const { oandmMaterialRequestOpenRequestDataReducer } = useSelector(
+    (state) => state
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -91,7 +91,9 @@ const OpenRequestList = () => {
 
   return (
     <>
-      {oandmMaterialRequestOpenRequestDataReducer?.loading && <FullScreenLoader />}
+      {oandmMaterialRequestOpenRequestDataReducer?.loading && (
+        <FullScreenLoader />
+      )}
       {/* <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -207,73 +209,76 @@ const OpenRequestList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {oandmMaterialRequestOpenRequestDataReducer?.data?.result?.data?.length > 0 ? (
-              oandmMaterialRequestOpenRequestDataReducer?.data?.result?.data?.map((ele, index) => {
-                return (
-                  <TableRow key={ele?.id}>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.gp?.name || "-"}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.gp?.code || "-"}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.gp?.block?.name || "-"}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.gp?.block?.code || "-"}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.gp?.district?.name || "-"}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {ele?.gp?.district?.code || "-"}
-                    </TableCell>
-                  </TableRow>
-                );
-              })
+            {oandmMaterialRequestOpenRequestDataReducer?.data?.result?.data
+              ?.length > 0 ? (
+              oandmMaterialRequestOpenRequestDataReducer?.data?.result?.data?.map(
+                (ele, index) => {
+                  return (
+                    <TableRow key={ele?.id}>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.code || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.block?.name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.block?.code || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.district?.name || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.gp?.district?.code || "-"}
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+              )
             ) : (
               <TableCell
                 align="left"

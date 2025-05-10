@@ -25,7 +25,14 @@ import { useNavigate } from "react-router-dom";
 import AssignViewModal from "./Modal/AssignViewModal";
 import moment from "moment";
 import InfoIcon from "@mui/icons-material/Info";
-import { Blue, Green, Orange, orangeSecondary, Red, Yellow } from "app/pages/Constants/colors";
+import {
+  Blue,
+  Green,
+  Orange,
+  orangeSecondary,
+  Red,
+  Yellow,
+} from "app/pages/Constants/colors";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import FullScreenLoader from "app/pages/Components/Loader";
@@ -49,7 +56,7 @@ const tableCellSort = {
   },
 };
 const ReplacementAssignRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -113,11 +120,7 @@ const ReplacementAssignRequest = () => {
     setRow(data);
     setOpen(true);
   };
-  const statusOptions = [
-    "installed",
-    "in_transit",
-    "received",
-  ];
+  const statusOptions = ["installed", "in_transit", "received"];
 
   const handleStatusChange = async (newStatus, rowData) => {
     const body = {
@@ -274,7 +277,7 @@ const ReplacementAssignRequest = () => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("block_asset_details.block_details.gp_name")
+                    handleSort("block_asset_details.block_details.location_name")
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -288,7 +291,7 @@ const ReplacementAssignRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("block_asset_details.block_details.gp_code")
+                    handleSort("block_asset_details.block_details.location_code")
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -337,7 +340,7 @@ const ReplacementAssignRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
-                  Replace Status
+                Replace Status
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 Document
@@ -378,10 +381,10 @@ const ReplacementAssignRequest = () => {
                       ).format("DD-MM-YY") || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {ele?.block_asset_details?.block_details?.gp_name || "-"}
+                      {ele?.block_asset_details?.block_details?.location_name || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {ele?.block_asset_details?.block_details?.gp_code || "-"}
+                      {ele?.block_asset_details?.block_details?.location_code || "-"}
                     </TableCell>
                     <TableCell align="left">
                       {/* {ele?.requested_item.requested_item_details.initiatedBy ||
