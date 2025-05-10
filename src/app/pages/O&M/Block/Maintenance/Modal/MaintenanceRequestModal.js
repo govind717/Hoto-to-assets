@@ -174,7 +174,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                 >
                                   Sr No.
                                 </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
+                                <TableCell align="left" sx={{ ...tableCellSx ,minWidth:"220px"}}>
                                   Equipment
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
@@ -189,9 +189,9 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                 >
                                   Location Code
                                 </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
+                                {/* <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Site Type
-                                </TableCell>
+                                </TableCell> */}
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Warranty
                                 </TableCell>
@@ -226,7 +226,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                   }
                                 </TableCell>
 
-                                <TableCell align="left">Native Site</TableCell>
+                                {/* <TableCell align="left">Native Site</TableCell> */}
                                 <TableCell align="left">
                                   {moment(row?.warranty_date).format("YYYY")}
                                 </TableCell>

@@ -8,6 +8,13 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import {
   Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
 import Div from "@jumbo/shared/Div";
@@ -42,6 +49,13 @@ const patternBoxStyle = {
   overflow: "auto",
   whiteSpace: "pre-wrap",
   wordBreak: "break-word",
+};
+const tableCellSx = {
+  textTransform: "capitalize",
+  color: "white",
+  textAlign: "left",
+  minWidth: "150px",
+  verticalAlign: "middle",
 };
 function AssignViewModal({ open, closeModal,row }) {
   return (
@@ -142,7 +156,7 @@ function AssignViewModal({ open, closeModal,row }) {
               mb={2}
               mt={2}
             >
-              Transfer
+              Transport
             </Typography>
             <TableContainer
               sx={{
@@ -159,49 +173,85 @@ function AssignViewModal({ open, closeModal,row }) {
                       align="left"
                       sx={{ ...tableCellSx, minWidth: "100px" }}
                     >
-                      Equipment
+                      Transport
                     </TableCell>
                     <TableCell
                       align="left"
                       sx={{ ...tableCellSx, minWidth: "220px" }}
                     >
-                      Serial No.
+                      Transporter Name
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Transfer Type
+                      Vahicle No.
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Transfer From
+                      AWB No.
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      Driver Name
                     </TableCell>
                     <TableCell
                       align="left"
-                      sx={{ ...tableCellSx }}
+                      sx={{ ...tableCellSx, minWidth: "180px" }}
                     >
-                      Transfer To
+                      Driver No.
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{ ...tableCellSx, minWidth: "180px" }}
+                    >
+                      Location
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Received By
+                      Warranty
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Status
+                      Vendor Ack
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
-                      Remark
+                      Varified By
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
+                      Photo
                     </TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
                   <TableRow>
-                    <TableCell align="left">Road</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">TJS2025-05-01</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">4567856789</TableCell>
-                    
-                    <TableCell align="left">Repaired</TableCell>
-                    <TableCell align="left">in Use</TableCell>
-                    <TableCell align="left">Rajesh</TableCell>
+                    <TableCell align="left">
+                      {row?.transport_details?.transport_type || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.transport_details?.air?.transporter_name ||
+                        row?.transport_details?.road?.transporter_name ||
+                        "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.transport_details?.road?.vehicle_no || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.transport_details?.air?.awb_no || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.transport_details?.road?.driver_name || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.transport_details?.road?.driver_phone_no || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.pickupLocation || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.replacementStatus || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.initiatedBy || "-"}
+                    </TableCell>
+                    <TableCell align="left">{row?.photo || "-"}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

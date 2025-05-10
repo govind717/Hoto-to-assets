@@ -251,23 +251,15 @@ const TransferAssignRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Initiated By
-                </TableSortLabel>
+                Initiated By
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`createdAt`)}
+                  onClick={() => handleSort(`assets_details.condition`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Issue Date
+                  Condition
                 </TableSortLabel>
               </TableCell>
               <TableCell

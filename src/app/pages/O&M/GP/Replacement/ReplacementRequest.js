@@ -162,7 +162,10 @@ const ReplacementRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`replacementId`)}
                   direction={sort}
@@ -171,7 +174,10 @@ const ReplacementRequest = () => {
                   Replacement ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`issueDate`)}
                   direction={sort}
@@ -180,7 +186,7 @@ const ReplacementRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`gp_asset_details.equipment_name`)}
                   direction={sort}
@@ -455,7 +461,9 @@ const ReplacementRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmGpReplacementRequestDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

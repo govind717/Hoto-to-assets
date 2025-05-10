@@ -26,7 +26,7 @@ import MapIcon from "@mui/icons-material/Map";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
-import { hoto_gp_wise_asset_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
+import { hoto_warehouse_wise_asset_data_disptach } from "app/redux/actions/Hoto_to_servey/Warehouse";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -50,7 +50,7 @@ const BlockWiseAssetList = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { hotoGpWiseAssetDataReducer } = useSelector((state) => state);
+  const { hotoWarehouseWiseAssetDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -83,7 +83,7 @@ const BlockWiseAssetList = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_gp_wise_asset_data_disptach({
+      hoto_warehouse_wise_asset_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -105,7 +105,7 @@ const BlockWiseAssetList = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_gp_wise_asset_data_disptach({
+      hoto_warehouse_wise_asset_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -121,7 +121,7 @@ const BlockWiseAssetList = () => {
   };
   return (
     <>
-      {hotoGpWiseAssetDataReducer?.loading && <FullScreenLoader />}
+      {hotoWarehouseWiseAssetDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -133,7 +133,7 @@ const BlockWiseAssetList = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_gp_wise_asset_data_disptach({
+                hoto_warehouse_wise_asset_data_disptach({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -163,7 +163,7 @@ const BlockWiseAssetList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`location_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -172,7 +172,7 @@ const BlockWiseAssetList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`location_code`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -181,7 +181,7 @@ const BlockWiseAssetList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`block.name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -190,7 +190,7 @@ const BlockWiseAssetList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`block_id`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -200,7 +200,7 @@ const BlockWiseAssetList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`district.name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -211,7 +211,7 @@ const BlockWiseAssetList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
+                    handleSort(`district_id`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -229,8 +229,8 @@ const BlockWiseAssetList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoGpWiseAssetDataReducer?.data?.result?.data?.length > 0 ? (
-              hotoGpWiseAssetDataReducer?.data?.result?.data?.map(
+            {hotoWarehouseWiseAssetDataReducer?.data?.result?.data?.length > 0 ? (
+              hotoWarehouseWiseAssetDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>
@@ -349,7 +349,7 @@ const BlockWiseAssetList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoGpWiseAssetDataReducer?.data?.result?.total_pages || 1}
+          count={hotoWarehouseWiseAssetDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

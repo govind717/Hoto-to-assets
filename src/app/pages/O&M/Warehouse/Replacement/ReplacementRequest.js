@@ -105,7 +105,9 @@ const ReplacementRequest = () => {
  
   return (
     <>
-      {oandmWarehouseReplacementRequestDataReducer?.loading && <FullScreenLoader />}
+      {oandmWarehouseReplacementRequestDataReducer?.loading && (
+        <FullScreenLoader />
+      )}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -162,7 +164,10 @@ const ReplacementRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`replacementId`)}
                   direction={sort}
@@ -171,7 +176,10 @@ const ReplacementRequest = () => {
                   Replacement ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`issueDate`)}
                   direction={sort}
@@ -183,7 +191,7 @@ const ReplacementRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`block_asset_details.equipment_name`)
+                    handleSort(`warehouse_asset_details.equipment_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -193,7 +201,9 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`block_asset_details.serial_no`)}
+                  onClick={() =>
+                    handleSort(`warehouse_asset_details.serial_no`)
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -209,10 +219,15 @@ const ReplacementRequest = () => {
                   Due Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`block_asset_details.block_details.location_name`)
+                    handleSort(
+                      `warehouse_asset_details?.equipment_details.location_name`
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -226,7 +241,9 @@ const ReplacementRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`block_asset_details.block_details.location_code`)
+                    handleSort(
+                      `warehouse_asset_details?.equipment_details.location_code`
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -257,7 +274,9 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`block_asset_details.condition`)}
+                  onClick={() =>
+                    handleSort(`warehouse_asset_details.condition`)
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -321,7 +340,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.equipment_name || "-"}
+                        {ele?.warehouse_asset_details?.equipment_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -331,7 +350,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.serial_no || "-"}
+                        {ele?.warehouse_asset_details?.serial_no || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -351,8 +370,8 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.location_name ||
-                          "-"}
+                        {ele?.warehouse_asset_details?.equipment_details
+                          ?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -362,8 +381,8 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.location_code ||
-                          "-"}
+                        {ele?.warehouse_asset_details?.equipment_details
+                          ?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -393,7 +412,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.condition || "-"}
+                        {ele?.warehouse_asset_details?.condition || "-"}
                       </TableCell>
                       <TableCell
                         sx={{

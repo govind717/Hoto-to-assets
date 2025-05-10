@@ -197,7 +197,7 @@ const MaintenanceRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
@@ -391,7 +391,8 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details?.location_name || "-"}
+                        {ele?.assets_details.location_details?.location_name ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -401,7 +402,8 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details.location_code || "-"}
+                        {ele?.assets_details.location_details.location_code ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -456,6 +458,7 @@ const MaintenanceRequest = () => {
                       <TableCell
                         sx={{
                           ...tableBodyCell,
+                          textAlign: "center",
                         }}
                       >
                         <InfoIcon
@@ -478,9 +481,9 @@ const MaintenanceRequest = () => {
                         <Button
                           variant="contained"
                           size="small"
-                          disabled={(ele?.is_created || ele?.is_cancelled)}
+                          disabled={ele?.is_created || ele?.is_cancelled}
                           onClick={() => handleAssign(ele)}
-                          sx={{ 
+                          sx={{
                             backgroundColor: orangeSecondary,
                             "&:hover": {
                               backgroundColor: orangeSecondary,

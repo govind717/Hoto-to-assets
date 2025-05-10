@@ -33,8 +33,6 @@ import {
   Red,
   Yellow,
 } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
 import { hoto_block_maintenance_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 import moment from "moment";
 

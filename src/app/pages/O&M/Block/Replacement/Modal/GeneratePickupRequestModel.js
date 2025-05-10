@@ -254,12 +254,12 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
                                 </TableCell>
 
                                 <TableCell align="left">
-                                  {row?.block_asset_details?.block_details
-                                    ?.gp_name || "-"}
+                                  {row?.block_asset_details?.equipment_details
+                                    ?.location_name || "-"}
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.block_asset_details?.block_details
-                                    ?.gp_code || "-"}
+                                  {row?.block_asset_details?.equipment_details
+                                    ?.location_code || "-"}
                                 </TableCell>
                                 {/* <TableCell align="left">Native Site</TableCell> */}
                                 <TableCell align="left">

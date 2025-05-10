@@ -208,7 +208,10 @@ const ReplacementAssignRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(
@@ -221,7 +224,10 @@ const ReplacementAssignRequest = () => {
                   Replacement ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(
@@ -271,7 +277,10 @@ const ReplacementAssignRequest = () => {
                   Due Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort("block_asset_details.block_details.gp_name")
@@ -318,7 +327,10 @@ const ReplacementAssignRequest = () => {
                   Condition
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort("pickupLocation")}
                   direction={sort}
@@ -349,8 +361,8 @@ const ReplacementAssignRequest = () => {
           </TableHead>
 
           <TableBody>
-            {oandmWarehouseReplacementRequestAssignDataReducer?.data?.result?.data
-              ?.length > 0 ? (
+            {oandmWarehouseReplacementRequestAssignDataReducer?.data?.result
+              ?.data?.length > 0 ? (
               oandmWarehouseReplacementRequestAssignDataReducer?.data?.result?.data.map(
                 (ele, index) => (
                   <TableRow key={ele?.id}>
@@ -366,22 +378,26 @@ const ReplacementAssignRequest = () => {
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item?.requested_item_details
-                        ?.block_asset_details?.equipment_name || "-"}
+                        ?.warehouse_asset_details?.equipment_name || "-"}
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details
-                        .block_asset_details.serial_no || "-"}
+                        .warehouse_asset_details.serial_no || "-"}
                     </TableCell>
                     <TableCell align="left">
                       {moment(
-                        ele?.requested_item.requested_item_details.dueDate
+                        ele?.requested_item?.requested_item_details?.dueDate
                       ).format("DD-MM-YY") || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {ele?.block_asset_details?.block_details?.gp_name || "-"}
+                      {ele?.requested_item.requested_item_details
+                        ?.warehouse_asset_details?.equipment_details
+                        ?.location_name || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {ele?.block_asset_details?.block_details?.gp_code || "-"}
+                      {ele?.requested_item.requested_item_details
+                        ?.warehouse_asset_details?.equipment_details
+                        ?.location_code || "-"}
                     </TableCell>
                     <TableCell align="left">
                       {/* {ele?.requested_item.requested_item_details.initiatedBy ||
@@ -390,7 +406,7 @@ const ReplacementAssignRequest = () => {
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details
-                        .block_asset_details.condition || "-"}
+                        ?.warehouse_asset_details.condition || "-"}
                     </TableCell>
                     <TableCell align="left">
                       {ele?.pickupLocation || "-"}

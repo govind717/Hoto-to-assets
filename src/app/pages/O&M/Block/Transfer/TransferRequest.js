@@ -13,7 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 import FullScreenLoader from "app/pages/Components/Loader";
-import { oandm_block_maintenace_request_data_disptach, oandm_block_transfer_request_data_disptach } from "app/redux/actions/O&M/Block";
+import {  oandm_block_transfer_request_data_disptach } from "app/redux/actions/O&M/Block";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -194,7 +194,10 @@ const TransferRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
@@ -259,7 +262,10 @@ const TransferRequest = () => {
                   Location
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(`assets_details.location_details.gp_code`)
@@ -271,13 +277,7 @@ const TransferRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`initiatedBy`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Initiated By
-                </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Remark
@@ -391,7 +391,8 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.location_name || "-"}
+                        {ele?.assets_details?.location_details?.location_name ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -401,7 +402,8 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.location_code || "-"}
+                        {ele?.assets_details?.location_details?.location_code ||
+                          "-"}
                       </TableCell>
 
                       <TableCell

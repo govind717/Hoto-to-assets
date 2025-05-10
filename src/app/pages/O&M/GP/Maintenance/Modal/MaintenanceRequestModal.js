@@ -37,14 +37,14 @@ const tableCellSx = {
 function MaintenanceRequestModal({ open, closeModal,row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
-  console.log("Row13 : ",row);
   const initialValues = {
-    issue_date: "",
+    issue_date: row?.createdAt || "",
     estimate_arrival_date: "",
-    repair_type: "",
-    assign_to: "",
+    repair_type: row?.repair_type || "",
+    assign_to: row?.assign_to || "",
+    maintenance_type: row?.maintenance_type || "",
     // document: null,
-    issue_reported: "",
+    issue_reported: row?.issue_reported || "",
     remarks: "",
   };
 
@@ -250,7 +250,11 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                 setFieldValue("issue_date", e.target.value)
                               }
                               onBlur={() => setFieldTouched("issue_date", true)}
-                              value={values?.issue_date || ""}
+                              value={
+                                moment(values?.issue_date).format(
+                                  "YYYY-MM-DD"
+                                ) || "-"
+                              }
                               error={
                                 touched?.issue_date &&
                                 Boolean(errors?.issue_date)
@@ -300,6 +304,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                               onChange={(e, newValue) =>
                                 setFieldValue("repair_type", newValue || "")
                               }
+                              value={values?.repair_type || null}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
@@ -328,6 +333,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                               onChange={(e, newValue) =>
                                 setFieldValue("assign_to", newValue || "")
                               }
+                              value={values?.assign_to}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
@@ -358,6 +364,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                   newValue || ""
                                 )
                               }
+                              value={values?.maintenance_type || ""}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}

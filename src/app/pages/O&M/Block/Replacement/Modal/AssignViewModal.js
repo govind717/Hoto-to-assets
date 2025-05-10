@@ -45,7 +45,6 @@ const tableCellSx = {
   verticalAlign: "middle",
 };
 function AssignViewModal({ open, closeModal,row }) {
-
   return (
     <div>
       <Modal
@@ -89,6 +88,9 @@ function AssignViewModal({ open, closeModal,row }) {
                       Vahicle No.
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
+                      AWB No.
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...tableCellSx }}>
                       Driver Name
                     </TableCell>
                     <TableCell
@@ -97,7 +99,10 @@ function AssignViewModal({ open, closeModal,row }) {
                     >
                       Driver No.
                     </TableCell>
-                    <TableCell align="left" sx={{ ...tableCellSx, minWidth:"180px" }}>
+                    <TableCell
+                      align="left"
+                      sx={{ ...tableCellSx, minWidth: "180px" }}
+                    >
                       Location
                     </TableCell>
                     <TableCell align="left" sx={{ ...tableCellSx }}>
@@ -118,17 +123,24 @@ function AssignViewModal({ open, closeModal,row }) {
                 <TableBody>
                   <TableRow>
                     <TableCell align="left">
-                      {row?.wayOfTransport || "-"}
+                      {row?.transport_details?.transport_type || "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {row?.transporterName || "-"}
+                      {row?.transport_details?.air?.transporter_name ||
+                        row?.transport_details?.road?.transporter_name ||
+                        "-"}
                     </TableCell>
                     <TableCell align="left">
-                      {row?.vehicleNumber || "-"}
+                      {row?.transport_details?.road?.vehicle_no || "-"}
                     </TableCell>
-                    <TableCell align="left">{row?.driverName || "-"}</TableCell>
                     <TableCell align="left">
-                      {row?.driverNumber || "-"}
+                      {row?.transport_details?.air?.awb_no || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.transport_details?.road?.driver_name || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row?.transport_details?.road?.driver_phone_no || "-"}
                     </TableCell>
                     <TableCell align="left">
                       {row?.pickupLocation || "-"}

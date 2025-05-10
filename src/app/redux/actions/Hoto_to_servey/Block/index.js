@@ -38,6 +38,9 @@ export const hoto_block_asset_partfolio_data_disptach = function ({
             string: [
               "equipment_name",
               "serial_no",
+              "issued_for",
+              "condition_status",
+              "condition",
               "equipment_details.location_name",
               "equipment_details.location_code",
             ],
@@ -274,6 +277,8 @@ export const hoto_block_warehouse_data_disptach = function ({
     }
   };
 };
+
+
 export const hoto_block_maintenance_data_disptach = function ({
   page = 1,
   search_value = "",
@@ -291,6 +296,8 @@ export const hoto_block_maintenance_data_disptach = function ({
           "repair_type",
           "maintenance_type",
           "issue_reported",
+          "assets_details.condition",
+          "assets_details.condition_status",
         ],
         numbers: [],
         arrayField: [],
@@ -331,10 +338,11 @@ export const hoto_block_replacement_data_disptach = function ({
           searchFields: {
             string: [
               "replacementId",
+              // "block_asset_details.equipment_name",
               "block_asset_details.equipment_name",
               "serialNumber",
-              "block_asset_details?.block_details?.gp_name",
-              "block_asset_details?.block_details?.gp_code",
+              // "block_asset_details.equipment_details.location_name",
+              // "block_asset_details.equipment_details.location_code",
               "replacementReason",
               "initiatedBy",
             ],

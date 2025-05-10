@@ -261,7 +261,7 @@ const MaintenanceAssignRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_name`)
+                    handleSort(`assets_details.location_details.location_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -275,7 +275,7 @@ const MaintenanceAssignRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_code`)
+                    handleSort(`assets_details.location_details.location_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
