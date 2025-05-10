@@ -235,20 +235,6 @@ const TranferTable = ({ row }) => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "160px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Incharge
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
@@ -378,17 +364,6 @@ const TranferTable = ({ row }) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.block?.code || "-"}
-                      </TableCell>
-
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
                         {moment(ele?.createdAt).format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
@@ -399,7 +374,7 @@ const TranferTable = ({ row }) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.name || "-"}
+                        {ele?.transfer_status || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

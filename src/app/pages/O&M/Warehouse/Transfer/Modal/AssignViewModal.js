@@ -7,22 +7,11 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import {
-  Autocomplete,
   Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
   Typography,
 } from "@mui/material";
 import Div from "@jumbo/shared/Div";
-import Swal from "sweetalert2";
-import { useLocation, useNavigate } from "react-router-dom";
-import { LoadingButton } from "@mui/lab";
+
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -37,13 +26,7 @@ const style = {
   p: 4,
   minWidth: "1100px",
 };
-const tableCellSx = {
-  textTransform: "capitalize",
-  color: "white",
-  textAlign: "left",
-  minWidth: "150px",
-  verticalAlign: "middle",
-};
+
 const patternBoxStyle = {
   width: "100%",
   minHeight: "36px",
@@ -60,12 +43,7 @@ const patternBoxStyle = {
   whiteSpace: "pre-wrap",
   wordBreak: "break-word",
 };
-function AssignViewModal({ open, closeModal }) {
-  const navigate = useNavigate();
-  const [isSubmitting, setSubmitting] = useState(false);
-  const { state } = useLocation();
-  const handleSubmit = ({ values }) => {};
-
+function AssignViewModal({ open, closeModal,row }) {
   return (
     <div>
       <Modal
@@ -96,63 +74,65 @@ function AssignViewModal({ open, closeModal }) {
                 <Typography variant="h6" fontSize="14px">
                   Unit Size
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Make
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.gp_detail?.make || "-"} </Box>
+                <Box sx={patternBoxStyle}>
+                  {row?.assets_details?.make || "-"}{" "}
+                </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Model
                 </Typography>
                 <Box sx={patternBoxStyle}>
-                  {state?.gp_detail?.model || "-"}{" "}
+                  {row?.assets_details?.model || "-"}{" "}
                 </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Rack Positioning
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   OFC Connectivity
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   No. of Connectivity Entry
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   OFC Type
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Entry Point
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Power Socket Availability
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Single Slot/Multy Slot
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
             </Grid>
             {/* <Typography
@@ -226,7 +206,13 @@ function AssignViewModal({ open, closeModal }) {
                 </TableBody>
               </Table>
             </TableContainer> */}
-            <Div sx={{ display: "flex", justifyContent: "center",marginTop:"30px" }}>
+            <Div
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "30px",
+              }}
+            >
               <Button variant="outlined" size="small" onClick={closeModal}>
                 Cancel
               </Button>

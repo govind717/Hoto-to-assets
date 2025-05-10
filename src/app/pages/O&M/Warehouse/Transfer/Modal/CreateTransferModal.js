@@ -108,7 +108,7 @@ function CreateTransferModal({ open, closeModal, row }) {
     setSubmitting(true);
     try {
       const res = await Axios.post(
-        `/warehouse-transfer-received/received-transfer-request//${row._id}`,
+        `/warehouse-transfer-received/received-transfer-request/${row._id}`,
         body
       );
 
@@ -237,7 +237,7 @@ function CreateTransferModal({ open, closeModal, row }) {
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Transfer Type
                                 </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
+                                <TableCell align="left" sx={{ ...tableCellSx,minWidth:"220px" }}>
                                   Transfer From
                                 </TableCell>
                                 <TableCell

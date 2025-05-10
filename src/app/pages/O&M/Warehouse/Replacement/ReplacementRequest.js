@@ -212,7 +212,7 @@ const ReplacementRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`block_asset_details.block_details.gp_name`)
+                    handleSort(`block_asset_details.block_details.location_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -226,7 +226,7 @@ const ReplacementRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`block_asset_details.block_details.gp_code`)
+                    handleSort(`block_asset_details.block_details.location_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -351,7 +351,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_name ||
+                        {ele?.block_asset_details?.block_details?.location_name ||
                           "-"}
                       </TableCell>
                       <TableCell
@@ -362,7 +362,7 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_code ||
+                        {ele?.block_asset_details?.block_details?.location_code ||
                           "-"}
                       </TableCell>
                       <TableCell
@@ -421,7 +421,7 @@ const ReplacementRequest = () => {
                           variant="contained"
                           size="small"
                           // startIcon={<HomeRepairServiceIcon />}
-                          disabled={!ele?.isCancelled || !ele?.isCreated}
+                          disabled={ele?.isCancelled || ele?.isCreated}
                           onClick={() => handleAssign(ele)}
                           sx={{
                             backgroundColor: orangeSecondary,

@@ -72,7 +72,7 @@ const AssetDetailTable = ({ data }) => {
   };
   const showDetails = (data) => {
     navigate(
-      "/dashboards/hoto-survey-block-data/block-wise-details/rack-details"
+      "/dashboards/hoto-survey-warehouse-data/warehouse-wise-details/rack-details"
     );
   };
   return (

@@ -17,6 +17,7 @@ import BlockRackDetails from "app/pages/HOTO_Assets/Block/BlockWiseAssetList/Ite
 import GpRackDetails from "app/pages/HOTO_Assets/GP/BlockWiseAssetList/ItemDetails/AssetDetailTable/RackDetails/RackDetails";
 import { element } from "prop-types";
 import HotoWarehouse from "app/pages/HOTO_Assets/Warehouse";
+import WarehouseWiseItemDetail from "app/pages/HOTO_Assets/Warehouse/WarehouseWiseAssetList/ItemDetails/WarehouseWiseItemDetail";
 
 const routesName = "/dashboards/hoto-survey-data";
 
@@ -70,6 +71,7 @@ export const blockRoute = [
         path: "/dashboards/hoto-survey-block-data/block-wise-details",
         element: <Page component={BlockWiseItemDetail} />,
       },
+
       {
         path: "/dashboards/hoto-survey-block-data/block-wise-details/rack-details",
         element: <Page component={BlockRackDetails} />,
@@ -104,6 +106,14 @@ export const blockRoute = [
       {
         path: "/dashboards/hoto-survey-warehouse-data",
         element: <Page component={HotoWarehouse} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-warehouse-data/warehouse-wise-details",
+        element: <Page component={WarehouseWiseItemDetail} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-warehouse-data/warehouse-wise-details/rack-details",
+        element: <Page component={BlockRackDetails} />,
       },
     ],
   },

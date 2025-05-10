@@ -478,7 +478,7 @@ const MaintenanceRequest = () => {
                         <Button
                           variant="contained"
                           size="small"
-                          disabled={!ele?.is_created || !ele?.is_cancelled}
+                          disabled={ele?.is_created || ele?.is_cancelled}
                           onClick={() => handleAssign(ele)}
                           sx={{
                             backgroundColor: orangeSecondary,

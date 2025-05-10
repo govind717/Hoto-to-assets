@@ -37,7 +37,6 @@ const tableCellSx = {
 function MaintenanceRequestModal({ open, closeModal,row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
-  console.log("row1: ",row);
   const initialValues = {
     issue_date: "",
     estimate_arrival_date: "",
@@ -179,7 +178,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Serial No.
                                 </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
+                                <TableCell align="left" sx={{ ...tableCellSx, minWidth:"220px" }}>
                                   Location
                                 </TableCell>
                                 <TableCell
@@ -188,9 +187,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                 >
                                   Location Code
                                 </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Site Type
-                                </TableCell>
+                               
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Warranty
                                 </TableCell>
@@ -215,19 +212,18 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                 <TableCell align="left">
                                   {
                                     row?.assets_details?.location_details
-                                      ?.gp_name
+                                      ?.location_name
                                   }
                                 </TableCell>
                                 <TableCell align="left">
                                   {
                                     row?.assets_details?.location_details
-                                      ?.gp_code
+                                      ?.location_code
                                   }
                                 </TableCell>
 
-                                <TableCell align="left">Native Site</TableCell>
                                 <TableCell align="left">
-                                  {moment(row?.warranty_date).format("YYYY")}
+                                  {row?.warranty ? "Yes" : "No"}
                                 </TableCell>
                                 <TableCell align="left">
                                   {row?.assets_details?.condition}

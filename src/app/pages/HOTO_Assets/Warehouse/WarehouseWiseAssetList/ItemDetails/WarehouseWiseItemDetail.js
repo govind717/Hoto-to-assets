@@ -22,7 +22,7 @@ const patternBoxStyle = {
   whiteSpace: "pre-wrap",
   wordBreak: "break-word",
 };
-const BlockWiseItemDetail = () => {
+const WarehouseWiseItemDetail = () => {
   const { state } = useLocation();
   const [value, setValue] = useState("1");
 
@@ -75,9 +75,9 @@ const BlockWiseItemDetail = () => {
             </Typography>
           </Grid>
         </Grid>
-        <AssetDetailTable data={state?.equipment_details} />
+        <AssetDetailTable data={state?.equipments} />
       </Box>
     </>
   );
 };
-export default BlockWiseItemDetail;
+export default WarehouseWiseItemDetail;

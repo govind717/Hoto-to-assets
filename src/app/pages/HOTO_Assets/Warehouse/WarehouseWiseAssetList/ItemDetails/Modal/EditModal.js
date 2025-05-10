@@ -30,52 +30,52 @@ const style = {
 function EditModal({ open, handleClose,row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
+  console.log("Edit : ",row);
   const initialValues = {
-    equipment: "",
-    make: "",
-    model: "",
-    serialNo: "",
-    warrantyStatus: "",
-    warrantyDueDate: "", 
-    condition: "",
-    status: "",
+    equipment_name: row?.equipment_name || "",
+    make: row?.make || "",
+    model: row?.model || "",
+    serial_no: row?.serial_no || "",
+    warranty_status: row?.warranty_status || "",
+    warranty_date: row?.warranty_date ||  "",
+    condition:row?.condition ||  "",
+    condition_status: row?.condition_status || "",
     packageName: "",
   };
 
 const validationSchema = Yup.object().shape({
-  equipment: Yup.string().required("Equipment is required"),
+  equipment_name: Yup.string().required("Equipment is required"),
   make: Yup.string().required("Make is required"),
   model: Yup.string().required("Model is required"),
-  serialNo: Yup.string().required("Serial No is required"),
-  warrantyStatus: Yup.string()
-    .oneOf(["Yes", "No"], "Select a valid warranty status")
+  serial_no: Yup.string().required("Serial No is required"),
+  warranty_status: Yup.string()
     .required("Warranty Status is required"),
-  warrantyDueDate: Yup.date()
+  warranty_date: Yup.date()
     .required("Warranty Due Date is required")
     .typeError("Enter a valid date"),
   condition: Yup.string().required("Condition is required"),
-  status: Yup.string()
-    .oneOf(["in Use", "Not in Use"], "Invalid status")
+  condition_status: Yup.string()
     .required("Status is required"),
   remarks: Yup.string(),
 });
 
    const handleSubmit = async (values) => {
         const body = {
-          equipment: values?.equipment,
+          equipment_name: values?.equipment_name,
           make: values?.make,
           model: values?.model,
-          serialNo: values?.serialNo,
-          warrantyStatus: values?.warrantyStatus,
+          serial_no: values?.serial_no,
+          warranty_status: values?.warranty_status,
           condition: values?.condition,
-          status:values?.status,
+          condition_status:values?.condition_status,
+          warranty_date:values?.warranty_date,
           remarks:values?.remarks
         };
         console.log("body : ",body);
         setSubmitting(true);
         try {
-          const res = await Axios.post(
-            `/hoto-to-assets/block/equipment/update/${row._id}`,
+          const res = await Axios.patch(
+            `/hoto-to-assets/equipment/update-equipments/${row._id}`,
             body
           );
     
@@ -88,6 +88,7 @@ const validationSchema = Yup.object().shape({
               timer: 1000,
               showConfirmButton: false,
             });
+            navigate("/dashboards/hoto-survey-warehouse-data");
             handleClose();
           } else {
             throw new Error(res?.data?.message || "Unknown Error");
@@ -133,6 +134,7 @@ const validationSchema = Yup.object().shape({
                 setValues,
               }) => (
                 <Form noValidate autoComplete="off">
+                  {console.log("Values => ", values)}
                   <Div sx={{ mt: 0 }}>
                     <Div
                       sx={{
@@ -143,7 +145,7 @@ const validationSchema = Yup.object().shape({
                       }}
                     >
                       <Typography variant="h3" fontWeight={600} mb={2}>
-                        Edit Details
+                        Edit equipment_name Details
                       </Typography>
                       <Grid container rowSpacing={2} columnSpacing={3}>
                         <Grid item xs={6} md={2.4}>
@@ -154,16 +156,16 @@ const validationSchema = Yup.object().shape({
                             sx={{ width: "100%" }}
                             size="small"
                             placeholder="Enter Equipment"
-                            name="equipment"
+                            name="equipment_name"
                             onChange={(e) =>
-                              setFieldValue("equipment", e.target.value)
+                              setFieldValue("equipment_name", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("equipment", true)}
-                            value={values?.equipment}
+                            onBlur={() => setFieldTouched("equipment_name", true)}
+                            value={values?.equipment_name}
                             error={
-                              touched?.equipment && Boolean(errors?.equipment)
+                              touched?.equipment_name && Boolean(errors?.equipment_name)
                             }
-                            helperText={touched?.equipment && errors?.equipment}
+                            helperText={touched?.equipment_name && errors?.equipment_name}
                           />
                         </Grid>
                         <Grid item xs={6} md={2.4}>
@@ -210,16 +212,16 @@ const validationSchema = Yup.object().shape({
                             sx={{ width: "100%" }}
                             size="small"
                             placeholder="Enter Serial No"
-                            name="serialNo"
+                            name="serial_no"
                             onChange={(e) =>
-                              setFieldValue("serialNo", e.target.value)
+                              setFieldValue("serial_no", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("serialNo", true)}
-                            value={values?.serialNo}
+                            onBlur={() => setFieldTouched("serial_no", true)}
+                            value={values?.serial_no}
                             error={
-                              touched?.serialNo && Boolean(errors?.serialNo)
+                              touched?.serial_no && Boolean(errors?.serial_no)
                             }
-                            helperText={touched?.serialNo && errors?.serialNo}
+                            helperText={touched?.serial_no && errors?.serial_no}
                           />
                         </Grid>
                         <Grid item xs={12} md={2.4}>
@@ -229,12 +231,10 @@ const validationSchema = Yup.object().shape({
                           <Autocomplete
                             options={["Yes", "No"]}
                             getOptionLabel={(option) => option || ""}
-                            // value={}
+                            value={values.warranty_status ? "Yes" : "No"}
                             onChange={(e, newValue) => {
-                              setFieldValue(
-                                "warrantyStatus",
-                                newValue ? newValue : ""
-                              );
+                              let result = newValue === "Yes" ? true : false;
+                              setFieldValue("warranty_status", result);
                             }}
                             renderInput={(params) => (
                               <TextField
@@ -242,14 +242,14 @@ const validationSchema = Yup.object().shape({
                                 fullWidth
                                 size="small"
                                 placeholder="Select Warranty Status"
-                                name="warrantyStatus"
+                                name="warranty_status"
                                 error={
-                                  touched.warrantyStatus &&
-                                  Boolean(errors.warrantyStatus)
+                                  touched.warranty_status &&
+                                  Boolean(errors.warranty_status)
                                 }
                                 helperText={
-                                  touched.warrantyStatus &&
-                                  errors.warrantyStatus
+                                  touched.warranty_status &&
+                                  errors.warranty_status
                                 }
                               />
                             )}
@@ -263,24 +263,24 @@ const validationSchema = Yup.object().shape({
                             sx={{ width: "100%" }}
                             size="small"
                             type="date"
-                            name="warrantyDueDate"
+                            name="warranty_date"
                             onChange={(e) =>
-                              setFieldValue("warrantyDueDate", e.target.value)
+                              setFieldValue("warranty_date", e.target.value)
                             }
                             onBlur={() =>
-                              setFieldTouched("warrantyDueDate", true)
+                              setFieldTouched("warranty_date", true)
                             }
                             value={
-                              values?.warrantyDueDate ||
-                              new Date().toISOString().split("T")[0]
+                              values?.warranty_date
+                                .split("T")[0] 
                             }
                             error={
-                              touched?.warrantyDueDate &&
-                              Boolean(errors?.warrantyDueDate)
+                              touched?.warranty_date &&
+                              Boolean(errors?.warranty_date)
                             }
                             helperText={
-                              touched?.warrantyDueDate &&
-                              errors?.warrantyDueDate
+                              touched?.warranty_date &&
+                              errors?.warranty_date
                             }
                           />
                         </Grid>
@@ -296,7 +296,7 @@ const validationSchema = Yup.object().shape({
                               "Missing",
                             ]}
                             getOptionLabel={(option) => option || ""}
-                            // value={}
+                            value={values?.condition}
                             onChange={(e, newValue) => {
                               setFieldValue(
                                 "condition",
@@ -327,9 +327,9 @@ const validationSchema = Yup.object().shape({
                           <Autocomplete
                             options={["in Use", "Not in Use"]}
                             getOptionLabel={(option) => option || ""}
-                            // value={}
+                            value={values?.condition_status}
                             onChange={(e, newValue) => {
-                              setFieldValue("status", newValue ? newValue : "");
+                              setFieldValue("condition_status", newValue ? newValue : "");
                             }}
                             renderInput={(params) => (
                               <TextField
@@ -337,13 +337,9 @@ const validationSchema = Yup.object().shape({
                                 fullWidth
                                 size="small"
                                 placeholder="Select Status"
-                                name="status"
-                                error={
-                                  touched.status && Boolean(errors.status)
-                                }
-                                helperText={
-                                  touched.status && errors.status
-                                }
+                                name="condition_status"
+                                error={touched.condition_status && Boolean(errors.condition_status)}
+                                helperText={touched.condition_status && errors.condition_status}
                               />
                             )}
                           />
@@ -362,13 +358,8 @@ const validationSchema = Yup.object().shape({
                             }
                             onBlur={() => setFieldTouched("remarks", true)}
                             value={values?.remarks}
-                            error={
-                              touched?.remarks &&
-                              Boolean(errors?.remarks)
-                            }
-                            helperText={
-                              touched?.remarks && errors?.remarks
-                            }
+                            error={touched?.remarks && Boolean(errors?.remarks)}
+                            helperText={touched?.remarks && errors?.remarks}
                           />
                         </Grid>
                       </Grid>

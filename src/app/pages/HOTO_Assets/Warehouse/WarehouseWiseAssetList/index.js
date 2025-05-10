@@ -77,13 +77,7 @@ const WarehouseWiseAssetList = () => {
   //     }
   // }
 
-  const handleEquipmentDetails = function (data) {
-    navigate("/dashboards/hoto-survey-data/equipment-details", {
-      state: {
-        gp_data: data,
-      },
-    });
-  };
+ 
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -124,9 +118,12 @@ const WarehouseWiseAssetList = () => {
   }, [sort, page, sortBy, dispatch]);
 
   const showDetails = (data) => {
-    navigate("/dashboards/hoto-survey-block-data/block-wise-details", {
-      state: data,
-    });
+    navigate(
+      "/dashboards/hoto-survey-warehouse-data/warehouse-wise-details",
+      {
+        state: data,
+      }
+    );
   };
   return (
     <>

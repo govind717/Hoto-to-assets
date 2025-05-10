@@ -51,6 +51,7 @@ const TransferAssignRequest = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
+  const [row,setRow]=useState(null);
   const { oandmWarehouseTransferRequestAssignDataReducer } = useSelector(
     (state) => state
   );
@@ -106,7 +107,8 @@ const TransferAssignRequest = () => {
     setOpen(false);
   };
 
-  const showDetails =()=>{
+  const showDetails =(data)=>{
+    setRow(data)
     setOpen(true);
   }
   return (
@@ -481,7 +483,7 @@ const TransferAssignRequest = () => {
           }}
         />
       </TableContainer>
-      <AssignViewModal open={open} closeModal={closeModal} />
+      <AssignViewModal open={open} closeModal={closeModal} row={row}/>
     </>
   );
 };

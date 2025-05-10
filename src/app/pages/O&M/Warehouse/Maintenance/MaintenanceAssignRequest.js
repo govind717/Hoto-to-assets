@@ -255,7 +255,10 @@ const MaintenanceAssignRequest = () => {
                   Serial No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(`assets_details.location_details.gp_name`)
@@ -268,7 +271,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
@@ -386,8 +389,8 @@ const MaintenanceAssignRequest = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {oandmWarehouseMaintenaceRequestAssignDataReducer?.data?.result?.data
-              ?.length > 0 ? (
+            {oandmWarehouseMaintenaceRequestAssignDataReducer?.data?.result
+              ?.data?.length > 0 ? (
               oandmWarehouseMaintenaceRequestAssignDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
@@ -452,7 +455,8 @@ const MaintenanceAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_name || "-"}
+                        {ele?.assets_details?.location_details?.location_name ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -462,7 +466,8 @@ const MaintenanceAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_code || "-"}
+                        {ele?.assets_details?.location_details?.location_code ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"

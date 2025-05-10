@@ -203,7 +203,7 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`assets`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -370,7 +370,7 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_name ||
+                        {ele?.block_asset_details?.block_details?.location_name ||
                           "-"}
                       </TableCell>
                       <TableCell
@@ -381,7 +381,7 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_code ||
+                        {ele?.block_asset_details?.block_details?.location_code ||
                           "-"}
                       </TableCell>
                       <TableCell
