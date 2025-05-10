@@ -209,7 +209,7 @@ const MaintenanceRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_name`)
+                    handleSort(`assets_details.location_details.location_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -223,7 +223,7 @@ const MaintenanceRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_code`)
+                    handleSort(`assets_details.location_details.location_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -376,7 +376,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details?.gp_name || "-"}
+                        {ele?.assets_details.location_details?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -386,7 +386,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details?.gp_code || "-"}
+                        {ele?.assets_details.location_details?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

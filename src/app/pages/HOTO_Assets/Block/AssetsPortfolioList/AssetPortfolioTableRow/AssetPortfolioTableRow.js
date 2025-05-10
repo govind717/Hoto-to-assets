@@ -152,11 +152,8 @@ const AssetPortfolioTableRow = ({
 
         <TableCell
           sx={{
-            textAlign: "left",
-            px: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            ...tableBodyCell,
+            textAlign:"center"
           }}
         >
           <InfoIcon

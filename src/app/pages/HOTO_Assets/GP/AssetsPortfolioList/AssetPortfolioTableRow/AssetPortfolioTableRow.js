@@ -153,9 +153,7 @@ const AssetPortfolioTableRow = ({
         <TableCell
           sx={{
             ...tableBodyCell,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            textAlign: "center",
           }}
         >
           <InfoIcon
@@ -180,7 +178,7 @@ const AssetPortfolioTableRow = ({
                 icon: <AddCircleOutlineIcon />,
                 title: "Request Maintenance",
                 action: "issueForMaintenance",
-                show: e?.issued_for ===null,
+                show: e?.issued_for === null,
                 row: e,
               },
               {

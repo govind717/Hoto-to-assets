@@ -270,7 +270,9 @@ const ReplacementAssignRequest = () => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("block_asset_details.block_details.gp_name")
+                    handleSort(
+                      "requested_item.requested_item_details.gp_asset_details.equipment_details.location_name"
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -284,7 +286,9 @@ const ReplacementAssignRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort("block_asset_details.block_details.gp_code")
+                    handleSort(
+                      "requested_item.requested_item_details.gp_asset_details.equipment_details.location_code"
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -383,11 +387,13 @@ const ReplacementAssignRequest = () => {
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details
-                        .gp_asset_details?.gp_details?.gp_name || "-"}
+                        .gp_asset_details?.equipment_details?.location_name ||
+                        "-"}
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details
-                        .gp_asset_details?.gp_details?.gp_code || "-"}
+                        .gp_asset_details?.equipment_details?.location_code ||
+                        "-"}
                     </TableCell>
                     <TableCell align="left">
                       {ele?.requested_item.requested_item_details
