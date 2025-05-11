@@ -56,11 +56,10 @@ const addBtnStyle = {
 };
 
 const IndentList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  
 
   const { hotoServeyDataReducer } = useSelector((state) => state);
 
@@ -72,9 +71,6 @@ const IndentList = () => {
     setSortBy(property);
     setPage(1);
   };
-
-  
-
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -124,7 +120,10 @@ const IndentList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"100px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "100px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`current_data.companyType`)}
                   direction={sort}
@@ -142,7 +141,10 @@ const IndentList = () => {
                   Indent ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(`current_data.commissionPercentage`)
@@ -208,7 +210,10 @@ const IndentList = () => {
                   GP
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(`current_data.commissionPercentage`)

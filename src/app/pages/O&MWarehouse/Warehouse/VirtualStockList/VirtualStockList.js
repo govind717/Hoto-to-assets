@@ -18,7 +18,7 @@ import { oandm_warehouse_virtualstock_data_disptach } from "app/redux/actions/O&
 
 const tableCellSx = {
   textTransform: "capitalize",
-  color: "white", 
+  color: "white",
   textAlign: "left",
   minWidth: "150px",
   verticalAlign: "middle",
@@ -33,12 +33,14 @@ const tableCellSort = {
 };
 
 const VirtualStockList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { oandmWarehouseVirtualStockDataReducer } = useSelector((state) => state);
+  const { oandmWarehouseVirtualStockDataReducer } = useSelector(
+    (state) => state
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

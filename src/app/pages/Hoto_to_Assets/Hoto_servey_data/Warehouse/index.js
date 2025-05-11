@@ -56,7 +56,7 @@ const addBtnStyle = {
 };
 
 const WarehouseList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -77,8 +77,6 @@ const WarehouseList = () => {
     setSortBy(property);
     setPage(1);
   };
-
-  
 
   const handleCloseCoordinate = function () {
     setCoordinate({
@@ -240,7 +238,7 @@ const WarehouseList = () => {
                   Condition
                 </TableSortLabel>
               </TableCell>
-              
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}

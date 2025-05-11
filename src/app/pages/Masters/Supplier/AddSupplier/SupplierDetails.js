@@ -62,10 +62,10 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
     country: state?.country || "",
     state: state?.state || "",
     city: state?.city || "",
-    materials: state?.materials || [],
+    materials: state?.material_details || [],
     contactPerson: state?.contactPerson || [],
   };
-
+  console.log("state?.materials : ", state);
   const validationSchema = yup.object({
     supplierName: yup.string().required("Supplier Name is required"),
     onBoardingDate: yup.string().required("on Boarding Date is required"),
@@ -81,11 +81,11 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
     gstNo: yup.string().required("GST Number is required"),
     address: yup.string().required("Address is required"),
     state: yup.string().required("State is required"),
-    city: yup.string().required("State is required"),
-    materials: yup
-      .array()
-      .min(1, "At least one material is required")
-      .required("Material is required"),
+    city: yup.string().required("City is required"),
+    // materials: yup
+    //   .array()
+    //   .min(1, "At least one material is required")
+    //   .required("Material is required"),
 
     contactPerson: yup
       .array()
@@ -151,7 +151,16 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
     setFieldValue("contactPerson", updated);
     setContactPersons(updated);
   };
-
+  useEffect(() => {
+    if (state?.state) {
+      const stateCities = City?.getCitiesOfState(
+        "IN",
+        states?.find((s) => s.name === state?.state)?.isoCode
+      );
+      setCities(stateCities);
+    }
+  }, [state?.state]);
+  
   return (
     <Div sx={{ mt: 0 }}>
       <Formik
@@ -166,7 +175,8 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
             <Div sx={{ mt: 4 }}>
               <Grid container rowSpacing={2} columnSpacing={3}>
                 {/* Warehouse Info */}
-
+                {console.log("Values : ", values)}
+                {console.log("errors :", errors)}{" "}
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
                     Supplier Name
@@ -180,12 +190,11 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                     onChange={(e) =>
                       setFieldValue("supplierName", e.target.value)
                     }
-                    onBlur={() => setFieldTouched("supplierName")}
+                    onBlur={() => setFieldTouched("supplierName", true)}
                     error={touched.supplierName && Boolean(errors.supplierName)}
                     helperText={touched.supplierName && errors.supplierName}
                   />
                 </Grid>
-
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
                     On Boarding Date
@@ -195,14 +204,19 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                     size="small"
                     type="date"
                     name="onBoardingDate"
-                    onChange={(e) => setFieldValue("onBoardingDate", e.target.value)}
+                    onChange={(e) =>
+                      setFieldValue("onBoardingDate", e.target.value)
+                    }
                     onBlur={() => setFieldTouched("onBoardingDate", true)}
                     value={values?.onBoardingDate}
-                    error={touched?.onBoardingDate && Boolean(errors?.onBoardingDate)}
-                    helperText={touched?.onBoardingDate && errors?.onBoardingDate}
+                    error={
+                      touched?.onBoardingDate && Boolean(errors?.onBoardingDate)
+                    }
+                    helperText={
+                      touched?.onBoardingDate && errors?.onBoardingDate
+                    }
                   />
                 </Grid>
-
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
                     Phone Number
@@ -216,7 +230,7 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                     onChange={(e) =>
                       setFieldValue("phoneNumber", e.target.value)
                     }
-                    onBlur={() => setFieldTouched("phoneNumber")}
+                    onBlur={() => setFieldTouched("phoneNumber", true)}
                     error={touched.phoneNumber && Boolean(errors.phoneNumber)}
                     helperText={touched.phoneNumber && errors.phoneNumber}
                   />
@@ -269,7 +283,6 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                     helperText={touched.gstNo && errors.gstNo}
                   />
                 </Grid>
-
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
                     Address
@@ -286,7 +299,6 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                     helperText={touched.address && errors.address}
                   />
                 </Grid>
-
                 <Grid item xs={12} md={3}>
                   <Typography variant="h6" fontSize="14px" mb={0.5}>
                     State
@@ -312,7 +324,6 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                     )}
                   />
                 </Grid>
-
                 <Grid item xs={12} md={3}>
                   <Typography variant="h6" fontSize="14px" mb={0.5}>
                     City
@@ -320,7 +331,12 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                   <Autocomplete
                     options={cities}
                     getOptionLabel={(option) => option.name || ""}
-                    value={cities.find((c) => c.name === values.city) || null}
+                    // value={cities.find((c) => c.name === values.city) || state?.city}
+                    value={
+                      cities.length > 0
+                        ? cities.find((c) => c.name === values.city) || null
+                        : null
+                    }
                     onBlur={() => setFieldTouched("city")}
                     onChange={(e, newValue) => {
                       if (newValue) {
@@ -342,7 +358,6 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                     )}
                   />
                 </Grid>
-
                 <Grid item xs={12} md={3}>
                   <Typography variant="h6" fontSize="14px" mb={0.5}>
                     Material
@@ -437,7 +452,11 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                       variant="contained"
                       size="small"
                       onClick={() => handleAddContactPerson(setFieldValue)}
-                      sx={{ my: "2%", minWidth: "100%" }}
+                      sx={{
+                        my: "2%",
+                        minWidth: "100%",
+                        "&:hover": { bgcolor: "#53B8CA" },
+                      }}
                     >
                       Add
                     </Button>

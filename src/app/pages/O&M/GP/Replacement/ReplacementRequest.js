@@ -162,7 +162,10 @@ const ReplacementRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`replacementId`)}
                   direction={sort}
@@ -171,7 +174,10 @@ const ReplacementRequest = () => {
                   Replacement ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`issueDate`)}
                   direction={sort}
@@ -180,7 +186,7 @@ const ReplacementRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`gp_asset_details.equipment_name`)}
                   direction={sort}
@@ -210,7 +216,9 @@ const ReplacementRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`gp_asset_details.gp_details.gp_name`)
+                    handleSort(
+                      `gp_asset_details.equipment_details	.location_name`
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -224,7 +232,9 @@ const ReplacementRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`gp_asset_details.gp_details.gp_code`)
+                    handleSort(
+                      `gp_asset_details.equipment_details.location_code`
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -263,14 +273,14 @@ const ReplacementRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Details
+                Details
               </TableCell>
 
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                  Actions
+                Actions
               </TableCell>
             </TableRow>
           </TableHead>
@@ -349,7 +359,8 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp_asset_details?.gp_details?.gp_name || "-"}
+                        {ele?.gp_asset_details?.equipment_details
+                          ?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -359,7 +370,8 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp_asset_details?.gp_details?.gp_code || "-"}
+                        {ele?.gp_asset_details?.equipment_details
+                          ?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -417,7 +429,7 @@ const ReplacementRequest = () => {
                           variant="contained"
                           size="small"
                           // startIcon={<HomeRepairServiceIcon />}
-                          disabled={!ele?.isCancelled || !ele?.isCreated}
+                          disabled={ele?.isCancelled || ele?.isCreated}
                           onClick={() => handleAssign(ele)}
                           sx={{
                             backgroundColor: orangeSecondary,
@@ -449,7 +461,9 @@ const ReplacementRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmGpReplacementRequestDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

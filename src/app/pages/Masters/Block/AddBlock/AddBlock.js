@@ -41,15 +41,15 @@ function AddBlock() {
   });
 
   const fetchDistrictDropdown = (packageId) => {
-    Axios.get(`${MasterApis?.district?.districtDropdown}?id=${packageId}`)
+    Axios.get(`${MasterApis?.district?.districtDropdown}?_id=${packageId}`)
       .then((res) => setDistrictOptions(res?.data?.result || []))
       .catch((err) => console.error("District Fetch Error: ", err));
   };
 
   const onUserSave = async (values) => {
     const body = {
-      packageId: values?.packageName?.id,
-      districtId: values?.district?.id,
+      packageId: values?.packageName?._id,
+      districtId: values?.district?._id,
       blockName: values?.blockName,
       blockCode: values?.blockCode,
     };
@@ -141,12 +141,12 @@ function AddBlock() {
                     size="small"
                     options={packageOptions}
                     getOptionLabel={(option) => option.packageName || ""}
-                    isOptionEqualToValue={(opt, val) => opt?._id === val.id}
+                    isOptionEqualToValue={(opt, val) => opt?._id === val._id}
                     value={values.packageName}
                     onChange={(_, value) => {
                       setFieldValue("packageName", value);
                       setFieldValue("district", null);
-                      if (value?.id) fetchDistrictDropdown(value.id);
+                      if (value?._id) fetchDistrictDropdown(value._id);
                     }}
                     renderInput={(params) => (
                       <TextField
@@ -166,7 +166,7 @@ function AddBlock() {
                     size="small"
                     options={districtOptions}
                     getOptionLabel={(option) => option.district || ""}
-                    isOptionEqualToValue={(opt, val) => opt?._id === val.id}
+                    isOptionEqualToValue={(opt, val) => opt?._id === val._id}
                     value={values.district}
                     onChange={(_, value) => setFieldValue("district", value)}
                     renderInput={(params) => (

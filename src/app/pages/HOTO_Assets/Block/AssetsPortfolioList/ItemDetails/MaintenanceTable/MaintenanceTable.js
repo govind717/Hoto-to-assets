@@ -91,6 +91,7 @@ const MaintenanceTable = ({ row }) => {
           _ids: {
             assets_id: row._id,
           },
+          
         },
       })
     );
@@ -286,26 +287,12 @@ const MaintenanceTable = ({ row }) => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Estimated Repair Days
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Issue Date
                 </TableSortLabel>
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, }}
               >
                 <TableSortLabel
                   onClick={() =>
@@ -319,7 +306,7 @@ const MaintenanceTable = ({ row }) => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, }}
               >
                 <TableSortLabel
                   onClick={() =>
@@ -333,7 +320,7 @@ const MaintenanceTable = ({ row }) => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, }}
               >
                 <TableSortLabel
                   onClick={() =>
@@ -347,7 +334,7 @@ const MaintenanceTable = ({ row }) => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, }}
               >
                 Remark
               </TableCell>
@@ -438,7 +425,7 @@ const MaintenanceTable = ({ row }) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {ele?.assign_to || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -458,7 +445,17 @@ const MaintenanceTable = ({ row }) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {moment(ele?.issue_date).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                        >
+                        {moment(ele?.estimate_arrival_date).format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -468,7 +465,7 @@ const MaintenanceTable = ({ row }) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
+                        {ele?.repair_status || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -478,27 +475,7 @@ const MaintenanceTable = ({ row }) => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.gp?.district?.code || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.district?.code || "-"}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          textAlign: "left",
-                          verticalAlign: "middle",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {ele?.gp?.district?.code || "-"}
+                        {"-"}
                       </TableCell>
                       <TableCell
                         align="left"

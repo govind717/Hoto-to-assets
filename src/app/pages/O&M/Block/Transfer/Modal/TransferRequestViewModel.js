@@ -61,10 +61,6 @@ const patternBoxStyle = {
   wordBreak: "break-word",
 };
 function TransferRequestViewModel({ open, closeModal,row }) {
-  const navigate = useNavigate();
-  const [isSubmitting, setSubmitting] = useState(false);
-  const { state } = useLocation();
-  console.log("Row4 : ",row);
   return (
     <div>
       <Modal
@@ -95,66 +91,66 @@ function TransferRequestViewModel({ open, closeModal,row }) {
                 <Typography variant="h6" fontSize="14px">
                   Unit Size
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Make
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.gp_detail?.make || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.gp_detail?.make || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Model
                 </Typography>
                 <Box sx={patternBoxStyle}>
-                  {state?.gp_detail?.model || "-"}{" "}
+                  {row?.gp_detail?.model || "-"}{" "}
                 </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Rack Positioning
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   OFC Connectivity
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   No. of Connectivity Entry
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   OFC Type
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Entry Point
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Power Socket Availability
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
               <Grid item xs={6} md={2.4}>
                 <Typography variant="h6" fontSize="14px">
                   Single Slot/Multy Slot
                 </Typography>
-                <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
+                <Box sx={patternBoxStyle}>{row?.current_stage || "-"} </Box>
               </Grid>
             </Grid>
-            <Typography
+            {/* <Typography
               variant="h5"
               fontSize="16px"
               fontWeight="600"
@@ -221,14 +217,14 @@ function TransferRequestViewModel({ open, closeModal,row }) {
                     <TableCell align="left">{row?.transfer_type}</TableCell>
                     <TableCell align="left">{row?.transfer_from?.location_name}</TableCell>
                     <TableCell align="left">{row?.transfer_to?.location_name}</TableCell>
-                    <TableCell align="left">{"-"}</TableCell>
-                    <TableCell align="left">{"-"}</TableCell>
+                    <TableCell align="left">{row?.created_user_details?.firstName}</TableCell>
+                    <TableCell align="left">{row?.assets_details?.condition}</TableCell>
                     <TableCell align="left">{row?.remarks}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
-            </TableContainer>
-            <Div sx={{ display: "flex", justifyContent: "center" }}>
+            </TableContainer> */}
+            <Div sx={{ display: "flex", justifyContent: "center", marginTop:"30px" }}>
               <Button variant="outlined" size="small" onClick={closeModal}>
                 Cancel
               </Button>

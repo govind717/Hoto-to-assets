@@ -46,6 +46,7 @@ const TransferAssignRequest = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
+  const [row,setRow]=useState(null)
   const { oandmGpTransferRequestAssignDataReducer } = useSelector(
     (state) => state
   );
@@ -96,7 +97,10 @@ const TransferAssignRequest = () => {
       })
     );
   }, [sort, page, sortBy, dispatch]);
-
+  const showDetails=(data)=>{
+    setRow(data);
+    setOpen(true);
+  }
   const closeModal = () => {
     setOpen(false);
   };
@@ -161,7 +165,7 @@ const TransferAssignRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() => handleSort(`transfer_id`)}
@@ -171,7 +175,7 @@ const TransferAssignRequest = () => {
                   Transfer Id
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"160px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`createdAt`)}
                   direction={sort}
@@ -180,7 +184,7 @@ const TransferAssignRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
@@ -198,7 +202,7 @@ const TransferAssignRequest = () => {
                   Serial No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`transfer_type`)}
                   direction={sort}
@@ -249,7 +253,7 @@ const TransferAssignRequest = () => {
                   Issue Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`transfer_status`)}
                   direction={sort}
@@ -259,38 +263,14 @@ const TransferAssignRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`remarks`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Remark
-                </TableSortLabel>
               </TableCell>
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Document
-                </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Details
-                </TableSortLabel>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -441,9 +421,9 @@ const TransferAssignRequest = () => {
                           sx={{
                             "&:hover": { cursor: "pointer", color: "black" },
                           }}
-                          // onClick={() => {
-                          //   showDetails(ele);
-                          // }}
+                          onClick={() => {
+                            showDetails(ele);
+                          }}
                         />
                       </TableCell>
                     </TableRow>
@@ -479,7 +459,7 @@ const TransferAssignRequest = () => {
           }}
         />
       </TableContainer>
-      <AssignViewModal open={open} closeModal={closeModal} />
+      <AssignViewModal open={open} closeModal={closeModal} row={row}/>
     </>
   );
 };

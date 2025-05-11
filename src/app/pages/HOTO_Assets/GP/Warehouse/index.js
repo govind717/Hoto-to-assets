@@ -57,7 +57,7 @@ const addBtnStyle = {
 };
 
 const WarehouseList = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -183,9 +183,7 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`rack_no`)
-                  }
+                  onClick={() => handleSort(`rack_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -194,9 +192,7 @@ const WarehouseList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`condition`)
-                  }
+                  onClick={() => handleSort(`condition`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >

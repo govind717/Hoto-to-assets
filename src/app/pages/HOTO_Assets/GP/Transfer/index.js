@@ -38,7 +38,7 @@ const tableCellSort = {
 };
 
 const Transferlist = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -206,28 +206,24 @@ const Transferlist = () => {
                   Transfer To
                 </TableSortLabel>
               </TableCell>
-              <TableCell
+              {/* <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`incharge`)
-                  }
+                  onClick={() => handleSort(`incharge`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Incharge
                 </TableSortLabel>
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(``)
-                  }
+                  onClick={() => handleSort(``)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -239,9 +235,7 @@ const Transferlist = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`tansfer_status`)
-                  }
+                  onClick={() => handleSort(`tansfer_status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -342,7 +336,7 @@ const Transferlist = () => {
                       >
                         {ele?.transfer_to?.location_name || "-"}
                       </TableCell>
-                      <TableCell
+                      {/* <TableCell
                         align="left"
                         sx={{
                           textAlign: "left",
@@ -351,7 +345,7 @@ const Transferlist = () => {
                         }}
                       >
                         {ele?.incharge || "-"}
-                      </TableCell>
+                      </TableCell> */}
 
                       <TableCell
                         align="left"

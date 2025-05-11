@@ -32,15 +32,15 @@ const tableCellSort = {
   },
 };
 const AssetDetailTable = ({ data }) => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
-  const [row,setRow]=useState(null);
+  const [row, setRow] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -207,13 +207,15 @@ const AssetDetailTable = ({ data }) => {
                       {ele?.condition_status || "-"}
                     </TableCell>
                     <TableCell
-                      sx={{
-                        // textAlign: "left",
-                        // px: 1,
-                        // display: "flex",
-                        // alignItems: "center",
-                        // justifyContent: "center",
-                      }}
+                      sx={
+                        {
+                          // textAlign: "left",
+                          // px: 1,
+                          // display: "flex",
+                          // alignItems: "center",
+                          // justifyContent: "center",
+                        }
+                      }
                     >
                       <InfoIcon
                         sx={{
@@ -225,13 +227,15 @@ const AssetDetailTable = ({ data }) => {
                       />
                     </TableCell>
                     <TableCell
-                      sx={{
-                        // textAlign: "left",
-                        // px: 1,
-                        // display: "flex",
-                        // alignItems: "center",
-                        // justifyContent: "center",
-                      }}
+                      sx={
+                        {
+                          // textAlign: "left",
+                          // px: 1,
+                          // display: "flex",
+                          // alignItems: "center",
+                          // justifyContent: "center",
+                        }
+                      }
                     >
                       <EditIcon
                         sx={{
@@ -277,7 +281,7 @@ const AssetDetailTable = ({ data }) => {
           }}
         />
       </TableContainer>
-      <EditModal open={open} handleClose={handleCloseModal} row={row}/>
+      <EditModal open={open} handleClose={handleCloseModal} row={row} />
     </>
   );
 };

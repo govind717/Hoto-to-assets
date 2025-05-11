@@ -49,7 +49,7 @@ function AddDistrict() {
 
   const onUserSave = async (values) => {
     const body = {
-      packageId: values?.packageName.id,
+      packageId: values?.packageName._id,
       district: values?.district,
       districtCode: values?.districtCode,
     };

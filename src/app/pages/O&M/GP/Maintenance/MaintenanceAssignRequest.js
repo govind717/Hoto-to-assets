@@ -46,7 +46,7 @@ const tableCellSort = {
   },
 };
 const MaintenanceAssignRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -110,18 +110,22 @@ const MaintenanceAssignRequest = () => {
     setOpen(true);
   };
   const statusOptions = [
-      "installed",
-      "under_repair",
-      "repaired",
-      "assigned",
-      "not_assigned",
-    ];
-  
-    const handleStatusChange = async(newStatus, rowData) => {
-      const body = {
-       repair_status:newStatus
-      }
-      Axios.patch(`/gp-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,body).then((res) => {
+    "installed",
+    "under_repair",
+    "repaired",
+    "assigned",
+    "not_assigned",
+  ];
+
+  const handleStatusChange = async (newStatus, rowData) => {
+    const body = {
+      repair_status: newStatus,
+    };
+    Axios.patch(
+      `/gp-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,
+      body
+    )
+      .then((res) => {
         if (res?.data?.statusCode === 200) {
           dispatch(
             oandm_gp_maintenace_request_assign_data_disptach({
@@ -132,15 +136,15 @@ const MaintenanceAssignRequest = () => {
             })
           );
         }
-      }).catch((err) => {
+      })
+      .catch((err) => {
         Swal.fire({
-                  icon: "error",
-                  text: err?.response?.data?.message || err.message,
-                });
-        console.log("Error : ",err);
+          icon: "error",
+          text: err?.response?.data?.message || err.message,
+        });
+        console.log("Error : ", err);
       });
-      
-    };
+  };
   return (
     <>
       {oandmGpMaintenaceRequestAssignDataReducer?.loading && (
@@ -204,7 +208,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() => handleSort(`maintenance_id`)}
@@ -216,7 +220,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
@@ -249,7 +253,7 @@ const MaintenanceAssignRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_name`)
+                    handleSort(`assets_details.location_details.location_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -259,11 +263,11 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_code`)
+                    handleSort(`assets_details.location_details.location_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -282,7 +286,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, }}
               >
                 <TableSortLabel
                   onClick={() => handleSort(`repair_type`)}
@@ -302,7 +306,7 @@ const MaintenanceAssignRequest = () => {
                   Assigned To
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`issue_reported`)}
                   direction={sort}
@@ -425,7 +429,7 @@ const MaintenanceAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_name || "-"}
+                        {ele?.assets_details?.location_details?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -435,7 +439,7 @@ const MaintenanceAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_code || "-"}
+                        {ele?.assets_details?.location_details?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

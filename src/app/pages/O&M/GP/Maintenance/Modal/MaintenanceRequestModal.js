@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { Axios } from "index";
 import Swal from "sweetalert2";
+import moment from "moment";
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -37,12 +38,13 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const initialValues = {
-    issue_date: "",
+    issue_date: row?.createdAt || "",
     estimate_arrival_date: "",
-    repair_type: "",
-    assign_to: "",
+    repair_type: row?.repair_type || "",
+    assign_to: row?.assign_to || "",
+    maintenance_type: row?.maintenance_type || "",
     // document: null,
-    issue_reported: "",
+    issue_reported: row?.issue_reported || "",
     remarks: "",
   };
 
@@ -186,9 +188,9 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                 >
                                   Location Code
                                 </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
+                                {/* <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Site Type
-                                </TableCell>
+                                </TableCell> */}
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Warranty
                                 </TableCell>
@@ -204,16 +206,32 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                             <TableBody>
                               <TableRow>
                                 <TableCell align="left">1</TableCell>
-                                <TableCell align="left">Rack-1</TableCell>
                                 <TableCell align="left">
-                                  TJS2025-05-01
+                                  {row?.assets_details?.equipment_name || "-"}
                                 </TableCell>
-                                <TableCell align="left">Bhudhana</TableCell>
-                                <TableCell align="left">456789</TableCell>
-                                <TableCell align="left">Native Site</TableCell>
-                                <TableCell align="left">2026</TableCell>
-                                <TableCell align="left">Semi-Damage</TableCell>
-                                <TableCell align="left">in Use</TableCell>
+                                <TableCell align="left">
+                                  {row?.assets_details?.serial_no || "-"}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.assets_details?.location_details
+                                    ?.location_name || "-"}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.assets_details?.location_details
+                                    ?.location_code || "-"}
+                                </TableCell>
+                                {/* <TableCell align="left">Native Site</TableCell> */}
+                                <TableCell align="left">
+                                  {moment(
+                                    row?.assets_details?.warranty_date
+                                  ).format("DD-MM-YYYY") || "-"}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.assets_details?.condition || "-"}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.assets_details?.condition_status || "-"}
+                                </TableCell>
                               </TableRow>
                             </TableBody>
                           </Table>
@@ -232,7 +250,11 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                 setFieldValue("issue_date", e.target.value)
                               }
                               onBlur={() => setFieldTouched("issue_date", true)}
-                              value={values?.issue_date || ""}
+                              value={
+                                moment(values?.issue_date).format(
+                                  "YYYY-MM-DD"
+                                ) || "-"
+                              }
                               error={
                                 touched?.issue_date &&
                                 Boolean(errors?.issue_date)
@@ -282,6 +304,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                               onChange={(e, newValue) =>
                                 setFieldValue("repair_type", newValue || "")
                               }
+                              value={values?.repair_type || null}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
@@ -310,6 +333,7 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                               onChange={(e, newValue) =>
                                 setFieldValue("assign_to", newValue || "")
                               }
+                              value={values?.assign_to}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
@@ -335,8 +359,12 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                             <Autocomplete
                               options={["o&m", "amc"]} // Replace with real data
                               onChange={(e, newValue) =>
-                                setFieldValue("maintenance_type", newValue || "")
+                                setFieldValue(
+                                  "maintenance_type",
+                                  newValue || ""
+                                )
                               }
+                              value={values?.maintenance_type || ""}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
@@ -349,7 +377,8 @@ function MaintenanceRequestModal({ open, closeModal,row }) {
                                     Boolean(errors.maintenance_type)
                                   }
                                   helperText={
-                                    touched.maintenance_type && errors.maintenance_type
+                                    touched.maintenance_type &&
+                                    errors.maintenance_type
                                   }
                                 />
                               )}

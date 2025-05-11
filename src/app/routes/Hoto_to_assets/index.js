@@ -15,6 +15,9 @@ import GpWiseItemDetail from "app/pages/HOTO_Assets/GP/BlockWiseAssetList/ItemDe
 import GpAssetsDetail from "app/pages/HOTO_Assets/GP/AssetsPortfolioList/ItemDetails/AssetsPortFolioItemDetail";
 import BlockRackDetails from "app/pages/HOTO_Assets/Block/BlockWiseAssetList/ItemDetails/AssetDetailTable/RackDetails/RackDetails";
 import GpRackDetails from "app/pages/HOTO_Assets/GP/BlockWiseAssetList/ItemDetails/AssetDetailTable/RackDetails/RackDetails";
+import { element } from "prop-types";
+import HotoWarehouse from "app/pages/HOTO_Assets/Warehouse";
+import WarehouseWiseItemDetail from "app/pages/HOTO_Assets/Warehouse/WarehouseWiseAssetList/ItemDetails/WarehouseWiseItemDetail";
 
 const routesName = "/dashboards/hoto-survey-data";
 
@@ -68,6 +71,7 @@ export const blockRoute = [
         path: "/dashboards/hoto-survey-block-data/block-wise-details",
         element: <Page component={BlockWiseItemDetail} />,
       },
+
       {
         path: "/dashboards/hoto-survey-block-data/block-wise-details/rack-details",
         element: <Page component={BlockRackDetails} />,
@@ -92,12 +96,25 @@ export const blockRoute = [
         path: "/dashboards/hoto-survey-gp-data/gp-wise-details/rack-details",
         element: <Page component={GpRackDetails} />,
       },
- 
+
       {
         path: "/dashboards/hoto-survey-gp-data/assets-details",
         element: <Page component={GpAssetsDetail} />,
       },
 
+      //hoto warehouse
+      {
+        path: "/dashboards/hoto-survey-warehouse-data",
+        element: <Page component={HotoWarehouse} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-warehouse-data/warehouse-wise-details",
+        element: <Page component={WarehouseWiseItemDetail} />,
+      },
+      {
+        path: "/dashboards/hoto-survey-warehouse-data/warehouse-wise-details/rack-details",
+        element: <Page component={BlockRackDetails} />,
+      },
     ],
   },
 ];

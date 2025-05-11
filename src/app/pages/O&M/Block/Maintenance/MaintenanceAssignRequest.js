@@ -15,7 +15,7 @@ import {
   TextField,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import InfoIcon from "@mui/icons-material/Info";
 
 import FullScreenLoader from "app/pages/Components/Loader";
@@ -47,7 +47,7 @@ const tableCellSort = {
   },
 };
 const MaintenanceAssignRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -118,29 +118,33 @@ const MaintenanceAssignRequest = () => {
     "not_assigned",
   ];
 
-  const handleStatusChange = async(newStatus, rowData) => {
+  const handleStatusChange = async (newStatus, rowData) => {
     const body = {
-     repair_status:newStatus
-    }
-    Axios.patch(`/block-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,body).then((res) => {
-      if (res?.data?.statusCode === 200) {
-        dispatch(
-          oandm_block_maintenace_request_assign_data_disptach({
-            sortBy: sortBy,
-            search_value: searchTerm.trim(),
-            sort: sort,
-            page: page,
-          })
-        );
-      }
-    }).catch((err) => {
-      Swal.fire({
-                icon: "error",
-                text: err?.response?.data?.message || err.message,
-              });
-      console.log("Error : ",err);
-    });
-    
+      repair_status: newStatus,
+    };
+    Axios.patch(
+      `/block-maintenance-issued/update-maintenance-repair-status/${rowData?._id}`,
+      body
+    )
+      .then((res) => {
+        if (res?.data?.statusCode === 200) {
+          dispatch(
+            oandm_block_maintenace_request_assign_data_disptach({
+              sortBy: sortBy,
+              search_value: searchTerm.trim(),
+              sort: sort,
+              page: page,
+            })
+          );
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          text: err?.response?.data?.message || err.message,
+        });
+        console.log("Error : ", err);
+      });
   };
 
   return (
@@ -254,7 +258,7 @@ const MaintenanceAssignRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_name`)
+                    handleSort(`assets_details.location_details.location_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -268,7 +272,7 @@ const MaintenanceAssignRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_code`)
+                    handleSort(`assets_details.location_details.location_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -297,7 +301,7 @@ const MaintenanceAssignRequest = () => {
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(``)}
+                  onClick={() => handleSort(`assign_to`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -318,9 +322,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`issue_date`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -330,9 +332,7 @@ const MaintenanceAssignRequest = () => {
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`estimate_arrival_date`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -345,9 +345,7 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`repair_status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -369,15 +367,7 @@ const MaintenanceAssignRequest = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Details
-                </TableSortLabel>
+                Details
               </TableCell>
             </TableRow>
           </TableHead>
@@ -448,7 +438,8 @@ const MaintenanceAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_name || "-"}
+                        {ele?.assets_details?.location_details?.location_name ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -458,7 +449,8 @@ const MaintenanceAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_code || "-"}
+                        {ele?.assets_details?.location_details?.location_code ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -635,7 +627,10 @@ const MaintenanceAssignRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={oandmBlockMaintenaceRequestAssignDataReducer?.data?.result?.total_pages || 1}
+          count={
+            oandmBlockMaintenaceRequestAssignDataReducer?.data?.result
+              ?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

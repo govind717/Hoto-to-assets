@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { Axios } from "index";
+import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -59,6 +60,7 @@ function ReplacementModal({ open, handleClose, row }) {
       initiatedBy: values?.initiatedBy,
       remarks: values?.remark,
     };
+    console.log("Body : ",body);
     setSubmitting(true);
     try {
       const res = await Axios.post(
@@ -75,6 +77,7 @@ function ReplacementModal({ open, handleClose, row }) {
           timer: 1000,
           showConfirmButton: false,
         });
+        hoto_gp_asset_partfolio_data_disptach({})
         handleClose();
       } else {
         throw new Error(res?.data?.message || "Unknown Error");

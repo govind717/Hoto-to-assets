@@ -43,7 +43,7 @@ const tableCellSort = {
   },
 };
 const MaintenanceRequest = () => {
-  const [sortBy, setSortBy] = useState("created_at");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
@@ -170,7 +170,7 @@ const MaintenanceRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`maintenance_id`)}
                   direction={sort}
@@ -179,7 +179,7 @@ const MaintenanceRequest = () => {
                   Maintenance ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`createdAt`)}
                   direction={sort}
@@ -209,7 +209,7 @@ const MaintenanceRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_name`)
+                    handleSort(`assets_details.location_details.location_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -223,7 +223,7 @@ const MaintenanceRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_code`)
+                    handleSort(`assets_details.location_details.location_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -249,7 +249,7 @@ const MaintenanceRequest = () => {
                   Repair Type
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`issue_reported`)}
                   direction={sort}
@@ -259,41 +259,17 @@ const MaintenanceRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Initiated By
-                </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Remark
-                </TableSortLabel>
               </TableCell>
 
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "100px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Details
-                </TableSortLabel>
               </TableCell>
               <TableCell
                 align={"left"}
@@ -376,7 +352,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details?.gp_name || "-"}
+                        {ele?.assets_details.location_details?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -386,7 +362,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details?.gp_code || "-"}
+                        {ele?.assets_details.location_details?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -463,7 +439,7 @@ const MaintenanceRequest = () => {
                         <Button
                           variant="contained"
                           size="small"
-                          disabled={!ele?.is_created || !ele?.is_cancelled}
+                          disabled={ele?.is_created || ele?.is_cancelled}
                           // startIcon={<HomeRepairServiceIcon />}
                           onClick={() => handleAssign(ele)}
                           sx={{
@@ -496,7 +472,9 @@ const MaintenanceRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={oandmGpMaintenaceRequestDataReducer?.data?.result?.total_pages || 1}
+          count={
+            oandmGpMaintenaceRequestDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

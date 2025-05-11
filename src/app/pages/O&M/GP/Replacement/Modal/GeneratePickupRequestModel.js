@@ -48,6 +48,7 @@ const tableCellSx = {
 function GeneratePickupRequestModel({ open, closeModal, row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
+  console.log("row : ",row);
   const initialValues = {
     issueDate: "",
     pickupLocation: "",
@@ -214,7 +215,7 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
                                 >
                                   Sr No.
                                 </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
+                                <TableCell align="left" sx={{ ...tableCellSx,minWidth:"220px" }}>
                                   Equipment
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
@@ -225,7 +226,7 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
                                 </TableCell>
                                 <TableCell
                                   align="left"
-                                  sx={{ ...tableCellSx, minWidth: "220px" }}
+                                  sx={{ ...tableCellSx, minWidth: "180px" }}
                                 >
                                   Location Code
                                 </TableCell>
@@ -248,30 +249,34 @@ function GeneratePickupRequestModel({ open, closeModal, row }) {
                               <TableRow>
                                 <TableCell align="left">1</TableCell>
                                 <TableCell align="left">
-                                  {row?.block_asset_details?.equipment_name ||
-                                    "-"}
+                                  {row?.gp_asset_details?.equipment_name || "-"}
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.block_asset_details?.serial_no || "-"}
+                                  {row?.gp_asset_details?.serial_no || "-"}
                                 </TableCell>
 
                                 <TableCell align="left">
-                                  {row?.block_asset_details?.block_details
-                                    ?.gp_name || "-"}
+                                  {row?.gp_asset_details?.equipment_details
+                                    ?.location_name || "-"}
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.block_asset_details?.block_details
-                                    ?.gp_code || "-"}
+                                  {row?.gp_asset_details?.equipment_details
+                                    ?.location_code || "-"}
                                 </TableCell>
                                 <TableCell align="left">Native Site</TableCell>
                                 <TableCell align="left">
-                                  {row?.equipment_details?.warranty_date || "-"}
+                                  {row?.gp_asset_details?.warranty_status
+                                    ? "Yes"
+                                    : "No"}
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.block_asset_details?.condition || "-"}
+                                  {row?.gp_asset_details?.condition || "-"}
                                 </TableCell>
                                 <TableCell align="left">
-                                  {row?.status || "-"}
+                                  {row?.replacementStatus.replaceAll(
+                                    "_",
+                                    " "
+                                  ) || "-"}
                                 </TableCell>
                               </TableRow>
                             </TableBody>

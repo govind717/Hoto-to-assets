@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
-import { Close } from "@mui/icons-material";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import * as Yup from "yup";
-import { Formik, Form, Field } from "formik";
+
 import {
   Autocomplete,
   Grid,
@@ -20,9 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import Div from "@jumbo/shared/Div";
-import Swal from "sweetalert2";
-import { useLocation, useNavigate } from "react-router-dom";
-import { LoadingButton } from "@mui/lab";
+
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -61,8 +56,6 @@ const patternBoxStyle = {
   wordBreak: "break-word",
 };
 function MaintenanaceRequestView({ open, closeModal, row }) {
-  const navigate = useNavigate();
-  const [isSubmitting, setSubmitting] = useState(false);
   return (
     <div>
       <Modal
