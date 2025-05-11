@@ -24,6 +24,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { Axios } from "index";
+import moment from "moment";
 // import ToastAlerts from '../Toast';
 const style = {
   position: "absolute",
@@ -47,11 +48,13 @@ const tableCellSx = {
 };
 function CreateTransferModal({ open, closeModal, row }) {
   const [isSubmitting, setSubmitting] = useState(false);
-  const [transferOptions, setTransferOptions] = useState([]);
-
+  const [blockTransferOptions, setBlockTransferOptions] = useState([]);
+  const [gpTransferOptions, setGpTransferOptions] = useState([]);
+  const [warehouseTransferOptions, setWarehouseTransferOptions] = useState([]);
+  console.log("Row5 : ", row);
   const initialValues = {
-    issueDate: "",
-    transfer_type: "",
+    issueDate: row?.createdAt || "",
+    transfer_type: row?.transfer_type || "",
     transfer_to: row?.transfer_to || null,
     transport_type: "",
 
@@ -66,7 +69,7 @@ function CreateTransferModal({ open, closeModal, row }) {
       transporter_name: "",
       awb_no: "",
     },
-    transfer_location_type: "",
+    transfer_location_type: row?.transfer_from?.location_type,
     remarks: "",
   };
   const validationSchema = Yup.object().shape({
@@ -83,10 +86,39 @@ function CreateTransferModal({ open, closeModal, row }) {
   });
 
   const handleSubmit = async (values) => {
+    let tranfer_to = {};
+    if (values?.transfer_location_type === "block") {
+      tranfer_to = {
+        location_type: values?.transfer_location_type,
+        location_name:
+          values?.transfer_to?.blockName || values?.transfer_to?.location_name,
+        location_code:
+          values?.transfer_to?.blockCode || values?.transfer_to?.location_code,
+      };
+    }
+    if (values?.transfer_location_type === "gp") {
+      tranfer_to = {
+        location_type: values?.transfer_location_type,
+        location_name:
+          values?.transfer_to?.gpName || values?.transfer_to?.location_name,
+        location_code:
+          values?.transfer_to?.LGDCode || values?.transfer_to?.location_code,
+      };
+    }
+    if (values?.transfer_location_type === "warehouse") {
+      tranfer_to = {
+        location_type: values?.transfer_location_type,
+        location_name:
+          values?.transfer_to?.warehouse_name ||
+          values?.transfer_to?.location_name,
+        location_code:
+          values?.transfer_to?.code || values?.transfer_to?.location_code,
+      };
+    }
     const body = {
       transfer_type: values?.transfer_type,
       transfer_from: row?.transfer_from,
-      transfer_to: values?.transfer_to,
+      transfer_to: tranfer_to,
       transport_details: {
         transport_type: values?.transport_type,
       },
@@ -105,6 +137,7 @@ function CreateTransferModal({ open, closeModal, row }) {
         awb_no: values?.air?.awb_no,
       };
     }
+    console.log("Body1 : ",body);
     setSubmitting(true);
     try {
       const res = await Axios.post(
@@ -136,38 +169,60 @@ function CreateTransferModal({ open, closeModal, row }) {
       closeModal();
     }
   };
-  const fetchTransferToOptions = ( val) => {
-    if (val === "gp") {
-      setTransferOptions([
-        {
-          location_type: "gp",
-          location_name: "GP Office A",
-          location_code: "GP-101",
-        },
-        {
-          location_type: "gp",
-          location_name: "GP Office B",
-          location_code: "GP-102",
-        },
-      ]);
-    } else if (val === "block") {
-      setTransferOptions([
-        {
-          location_type: "block",
-          location_name: "Block Office A",
-          location_code: "BL-201",
-        },
-      ]);
-    } else if (val === "warehouse") {
-      setTransferOptions([
-        {
-          location_type: "warehouse",
-          location_name: "Main Warehouse",
-          location_code: "WH-301",
-        },
-      ]);
+  useEffect(() => {
+    if (row?.transfer_type === "gp") {
+    } else if (row?.transfer_type === "block") {
+    } else if (row?.transfer_type === "warehouse") {
     }
-  };
+    Axios.get("/master/gp/dropdown")
+      .then((res) => {
+        setGpTransferOptions(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log("Error while fetching block dropdown");
+      });
+    Axios.get("/master/block/dropdown")
+      .then((res) => {
+        setBlockTransferOptions(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log("Error while fetching block dropdown");
+      });
+    Axios.get("/master/warehouse/dropdown")
+      .then((res) => {
+        setWarehouseTransferOptions(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log("Error while fetching block dropdown");
+      });
+  }, []);
+  // const fetchTransferToOptions = (val) => {
+  //   if (val === "gp") {
+  //     Axios.get("/master/gp/dropdown")
+  //       .then((res) => {
+  //         setTransferOptions(res?.data?.result);
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error while fetching block dropdown");
+  //       });
+  //   } else if (val === "block") {
+  //     Axios.get("/master/block/dropdown")
+  //       .then((res) => {
+  //         setTransferOptions(res?.data?.result);
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error while fetching block dropdown");
+  //       });
+  //   } else if (val === "warehouse") {
+  //     Axios.get("/master/warehouse/dropdown")
+  //       .then((res) => {
+  //         setTransferOptions(res?.data?.result);
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error while fetching block dropdown");
+  //       });
+  //   }
+  // };
 
   return (
     <div>
@@ -224,53 +279,66 @@ function CreateTransferModal({ open, closeModal, row }) {
                               <TableRow sx={{ bgcolor: "#53B8CA" }}>
                                 <TableCell
                                   align="left"
-                                  sx={{ ...tableCellSx, minWidth: "100px" }}
+                                  sx={{ ...tableCellSx, minWidth: "180px" }}
                                 >
-                                  Sr No.
-                                </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Equipment
-                                </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Serial No.
-                                </TableCell>
-                                <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Location
                                 </TableCell>
                                 <TableCell
                                   align="left"
-                                  sx={{ ...tableCellSx, minWidth: "220px" }}
+                                  sx={{ ...tableCellSx, minWidth: "120px" }}
                                 >
-                                  Location Code
+                                  Serial No.
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Site Type
+                                  Transfer Type
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Warranty
+                                  Transfer From
+                                </TableCell>
+                                <TableCell
+                                  align="left"
+                                  sx={{ ...tableCellSx, minWidth: "180px" }}
+                                >
+                                  Transfer To
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
-                                  Condition
+                                  Initaited By
                                 </TableCell>
                                 <TableCell align="left" sx={{ ...tableCellSx }}>
                                   Status
+                                </TableCell>
+                                <TableCell align="left" sx={{ ...tableCellSx }}>
+                                  Remark
                                 </TableCell>
                               </TableRow>
                             </TableHead>
 
                             <TableBody>
                               <TableRow>
-                                <TableCell align="left">1</TableCell>
-                                <TableCell align="left">Rack-1</TableCell>
                                 <TableCell align="left">
-                                  TJS2025-05-01
+                                  {row?.assets_details?.equipment_name}
                                 </TableCell>
-                                <TableCell align="left">Bhudhana</TableCell>
-                                <TableCell align="left">456789</TableCell>
-                                <TableCell align="left">Native Site</TableCell>
-                                <TableCell align="left">2026</TableCell>
-                                <TableCell align="left">Semi-Damage</TableCell>
-                                <TableCell align="left">in Use</TableCell>
+                                <TableCell align="left">
+                                  {row?.assets_details?.serial_no}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.transfer_type}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.transfer_from?.location_name}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.transfer_to?.location_name}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.created_user_details?.firstName}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.assets_details?.condition}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {row?.remarks}
+                                </TableCell>
                               </TableRow>
                             </TableBody>
                           </Table>
@@ -287,10 +355,18 @@ function CreateTransferModal({ open, closeModal, row }) {
                               type="date"
                               name="issueDate"
                               onChange={(e) =>
-                                setFieldValue("issueDate", e.target.value)
+                                setFieldValue(
+                                  "issueDate",
+                                  moment(e.target.value).format("YYYY-MM-DD")
+                                )
                               }
                               onBlur={() => setFieldTouched("issueDate", true)}
-                              value={values?.issueDate || ""}
+                              // value={values?.issueDate || ""}
+                              value={
+                                moment(values?.issue_date).format(
+                                  "YYYY-MM-DD"
+                                ) || "-"
+                              }
                               error={
                                 touched?.issueDate && Boolean(errors?.issueDate)
                               }
@@ -341,7 +417,7 @@ function CreateTransferModal({ open, closeModal, row }) {
                                   "transfer_location_type",
                                   val || ""
                                 );
-                                fetchTransferToOptions(val);
+                                // fetchTransferToOptions(val);
                               }}
                               renderInput={(params) => (
                                 <TextField
@@ -363,15 +439,99 @@ function CreateTransferModal({ open, closeModal, row }) {
                             />
                           </Grid>
 
+                          {values?.transfer_location_type === "block" && (
+                            <Grid item xs={12} md={3}>
+                              <Typography variant="h6" fontSize="14px" mb={0.5}>
+                                Transfer To
+                              </Typography>
+                              <Autocomplete
+                                options={blockTransferOptions}
+                                // getOptionLabel={(option) =>
+                                //   option?.location_name || ""
+                                // }
+                                getOptionLabel={(option) => {
+                                  return option?.blockName || "";
+                                }}
+                                value={values?.transfer_to}
+                                onChange={(e, newValue) => {
+                                  setFieldValue(
+                                    "transfer_to",
+                                    newValue ? newValue : ""
+                                  );
+                                }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    fullWidth
+                                    size="small"
+                                    placeholder="Select Repair Type"
+                                    name="transfer_to"
+                                    error={
+                                      touched.transfer_to &&
+                                      Boolean(errors.transfer_to)
+                                    }
+                                    helperText={
+                                      touched.transfer_to && errors.transfer_to
+                                    }
+                                  />
+                                )}
+                              />
+                            </Grid>
+                          )}
+                          {values?.transfer_location_type === "gp" && (
+                            <Grid item xs={12} md={3}>
+                              <Typography variant="h6" fontSize="14px" mb={0.5}>
+                                Transfer To
+                              </Typography>
+                              <Autocomplete
+                                options={gpTransferOptions}
+                                // getOptionLabel={(option) =>
+                                //   option?.location_name || ""
+                                // }
+                                getOptionLabel={(option) => {
+                                  return (
+                                    option?.gpName || option?.location_name
+                                  );
+                                }}
+                                value={values?.transfer_to}
+                                onChange={(e, newValue) => {
+                                  setFieldValue(
+                                    "transfer_to",
+                                    newValue ? newValue : ""
+                                  );
+                                }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    fullWidth
+                                    size="small"
+                                    placeholder="Select Repair Type"
+                                    name="transfer_to"
+                                    error={
+                                      touched.transfer_to &&
+                                      Boolean(errors.transfer_to)
+                                    }
+                                    helperText={
+                                      touched.transfer_to && errors.transfer_to
+                                    }
+                                  />
+                                )}
+                              />
+                            </Grid>
+                          )}
+                          {values?.transfer_location_type === "warehouse" &&
                           <Grid item xs={12} md={3}>
                             <Typography variant="h6" fontSize="14px" mb={0.5}>
                               Transfer To
                             </Typography>
                             <Autocomplete
-                              options={transferOptions}
-                              getOptionLabel={(option) =>
-                                option?.location_name || ""
-                              }
+                              options={warehouseTransferOptions}
+                              // getOptionLabel={(option) =>
+                              //   option?.location_name || ""
+                              // }
+                              getOptionLabel={(option) => {
+                                return option?.warehouse_name || "";
+                              }}
                               value={values?.transfer_to}
                               onChange={(e, newValue) => {
                                 setFieldValue(
@@ -397,6 +557,7 @@ function CreateTransferModal({ open, closeModal, row }) {
                               )}
                             />
                           </Grid>
+                          }
 
                           <Grid item xs={12} md={3}>
                             <Typography fontSize="14px" gutterBottom>

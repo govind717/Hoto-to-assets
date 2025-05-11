@@ -91,6 +91,7 @@ const MaintenanceTable = ({ row }) => {
           _ids: {
             assets_id: row._id,
           },
+          
         },
       })
     );

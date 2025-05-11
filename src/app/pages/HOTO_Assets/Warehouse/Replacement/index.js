@@ -225,7 +225,7 @@ const ReplacementList = () => {
                   Replacement Reason
                 </TableSortLabel>
               </TableCell>
-              <TableCell
+              {/* <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
@@ -238,7 +238,7 @@ const ReplacementList = () => {
                 >
                   ETA
                 </TableSortLabel>
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "160px" }}
@@ -300,7 +300,7 @@ const ReplacementList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx }}
               >
                 Remark
               </TableCell>
@@ -350,7 +350,7 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.equipment_name || "-"}
+                        {ele?.warehouse_asset_details?.equipment_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -370,8 +370,8 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.location_name ||
-                          "-"}
+                        {ele?.warehouse_asset_details?.equipment_details
+                          ?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -381,8 +381,8 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.location_code ||
-                          "-"}
+                        {ele?.warehouse_asset_details?.equipment_details
+                          ?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -394,7 +394,7 @@ const ReplacementList = () => {
                       >
                         {ele?.replacementReason || "-"}
                       </TableCell>
-                      <TableCell
+                      {/* <TableCell
                         align="left"
                         sx={{
                           textAlign: "left",
@@ -403,7 +403,7 @@ const ReplacementList = () => {
                         }}
                       >
                         {ele?.gp?.district?.code || "-"}
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell
                         align="left"
                         sx={{
@@ -442,7 +442,7 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.replacementStatus || "-"}
+                        {ele?.replacementStatus.replaceAll("_", " ") || "-"}
                       </TableCell>
 
                       <TableCell

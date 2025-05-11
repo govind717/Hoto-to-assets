@@ -104,6 +104,14 @@ const ReplacementList = () => {
           onChange={(e) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
+              dispatch(
+                hoto_block_replacement_data_disptach({
+                  sortBy: sortBy,
+                  search_value: "",
+                  sort: sort,
+                  page: page,
+                })
+              );
             }
           }}
           sx={{ width: 300, my: "2%" }}
@@ -130,7 +138,7 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`replecement_id`)}
+                  onClick={() => handleSort(`replacementId`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -142,11 +150,7 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      `current_data.marketExecutiveId.current_data.contact_person_details.first_name`
-                    )
-                  }
+                  onClick={() => handleSort(`issueDate`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -159,9 +163,7 @@ const ReplacementList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(
-                      `current_data.marketExecutiveId.current_data.contact_person_details.first_name`
-                    )
+                    handleSort(`block_asset_details.equipment_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -362,8 +364,8 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_name ||
-                          "-"}
+                        {ele?.block_asset_details?.equipment_details
+                          ?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -373,8 +375,8 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.gp_code ||
-                          "-"}
+                        {ele?.block_asset_details?.equipment_details
+                          ?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -434,7 +436,7 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.replacementStatus || "-"}
+                        {ele?.replacementStatus?.replaceAll("_", " ") || "-"}
                       </TableCell>
 
                       <TableCell

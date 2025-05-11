@@ -192,7 +192,7 @@ export const hoto_warehouse_wise_asset_data_disptach = function ({
         location_type:"warehouse"
       },
       searchFields: {
-        string: ["block.name", "block_id", "district.name", "district_id"],
+        string: ["location_name","location_code","block.name", "block_id", "district.name", "district_id"],
         numbers: [],
         arrayField: [],
         boolean: [],

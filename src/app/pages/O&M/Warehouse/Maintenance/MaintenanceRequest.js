@@ -215,10 +215,10 @@ const MaintenanceRequest = () => {
                   Serial No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_name`)
+                    handleSort(`assets_details.location_details.location_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -228,11 +228,11 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_code`)
+                    handleSort(`assets_details.location_details.location_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -271,29 +271,13 @@ const MaintenanceRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Initiated By
-                </TableSortLabel>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Remark
-                </TableSortLabel>
               </TableCell>
 
               <TableCell
@@ -391,7 +375,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details?.gp_name || "-"}
+                        {ele?.assets_details.location_details?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -401,7 +385,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details.gp_code || "-"}
+                        {ele?.assets_details.location_details.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

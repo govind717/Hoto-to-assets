@@ -182,7 +182,7 @@ const TransferRequest = () => {
                   Transfer ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`createdAt`)}
                   direction={sort}
@@ -191,7 +191,7 @@ const TransferRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"220px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
@@ -209,7 +209,7 @@ const TransferRequest = () => {
                   Serial No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx ,minWidth:"180px"}}>
                 <TableSortLabel
                   onClick={() => handleSort(`transfer_type`)}
                   direction={sort}
@@ -242,7 +242,7 @@ const TransferRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_name`)
+                    handleSort(`assets_details.location_details.location_name`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -250,10 +250,10 @@ const TransferRequest = () => {
                   Location
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`assets_details.location_details.gp_code`)
+                    handleSort(`assets_details.location_details.location_code`)
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -373,7 +373,7 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_name || "-"}
+                        {ele?.assets_details?.location_details?.location_name || "-"}
                       </TableCell>
 
                       <TableCell
@@ -384,7 +384,7 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.gp_code || "-"}
+                        {ele?.assets_details?.location_details?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

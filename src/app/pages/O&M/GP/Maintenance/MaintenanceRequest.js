@@ -170,7 +170,7 @@ const MaintenanceRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`maintenance_id`)}
                   direction={sort}
@@ -179,7 +179,7 @@ const MaintenanceRequest = () => {
                   Maintenance ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`createdAt`)}
                   direction={sort}
@@ -249,7 +249,7 @@ const MaintenanceRequest = () => {
                   Repair Type
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
                 <TableSortLabel
                   onClick={() => handleSort(`issue_reported`)}
                   direction={sort}
@@ -259,41 +259,17 @@ const MaintenanceRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Initiated By
-                </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Remark
-                </TableSortLabel>
               </TableCell>
 
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "80px" }}
+                sx={{ ...tableCellSx, minWidth: "100px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Details
-                </TableSortLabel>
               </TableCell>
               <TableCell
                 align={"left"}

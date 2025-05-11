@@ -206,7 +206,7 @@ const Transferlist = () => {
                   Transfer To
                 </TableSortLabel>
               </TableCell>
-              <TableCell
+              {/* <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
@@ -217,7 +217,7 @@ const Transferlist = () => {
                 >
                   Incharge
                 </TableSortLabel>
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
@@ -336,7 +336,7 @@ const Transferlist = () => {
                       >
                         {ele?.transfer_to?.location_name || "-"}
                       </TableCell>
-                      <TableCell
+                      {/* <TableCell
                         align="left"
                         sx={{
                           textAlign: "left",
@@ -345,7 +345,7 @@ const Transferlist = () => {
                         }}
                       >
                         {ele?.incharge || "-"}
-                      </TableCell>
+                      </TableCell> */}
 
                       <TableCell
                         align="left"

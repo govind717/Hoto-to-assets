@@ -162,7 +162,10 @@ const ReplacementRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`replacementId`)}
                   direction={sort}
@@ -171,7 +174,10 @@ const ReplacementRequest = () => {
                   Replacement ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`issueDate`)}
                   direction={sort}
@@ -202,7 +208,7 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(``)}
+                  onClick={() => handleSort(`dueDate`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -212,7 +218,9 @@ const ReplacementRequest = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`block_asset_details.block_details.location_name`)
+                    handleSort(
+                      `block_asset_details.block_details.location_name`
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -226,7 +234,9 @@ const ReplacementRequest = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`block_asset_details.block_details.location_code`)
+                    handleSort(
+                      `block_asset_details.block_details.location_code`
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -351,8 +361,8 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.location_name ||
-                          "-"}
+                        {ele?.block_asset_details?.equipment_details
+                          ?.location_name || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -362,8 +372,8 @@ const ReplacementRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_asset_details?.block_details?.location_code ||
-                          "-"}
+                        {ele?.block_asset_details?.equipment_details
+                          ?.location_code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

@@ -301,7 +301,7 @@ const MaintenanceAssignRequest = () => {
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(``)}
+                  onClick={() => handleSort(`assign_to`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -322,9 +322,7 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`issue_date`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -334,9 +332,7 @@ const MaintenanceAssignRequest = () => {
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`estimate_arrival_date`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -349,9 +345,7 @@ const MaintenanceAssignRequest = () => {
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`repair_status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -373,15 +367,7 @@ const MaintenanceAssignRequest = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Details
-                </TableSortLabel>
+                Details
               </TableCell>
             </TableRow>
           </TableHead>
@@ -452,7 +438,8 @@ const MaintenanceAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.location_name || "-"}
+                        {ele?.assets_details?.location_details?.location_name ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -462,7 +449,8 @@ const MaintenanceAssignRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.location_code || "-"}
+                        {ele?.assets_details?.location_details?.location_code ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
