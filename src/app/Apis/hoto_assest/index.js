@@ -3,6 +3,11 @@ export const hoto_apis = {
     // asset_portfolio_list: "/survey/list-block-equipment-details",
     // block_wise_assets_list: "/survey/list-block-details",
     asset_portfolio_list: "/hoto-to-assets/equipment/list-equipments",
+    asset_portfolio: {
+      maintenance_list: "/operation/list-maintenance-details",
+      transfer_list: "operation/list-transfer-details",
+      replacement_list: "/operation/list-replacement-details",
+    },
     block_wise_assets_list: "/hoto-to-assets/equipment/list-equipment-details",
     warehouse_list: "/warehouse/listing-warehouse-details",
     maintenance_list: "/block-maintenance-request/listing-maintenance-request",

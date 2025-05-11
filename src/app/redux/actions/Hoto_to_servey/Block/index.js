@@ -3,6 +3,15 @@ import {
   HOTO_BLOCK_ASSET_PORTFOLIO_DATA_FAILED,
   HOTO_BLOCK_ASSET_PORTFOLIO_DATA_REQUEST,
   HOTO_BLOCK_ASSET_PORTFOLIO_DATA_SUCCESS,
+  HOTO_BLOCK_ASSET_PORTFOLIO_MAINTENANCE_DATA_FAILED,
+  HOTO_BLOCK_ASSET_PORTFOLIO_MAINTENANCE_DATA_REQUEST,
+  HOTO_BLOCK_ASSET_PORTFOLIO_MAINTENANCE_DATA_SUCCESS,
+  HOTO_BLOCK_ASSET_PORTFOLIO_REPLACEMENT_DATA_FAILED,
+  HOTO_BLOCK_ASSET_PORTFOLIO_REPLACEMENT_DATA_REQUEST,
+  HOTO_BLOCK_ASSET_PORTFOLIO_REPLACEMENT_DATA_SUCCESS,
+  HOTO_BLOCK_ASSET_PORTFOLIO_TRANSFER_DATA_FAILED,
+  HOTO_BLOCK_ASSET_PORTFOLIO_TRANSFER_DATA_REQUEST,
+  HOTO_BLOCK_ASSET_PORTFOLIO_TRANSFER_DATA_SUCCESS,
   HOTO_BLOCK_MAINTENANCE_DATA_FAILED,
   HOTO_BLOCK_MAINTENANCE_DATA_REQUEST,
   HOTO_BLOCK_MAINTENANCE_DATA_SUCCESS,
@@ -95,21 +104,21 @@ export const hoto_block_asset_partfolio_maintenance_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_BLOCK_MAINTENANCE_DATA_REQUEST });
+      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_MAINTENANCE_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${oandmApis?.block?.maintenace?.maintenace_request_assign_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.block?.asset_portfolio?.maintenance_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_BLOCK_MAINTENANCE_DATA_SUCCESS,
+        type: HOTO_BLOCK_ASSET_PORTFOLIO_MAINTENANCE_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_BLOCK_MAINTENANCE_DATA_FAILED,
+        type: HOTO_BLOCK_ASSET_PORTFOLIO_MAINTENANCE_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }
@@ -131,8 +140,8 @@ export const hoto_block_asset_partfolio_replacement_data_disptach = function ({
             "replacementId",
             "block_asset_details.equipment_name",
             "serialNumber",
-            "block_asset_details?.block_details?.gp_name",
-            "block_asset_details?.block_details?.gp_code",
+            "block_asset_details?.block_details?.location_name",
+            "block_asset_details?.block_details?.location_code",
             "replacementReason",
             "initiatedBy",
           ],
@@ -141,21 +150,21 @@ export const hoto_block_asset_partfolio_replacement_data_disptach = function ({
           boolean: [],
         },
       };
-      dispatch({ type: HOTO_BLOCK_REPLACEMENT_DATA_REQUEST });
+      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_REPLACEMENT_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${oandmApis?.block?.replacement?.replacement_request_assign_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.block?.asset_portfolio?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_BLOCK_REPLACEMENT_DATA_SUCCESS,
+        type: HOTO_BLOCK_ASSET_PORTFOLIO_REPLACEMENT_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_BLOCK_REPLACEMENT_DATA_FAILED,
+        type: HOTO_BLOCK_ASSET_PORTFOLIO_REPLACEMENT_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }
@@ -179,21 +188,21 @@ export const hoto_block_asset_partfolio_transfer_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_BLOCK_TRANSFER_DATA_REQUEST });
+      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_TRANSFER_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${oandmApis?.block?.transfer?.transfer_request_assign_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.block?.asset_portfolio?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_BLOCK_TRANSFER_DATA_SUCCESS,
+        type: HOTO_BLOCK_ASSET_PORTFOLIO_TRANSFER_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_BLOCK_TRANSFER_DATA_FAILED,
+        type: HOTO_BLOCK_ASSET_PORTFOLIO_TRANSFER_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }

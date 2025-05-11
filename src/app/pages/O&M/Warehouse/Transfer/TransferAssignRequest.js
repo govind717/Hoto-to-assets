@@ -405,7 +405,7 @@ const TransferAssignRequest = () => {
                       <TableCell
                         align="left"
                         sx={{
-                          textAlign: "left",
+                          textAlign: "left", 
                           verticalAlign: "middle",
                           textTransform: "capitalize",
                         }}
