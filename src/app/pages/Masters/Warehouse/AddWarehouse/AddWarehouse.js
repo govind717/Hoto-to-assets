@@ -205,16 +205,10 @@ function AddWarehouse() {
                       name="code"
                       placeholder="Enter Warehouse Code"
                       value={values.code}
-                      onChange={(e) =>
-                        setFieldValue("code", e.target.value)
-                      }
+                      onChange={(e) => setFieldValue("code", e.target.value)}
                       onBlur={() => setFieldTouched("code")}
-                      error={
-                        touched.code && Boolean(errors.code)
-                      }
-                      helperText={
-                        touched.code && errors.code
-                      }
+                      error={touched.code && Boolean(errors.code)}
+                      helperText={touched.code && errors.code}
                     />
                   </Grid>
                   <Grid item xs={6} md={3}>
@@ -507,7 +501,10 @@ function AddWarehouse() {
                         <Button
                           fullWidth
                           variant="contained"
-                          sx={{ height: "30px" }}
+                          sx={{
+                            height: "30px",
+                            "&:hover": { bgcolor: "#53B8CA" },
+                          }}
                           onClick={async () => {
                             try {
                               await contactPersonValidationSchema.validate(

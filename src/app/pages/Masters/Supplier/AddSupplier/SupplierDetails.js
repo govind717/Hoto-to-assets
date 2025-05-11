@@ -26,6 +26,7 @@ import { SUPPLIER_MASTER } from "app/utils/constants/routeConstants";
 import { Country, State, City } from "country-state-city";
 import { Axios } from "index";
 import MasterApis from "app/Apis/master";
+import moment from "moment";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -33,7 +34,7 @@ const tableCellSx = {
   minWidth: "150px",
   verticalAlign: "middle",
 };
-function SupplierDetails({ goToNextTab, setFinalFormData }) {
+function SupplierDetails({ goToNextTab, setFinalFormData, finalFormData }) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [isSubmitting, setSubmitting] = useState(false);
@@ -46,26 +47,42 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
     email: "",
     mobileNumber: "",
   });
-
+ 
   const [contactPersons, setContactPersons] = useState(
-    state?.contactPerson || []
+    finalFormData?.supplier_details?.contactPerson || []
   );
-   console.log("State : ",state);
+  // const initialValues = {
+  //   supplierName: state?.supplierName || "",
+  //   onBoardingDate: state?.onBoardingDate || "",
+  //   email: state?.email || "",
+  //   phoneNumber: state?.phoneNumber || "",
+  //   panNo: state?.panNo || "",
+  //   gstNo: state?.gstNo || "",
+  //   address: state?.address || "",
+  //   country: state?.country || "",
+  //   state: state?.state || "",
+  //   city: state?.city || "",
+  //   materials: state?.material_details || [],
+  //   contactPerson: state?.contactPerson || [],
+  // };
   const initialValues = {
-    supplierName: state?.supplierName || "",
-    onBoardingDate: state?.onBoardingDate || "",
-    email: state?.email || "",
-    phoneNumber: state?.phoneNumber || "",
-    panNo: state?.panNo || "",
-    gstNo: state?.gstNo || "",
-    address: state?.address || "",
-    country: state?.country || "",
-    state: state?.state || "",
-    city: state?.city || "",
-    materials: state?.material_details || [],
-    contactPerson: state?.contactPerson || [],
+    supplierName: finalFormData?.supplier_details?.supplierName || "",
+    onBoardingDate: finalFormData?.supplier_details?.onBoardingDate || "",
+    email: finalFormData?.supplier_details?.email || "",
+    phoneNumber: finalFormData?.supplier_details?.phoneNumber || "",
+    panNo: finalFormData?.supplier_details?.panNo || "",
+    gstNo: finalFormData?.supplier_details?.gstNo || "",
+    address: finalFormData?.supplier_details?.address || "",
+    country: finalFormData?.supplier_details?.country || "",
+    state: finalFormData?.supplier_details?.state || "",
+    city: finalFormData?.supplier_details?.city || "",
+    materials: finalFormData?.supplier_details?.material_details || [],
+    contactPerson: finalFormData?.supplier_details?.contactPerson || [],
   };
-  console.log("state?.materials : ", state);
+  console.log(
+    "finalFormData?.supplier_details?.onBoardingDate : ",
+    finalFormData?.supplier_details
+  );
   const validationSchema = yup.object({
     supplierName: yup.string().required("Supplier Name is required"),
     onBoardingDate: yup.string().required("on Boarding Date is required"),
@@ -152,15 +169,16 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
     setContactPersons(updated);
   };
   useEffect(() => {
-    if (state?.state) {
+    if (finalFormData?.supplier_details?.state) {
       const stateCities = City?.getCitiesOfState(
         "IN",
-        states?.find((s) => s.name === state?.state)?.isoCode
+        states?.find((s) => s.name === finalFormData?.supplier_details?.state)
+          ?.isoCode
       );
       setCities(stateCities);
     }
-  }, [state?.state]);
-  
+  }, [finalFormData?.supplier_details?.state]);
+
   return (
     <Div sx={{ mt: 0 }}>
       <Formik
@@ -174,9 +192,6 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
           <Form noValidate autoComplete="off">
             <Div sx={{ mt: 4 }}>
               <Grid container rowSpacing={2} columnSpacing={3}>
-                {/* Warehouse Info */}
-                {console.log("Values : ", values)}
-                {console.log("errors :", errors)}{" "}
                 <Grid item xs={6} md={3}>
                   <Typography variant="h6" fontSize="14px">
                     Supplier Name
@@ -208,7 +223,7 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                       setFieldValue("onBoardingDate", e.target.value)
                     }
                     onBlur={() => setFieldTouched("onBoardingDate", true)}
-                    value={values?.onBoardingDate}
+                    value={moment(values?.onBoardingDate).format("YYYY-MM-DD")}
                     error={
                       touched?.onBoardingDate && Boolean(errors?.onBoardingDate)
                     }

@@ -14,7 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import FullScreenLoader from "app/pages/Components/Loader";
-import { hoto_block_asset_partfolio_transfer_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import { hoto_warehouse_asset_partfolio_transfer_data_disptach } from "app/redux/actions/Hoto_to_servey/Warehouse";
 import { debounce } from "lodash";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -43,14 +43,10 @@ const TranferTable = ({ row }) => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { hotoBlockAssetPortfolioTransferDataReducer } = useSelector(
+  const { hotoWarehouseAssetPortfolioTransferDataReducer } = useSelector(
     (state) => state
   );
 
-  console.log(
-    "hotoBlockAssetPortfolioTransferDataReducer : ",
-    hotoBlockAssetPortfolioTransferDataReducer
-  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -67,7 +63,7 @@ const TranferTable = ({ row }) => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_block_asset_partfolio_transfer_data_disptach({
+      hoto_warehouse_asset_partfolio_transfer_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -94,7 +90,7 @@ const TranferTable = ({ row }) => {
 
   useEffect(() => {
     dispatch(
-      hoto_block_asset_partfolio_transfer_data_disptach({
+      hoto_warehouse_asset_partfolio_transfer_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -121,7 +117,7 @@ const TranferTable = ({ row }) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_block_asset_partfolio_transfer_data_disptach({
+                hoto_warehouse_asset_partfolio_transfer_data_disptach({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -147,7 +143,7 @@ const TranferTable = ({ row }) => {
           }}
         />
       </Div>
-      {hotoBlockAssetPortfolioTransferDataReducer?.loading && (
+      {hotoWarehouseAssetPortfolioTransferDataReducer?.loading && (
         <FullScreenLoader />
       )}
       <TableContainer component={Paper}>
@@ -284,9 +280,9 @@ const TranferTable = ({ row }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoBlockAssetPortfolioTransferDataReducer?.data?.result?.data
+            {hotoWarehouseAssetPortfolioTransferDataReducer?.data?.result?.data
               ?.length > 0 ? (
-              hotoBlockAssetPortfolioTransferDataReducer?.data?.result?.data?.map(
+              hotoWarehouseAssetPortfolioTransferDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>
@@ -444,7 +440,7 @@ const TranferTable = ({ row }) => {
         </Table>
         <Pagination
           count={
-            hotoBlockAssetPortfolioTransferDataReducer?.data?.result
+            hotoWarehouseAssetPortfolioTransferDataReducer?.data?.result
               ?.total_pages || 1
           }
           page={page}

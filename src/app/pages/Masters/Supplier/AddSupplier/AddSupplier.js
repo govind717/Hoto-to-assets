@@ -12,13 +12,13 @@ function AddSupplier() {
   const [value, setValue] = useState("1");
   const { state, pathname } = useLocation();
   const initialstate={
-    supplier_details:{},
-    branch_details:{},  
+    supplier_details:state ? {...state} : {},
+    branch_details:state?.branch_details ? state?.branch_details : [],  
     // kyc_details:{},
     // material_details:{}
   }
   const [finalFormData,setFinalFormData]=useState(initialstate);
-
+  console.log("finalFormData : ", finalFormData);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

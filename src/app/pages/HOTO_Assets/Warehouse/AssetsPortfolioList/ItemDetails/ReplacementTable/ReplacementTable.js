@@ -14,10 +14,8 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
-import {
-  hoto_block_asset_partfolio_replacement_data_disptach,
-  hoto_block_replacement_data_disptach,
-} from "app/redux/actions/Hoto_to_servey/Block";
+import { hoto_warehouse_asset_partfolio_replacement_data_disptach } from "app/redux/actions/Hoto_to_servey/Warehouse";
+
 import { debounce } from "lodash";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -45,7 +43,7 @@ const ReplacementTable = ({ row }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const { hotoBlockReplacementDataReducer } = useSelector((state) => state);
+  const { hotoWarehouseAssetPortfolioTransferDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,7 +61,7 @@ const ReplacementTable = ({ row }) => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_block_asset_partfolio_replacement_data_disptach({
+      hoto_warehouse_asset_partfolio_replacement_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -90,7 +88,7 @@ const ReplacementTable = ({ row }) => {
 
   useEffect(() => {
     dispatch(
-      hoto_block_asset_partfolio_replacement_data_disptach({
+      hoto_warehouse_asset_partfolio_replacement_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -117,7 +115,7 @@ const ReplacementTable = ({ row }) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_block_asset_partfolio_replacement_data_disptach({
+                hoto_warehouse_asset_partfolio_replacement_data_disptach({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -324,8 +322,8 @@ const ReplacementTable = ({ row }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoBlockReplacementDataReducer?.data?.result?.data?.length > 0 ? (
-              hotoBlockReplacementDataReducer?.data?.result?.data?.map(
+            {hotoWarehouseAssetPortfolioTransferDataReducer?.data?.result?.data?.length > 0 ? (
+              hotoWarehouseAssetPortfolioTransferDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>
@@ -505,7 +503,7 @@ const ReplacementTable = ({ row }) => {
         </Table>
         <Pagination
           count={
-            hotoBlockReplacementDataReducer?.data?.result?.total_pages || 1
+            hotoWarehouseAssetPortfolioTransferDataReducer?.data?.result?.total_pages || 1
           }
           page={page}
           onChange={handleChangePage}

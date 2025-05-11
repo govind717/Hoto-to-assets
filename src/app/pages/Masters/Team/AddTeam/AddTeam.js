@@ -50,7 +50,7 @@ function AddTeam() {
 
   const onUserSave = async (values) => {
     const body = {
-      departmentId: values?.departmentName.id,
+      departmentId: values?.departmentName._id,
       teamName: values?.teamName,
     };
 
