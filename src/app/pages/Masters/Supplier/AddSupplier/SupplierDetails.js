@@ -152,14 +152,14 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
     setContactPersons(updated);
   };
   useEffect(() => {
-    if (state.state) {
-      const stateCities = City.getCitiesOfState(
+    if (state?.state) {
+      const stateCities = City?.getCitiesOfState(
         "IN",
-        states.find((s) => s.name === state.state)?.isoCode
+        states?.find((s) => s.name === state?.state)?.isoCode
       );
       setCities(stateCities);
     }
-  }, [state.state]);
+  }, [state?.state]);
   
   return (
     <Div sx={{ mt: 0 }}>
@@ -452,7 +452,11 @@ function SupplierDetails({ goToNextTab, setFinalFormData }) {
                       variant="contained"
                       size="small"
                       onClick={() => handleAddContactPerson(setFieldValue)}
-                      sx={{ my: "2%", minWidth: "100%" }}
+                      sx={{
+                        my: "2%",
+                        minWidth: "100%",
+                        "&:hover": { bgcolor: "#53B8CA" },
+                      }}
                     >
                       Add
                     </Button>
