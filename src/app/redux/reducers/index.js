@@ -86,6 +86,9 @@ import {
 } from "./HOTOWarehouse";
 import {
   hotoWarehouseAssetPortfolioDataReducer,
+  hotoWarehouseAssetPortfolioMaintenanceDataReducer,
+  hotoWarehouseAssetPortfolioReplacementDataReducer,
+  hotoWarehouseAssetPortfolioTransferDataReducer,
   hotoWarehouseMaintenanceDataReducer,
   hotoWarehouseReplacementDataReducer,
   hotoWarehouseTransferDataReducer,
@@ -136,6 +139,9 @@ const exportReducers = (history) => {
 
     hotoWarehouseAssetPortfolioDataReducer:
       hotoWarehouseAssetPortfolioDataReducer,
+      hotoWarehouseAssetPortfolioMaintenanceDataReducer,
+      hotoWarehouseAssetPortfolioReplacementDataReducer,
+      hotoWarehouseAssetPortfolioTransferDataReducer,
     hotoWarehouseWiseAssetDataReducer,
     hotoWarehouseMaintenanceDataReducer,
     hotoWarehouseReplacementDataReducer,
