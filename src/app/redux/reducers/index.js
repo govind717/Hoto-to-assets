@@ -21,7 +21,7 @@ import {
   uomDataReducer,
   warehouseDataReducer,
 } from "./Master";
-import { userDataReducer } from "./userManagement";
+import { singleUserDataReducer, userDataReducer } from "./userManagement";
 import {
   hotoBlockAssetPortfolioDataReducer,
   hotoBlockAssetPortfolioMaintenanceDataReducer,
@@ -117,6 +117,7 @@ const exportReducers = (history) => {
     warehouseDataReducer: warehouseDataReducer,
     supplierDataReducer: supplierDataReducer,
     userDataReducer: userDataReducer,
+    singleUserDataReducer,
     hotoBlockAssetPortfolioDataReducer: hotoBlockAssetPortfolioDataReducer,
     hotoBlockAssetPortfolioMaintenanceDataReducer,
     hotoBlockAssetPortfolioReplacementDataReducer,

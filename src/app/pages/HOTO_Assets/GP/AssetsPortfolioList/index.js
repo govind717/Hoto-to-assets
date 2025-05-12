@@ -579,7 +579,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={hotoGpAssetPortfolioDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

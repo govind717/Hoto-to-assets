@@ -25,6 +25,7 @@ import Swal from 'sweetalert2';
 import { Axios } from 'index';
 import AllApis from 'app/Apis/apis';
 import { useDispatch } from 'react-redux';
+import { single_user_data_disptach } from 'app/redux/actions/userManagement';
 // import { getSingleMarketExecutive } from 'app/redux/actions/MarketExecutive';
 
 const validationSchema = yup.object({
@@ -85,6 +86,9 @@ const LoginAndForgotPassword = ({ setResetPassword }) => {
                     user: resultData?.result?.userDetails,
                     isAuthenticated:true
                 }));
+                dispatch(
+                  single_user_data_disptach(resultData?.result?.userDetails?._id)
+                );
                 // dispatch(getSingleMarketExecutive())
                 navigate("/");
             }

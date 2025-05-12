@@ -118,7 +118,26 @@ function AdduserManagement() {
         view: state?.role?.hoto_assets?.supplierMaster?.view || false,
         edit: state?.role?.hoto_assets?.supplierMaster?.edit || false,
       },
-      
+      hotoBlock: {
+        create: state?.role?.hoto_assets?.hotoBlock?.create || false,
+        view: state?.role?.hoto_assets?.hotoBlock?.view || false,
+        edit: state?.role?.hoto_assets?.hotoBlock?.edit || false,
+      },
+      hotoGp: {
+        create: state?.role?.hoto_assets?.hotoGp?.create || false,
+        view: state?.role?.hoto_assets?.hotoGp?.view || false,
+        edit: state?.role?.hoto_assets?.hotoGp?.edit || false,
+      },
+      hotoWarehouse: {
+        create: state?.role?.hoto_assets?.hotoWarehouse?.create || false,
+        view: state?.role?.hoto_assets?.hotoWarehouse?.view || false,
+        edit: state?.role?.hoto_assets?.hotoWarehouse?.edit || false,
+      },
+      hotoRkm: {
+        create: state?.role?.hoto_assets?.hotoRkm?.create || false,
+        view: state?.role?.hoto_assets?.hotoRkm?.view || false,
+        edit: state?.role?.hoto_assets?.hotoRkm?.edit || false,
+      },
     },
   };
   const [roleCheked, setRoleChecked] = useState(roleInitialVal);
@@ -2037,6 +2056,718 @@ function AdduserManagement() {
                                       ...prev.hoto_assets,
                                       supplierMaster: {
                                         ...prev.hoto_assets.supplierMaster,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      Hoto Block
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoBlock?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoBlock: {
+                                        ...prev.hoto_assets.hotoBlock,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoBlock?.view
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoBlock: {
+                                        ...prev.hoto_assets.hotoBlock,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoBlock?.edit
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoBlock: {
+                                        ...prev.hoto_assets.hotoBlock,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      Hoto GP
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoGp?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoGp: {
+                                        ...prev.hoto_assets.hotoGp,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={roleCheked?.hoto_assets?.hotoGp?.view}
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoGp: {
+                                        ...prev.hoto_assets.hotoGp,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={roleCheked?.hoto_assets?.hotoGp?.edit}
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoGp: {
+                                        ...prev.hoto_assets.hotoGp,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      Hoto RKM
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoRkm?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoRkm: {
+                                        ...prev.hoto_assets.hotoRkm,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={roleCheked?.hoto_assets?.hotoRkm?.view}
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoRkm: {
+                                        ...prev.hoto_assets.hotoRkm,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={roleCheked?.hoto_assets?.hotoRkm?.edit}
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoRkm: {
+                                        ...prev.hoto_assets.hotoRkm,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      Hoto Warehouse
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoWarehouse?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoWarehouse: {
+                                        ...prev.hoto_assets.hotoWarehouse,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoWarehouse?.view
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoWarehouse: {
+                                        ...prev.hoto_assets.hotoWarehouse,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoWarehouse?.edit
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoWarehouse: {
+                                        ...prev.hoto_assets.hotoWarehouse,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      O&M Block
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmBlock?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmBlock: {
+                                        ...prev.hoto_assets.oandmBlock,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmBlock?.view
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmBlock: {
+                                        ...prev.hoto_assets.oandmBlock,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmBlock?.edit
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmBlock: {
+                                        ...prev.hoto_assets.oandmBlock,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      O&M GP
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmGp?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmGp: {
+                                        ...prev.hoto_assets.oandmGp,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={roleCheked?.hoto_assets?.oandmGp?.view}
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmGp: {
+                                        ...prev.hoto_assets.oandmGp,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={roleCheked?.hoto_assets?.oandmGp?.edit}
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmGp: {
+                                        ...prev.hoto_assets.oandmGp,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      O&M RKM
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmRkm?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmRkm: {
+                                        ...prev.hoto_assets.oandmRkm,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={roleCheked?.hoto_assets?.oandmRkm?.view}
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmRkm: {
+                                        ...prev.hoto_assets.oandmRkm,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={roleCheked?.hoto_assets?.oandmRkm?.edit}
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmRkm: {
+                                        ...prev.hoto_assets.oandmRkm,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      O&M Warehouse
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmWarehouse?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouse: {
+                                        ...prev.hoto_assets.oandmWarehouse,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmWarehouse?.view
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouse: {
+                                        ...prev.hoto_assets.oandmWarehouse,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmWarehouse?.edit
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouse: {
+                                        ...prev.hoto_assets.oandmWarehouse,
                                         edit: e.target.checked,
                                       },
                                     },

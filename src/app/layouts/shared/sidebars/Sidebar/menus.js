@@ -4,7 +4,9 @@ import PaidIcon from '@mui/icons-material/Paid';
 import StoreIcon from '@mui/icons-material/Store';
 import StarBorderPurple500Icon from "@mui/icons-material/StarBorderPurple500";
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import CellTowerOutlinedIcon from "@mui/icons-material/CellTowerOutlined";
 import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
+import EngineeringOutlinedIcon from "@mui/icons-material/EngineeringOutlined";
 const menus = [
   {
     uri: "/dashboards",
@@ -33,7 +35,7 @@ const menus = [
   {
     label: "Masters",
     type: "collapsible",
-    // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+    icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
     children: [
       {
         uri: "/masters/package",
@@ -80,7 +82,7 @@ const menus = [
         label: "Team",
         type: "nav-item",
       },
-    
+
       {
         uri: "/masters/category",
         isActiveUri: ["/masters/category/add", "/masters/category/edit"],
@@ -137,7 +139,8 @@ const menus = [
   {
     label: "Hoto - Assets",
     type: "collapsible",
-    // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+    icon: <CellTowerOutlinedIcon sx={{ fontSize: 20 }} />,
+    permission: ["hotoBlock", "hotoGp", "hotoRkm", "hotoWarehouse"],
     children: [
       {
         uri: "/dashboards/hoto-survey-block-data",
@@ -146,6 +149,7 @@ const menus = [
           "/dashboards/hoto-survey-block-data/block-wise-details",
           "/dashboards/hoto-survey-block-data/block-wise-details/rack-details",
         ],
+        permission: "hotoBlock",
         label: "Block",
         type: "nav-item",
       },
@@ -157,7 +161,14 @@ const menus = [
           "/dashboards/hoto-survey-gp-data/gp-wise-details/rack-details",
           "/dashboards/hoto-survey-gp-data/gp-wise-details",
         ],
+        permission: "hotoGp",
         type: "nav-item",
+      },
+      {
+        uri: "/dashboards/hoto-survey-rkm-data",
+        label: "RKM",
+        type: "nav-item",
+        permission: "hotoRkm",
       },
       {
         uri: "/dashboards/hoto-survey-warehouse-data",
@@ -168,11 +179,7 @@ const menus = [
           "/dashboards/hoto-survey-warehouse-data/warehouse-wise-details",
         ],
         type: "nav-item",
-      },
-      {
-        uri: "/dashboards/hoto-survey-rkm-data",
-        label: "RKM",
-        type: "nav-item",
+        permission: "hotoWarehouse",
       },
     ],
   },
@@ -185,32 +192,36 @@ const menus = [
   {
     label: "O&M",
     type: "collapsible",
-    // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+    icon: <EngineeringOutlinedIcon sx={{ fontSize: 20 }} />,
+    permission: ["oandmBlock", "oandmGp", "oandmWarehouse"],
     children: [
       {
         uri: "/o&m/block",
         // isActiveUri :["/masters/package/add"],
         label: "Block",
         type: "nav-item",
+        permission: "oandmBlock",
       },
       {
         uri: "/o&m/gp",
         // isActiveUri :["/masters/district/add"],
         label: "GP",
         type: "nav-item",
+        permission: "oandmGp",
       },
       {
         uri: "/o&m/warehouse",
         // isActiveUri :["/masters/district/add"],
         label: "Warehouse",
         type: "nav-item",
+        permission: "oandmWarehouse",
       },
     ],
   },
   {
     label: "O&M Warehouse",
     type: "collapsible",
-    // icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+    icon: <WarehouseOutlinedIcon sx={{ fontSize: 20 }} />,
     children: [
       {
         uri: "/o&mwarehouse/warehouse",
