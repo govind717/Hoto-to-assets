@@ -1,6 +1,6 @@
 import Div from "@jumbo/shared/Div";
 import { Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import CrmDashboard from "./crm/CrmDashboard";
 import CryptoDashboard from "./crypto/CryptoDashboard";
 import EcommerceDashboard from "./ecommerce/EcommerceDashboard";
@@ -12,14 +12,18 @@ import HotoHeader from "../Hoto_to_Assets/HotoHeader";
 // import HeaderTitleHoc from "app/components/HeaderTitleHoc";
 
 const Dashboard = () => {
+  const [selectedValue, setSelectedValue] = useState("Package 1");
   return (
     <Div sx={{ mt: -2 }}>
-      <HotoHeader />
+      <HotoHeader
+        setSelectedValue={setSelectedValue}
+        selectedValue={selectedValue}
+      />
       {/* <Div sx={{ mb: 5,mt:2 }}>
         <ListingDashboard />
       </Div> */}
-      <Div sx={{ mb: 5 ,mt:2}}>
-        <EcommerceDashboard />
+      <Div sx={{ mb: 5, mt: 2 }}>
+        <EcommerceDashboard selectedValue={selectedValue} />
       </Div>
       {/* <Div sx={{ mb: 5 }}>
         <IntranetDashboard/>

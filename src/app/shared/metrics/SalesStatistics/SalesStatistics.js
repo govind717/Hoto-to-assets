@@ -41,59 +41,56 @@ const hotosurveyData = [
     },
 ];
 
-const SalesStatistics = () => {
-    const { t } = useTranslation();
-    const theme = useTheme();
+const SalesStatistics = ({ selectedValue }) => {
+  const { t } = useTranslation();
+  const theme = useTheme();
 
-    return (  
-           
-                <Grid container spacing={0}>
-                   
-                    {/* <Grid item xs={12} md={6}>
+  return (
+    <Grid container spacing={0}>
+      {/* <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2  ,pl:0 ,pt:0}}>
                             <StylishAssetHealthChart />
                         </Div>
                     </Grid> */}
 
-                    
-                    {/* <Grid item xs={12} md={6}>
+      {/* <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2, pr:0 ,pt:0}}>
                             <ConditionStatusChart />
                         </Div>
                     </Grid> */}
-                    <Grid item xs={12} md={12}>
-                        <Div sx={{ p: 2, pl:0 ,pt:0}}>
-                            <ConditionStatusChart2 />
-                        </Div>
-                    </Grid>
-                    {/* <Grid item xs={12} md={12}>
+      <Grid item xs={12} md={12}>
+        <Div sx={{ p: 2, pl: 0, pt: 0 }}>
+          <ConditionStatusChart2 selectedValue={selectedValue} />
+        </Div>
+      </Grid>
+      {/* <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>
                             <AssetConditionByTypeChart />
                         </Div>
                     </Grid> */}
-                    <Grid item xs={12} md={12}>
-                        <Div sx={{ p: 2, px:0 }}>
-                            <AssetConditionByTypeChart4 />
-                        </Div>
-                    </Grid>
-                    {/* <Grid item xs={12} md={12}>
+      <Grid item xs={12} md={12}>
+        <Div sx={{ p: 2, px: 0 }}>
+          <AssetConditionByTypeChart4 selectedValue={selectedValue} />
+        </Div>
+      </Grid>
+      {/* <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>
                             <AssetConditionByTypeChart2 />
                         </Div>
                     </Grid> */}
-                    {/* <Grid item xs={12} md={12}>
+      {/* <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>
                             <AssetConditionByTypeChart3 />
                         </Div>
                     </Grid> */}
-                    {/* Right: Pie Chart */}
-                    {/* <Grid item xs={12} md={6}>
+      {/* Right: Pie Chart */}
+      {/* <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2, pr:0 }}>
                             <ChartOrderRevenue data={hotosurveyData}/>
                         </Div>
                     </Grid> */}
-                </Grid>
-    );
+    </Grid>
+  );
 };
 
 export default SalesStatistics;
