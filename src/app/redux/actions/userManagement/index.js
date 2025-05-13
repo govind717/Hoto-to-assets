@@ -1,7 +1,7 @@
 
 import AllApis from "app/Apis/apis";
 import { Axios } from "index";
-import { USER_DATA_FAILED, USER_DATA_REQUEST, USER_DATA_SUCCESS } from "./constants";
+import { SINGLE_USER_DATA_FAILED, SINGLE_USER_DATA_REQUEST, SINGLE_USER_DATA_SUCCESS, USER_DATA_FAILED, USER_DATA_REQUEST, USER_DATA_SUCCESS } from "./constants";
 
 
 export const user_data_disptach = function ({ page = 1,search_value = "",sort="" ,sortBy="" } = {}) {
@@ -30,3 +30,30 @@ export const user_data_disptach = function ({ page = 1,search_value = "",sort=""
         }
     }
 }
+
+export const single_user_data_disptach = function (id) {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: SINGLE_USER_DATA_REQUEST });
+
+      const response = await Axios.get(`${AllApis?.single_user}/${id}`);
+     
+      localStorage.setItem(
+        "permissions",
+        JSON.stringify(response?.data?.result?.role?.hoto_assets)
+      );
+      dispatch({
+        type: SINGLE_USER_DATA_SUCCESS,
+        payload: {
+          data: response?.data,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: SINGLE_USER_DATA_FAILED,
+        payload: error?.response?.data?.message,
+      });
+    }
+  };
+};
+
