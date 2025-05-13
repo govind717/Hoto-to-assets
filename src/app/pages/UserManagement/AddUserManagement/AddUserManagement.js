@@ -123,6 +123,7 @@ function AdduserManagement() {
         view: state?.role?.hoto_assets?.hotoBlock?.view || false,
         edit: state?.role?.hoto_assets?.hotoBlock?.edit || false,
       },
+
       hotoGp: {
         create: state?.role?.hoto_assets?.hotoGp?.create || false,
         view: state?.role?.hoto_assets?.hotoGp?.view || false,
@@ -137,6 +138,47 @@ function AdduserManagement() {
         create: state?.role?.hoto_assets?.hotoRkm?.create || false,
         view: state?.role?.hoto_assets?.hotoRkm?.view || false,
         edit: state?.role?.hoto_assets?.hotoRkm?.edit || false,
+      },
+      hotoWarehouseModule: {
+        create: state?.role?.hoto_assets?.hotoWarehouseModule?.create || false,
+        view: state?.role?.hoto_assets?.hotoWarehouseModule?.view || false,
+        edit: state?.role?.hoto_assets?.hotoWarehouseModule?.edit || false,
+      },
+      oandmBlock: {
+        create: state?.role?.hoto_assets?.oandmBlock?.create || false,
+        view: state?.role?.hoto_assets?.oandmBlock?.view || false,
+        edit: state?.role?.hoto_assets?.oandmBlock?.edit || false,
+      },
+
+      oandmGp: {
+        create: state?.role?.hoto_assets?.oandmGp?.create || false,
+        view: state?.role?.hoto_assets?.oandmGp?.view || false,
+        edit: state?.role?.hoto_assets?.oandmGp?.edit || false,
+      },
+      oandmWarehouse: {
+        create: state?.role?.hoto_assets?.oandmWarehouse?.create || false,
+        view: state?.role?.hoto_assets?.oandmWarehouse?.view || false,
+        edit: state?.role?.hoto_assets?.oandmWarehouse?.edit || false,
+      },
+      oandmRkm: {
+        create: state?.role?.hoto_assets?.oandmRkm?.create || false,
+        view: state?.role?.hoto_assets?.oandmRkm?.view || false,
+        edit: state?.role?.hoto_assets?.oandmRkm?.edit || false,
+      },
+      oandmWarehouseWarehouse: {
+        create: state?.role?.hoto_assets?.oandmWarehouseWarehouse?.create || false,
+        view: state?.role?.hoto_assets?.oandmWarehouseWarehouse?.view || false,
+        edit: state?.role?.hoto_assets?.oandmWarehouseWarehouse?.edit || false,
+      },
+      oandmWarehouseMaterialInward: {
+        create: state?.role?.hoto_assets?.oandmWarehouseMaterialInward?.create || false,
+        view: state?.role?.hoto_assets?.oandmWarehouseMaterialInward?.view || false,
+        edit: state?.role?.hoto_assets?.oandmWarehouseMaterialInward?.edit || false,
+      },
+      oandmWarehouseMaterialRequest: {
+        create: state?.role?.hoto_assets?.oandmWarehouseMaterialRequest?.create || false,
+        view: state?.role?.hoto_assets?.oandmWarehouseMaterialRequest?.view || false,
+        edit: state?.role?.hoto_assets?.oandmWarehouseMaterialRequest?.edit || false,
       },
     },
   };
@@ -2076,7 +2118,7 @@ function AdduserManagement() {
                       fontWeight={500}
                       mb={1}
                     >
-                      Hoto Block
+                      Hoto-Assets Block
                     </Typography>
                     <Div sx={{ pl: 2, mb: 2 }}>
                       <Typography
@@ -2167,7 +2209,7 @@ function AdduserManagement() {
                       fontWeight={500}
                       mb={1}
                     >
-                      Hoto GP
+                      Hoto-Assets GP
                     </Typography>
                     <Div sx={{ pl: 2, mb: 2 }}>
                       <Typography
@@ -2254,7 +2296,7 @@ function AdduserManagement() {
                       fontWeight={500}
                       mb={1}
                     >
-                      Hoto RKM
+                      Hoto-Assets RKM
                     </Typography>
                     <Div sx={{ pl: 2, mb: 2 }}>
                       <Typography
@@ -2341,7 +2383,7 @@ function AdduserManagement() {
                       fontWeight={500}
                       mb={1}
                     >
-                      Hoto Warehouse
+                      Hoto-Assets Warehouse
                     </Typography>
                     <Div sx={{ pl: 2, mb: 2 }}>
                       <Typography
@@ -2412,6 +2454,100 @@ function AdduserManagement() {
                                       ...prev.hoto_assets,
                                       hotoWarehouse: {
                                         ...prev.hoto_assets.hotoWarehouse,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      Hoto Warehouse
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoWarehouseModule
+                                    ?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoWarehouseModule: {
+                                        ...prev.hoto_assets.hotoWarehouseModule,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoWarehouseModule
+                                    ?.view
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoWarehouseModule: {
+                                        ...prev.hoto_assets.hotoWarehouseModule,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets?.hotoWarehouseModule
+                                    ?.edit
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      hotoWarehouseModule: {
+                                        ...prev.hoto_assets.hotoWarehouseModule,
                                         edit: e.target.checked,
                                       },
                                     },
@@ -2647,7 +2783,9 @@ function AdduserManagement() {
                           <FormControlLabel
                             control={
                               <Checkbox
-                                checked={roleCheked?.hoto_assets?.oandmRkm?.view}
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmRkm?.view
+                                }
                                 onChange={(e) =>
                                   setRoleChecked((prev) => ({
                                     ...prev,
@@ -2669,7 +2807,9 @@ function AdduserManagement() {
                           <FormControlLabel
                             control={
                               <Checkbox
-                                checked={roleCheked?.hoto_assets?.oandmRkm?.edit}
+                                checked={
+                                  roleCheked?.hoto_assets?.oandmRkm?.edit
+                                }
                                 onChange={(e) =>
                                   setRoleChecked((prev) => ({
                                     ...prev,
@@ -2711,7 +2851,8 @@ function AdduserManagement() {
                             control={
                               <Checkbox
                                 checked={
-                                  roleCheked?.hoto_assets?.oandmWarehouse?.create
+                                  roleCheked?.hoto_assets?.oandmWarehouse
+                                    ?.create
                                 }
                                 onChange={(e) =>
                                   setRoleChecked((prev) => ({
@@ -2768,6 +2909,297 @@ function AdduserManagement() {
                                       ...prev.hoto_assets,
                                       oandmWarehouse: {
                                         ...prev.hoto_assets.oandmWarehouse,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      O&M-Warehouse Warehouse
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets
+                                    ?.oandmWarehouseWarehouse?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouseWarehouse: {
+                                        ...prev.hoto_assets
+                                          .oandmWarehouseWarehouse,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets
+                                    ?.oandmWarehouseWarehouse?.view
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouseWarehouse: {
+                                        ...prev.hoto_assets
+                                          .oandmWarehouseWarehouse,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets
+                                    ?.oandmWarehouseWarehouse?.edit
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouseWarehouse: {
+                                        ...prev.hoto_assets
+                                          .oandmWarehouseWarehouse,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      O&M-Warehouse Material Inward
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets
+                                    ?.oandmWarehouseMaterialInward?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouseMaterialInward: {
+                                        ...prev.hoto_assets
+                                          .oandmWarehouseMaterialInward,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets
+                                    ?.oandmWarehouseMaterialInward?.view
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouseMaterialInward: {
+                                        ...prev.hoto_assets
+                                          .oandmWarehouseMaterialInward,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets
+                                    ?.oandmWarehouseMaterialInward?.edit
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouseMaterialInward: {
+                                        ...prev.hoto_assets
+                                          .oandmWarehouseMaterialInward,
+                                        edit: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Edit"}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Div>
+                  </Div>
+                  <Div sx={{ mb: 3 }}>
+                    <Typography
+                      variant="h6"
+                      fontSize="14px"
+                      fontWeight={500}
+                      mb={1}
+                    >
+                      O&M-Warehouse Material Request
+                    </Typography>
+                    <Div sx={{ pl: 2, mb: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                        fontSize="14px"
+                        fontWeight={500}
+                      ></Typography>
+                      <Grid container spacing={1} sx={{ pl: 2 }}>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets
+                                    ?.oandmWarehouseMaterialRequest?.create
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouseMaterialRequest: {
+                                        ...prev.hoto_assets
+                                          .oandmWarehouseMaterialRequest,
+                                        create: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"Create"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets
+                                    ?.oandmWarehouseMaterialRequest?.view
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouseMaterialRequest: {
+                                        ...prev.hoto_assets
+                                          .oandmWarehouseMaterialRequest,
+                                        view: e.target.checked,
+                                      },
+                                    },
+                                  }))
+                                }
+                              />
+                            }
+                            label={"View"}
+                          />
+                        </Grid>
+                        <Grid item xs={4} sm={2}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  roleCheked?.hoto_assets
+                                    ?.oandmWarehouseMaterialRequest?.edit
+                                }
+                                onChange={(e) =>
+                                  setRoleChecked((prev) => ({
+                                    ...prev,
+                                    hoto_assets: {
+                                      ...prev.hoto_assets,
+                                      oandmWarehouseMaterialRequest: {
+                                        ...prev.hoto_assets
+                                          .oandmWarehouseMaterialRequest,
                                         edit: e.target.checked,
                                       },
                                     },

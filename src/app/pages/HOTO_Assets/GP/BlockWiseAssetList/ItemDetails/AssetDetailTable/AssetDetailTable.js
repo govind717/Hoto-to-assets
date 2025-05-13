@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import EditModal from "../Modal/EditModal";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
+import EquipmentModal from "./Equipment_details_models";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -73,6 +74,26 @@ const AssetDetailTable = ({ data }) => {
   const showDetails = (data) => {
     navigate("/dashboards/hoto-survey-gp-data/gp-wise-details/rack-details");
   };
+
+  const [equipment_show, set_equipment_show] = useState({
+    open: false,
+    equipment_name: null,
+  });
+  
+  
+  const handleOpen = (data) => {
+    set_equipment_show({
+      open: true,
+      data: data,
+    });
+  };
+  const handleClose = () => {
+    set_equipment_show({
+      open: false,
+      equipment_name: null,
+    });
+  };
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -221,9 +242,10 @@ const AssetDetailTable = ({ data }) => {
                         sx={{
                           "&:hover": { cursor: "pointer", color: "black" },
                         }}
-                        onClick={() => {
-                          showDetails(ele);
-                        }}
+                        // onClick={() => {
+                        //   showDetails(ele);
+                        // }}
+                        onClick={() => handleOpen(ele)}
                       />
                     </TableCell>
                     <TableCell
@@ -281,6 +303,12 @@ const AssetDetailTable = ({ data }) => {
           }}
         />
       </TableContainer>
+      {equipment_show?.open && (
+        <EquipmentModal
+          equipment_show={equipment_show}
+          handleClose={handleClose}
+        />
+      )}
       <EditModal open={open} handleClose={handleCloseModal} row={row} />
     </>
   );

@@ -41,7 +41,7 @@ export const hoto_gp_asset_partfolio_data_disptach = function ({
     try {
        const body = {
          filters: {
-           "equipment_details.location_type":"gp"
+           "equipment_details.location_type":"old gp"
          },
          searchFields: {
            string: [
@@ -218,7 +218,7 @@ export const hoto_gp_wise_asset_data_disptach = function ({
     try {
        const body = {
          filters: {
-          location_type:"gp"
+          location_type:"old gp"
          },
          searchFields: {
            string: ["block.name","location_name","location_code", "block_id", "district.name", "district_id"],

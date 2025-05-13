@@ -188,6 +188,7 @@ const menus = [
     label: "HOTO Warehouse",
     type: "nav-item",
     icon: <WarehouseOutlinedIcon sx={{ fontSize: 20 }} />,
+    permission: "hotoWarehouseModule",
   },
   {
     label: "O&M",
@@ -222,24 +223,32 @@ const menus = [
     label: "O&M Warehouse",
     type: "collapsible",
     icon: <WarehouseOutlinedIcon sx={{ fontSize: 20 }} />,
+    permission: [
+      "oandmWarehouseWarehouse",
+      "oandmWarehouseMaterialInward",
+      "oandmWarehouseMaterialRequest",
+    ],
     children: [
       {
         uri: "/o&mwarehouse/warehouse",
         // isActiveUri :["/masters/package/add"],
         label: "Warehouse",
         type: "nav-item",
+        permission: "oandmWarehouseWarehouse",
       },
       {
         uri: "/o&mwarehouse/material-inward",
         // isActiveUri :["/masters/district/add"],
         label: "Material Inward",
         type: "nav-item",
+        permission: "oandmWarehouseMaterialInward",
       },
       {
         uri: "/o&mwarehouse/material-request",
         // isActiveUri :["/masters/district/add"],
         label: "Material Request",
         type: "nav-item",
+        permission: "oandmWarehouseMaterialRequest",
       },
     ],
   },
