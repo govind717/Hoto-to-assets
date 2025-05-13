@@ -116,16 +116,16 @@ const AssetPortfolioTableRow = ({
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
           <Chip
-            label={e?.condition ? e.condition.toUpperCase() : "-"}
+            label={e?.condition ? e.condition?.toUpperCase() : "-"}
             sx={{
               backgroundColor:
-                e?.condition.toUpperCase() === "DAMAGED"
+                e?.condition?.toUpperCase() === "DAMAGED"
                   ? Red
-                  : e?.condition.toUpperCase() === "SEMI-DAMAGED"
+                  : e?.condition?.toUpperCase() === "SEMI-DAMAGED"
                   ? Yellow
-                  : e?.condition.toUpperCase() === "ROBUST"
+                  : e?.condition?.toUpperCase() === "ROBUST"
                   ? Green
-                  : e?.condition.toUpperCase() === "MISSING"
+                  : e?.condition?.toUpperCase() === "MISSING"
                   ? Orange
                   : "",
               color: "#FFF",
