@@ -19,11 +19,14 @@ const AuthUserDropdown = () => {
     const navigate = useNavigate();
     const {theme} = useJumboTheme();
     const {setAuthToken} = useJumboAuth();
-    const auth_user = JSON.parse(localStorage.getItem('user_details'))
+    const auth_user = JSON.parse(localStorage.getItem("dbomUserAndToken"));
 
     const onLogout = () => {
         // setAuthToken(null);
-        localStorage.removeItem("user_details")
+        localStorage.removeItem("user_details");
+        localStorage.removeItem("dbomUserAndToken");
+        localStorage.removeItem("token");
+        localStorage.removeItem("permissions");
         navigate("/login");
     };
 
@@ -46,7 +49,7 @@ const AuthUserDropdown = () => {
                 }}>
                     <Avatar src={authUser.profile_pic} alt={auth_user?.email?.toUpperCase()} sx={{width: 60, height: 60, mb: 2}}/>
                     {/* <Typography variant={"h5"}>{authUser.name}</Typography> */}
-                    <Typography variant={"body1"} color="text.secondary">{auth_user?.email}</Typography>
+                    <Typography variant={"body1"} sx={{minWidth:"200px", textAlign:"center"}} color="text.secondary">{auth_user?.user?.email}</Typography>
                 </Div>
                 <Divider/>
                 <nav>

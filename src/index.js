@@ -15,7 +15,7 @@ const base_url = process.env.REACT_APP_URL_BACKEND_BASE_URL;
 //   withCredentials: true,
 // });
 export const Axios = axios.create({
-  baseURL: `${base_url}`,
+  baseURL: base_url,
   withCredentials: true,
 });
 

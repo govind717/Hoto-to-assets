@@ -27,6 +27,8 @@ import {
   USER_MANAGEMENT_EDIT,
 } from "app/utils/constants/routeConstants";
 import { State } from "country-state-city";
+import { useDispatch } from "react-redux";
+import { single_user_data_disptach } from "app/redux/actions/userManagement";
 function AdduserManagement() {
   const navigate = useNavigate();
   const { pathname, state } = useLocation();
@@ -36,6 +38,7 @@ function AdduserManagement() {
   const [teamOptions, setTeamOptions] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
   const states = State.getStatesOfCountry("IN");
+  const dispatch = useDispatch();
   const roleInitialVal = {
     hoto_assets: {
       userManagement: {
@@ -166,19 +169,30 @@ function AdduserManagement() {
         edit: state?.role?.hoto_assets?.oandmRkm?.edit || false,
       },
       oandmWarehouseWarehouse: {
-        create: state?.role?.hoto_assets?.oandmWarehouseWarehouse?.create || false,
+        create:
+          state?.role?.hoto_assets?.oandmWarehouseWarehouse?.create || false,
         view: state?.role?.hoto_assets?.oandmWarehouseWarehouse?.view || false,
         edit: state?.role?.hoto_assets?.oandmWarehouseWarehouse?.edit || false,
       },
       oandmWarehouseMaterialInward: {
-        create: state?.role?.hoto_assets?.oandmWarehouseMaterialInward?.create || false,
-        view: state?.role?.hoto_assets?.oandmWarehouseMaterialInward?.view || false,
-        edit: state?.role?.hoto_assets?.oandmWarehouseMaterialInward?.edit || false,
+        create:
+          state?.role?.hoto_assets?.oandmWarehouseMaterialInward?.create ||
+          false,
+        view:
+          state?.role?.hoto_assets?.oandmWarehouseMaterialInward?.view || false,
+        edit:
+          state?.role?.hoto_assets?.oandmWarehouseMaterialInward?.edit || false,
       },
       oandmWarehouseMaterialRequest: {
-        create: state?.role?.hoto_assets?.oandmWarehouseMaterialRequest?.create || false,
-        view: state?.role?.hoto_assets?.oandmWarehouseMaterialRequest?.view || false,
-        edit: state?.role?.hoto_assets?.oandmWarehouseMaterialRequest?.edit || false,
+        create:
+          state?.role?.hoto_assets?.oandmWarehouseMaterialRequest?.create ||
+          false,
+        view:
+          state?.role?.hoto_assets?.oandmWarehouseMaterialRequest?.view ||
+          false,
+        edit:
+          state?.role?.hoto_assets?.oandmWarehouseMaterialRequest?.edit ||
+          false,
       },
     },
   };
@@ -267,7 +281,11 @@ function AdduserManagement() {
               payload
             )
           : await Axios.post(AllApis?.Auth?.addUser, payload);
-
+      if (pathname === USER_MANAGEMENT_EDIT) {
+        dispatch(
+          single_user_data_disptach(state?._id)
+        );
+      }
       const statusCode = res?.data?.statusCode;
 
       if (statusCode === 200 || statusCode === 201) {

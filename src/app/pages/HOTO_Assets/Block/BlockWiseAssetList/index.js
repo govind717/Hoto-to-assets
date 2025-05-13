@@ -249,7 +249,7 @@ const BlockWiseAssetList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.block_id || "-"}
+                        {ele?.block?.code || "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -269,7 +269,7 @@ const BlockWiseAssetList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.district_id || "-"}
+                        {ele?.district?.code || "-"}
                       </TableCell>
 
                       <TableCell
