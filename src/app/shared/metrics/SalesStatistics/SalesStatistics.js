@@ -76,16 +76,16 @@ const SalesStatistics = () => {
                             <AssetConditionByTypeChart4 />
                         </Div>
                     </Grid>
-                    <Grid item xs={12} md={12}>
+                    {/* <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>
                             <AssetConditionByTypeChart2 />
                         </Div>
-                    </Grid>
-                    <Grid item xs={12} md={12}>
+                    </Grid> */}
+                    {/* <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>
                             <AssetConditionByTypeChart3 />
                         </Div>
-                    </Grid>
+                    </Grid> */}
                     {/* Right: Pie Chart */}
                     {/* <Grid item xs={12} md={6}>
                         <Div sx={{ p: 2, pr:0 }}>
