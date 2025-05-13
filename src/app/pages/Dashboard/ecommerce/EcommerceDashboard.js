@@ -27,9 +27,9 @@ const EcommerceDashboard = () => {
             <Grid item xs={12}>
                 <SalesStatistics/>
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
                 <Piecharts/>
-            </Grid>
+            </Grid> */}
 
             {/* <Grid item xs={12} md={6}>
                 <SalesReport/>
