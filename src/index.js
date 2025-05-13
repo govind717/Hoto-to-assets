@@ -9,14 +9,14 @@ import "./app/App.css";
 // export const Axios = axios.create({
 //   baseURL: process.env.BACKEND_BASE_URL
 // })
-// export const Axios = axios.create({
-//   baseURL: "https://dbombe.kdcstaging.in/api/v1/",
-//   withCredentials: true,
-// });
 export const Axios = axios.create({
-  baseURL: "http://localhost:2000/api/v1/",
+  baseURL: "https://dbombe.kdcstaging.in/api/v1/",
   withCredentials: true,
 });
+// export const Axios = axios.create({
+//   baseURL: "http://localhost:2000/api/v1/",
+//   withCredentials: true,
+// });
 
 // Axios.interceptors.request.use(function (request) {
 //   const token = localStorage.getItem("token");
