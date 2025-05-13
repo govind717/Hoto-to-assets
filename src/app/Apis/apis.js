@@ -7,7 +7,7 @@ const AllApis = {
     addUser: `/users/add-user-details`,
     updateUser: `/users/edit-user-details`,
   },
-  users: "/users/fetch-user-details?",
+  users: "/users/fetch-user-details",
   single_user: "/users/single-user-details",
   login:
     "https://survey.lumacorp.in/api/survey-auth/login?email=abishek@gmail.com&password=password",
