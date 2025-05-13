@@ -18,26 +18,26 @@ import LatestAlerts from "../../../shared/widgets/LatestAlerts";
 import ServeyStatus from 'app/shared/metrics/serveyStatus/serveyStatus';
 import Piecharts from 'app/shared/metrics/SalesStatistics/Piecharts';
 
-const EcommerceDashboard = () => {
-    return (
-        <Grid container spacing={3.75}>
-            {/* <Grid item xs={12}>
+const EcommerceDashboard = ({ selectedValue}) => {
+  return (
+    <Grid container spacing={3.75}>
+      {/* <Grid item xs={12}>
                 <ServeyStatus/>
             </Grid> */}
-            <Grid item xs={12}>
-                <SalesStatistics/>
-            </Grid>
-            {/* <Grid item xs={12}>
+      <Grid item xs={12}>
+        <SalesStatistics selectedValue={selectedValue} />
+      </Grid>
+      {/* <Grid item xs={12}>
                 <Piecharts/>
             </Grid> */}
 
-            {/* <Grid item xs={12} md={6}>
+      {/* <Grid item xs={12} md={6}>
                 <SalesReport/>
             </Grid>
             <Grid item xs={12} md={6}>
                 <YearlyProfileReport/>
             </Grid> */}
-            {/* <Grid item xs={12} sm={6} lg={3}>
+      {/* <Grid item xs={12} sm={6} lg={3}>
                 <AppUsers/>
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
@@ -49,7 +49,7 @@ const EcommerceDashboard = () => {
             <Grid item xs={12} sm={6} lg={3}>
                 <OrdersReport subTitle={null} chartHeight={183}/>
             </Grid> */}
-            {/* <Grid item xs={12}>
+      {/* <Grid item xs={12}>
                 <PopularProducts/>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -61,7 +61,7 @@ const EcommerceDashboard = () => {
             <Grid item xs={12}>
                 <SiteVisitors/>
             </Grid> */}
-            {/* <Grid item xs={12} sm={6} lg={3}>
+      {/* <Grid item xs={12} sm={6} lg={3}>
                 <LastMonthSales/>
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
@@ -73,8 +73,8 @@ const EcommerceDashboard = () => {
             <Grid item xs={12} sm={6} lg={3}>
                 <TotalRevenueThisYear/>
             </Grid> */}
-        </Grid>
-    );
+    </Grid>
+  );
 };
 
 export default EcommerceDashboard;

@@ -8,13 +8,24 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { Axios } from "index";
+import React, { useEffect, useState } from "react";
 
-const HotoHeader = () => {
-  const [selectedValue, setSelectedValue] = useState("Package 6");
+const HotoHeader = ({ selectedValue, setSelectedValue }) => {
+  // const [selectedValue, setSelectedValue] = useState("Package 1");
+  const [packageList, setPackageList] = useState("");
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
+  useEffect(() => {
+    Axios.get("/hoto-to-assets/equipment/dropdown-package")
+      .then((result) => {
+        setPackageList(result?.data?.result);
+      })
+      .catch((err) => {
+        console.log("Error : ", err);
+      });
+  }, []);
   return (
     <Div
       sx={{
@@ -70,8 +81,12 @@ const HotoHeader = () => {
             }}
           >
             <Select
+              // value={
+              //   packageList?.find((item) => item.packageName === "Package 1")
+              //     ?.packageName || ""
+              // }
               value={selectedValue}
-              onChange={handleChange}
+              onChange={(e) => setSelectedValue(e.target.value)}
               displayEmpty
               IconComponent={KeyboardArrowDown}
               sx={{
@@ -87,12 +102,15 @@ const HotoHeader = () => {
                 },
               }}
             >
-              <MenuItem value="Package 1">Package 1</MenuItem>
-              <MenuItem value="Package 2">Package 2</MenuItem>
-              <MenuItem value="Package 3">Package 3</MenuItem>
-              <MenuItem value="Package 4">Package 4</MenuItem>
-              <MenuItem value="Package 5">Package 5</MenuItem>
-              <MenuItem value="Package 6">Package 6</MenuItem>
+              {packageList?.length > 0 &&
+                packageList?.map((item, index) => {
+                  console.log(item);
+                  return (
+                    <MenuItem key={index} value={item?.packageName}>
+                      {item?.packageName}
+                    </MenuItem>
+                  );
+                })}
             </Select>
           </FormControl>
         </Div>
