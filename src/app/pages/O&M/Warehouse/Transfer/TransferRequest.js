@@ -200,7 +200,7 @@ const TransferRequest = () => {
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
-                  Equipment
+                  Equipment 
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>

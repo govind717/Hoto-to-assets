@@ -1,65 +1,514 @@
-import React, { useState } from "react";
+// import {
+//   Autocomplete,
+//   Box,
+//   Card,
+//   CardContent,
+//   TextField,
+//   Typography,
+// } from "@mui/material";
+// import { Axios } from "index";
+// import { useEffect, useState } from "react";
+// import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+
+// const CustomLegend = ({ total, data }) => (
+//   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
+//     <Box display="flex" alignItems="center" gap={1}>
+//       <Box
+//         sx={{
+//           width: 10,
+//           height: 10,
+//           borderRadius: "50%",
+//           backgroundColor: "#53B8CA",
+//         }}
+//       />
+//       <Typography variant="body2" sx={{ color: "#000" }}>
+//         {total}
+//       </Typography>
+//       <Typography variant="body2" sx={{ color: "#000" }}>
+//         Total Assets
+//       </Typography>
+//     </Box>
+//     {data.map((item, index) => (
+//       <Box key={index} display="flex" alignItems="center" gap={1}>
+//         <Box
+//           sx={{
+//             width: 10,
+//             height: 10,
+//             borderRadius: "50%",
+//             backgroundColor:
+//               item?._id?.condition === "Damaged"
+//                 ? "#F55757"
+//                 : item?._id?.condition === "Good"
+//                 ? "#22CAAD"
+//                 : item?._id?.condition === "Bad"
+//                 ? "#FDCF2A"
+//                 : item?._id?.condition === "OK"
+//                 ? "#E78F5D"
+//                 : "",
+//           }}
+//         />
+//         <Typography variant="body2" sx={{ color: "#000" }}>
+//           {item?.count}
+//         </Typography>
+//         <Typography variant="body2" sx={{ color: "#000" }}>
+//           {item?._id?.condition}
+//         </Typography>
+//       </Box>
+//     ))}
+//   </Box>
+// );
+
+// const ConditionStatusChart2 = () => {
+//   const [selectedBlock, setSelectedBlock] = useState("");
+//   const [selectedGP, setSelectedGP] = useState(null);
+//   const [blocks, setBlocks] = useState([]);
+//   const [gps, setGps] = useState([]);
+//   const [originalData, setOriginalData] = useState([]);
+//   const [conditionData, setConditionData] = useState([]);
+
+//   useEffect(() => {
+//     Axios.get("/hoto-to-assets/equipment/dropdown-block").then((response) => {
+//       setBlocks(response?.data?.result);
+//     });
+//   }, []);
+
+//   const handleBlockChange = (_, newValue) => {
+//     setSelectedBlock(newValue);
+//     setSelectedGP(null);
+//     setGps([]);
+//     if (!newValue) {
+//       Axios.get("/hoto-to-assets/equipment/fetch-block-and-gp-equipments")
+//         .then((result) => {
+//           const fetchedData = result?.data?.result;
+
+//           // Calculate total and conditionData here
+//           const totalCount = fetchedData.reduce(
+//             (sum, item) => sum + item.count,
+//             0
+//           );
+
+//           const computedConditionData = fetchedData.map((item) => ({
+//             ...item,
+//             value: item.count, // <-- This is important for the Pie to read the value
+//             name: item._id.condition, // <-- This is for the label
+//             percentage: ((item.count / totalCount) * 100).toFixed(1),
+//           }));
+
+//           setOriginalData(fetchedData);
+//           setConditionData(computedConditionData);
+//         })
+//         .catch((err) => {
+//           console.log("Error : ", err);
+//         });
+//     } else {
+//       Axios.get(
+//         `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${newValue}`
+//       )
+//         .then((result) => {
+//           const fetchedData = result?.data?.result;
+
+//           // Calculate total and conditionData here
+//           const totalCount = fetchedData.reduce(
+//             (sum, item) => sum + item.count,
+//             0
+//           );
+
+//           const computedConditionData = fetchedData.map((item) => ({
+//             ...item,
+//             value: item.count,
+//             name: item._id.condition,
+//             percentage: ((item.count / totalCount) * 100).toFixed(1),
+//           }));
+
+//           setOriginalData(fetchedData);
+//           setConditionData(computedConditionData);
+//         })
+//         .catch((err) => {
+//           console.log("Error : ", err);
+//         });
+//     }
+//     if (newValue) {
+//       Axios.get(
+//         `/hoto-to-assets/equipment/dropdown-gp?block_name=${newValue}`
+//       ).then((response) => {
+       
+//         setGps(response.data?.result);
+//       });
+//     }
+//   };
+
+//   const handleGPChange = (_, newValue) => {
+//     setSelectedGP(newValue);
+//     Axios.get(
+//       `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}`
+//     )
+//       .then((result) => {
+       
+//         const fetchedData = result?.data?.result;
+
+//         // Calculate total and conditionData here
+//         const totalCount = fetchedData.reduce(
+//           (sum, item) => sum + item.count,
+//           0
+//         );
+
+//         const computedConditionData = fetchedData.map((item) => ({
+//           ...item,
+//           value: item.count, // <-- This is important for the Pie to read the value
+//           name: item._id.condition, // <-- This is for the label
+//           percentage: ((item.count / totalCount) * 100).toFixed(1),
+//         }));
+
+//         setOriginalData(fetchedData);
+//         setConditionData(computedConditionData);
+//       })
+//       .catch((err) => {
+//         console.log("Error : ", err);
+//       });
+//   };
+
+//   const total = originalData.reduce((sum, item) => sum + item.count, 0);
+
+//   useEffect(() => {
+//     Axios.get("/hoto-to-assets/equipment/fetch-block-and-gp-equipments")
+//       .then((result) => {
+//         const fetchedData = result?.data?.result;
+
+//         // Calculate total and conditionData here
+//         const totalCount = fetchedData.reduce(
+//           (sum, item) => sum + item.count,
+//           0
+//         );
+
+//         const computedConditionData = fetchedData.map((item) => ({
+//           ...item,
+//           value: item.count, // <-- This is important for the Pie to read the value
+//           name: item._id.condition, // <-- This is for the label
+//           percentage: ((item.count / totalCount) * 100).toFixed(1),
+//         }));
+
+//         setOriginalData(fetchedData);
+//         setConditionData(computedConditionData);
+//       })
+//       .catch((err) => {
+//         console.log("Error : ", err);
+//       });
+//   }, []);
+
+//   return (
+//     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
+//       <CardContent>
+//         <Box
+//           display="flex"
+//           justifyContent="space-between"
+//           alignItems="center"
+//           mb={1}
+//         >
+//           <Typography variant="h6">Total Assets</Typography>
+//           <Box display="flex" gap={2}>
+//             <Autocomplete
+//               sx={{ minWidth: "200px" }}
+//               options={blocks}
+//               getOptionLabel={(option) => option || ""}
+//               value={selectedBlock}
+//               onChange={handleBlockChange}
+//               renderInput={(params) => (
+//                 <TextField {...params} label="Block" size="small" />
+//               )}
+//             />
+//             <Autocomplete
+//               sx={{ minWidth: "200px" }}
+//               options={gps}
+//               getOptionLabel={(option) => option?.location_name || ""}
+//               value={selectedGP}
+//               onChange={handleGPChange}
+//               renderInput={(params) => (
+//                 <TextField {...params} label="Gram Panchayat" size="small" />
+//               )}
+//               disabled={!selectedBlock}
+//             />
+//           </Box>
+//         </Box>
+
+//         <ResponsiveContainer width="100%" height={240}>
+//           <PieChart>
+//             <Pie
+//               data={conditionData}
+//               dataKey="count"
+//               nameKey="_id.condition"
+//               cx="50%"
+//               cy="50%"
+//               innerRadius={55}
+//               outerRadius={80}
+//               paddingAngle={0}
+//             >
+//               {conditionData.map((entry, index) => (
+//                 <Cell
+//                   key={`cell-${index}`}
+//                   fill={
+//                     entry?._id?.condition === "Damaged"
+//                       ? "#F55757"
+//                       : entry?._id?.condition === "Good"
+//                       ? "#22CAAD"
+//                       : entry?._id?.condition === "Bad"
+//                       ? "#FDCF2A"
+//                       : entry?._id?.condition === "OK"
+//                       ? "#E78F5D"
+//                       : ""
+//                   }
+//                 />
+//               ))}
+//             </Pie>
+//             <Tooltip
+//               formatter={(value, name) => [`${value}`, `${name}`]}
+//               cursor={{ fill: "rgba(0, 0, 0, 0.1)" }}
+//             />
+//           </PieChart>
+//         </ResponsiveContainer>
+
+//         <CustomLegend total={total} data={originalData} />
+//       </CardContent>
+//     </Card>
+//   );
+// };
+
+// export default ConditionStatusChart2;
+
+
+// ------------------------------
+// import {
+//   Autocomplete,
+//   Box,
+//   Card,
+//   CardContent,
+//   TextField,
+//   Typography,
+// } from "@mui/material";
+// import { Axios } from "index";
+// import { useEffect, useState } from "react";
+// import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+
+// const conditionsList = ["Damaged", "Good", "Bad", "OK"];
+// const colorsMap = {
+//   Damaged: "#F55757",
+//   Good: "#22CAAD",
+//   OK: "#FDCF2A",
+//   Bad: "#E78F5D",
+// };
+
+// const CustomLegend = ({ total, data }) => (
+//   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
+//     <Box display="flex" alignItems="center" gap={1}>
+//       <Box
+//         sx={{
+//           width: 10,
+//           height: 10,
+//           borderRadius: "50%",
+//           backgroundColor: "#53B8CA",
+//         }}
+//       />
+//       <Typography variant="body2" sx={{ color: "#000" }}>
+//         {total}
+//       </Typography>
+//       <Typography variant="body2" sx={{ color: "#000" }}>
+//         Total Assets
+//       </Typography>
+//     </Box>
+//     {data.map((item, index) => (
+//       <Box key={index} display="flex" alignItems="center" gap={1}>
+//         <Box
+//           sx={{
+//             width: 10,
+//             height: 10,
+//             borderRadius: "50%",
+//             backgroundColor: colorsMap[item.name] || "#ccc",
+//           }}
+//         />
+//         <Typography variant="body2" sx={{ color: "#000" }}>
+//           {item.value}
+//         </Typography>
+//         <Typography variant="body2" sx={{ color: "#000" }}>
+//           {item.name}
+//         </Typography>
+//       </Box>
+//     ))}
+//   </Box>
+// );
+
+// const ConditionStatusChart2 = () => {
+//   const [selectedBlock, setSelectedBlock] = useState("");
+//   const [selectedGP, setSelectedGP] = useState(null);
+//   const [blocks, setBlocks] = useState([]);
+//   const [gps, setGps] = useState([]);
+//   const [originalData, setOriginalData] = useState([]);
+//   const [conditionData, setConditionData] = useState([]);
+
+//   // Fetch initial blocks
+//   useEffect(() => {
+//     Axios.get("/hoto-to-assets/equipment/dropdown-block").then((response) => {
+//       setBlocks(response?.data?.result);
+//     });
+//   }, []);
+
+//   // Helper function to process and fill missing data
+//   const processFetchedData = (fetchedData) => {
+//     const conditionMap = fetchedData.reduce((acc, item) => {
+//       acc[item._id.condition] = item.count;
+//       return acc;
+//     }, {});
+
+//     const finalData = conditionsList.map((condition) => ({
+//       _id: { condition },
+//       count: conditionMap[condition] || 0,
+//       value: conditionMap[condition] || 0,
+//       name: condition,
+//       percentage: "0.0",
+//     }));
+
+//     setOriginalData(finalData);
+//     setConditionData(finalData);
+//   };
+
+//   // Handle block change
+//   const handleBlockChange = (_, newValue) => {
+//     setSelectedBlock(newValue);
+//     setSelectedGP(null);
+//     setGps([]);
+
+//     const endpoint = newValue
+//       ? `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${newValue}`
+//       : "/hoto-to-assets/equipment/fetch-block-and-gp-equipments";
+
+//     Axios.get(endpoint)
+//       .then((result) => processFetchedData(result?.data?.result))
+//       .catch((err) => console.log("Error : ", err));
+
+//     if (newValue) {
+//       Axios.get(`/hoto-to-assets/equipment/dropdown-gp?block_name=${newValue}`)
+//         .then((response) => {
+//           setGps(response.data?.result);
+//         })
+//         .catch((err) => console.log("Error: ", err));
+//     }
+//   };
+
+//   // Handle GP change
+//   const handleGPChange = (_, newValue) => {
+//     setSelectedGP(newValue);
+//     if (newValue) {
+//       Axios.get(
+//         `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}`
+//       )
+//         .then((result) => processFetchedData(result?.data?.result))
+//         .catch((err) => console.log("Error : ", err));
+//     }
+//   };
+
+//   // Initial load of all equipment
+//   useEffect(() => {
+//     Axios.get("/hoto-to-assets/equipment/fetch-block-and-gp-equipments")
+//       .then((result) => processFetchedData(result?.data?.result))
+//       .catch((err) => console.log("Error : ", err));
+//   }, []);
+
+//   const total = originalData.reduce((sum, item) => sum + item.count, 0);
+
+//   return (
+//     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
+//       <CardContent>
+//         <Box
+//           display="flex"
+//           justifyContent="space-between"
+//           alignItems="center"
+//           mb={1}
+//         >
+//           <Typography variant="h6">Total Assets</Typography>
+//           <Box display="flex" gap={2}>
+//             <Autocomplete
+//               sx={{ minWidth: "200px" }}
+//               options={blocks}
+//               getOptionLabel={(option) => option || ""}
+//               value={selectedBlock}
+//               onChange={handleBlockChange}
+//               renderInput={(params) => (
+//                 <TextField {...params} label="Block" size="small" />
+//               )}
+//             />
+//             <Autocomplete
+//               sx={{ minWidth: "200px" }}
+//               options={gps}
+//               getOptionLabel={(option) => option?.location_name || ""}
+//               value={selectedGP}
+//               onChange={handleGPChange}
+//               renderInput={(params) => (
+//                 <TextField {...params} label="Gram Panchayat" size="small" />
+//               )}
+//               disabled={!selectedBlock}
+//             />
+//           </Box>
+//         </Box>
+
+//         <ResponsiveContainer width="100%" height={240}>
+//           <PieChart>
+//             <Pie
+//               data={conditionData}
+//               dataKey="value"
+//               nameKey="name"
+//               cx="50%"
+//               cy="50%"
+//               innerRadius={55}
+//               outerRadius={80}
+//               paddingAngle={0}
+//             >
+//               {conditionData.map((entry, index) => (
+//                 <Cell
+//                   key={`cell-${index}`}
+//                   fill={colorsMap[entry.name] || "#ccc"}
+//                 />
+//               ))}
+//             </Pie>
+//             <Tooltip
+//               formatter={(value, name) => [`${value}`, `${name}`]}
+//               cursor={{ fill: "rgba(0, 0, 0, 0.1)" }}
+//             />
+//           </PieChart>
+//         </ResponsiveContainer>
+
+//         <CustomLegend total={total} data={conditionData} />
+//       </CardContent>
+//     </Card>
+//   );
+// };
+
+// export default ConditionStatusChart2;
+
+
 import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
-import {
-  Typography,
+  Autocomplete,
   Box,
   Card,
   CardContent,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  TextField,
+  Typography,
 } from "@mui/material";
+import { Axios } from "index";
+import { useEffect, useState } from "react";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
-const districtData = {
-  Meerut: {
-    "Block-1": {
-      Khanpur: [
-        { name: "Robust", value: 2000, color: "#22CAAD" },
-        { name: "Damaged", value: 500, color: "#F55757" },
-        { name: "Semi-Damaged", value: 300, color: "#FDCF2A" },
-        { name: "Missing", value: 200, color: "#E78F5D" },
-      ],
-      Baroda: [
-        { name: "Robust", value: 2500, color: "#22CAAD" },
-        { name: "Damaged", value: 400, color: "#F55757" },
-        { name: "Semi-Damaged", value: 600, color: "#FDCF2A" },
-        { name: "Missing", value: 100, color: "#E78F5D" },
-      ],
-    },
-    "Block-2": {
-      Bahadurpur: [
-        { name: "Robust", value: 1800, color: "#22CAAD" },
-        { name: "Damaged", value: 700, color: "#F55757" },
-        { name: "Semi-Damaged", value: 400, color: "#FDCF2A" },
-        { name: "Missing", value: 100, color: "#E78F5D" },
-      ],
-    },
-  },
-  Ghaziabad: {
-    "Block-1": {
-      Bawana: [
-        { name: "Robust", value: 3000, color: "#22CAAD" },
-        { name: "Damaged", value: 200, color: "#F55757" },
-        { name: "Semi-Damaged", value: 500, color: "#FDCF2A" },
-        { name: "Missing", value: 300, color: "#E78F5D" },
-      ],
-      Abupur: [
-        { name: "Robust", value: 2700, color: "#22CAAD" },
-        { name: "Damaged", value: 350, color: "#F55757" },
-        { name: "Semi-Damaged", value: 500, color: "#FDCF2A" },
-        { name: "Missing", value: 150, color: "#E78F5D" },
-      ],
-    },
-  },
+const conditionsList = ["Damaged", "Good", "Bad", "OK"];
+const colorsMap = {
+  Robust: "#22CAAD",
+  Damaged: "#F55757",
+  "Semi-Damaged": "#FDCF2A",
+  Missing: "#E78F5D",
 };
 
+const conditionLabelMap = {
+  Good: "Robust",
+  Damage: "Damaged",
+  OK: "Semi-Damaged",
+  Bad: "Missing",
+};
 
 const CustomLegend = ({ total, data }) => (
   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
@@ -72,8 +521,12 @@ const CustomLegend = ({ total, data }) => (
           backgroundColor: "#53B8CA",
         }}
       />
-      <Typography variant="body2" sx={{ color: "#000" }}>{total}</Typography>
-      <Typography variant="body2" sx={{ color: "#000" }}>Total Assets</Typography>
+      <Typography variant="body2" sx={{ color: "#000" }}>
+        {total}
+      </Typography>
+      <Typography variant="body2" sx={{ color: "#000" }}>
+        Total Assets
+      </Typography>
     </Box>
     {data.map((item, index) => (
       <Box key={index} display="flex" alignItems="center" gap={1}>
@@ -82,80 +535,136 @@ const CustomLegend = ({ total, data }) => (
             width: 10,
             height: 10,
             borderRadius: "50%",
-            backgroundColor: item.color,
+            backgroundColor: colorsMap[item.name] || "#ccc",
           }}
         />
-        <Typography variant="body2" sx={{ color: "#000" }}>{item.value}</Typography>
-        <Typography variant="body2" sx={{ color: "#000" }}>{item.name}</Typography>
+        <Typography variant="body2" sx={{ color: "#000" }}>
+          {item.value}
+        </Typography>
+        <Typography variant="body2" sx={{ color: "#000" }}>
+          {item.name}
+        </Typography>
       </Box>
     ))}
   </Box>
 );
 
 const ConditionStatusChart2 = () => {
-  const [selectedDistrict, setSelectedDistrict] = useState("Meerut");
-  const [selectedBlock, setSelectedBlock] = useState("Block-1");
-  const [selectedGP, setSelectedGP] = useState("Khanpur");
+  const [selectedBlock, setSelectedBlock] = useState("");
+  const [selectedGP, setSelectedGP] = useState(null);
+  const [blocks, setBlocks] = useState([]);
+  const [gps, setGps] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
+  const [conditionData, setConditionData] = useState([]);
 
-  const handleDistrictChange = (event) => {
-    const district = event.target.value;
-    const firstBlock = Object.keys(districtData[district])[0];
-    const firstGP = Object.keys(districtData[district][firstBlock])[0];
+  // Fetch initial blocks
+  useEffect(() => {
+    Axios.get("/hoto-to-assets/equipment/dropdown-block").then((response) => {
+      setBlocks(response?.data?.result);
+    });
+  }, []);
 
-    setSelectedDistrict(district);
-    setSelectedBlock(firstBlock);
-    setSelectedGP(firstGP);
+  // Helper function to process and fill missing data
+  const processFetchedData = (fetchedData) => {
+    const conditionMap = fetchedData.reduce((acc, item) => {
+      acc[item._id.condition] = item.count;
+      return acc;
+    }, {});
+
+    const finalData = conditionsList.map((condition) => ({
+      _id: { condition },
+      count: conditionMap[condition] || 0,
+      value: conditionMap[condition] || 0,
+      name: conditionLabelMap[condition] || condition,
+      percentage: "0.0",
+    }));
+
+    setOriginalData(finalData);
+    setConditionData(finalData);
   };
 
-  const handleBlockChange = (event) => {
-    const block = event.target.value;
-    const firstGP = Object.keys(districtData[selectedDistrict][block])[0];
-    setSelectedBlock(block);
-    setSelectedGP(firstGP);
+  // Handle block change
+  const handleBlockChange = (_, newValue) => {
+    setSelectedBlock(newValue);
+    setSelectedGP(null);
+    setGps([]);
+
+    const endpoint = newValue
+      ? `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${newValue}`
+      : "/hoto-to-assets/equipment/fetch-block-and-gp-equipments";
+
+    Axios.get(endpoint)
+      .then((result) => processFetchedData(result?.data?.result))
+      .catch((err) => console.log("Error : ", err));
+
+    if (newValue) {
+      Axios.get(`/hoto-to-assets/equipment/dropdown-gp?block_name=${newValue}`)
+        .then((response) => {
+          setGps(response.data?.result);
+        })
+        .catch((err) => console.log("Error: ", err));
+    }
   };
 
-  const handleGPChange = (event) => setSelectedGP(event.target.value);
+  // Handle GP change
+  const handleGPChange = (_, newValue) => {
+    setSelectedGP(newValue);
+    if (newValue) {
+      Axios.get(
+        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}`
+      )
+        .then((result) => processFetchedData(result?.data?.result))
+        .catch((err) => console.log("Error : ", err));
+    }else{
+      Axios.get(
+        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}`
+      )
+        .then((result) => processFetchedData(result?.data?.result))
+        .catch((err) => console.log("Error : ", err));
+    }
+  };
 
-  const originalData =
-    districtData[selectedDistrict][selectedBlock][selectedGP];
+  // Initial load of all equipment
+  useEffect(() => {
+    Axios.get("/hoto-to-assets/equipment/fetch-block-and-gp-equipments")
+      .then((result) => processFetchedData(result?.data?.result))
+      .catch((err) => console.log("Error : ", err));
+  }, []);
 
-  const total = originalData.reduce((sum, item) => sum + item.value, 0);
-
-  const conditionData = originalData.map((item) => ({
-    ...item,
-    percentage: ((item.value / total) * 100).toFixed(1),
-  }));
+  const total = originalData.reduce((sum, item) => sum + item.count, 0);
 
   return (
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
       <CardContent>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={1}
+        >
           <Typography variant="h6">Total Assets</Typography>
           <Box display="flex" gap={2}>
-            <FormControl size="small" sx={{ minWidth: 130 }}>
-              <InputLabel>District</InputLabel>
-              <Select value={selectedDistrict} label="District" onChange={handleDistrictChange}>
-                {Object.keys(districtData).map((district) => (
-                  <MenuItem key={district} value={district}>{district}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl size="small" sx={{ minWidth: 130 }}>
-              <InputLabel>Block</InputLabel>
-              <Select value={selectedBlock} label="Block" onChange={handleBlockChange}>
-                {Object.keys(districtData[selectedDistrict]).map((block) => (
-                  <MenuItem key={block} value={block}>{block}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl size="small" sx={{ minWidth: 130 }}>
-              <InputLabel>Gram Panchayat</InputLabel>
-              <Select value={selectedGP} label="Gram Panchayat" onChange={handleGPChange}>
-                {Object.keys(districtData[selectedDistrict][selectedBlock]).map((gp) => (
-                  <MenuItem key={gp} value={gp}>{gp}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Autocomplete
+              sx={{ minWidth: "200px" }}
+              options={blocks}
+              getOptionLabel={(option) => option || ""}
+              value={selectedBlock}
+              onChange={handleBlockChange}
+              renderInput={(params) => (
+                <TextField {...params} label="Block" size="small" />
+              )}
+            />
+            <Autocomplete
+              sx={{ minWidth: "200px" }}
+              options={gps}
+              getOptionLabel={(option) => option?.location_name || ""}
+              value={selectedGP}
+              onChange={handleGPChange}
+              renderInput={(params) => (
+                <TextField {...params} label="Gram Panchayat" size="small" />
+              )}
+              disabled={!selectedBlock}
+            />
           </Box>
         </Box>
 
@@ -172,7 +681,10 @@ const ConditionStatusChart2 = () => {
               paddingAngle={0}
             >
               {conditionData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={colorsMap[entry.name] || "#ccc"}
+                />
               ))}
             </Pie>
             <Tooltip
@@ -182,7 +694,7 @@ const ConditionStatusChart2 = () => {
           </PieChart>
         </ResponsiveContainer>
 
-        <CustomLegend total={total} data={originalData} />
+        <CustomLegend total={total} data={conditionData} />
       </CardContent>
     </Card>
   );

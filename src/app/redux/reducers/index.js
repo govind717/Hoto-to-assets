@@ -21,7 +21,7 @@ import {
   uomDataReducer,
   warehouseDataReducer,
 } from "./Master";
-import { userDataReducer } from "./userManagement";
+import { singleUserDataReducer, userDataReducer } from "./userManagement";
 import {
   hotoBlockAssetPortfolioDataReducer,
   hotoBlockAssetPortfolioMaintenanceDataReducer,
@@ -86,6 +86,9 @@ import {
 } from "./HOTOWarehouse";
 import {
   hotoWarehouseAssetPortfolioDataReducer,
+  hotoWarehouseAssetPortfolioMaintenanceDataReducer,
+  hotoWarehouseAssetPortfolioReplacementDataReducer,
+  hotoWarehouseAssetPortfolioTransferDataReducer,
   hotoWarehouseMaintenanceDataReducer,
   hotoWarehouseReplacementDataReducer,
   hotoWarehouseTransferDataReducer,
@@ -114,6 +117,7 @@ const exportReducers = (history) => {
     warehouseDataReducer: warehouseDataReducer,
     supplierDataReducer: supplierDataReducer,
     userDataReducer: userDataReducer,
+    singleUserDataReducer,
     hotoBlockAssetPortfolioDataReducer: hotoBlockAssetPortfolioDataReducer,
     hotoBlockAssetPortfolioMaintenanceDataReducer,
     hotoBlockAssetPortfolioReplacementDataReducer,
@@ -136,6 +140,9 @@ const exportReducers = (history) => {
 
     hotoWarehouseAssetPortfolioDataReducer:
       hotoWarehouseAssetPortfolioDataReducer,
+      hotoWarehouseAssetPortfolioMaintenanceDataReducer,
+      hotoWarehouseAssetPortfolioReplacementDataReducer,
+      hotoWarehouseAssetPortfolioTransferDataReducer,
     hotoWarehouseWiseAssetDataReducer,
     hotoWarehouseMaintenanceDataReducer,
     hotoWarehouseReplacementDataReducer,

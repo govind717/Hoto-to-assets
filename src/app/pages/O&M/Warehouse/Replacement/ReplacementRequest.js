@@ -212,7 +212,7 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(``)}
+                  onClick={() => handleSort(`dueDate`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -226,7 +226,7 @@ const ReplacementRequest = () => {
                 <TableSortLabel
                   onClick={() =>
                     handleSort(
-                      `warehouse_asset_details?.equipment_details.location_name`
+                      `warehouse_asset_details.equipment_details.location_name`
                     )
                   }
                   direction={sort}
@@ -242,7 +242,7 @@ const ReplacementRequest = () => {
                 <TableSortLabel
                   onClick={() =>
                     handleSort(
-                      `warehouse_asset_details?.equipment_details.location_code`
+                      `warehouse_asset_details.equipment_details.location_code`
                     )
                   }
                   direction={sort}

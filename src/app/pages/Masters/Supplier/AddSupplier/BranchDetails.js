@@ -26,16 +26,8 @@ import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 import {
   SUPPLIER_MASTER,
   SUPPLIER_MASTER_ADD,
-  SUPPLIER_MASTER_EDIT,
-  WAREHOUSE_MASTER,
-  WAREHOUSE_MASTER_EDIT,
 } from "app/utils/constants/routeConstants";
-import {
-  addSupplier,
-  addWarehouse,
-  updateSupplier,
-  updateWarehouse,
-} from "app/services/apis/master";
+
 import { Country, State, City } from "country-state-city";
 import { Axios } from "index";
 const tableCellSx = {
@@ -46,7 +38,6 @@ const tableCellSx = {
   verticalAlign: "middle",
 };
 function BranchDetails({
-  goToNextTab,
   goToBackTab,
   finalFormData,
   setFinalFormData,
@@ -55,7 +46,7 @@ function BranchDetails({
   const { pathname } = useLocation();
   const { state } = useLocation();
   const [isSubmitting, setSubmitting] = useState(false);
-  const [branches, setBranches] = useState(state?.branch_details || []);
+  const [branches, setBranches] = useState(finalFormData?.branch_details || []);
   const states = State.getStatesOfCountry("IN"); // Replace "IN" if needed
   const [cities, setCities] = useState([]);
   const [contactPersonInput, setContactPersonInput] = useState({
@@ -64,12 +55,11 @@ function BranchDetails({
     email: "",
     mobileNumber: "",
   });
-
+ 
   const [contactPersons, setContactPersons] = useState(
     state?.contactPerson || []
   );
-  console.log("state2 : ",state);
-  console.log("branches : ", branches);
+
   const initialValues = {
     branchName: "",
     email: "",
@@ -98,7 +88,6 @@ function BranchDetails({
     state: yup.string().required("State is required"),
     city: yup.string().required("City is required"),
   });
- console.log("last : ",finalFormData);
   const onUserSave = async () => {
     if (finalFormData?.branch_details?.length > 0) {
       setSubmitting(true);
@@ -120,7 +109,6 @@ function BranchDetails({
             });
           }
         } else {
-          console.log("update Data", finalFormData);
           const data = await Axios.patch(
             `/master/supplier/update/${state?._id}`,
             finalFormData
@@ -206,12 +194,16 @@ function BranchDetails({
   const handleRemoveBranch = (index, setFieldValue) => {
     const updated = branches.filter((_, i) => i !== index);
     // setFieldValue("setBranches", updated);
+    setFinalFormData((prev) => ({
+      ...prev,
+      branch_details: updated,
+    }));
     setBranches(updated);
   };
   useEffect(()=>{
     setFinalFormData((prev)=>({
       ...prev,
-     branch_details:state?.branch_details
+     branch_details:finalFormData?.branch_details
     }))
   },[])
   return (
@@ -225,7 +217,6 @@ function BranchDetails({
       >
         {({ values, touched, errors, setFieldValue, setFieldTouched }) => (
           <Form noValidate autoComplete="off">
-            {console.log("values : ", values)}
             <Div sx={{ mt: 4 }}>
               <Grid container rowSpacing={2} columnSpacing={3}>
                 <Grid item xs={6} md={3}>
@@ -627,7 +618,8 @@ function BranchDetails({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {branches.map((branch, index) => (
+                
+                    {branches?.length > 0 && branches?.map((branch, index) => (
                       <TableRow key={index}>
                         <TableCell sx={{ padding: "8px" }}>
                           {index + 1}

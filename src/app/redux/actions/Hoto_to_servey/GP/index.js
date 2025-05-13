@@ -4,6 +4,15 @@ import {
   HOTO_GP_ASSET_PORTFOLIO_DATA_FAILED,
   HOTO_GP_ASSET_PORTFOLIO_DATA_REQUEST,
   HOTO_GP_ASSET_PORTFOLIO_DATA_SUCCESS,
+  HOTO_GP_ASSET_PORTFOLIO_MAINTENANCE_DATA_FAILED,
+  HOTO_GP_ASSET_PORTFOLIO_MAINTENANCE_DATA_REQUEST,
+  HOTO_GP_ASSET_PORTFOLIO_MAINTENANCE_DATA_SUCCESS,
+  HOTO_GP_ASSET_PORTFOLIO_REPLACEMENT_DATA_FAILED,
+  HOTO_GP_ASSET_PORTFOLIO_REPLACEMENT_DATA_REQUEST,
+  HOTO_GP_ASSET_PORTFOLIO_REPLACEMENT_DATA_SUCCESS,
+  HOTO_GP_ASSET_PORTFOLIO_TRANSFER_DATA_FAILED,
+  HOTO_GP_ASSET_PORTFOLIO_TRANSFER_DATA_REQUEST,
+  HOTO_GP_ASSET_PORTFOLIO_TRANSFER_DATA_SUCCESS,
   HOTO_GP_MAINTENANCE_DATA_FAILED,
   HOTO_GP_MAINTENANCE_DATA_REQUEST,
   HOTO_GP_MAINTENANCE_DATA_SUCCESS,
@@ -32,7 +41,7 @@ export const hoto_gp_asset_partfolio_data_disptach = function ({
     try {
        const body = {
          filters: {
-           "equipment_details.location_type":"gp"
+           "equipment_details.location_type":"old gp"
          },
          searchFields: {
            string: [
@@ -94,21 +103,21 @@ export const hoto_gp_asset_partfolio_maintenance_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_GP_MAINTENANCE_DATA_REQUEST });
+      dispatch({ type: HOTO_GP_ASSET_PORTFOLIO_MAINTENANCE_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${oandmApis?.gp?.maintenace?.maintenace_request_assign_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.gp?.asset_portfolio?.maintenance_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_GP_MAINTENANCE_DATA_SUCCESS,
+        type: HOTO_GP_ASSET_PORTFOLIO_MAINTENANCE_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_GP_MAINTENANCE_DATA_FAILED,
+        type: HOTO_GP_ASSET_PORTFOLIO_MAINTENANCE_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }
@@ -140,21 +149,21 @@ export const hoto_gp_asset_partfolio_replacement_data_disptach = function ({
           boolean: [],
         },
       };
-      dispatch({ type: HOTO_GP_REPLACEMENT_DATA_REQUEST });
+      dispatch({ type: HOTO_GP_ASSET_PORTFOLIO_REPLACEMENT_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${oandmApis?.gp?.replacement?.replacement_request_assign_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.gp?.asset_portfolio?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_GP_REPLACEMENT_DATA_SUCCESS,
+        type: HOTO_GP_ASSET_PORTFOLIO_REPLACEMENT_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_GP_REPLACEMENT_DATA_FAILED,
+        type: HOTO_GP_ASSET_PORTFOLIO_REPLACEMENT_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }
@@ -178,21 +187,21 @@ export const hoto_gp_asset_partfolio_transfer_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_GP_TRANSFER_DATA_REQUEST });
+      dispatch({ type: HOTO_GP_ASSET_PORTFOLIO_TRANSFER_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${oandmApis?.gp?.transfer?.transfer_request_assign_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.gp?.asset_portfolio?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
         body
       );
       dispatch({
-        type: HOTO_GP_TRANSFER_DATA_SUCCESS,
+        type: HOTO_GP_ASSET_PORTFOLIO_TRANSFER_DATA_SUCCESS,
         payload: {
           data: response?.data,
         },
       });
     } catch (error) {
       dispatch({
-        type: HOTO_GP_TRANSFER_DATA_FAILED,
+        type: HOTO_GP_ASSET_PORTFOLIO_TRANSFER_DATA_FAILED,
         payload: error?.response?.data?.message,
       });
     }
@@ -209,7 +218,7 @@ export const hoto_gp_wise_asset_data_disptach = function ({
     try {
        const body = {
          filters: {
-          location_type:"gp"
+          location_type:"old gp"
          },
          searchFields: {
            string: ["block.name","location_name","location_code", "block_id", "district.name", "district_id"],
@@ -331,8 +340,8 @@ export const hoto_gp_replacement_data_disptach = function ({
            "replacementId",
            "gp_asset_details.equipment_name",
            "serialNumber",
-           "gp_asset_details.gp_details.gp_name",
-           "gp_asset_details.gp_details.gp_code",
+           "gp_asset_details.gp_details.location_name",
+           "gp_asset_details.gp_details.location_code",
            "replacementReason",
            "initiatedBy",
          ],

@@ -29,7 +29,7 @@ import { orangeSecondary } from "app/pages/Constants/colors";
 import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
 import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
 import moment from "moment";
-import { hoto_block_asset_partfolio_maintenance_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import { hoto_warehouse_asset_partfolio_maintenance_data_disptach } from "app/redux/actions/Hoto_to_servey/Warehouse";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -62,7 +62,7 @@ const MaintenanceTable = ({ row }) => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { hotoBlockAssetPortfolioMaintenanceDataReducer } = useSelector(
+  const { hotoWarehouseAssetPortfolioMaintenanceDataReducer } = useSelector(
     (state) => state
   );
 
@@ -82,7 +82,7 @@ const MaintenanceTable = ({ row }) => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_block_asset_partfolio_maintenance_data_disptach({
+      hoto_warehouse_asset_partfolio_maintenance_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -109,7 +109,7 @@ const MaintenanceTable = ({ row }) => {
 
   useEffect(() => {
     dispatch(
-      hoto_block_asset_partfolio_maintenance_data_disptach({
+      hoto_warehouse_asset_partfolio_maintenance_data_disptach({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
         sort: sort,
@@ -125,7 +125,7 @@ const MaintenanceTable = ({ row }) => {
 
   return (
     <>
-      {hotoBlockAssetPortfolioMaintenanceDataReducer?.loading && (
+      {hotoWarehouseAssetPortfolioMaintenanceDataReducer?.loading && (
         <FullScreenLoader />
       )}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -139,7 +139,7 @@ const MaintenanceTable = ({ row }) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_block_asset_partfolio_maintenance_data_disptach({
+                hoto_warehouse_asset_partfolio_maintenance_data_disptach({
                   sortBy: sortBy,
                   search_value: "",
                   sort: sort,
@@ -354,9 +354,9 @@ const MaintenanceTable = ({ row }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoBlockAssetPortfolioMaintenanceDataReducer?.data?.result?.data
+            {hotoWarehouseAssetPortfolioMaintenanceDataReducer?.data?.result?.data
               ?.length > 0 ? (
-              hotoBlockAssetPortfolioMaintenanceDataReducer?.data?.result?.data?.map(
+              hotoWarehouseAssetPortfolioMaintenanceDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
                     <TableRow key={ele?.id}>
@@ -531,7 +531,7 @@ const MaintenanceTable = ({ row }) => {
         </Table>
         <Pagination
           count={
-            hotoBlockAssetPortfolioMaintenanceDataReducer?.data?.result
+            hotoWarehouseAssetPortfolioMaintenanceDataReducer?.data?.result
               ?.total_pages || 1
           }
           page={page}

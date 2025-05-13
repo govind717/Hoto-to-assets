@@ -6,6 +6,7 @@ import "./app/config/i18n";
 import axios from "axios";
 import "./app/App.css";
 
+const base_url = process.env.REACT_APP_URL_BACKEND_BASE_URL;
 // export const Axios = axios.create({
 //   baseURL: process.env.BACKEND_BASE_URL
 // })
@@ -14,7 +15,7 @@ import "./app/App.css";
 //   withCredentials: true,
 // });
 export const Axios = axios.create({
-  baseURL: "http://localhost:2000/api/v1/",
+  baseURL: `${base_url}`,
   withCredentials: true,
 });
 

@@ -97,7 +97,8 @@ const ReplacementTable = ({ row }) => {
         page: page,
         filters: {
           _ids: {
-            "requested_item.requested_item_id": row?._id,
+            "requested_item.requested_item_details.block_asset_id":
+              row?._id,
           },
         },
       })
