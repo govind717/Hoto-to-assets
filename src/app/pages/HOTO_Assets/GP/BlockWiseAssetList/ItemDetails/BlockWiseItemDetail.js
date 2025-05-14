@@ -60,10 +60,10 @@ const GpWiseItemDetail = () => {
           {/* Right column */}
           <Grid item xs={12} md={5}>
             <Typography>
-              <strong>Block Code :</strong> {state?.block_id || "-"}
+              <strong>Block Code :</strong> {state?.block?.code || "-"}
             </Typography>
             <Typography>
-              <strong>District Code :</strong> {state?.district_id || "-"}
+              <strong>District Code :</strong> {state?.district?.code || "-"}
             </Typography>
             <Typography>
               <strong>Landmark :</strong> -

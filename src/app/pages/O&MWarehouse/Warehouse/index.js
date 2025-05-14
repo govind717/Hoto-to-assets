@@ -12,6 +12,7 @@ import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined
 import DailyStockList from "./DailyStockList/DailyStockList";
 import StockList from "./StockList/StockList";
 import VirtualStockList from "./VirtualStockList/VirtualStockList";
+import HotoHeader2 from "app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2";
 
 const OandMWarehouse = () => {
   const [value, setValue] = useState("1");
@@ -22,7 +23,7 @@ const OandMWarehouse = () => {
 
   return (
     <Box>
-      <HotoHeader />
+      <HotoHeader2 />
       <Box
         display="flex"
         justifyContent="space-between"

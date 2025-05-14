@@ -20,347 +20,527 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const labelSxTypography = { fontSize: "16px", fontWeight: "500", mb: 1 };
-
-export const RackDetails = function ({ equipment_name, equipment_data }) {
-  return <>
-    <Box width={"100%"}>
-      <Grid container justifyContent={"start"} gap={5}>
-        <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Racks Availability</Typography>
-          {/* <Typogr sx={{fontSize:"15px"}}aphy>{equipment_data || "-"}</Typography> */}
-          <Typography>{"-"}</Typography>
+const patternBoxStyle = {
+  width: "100%",
+  minHeight: "36px",
+  maxHeight: "100px",
+  display: "flex",
+  alignItems: "center",
+  paddingX: 1,
+  paddingY: 0.5,
+  border: "1px solid #aaa",
+  borderRadius: "4px",
+  backgroundColor: "transparent",
+  color: "black",
+  overflow: "auto",
+  whiteSpace: "pre-wrap",
+  wordBreak: "break-word",
+};
+export const RackDetails = function ({data}) {
+  return (
+    <>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Racks Availability
+          </Typography>
+          <Box sx={patternBoxStyle}>{data?.other_details?.rack_availablity ? "Yes" : "No" } </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Number Of Racks</Typography>
-          <Typography sx={{ fontSize: "15px" }}>{equipment_data?.no_of_racks || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Number Of Racks
+          </Typography>
+          <Box sx={patternBoxStyle}>{"-"} </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Unit Size</Typography>
-          <Typography sx={{ fontSize: "15px" }}>{equipment_data?.racks_unit_size || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Unit Size
+          </Typography>
+          <Box sx={patternBoxStyle}>{"-"} </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Racks Connectivity</Typography>
-          <Typography sx={{ fontSize: "15px" }}>{equipment_data?.racks_connectivity || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Racks Connectivity
+          </Typography>
+          <Box sx={patternBoxStyle}>{"-"} </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={2}>
-          <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>Socket Availability</Typography>
-          <Typography sx={{ fontSize: "15px" }}>{equipment_data?.racks_socket_avail || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Socket Availability
+          </Typography>
+          <Box sx={patternBoxStyle}>{"-"} </Box>
         </Grid>
       </Grid>
-    </Box>
-  </>
+    </>
+  );
 }
-export const SmpsDetails = function ({ equipment_name, equipment_data }) {
+export const SmpsDetails = function ({ data }) {
   return (
-    <Box width={"100%"}>
-      <Grid container justifyContent={"start"} gap={5}>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+    <>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             SMPS Availability
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.smps || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.smps_availablity
+              ? data?.other_details?.smps_availablity === true
+                ? "Yes"
+                : "No"
+              : "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             SMPS Condition
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.smps_condition || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.smps_condition || "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             SMPS Make
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.smps_make || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.smps_make_controller || "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             SMPS Serial No
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.smps_serial_no || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.smps_serial_no_controller || "-"}{" "}
+          </Box>
         </Grid>
-
-        {/* Optional: Image fields */}
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             SMPS Image
           </Typography>
-          {/* Replace with actual image logic if available */}
-          <Typography sx={{ fontSize: "15px" }}>{"-"}</Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.smps_img?.length || "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             SMPS Capacity
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.smps_capacity || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.smps_capacity || "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             SMPS Warranty
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.smps_warranty || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.smps_warranty
+              ? data?.other_details?.smps_warranty === true
+                ? "Yes"
+                : "No"
+              : "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             Serial No Image
           </Typography>
-          {/* Replace with actual serial number image logic if available */}
-          <Typography sx={{ fontSize: "15px" }}>{"-"}</Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.smpsSerialNo_img ? data?.other_details?.smpsSerialNo_img?.length : "-"}{" "}
+          </Box>
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 };
 
-export const CcuDetails = function ({ equipment_name, equipment_data }) {
+export const CcuDetails = function ({ data }) {
   return (
-    <Box width={"100%"}>
-      <Grid container justifyContent={"start"} gap={5}>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+    <>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             CCU Availability
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.ccu || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_availablity
+              ? data?.other_details?.ccu_availablity
+                ? "Yes"
+                : "No"
+              : "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             CCU Condition
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.ccu_condition || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_condition || "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             CCU Serial Number
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.ccu_serial_no || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_serial_no_controller || "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             CCU Make
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.ccu_make || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_make_controller || "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             CCU Image
           </Typography>
-          {/* Add your image display logic here */}
-          <Typography sx={{ fontSize: "15px" }}>{"-"}</Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_image || "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            CCU Capacity
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_capacity_controller || "-"}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             CCU Warranty
           </Typography>
-          <Typography sx={{ fontSize: "15px" }}>
-            {equipment_data?.ccu_warranty || "-"}
-          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_warranty || "-"}{" "}
+          </Box>
         </Grid>
-
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
             CCU Serial No. Image
           </Typography>
-          {/* Add serial no image preview logic here */}
-          <Typography sx={{ fontSize: "15px" }}>{"-"}</Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccuSerialNo_img?.length || "-"}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Battery Availablity
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_battery_availablity ? "Yes" : "No"}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Battery Count
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_battery_count || 0}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Charger Availablity
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccu_charger_availablity ? "Yes" : "No"}{" "}
+          </Box>
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 };
 
-export const SplitterDetails = function ({ equipment_data }) {
+export const SplitterDetails = function ({ data }) {
   return (
-    <Box width={"100%"}>
-      <Grid container justifyContent={"start"} gap={5}>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Splitter Availability</Typography>
-          <Typography>{equipment_data?.splitter || "-"}</Typography>
+    <>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Splitter Availability
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.splitter_availablity ? "Yes" : "No"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Splitter Condition</Typography>
-          <Typography>{equipment_data?.splitter_condition || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Splitter Condition
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.splitter_condition || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Splitter Serial Number</Typography>
-          <Typography>{equipment_data?.splitter_serial_no || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Splitter Serial Number
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.splitter_serial_no_controller || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Splitter Make</Typography>
-          <Typography>{equipment_data?.splitter_make || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Splitter Make
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.splitter_make_controller || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Splitter Image</Typography>
-          <Typography>-</Typography> {/* Replace with image viewer if needed */}
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Splitter Image
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.splitter_img || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Splitter Warranty</Typography>
-          <Typography>{equipment_data?.splitter_warranty || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Splitter Warranty
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.splitter_warranty || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Splitter Serial No Image</Typography>
-          <Typography>-</Typography> {/* Replace with image viewer */}
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Splitter Serial No Image
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.splitterSerialNo_img?.length || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Splitter Ratio</Typography>
-          <Typography>{equipment_data?.spliter_split_ratio || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Splitter Ratio
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ccuSerialNo_img?.length || "-"}{" "}
+          </Box>
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 };
 
-export const OntDetails = function ({ equipment_data }) {
+export const OntDetails = function ({ data }) {
   return (
-    <Box width={"100%"}>
-      <Grid container justifyContent={"start"} gap={5}>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>ONT Availability</Typography>
-          <Typography>{equipment_data?.ont || "-"}</Typography>
+    <>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Has ONT
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.has_olt ? "Yes" : "No"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>ONT Status</Typography>
-          <Typography>{equipment_data?.ont_status || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            OLT Condition
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_condition || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>ONT Condition</Typography>
-          <Typography>{equipment_data?.ont_condition || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            OLT Connector Type
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_connector_type || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>ONT Unique Id</Typography>
-          <Typography>{equipment_data?.ont_unique_id || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            OLT Pon Port
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_pon_port || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>ONT Image</Typography>
-          <Typography>-</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Serial No.
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_serial_no_controller || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>ONT Type</Typography>
-          <Typography>{equipment_data?.ont_type || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Status
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_status || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>ONT Make</Typography>
-          <Typography>{equipment_data?.ont_make || "-"}</Typography>
-        </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>ONT Unique Image</Typography>
-          <Typography>-</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Used Port
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_used_port_controller || "-"}{" "}
+          </Box>
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 };
 
-export const SfpDetails = function ({ equipment_data }) {
+export const OltDetails = function ({ data }) {
   return (
-    <Box width={"100%"}>
-      <Grid container justifyContent={"start"} gap={5}>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>SFP Availability</Typography>
-          <Typography>{equipment_data?.sfp || "-"}</Typography>
+    <>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Has OLT
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.has_olt ? "Yes" : "No"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>SFP Count</Typography>
-          <Typography>{equipment_data?.sfp_count || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            OLT Condition
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_condition || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>SMPS Cord Details</Typography>
-          <Typography>{equipment_data?.cord_details || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            OLT Connector Type
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_connector_type || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>SMPS Quantity</Typography>
-          <Typography>{equipment_data?.no_of_quantity || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            OLT Pon Port
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_pon_port || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>SFP Image</Typography>
-          <Typography>-</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Serial No.
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_serial_no_controller || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>SFP Count Image</Typography>
-          <Typography>-</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Status
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_status || "-"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>SMPS Working Status</Typography>
-          <Typography>{equipment_data?.working_status || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Used Port
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_used_port_controller || "-"}{" "}
+          </Box>
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 };
 
-export const FdmsDetails = function ({ equipment_data }) {
+export const SfpDetails = function ({ data }) {
   return (
-    <Box width={"100%"}>
-      <Grid container justifyContent={"start"} gap={5}>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Availability FDMS</Typography>
-          <Typography>{equipment_data?.fdms || "-"}</Typography>
+    <>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Has SFP
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.has_sfp ? "Yes" : "No"}{" "}
+          </Box>
         </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Number Of FDMS</Typography>
-          <Typography>{equipment_data?.no_fdms || "-"}</Typography>
-        </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Number Of FDMS Port</Typography>
-          <Typography>{equipment_data?.no_fdms_port || "-"}</Typography>
-        </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>FDMS Type</Typography>
-          <Typography>{equipment_data?.fdms_type || "-"}</Typography>
-        </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>FDMS Serial Number</Typography>
-          <Typography>{equipment_data?.fdms_serial_no || "-"}</Typography>
-        </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Number Of Patchcords</Typography>
-          <Typography>{equipment_data?.no_of_pathcords_connected || "-"}</Typography>
-        </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>FDMS Connectivity</Typography>
-          <Typography>{equipment_data?.fdms_connectivity || "-"}</Typography>
-        </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Termination OFC Type</Typography>
-          <Typography>{equipment_data?.termination_ofc_type || "-"}</Typography>
-        </Grid>
-        <Grid item xl={3} md={4} sm={6}>
-          <Typography sx={labelSxTypography}>Number Of Spare Fibre</Typography>
-          <Typography>{equipment_data?.no_of_spare_fibre_avail || "-"}</Typography>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            SFP Count
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.sfp_count || "-"}{" "}
+          </Box>
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 };
+
+export const FdmsDetails = function ({ data }) {
+  return (
+    <>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            FDMD Condition
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.condition || "-"}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            FDMD Make
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.make_controller || "-"}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            OFC Count
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ofc_count_controller || "-"}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Serial No.
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.serial_no_controller || "-"}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Port Type
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.port_type || "-"}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={4}>
+          <Typography variant="h6" fontSize="14px">
+            Ports Used
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ports_used || "-"}{" "}
+          </Box>
+        </Grid>
+      </Grid>
+    </>
+  );
+};
+
 
 export const CableDetails = function ({ equipment_data }) {
   return (
@@ -478,9 +658,9 @@ export const UPSDetails = ({ equipment_data }) => {
 };
 
 
-export default function EquipmentModal({ equipment_show, handleClose, equipment_details, children, TransferRecTable }) {
-  const equipment_name = equipment_show?.equipment_name;
-  const equipment_data = equipment_details?.[equipment_name]
+export default function EquipmentModal({ equipment_show, handleClose, }) {
+  console.log("Equipment : ", equipment_show);
+  let data = equipment_show?.data;
   return (
     <React.Fragment>
       <BootstrapDialog
@@ -490,14 +670,17 @@ export default function EquipmentModal({ equipment_show, handleClose, equipment_
         maxWidth={"md"}
         fullWidth={true}
       >
-        <DialogTitle sx={{ m: 0, p: 2, textTransform: "uppercase" }} id="customized-dialog-title">
-          {equipment_name}
+        <DialogTitle
+          sx={{ m: 0, p: 2, textTransform: "uppercase" }}
+          id="customized-dialog-title"
+        >
+          {data?.equipment_name}
         </DialogTitle>
         <IconButton
           aria-label="close"
           onClick={handleClose}
           sx={(theme) => ({
-            position: 'absolute',
+            position: "absolute",
             right: 8,
             top: 8,
             color: theme.palette.grey[500],
@@ -507,19 +690,22 @@ export default function EquipmentModal({ equipment_show, handleClose, equipment_
         </IconButton>
         <DialogContent dividers>
           <Box sx={{ pl: 2 }}>
-            {children}
-            {equipment_name === "racks" && <RackDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-            {equipment_name === "smps" && <SmpsDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-            {equipment_name === "ccu" && <CcuDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-            {equipment_name === "splitter" && <SplitterDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-            {equipment_name === "ont" && <OntDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-            {equipment_name === "sfp" && <SfpDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-            {equipment_name === "fdms" && <FdmsDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-            {equipment_name === "cable" && <CableDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-            {equipment_name === "solar" && <SolarDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
-            {equipment_name === "ups" && <UPSDetails equipment_name={equipment_name} equipment_data={equipment_data} />}
+            {data?.equipment_name === "RACK" && <RackDetails data={data} />}
+            {data?.equipment_name === "SMPS" && <SmpsDetails data={data} />}
+            {data?.equipment_name === "CCU" && <CcuDetails data={data} />}
+            {data?.equipment_name === "SPLITTER" && (
+              <SplitterDetails data={data} />
+            )}
+            {data?.equipment_name === "OLT" && <OltDetails data={data} />}
+            {data?.equipment_name === "ONT" && <OntDetails data={data} />}
+            {data?.equipment_name === "FDMS" && <FdmsDetails data={data} />}
+            {data?.equipment_name === "SFP" && <SfpDetails data={data} />}
+
+            {/* {data?.equipment_name === "cable" && <CableDetails data={data} />}
+            {data?.equipment_name === "solar" && <SolarDetails data={data} />}
+            {data?.equipment_name === "ups" && <UPSDetails />} */}
           </Box>
-          {TransferRecTable}
+          {/* {TransferRecTable} */}
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
@@ -529,4 +715,4 @@ export default function EquipmentModal({ equipment_show, handleClose, equipment_
       </BootstrapDialog>
     </React.Fragment>
   );
-}
+};

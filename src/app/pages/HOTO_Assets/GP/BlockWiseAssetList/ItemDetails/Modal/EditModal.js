@@ -145,7 +145,7 @@ const validationSchema = Yup.object().shape({
                       }}
                     >
                       <Typography variant="h3" fontWeight={600} mb={2}>
-                        Edit equipment_name Details
+                        Edit Equipment Details
                       </Typography>
                       <Grid container rowSpacing={2} columnSpacing={3}>
                         <Grid item xs={6} md={2.4}>

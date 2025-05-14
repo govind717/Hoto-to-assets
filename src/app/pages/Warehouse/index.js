@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 
-import { Button, InputAdornment, TextField } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
-import InwardAssetsList from "./InwardAssetsList/InwardAssetsList";
+import HotoHeader2 from "../Hoto_to_Assets/HotoHeader/HotoHeader2";
 import AssetsList from "./AssetsList/AssetsList";
+import InwardAssetsList from "./InwardAssetsList/InwardAssetsList";
 import MaintainanceList from "./MaintenanceList";
 import ReplacementList from "./Replacement";
 import Transferlist from "./Transfer";
@@ -26,7 +23,7 @@ const Warehouse = () => {
 
   return (
     <Box>
-      <HotoHeader />
+      <HotoHeader2 />
       <Box
         display="flex"
         justifyContent="space-between"
