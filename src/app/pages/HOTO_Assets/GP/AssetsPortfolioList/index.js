@@ -60,7 +60,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const hotoGpAssetPortfolioDataReducer = useSelector(
     (state) => state?.hotoGpAssetPortfolioDataReducer
   );
-  
+
   const dispatch = useDispatch();
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
@@ -128,7 +128,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const handleSelectAll = function (event) {
     try {
       const checked = event.target.checked;
-     
+
       if (checked) {
         setSelectedIds((prev) => {
           const selecedIdsData = new Set([
@@ -375,7 +375,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </Div>
         )}
       </Div>
-      {hotoGpAssetPortfolioDataReducer?.loading && <FullScreenLoader/>}
+      {hotoGpAssetPortfolioDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -444,7 +444,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
-                    Location
+                    GP  Location
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -458,7 +458,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
-                    Location Code
+                    GP Code
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -551,7 +551,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoGpAssetPortfolioDataReducer?.data.result?.data &&
-            hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
+              hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
                   return (
