@@ -68,7 +68,6 @@ const UserManagementList = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-
   const { userDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -90,8 +89,6 @@ const UserManagementList = () => {
       },
     });
   };
-
-
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -136,7 +133,7 @@ const UserManagementList = () => {
   };
 
   const updateStatus = async (body, id) => {
-    const data = await Axios.patch(`${AllApis?.Auth?.updateUser}/${id}`, body)
+    const data = await Axios.patch(`${AllApis?.Auth?.updateUser}/${id}`, body);
     if (data?.data?.statusCode === 200) {
       Swal.fire({
         icon: "success",
@@ -211,7 +208,10 @@ const UserManagementList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "100px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "100px" }}
+              >
                 Sr No.
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -234,7 +234,9 @@ const UserManagementList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`organisation_details.organisationName`)}
+                  onClick={() =>
+                    handleSort(`organisation_details.organisationName`)
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -270,9 +272,7 @@ const UserManagementList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`email`)
-                  }
+                  onClick={() => handleSort(`email`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -284,9 +284,7 @@ const UserManagementList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`mobileNo`)
-                  }
+                  onClick={() => handleSort(`mobileNo`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -295,9 +293,7 @@ const UserManagementList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`address`)
-                  }
+                  onClick={() => handleSort(`address`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -309,9 +305,7 @@ const UserManagementList = () => {
                 sx={{ ...tableCellSx, minWidth: "150px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`city`)
-                  }
+                  onClick={() => handleSort(`city`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -323,9 +317,7 @@ const UserManagementList = () => {
                 sx={{ ...tableCellSx, minWidth: "150px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`state`)
-                  }
+                  onClick={() => handleSort(`state`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -619,7 +611,7 @@ const UserManagementList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={userDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

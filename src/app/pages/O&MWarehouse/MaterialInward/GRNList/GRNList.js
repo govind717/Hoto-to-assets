@@ -274,7 +274,9 @@ const GRNList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmGpMaterialInwardGRNDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

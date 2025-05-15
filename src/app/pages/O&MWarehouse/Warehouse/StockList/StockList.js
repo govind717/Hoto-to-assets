@@ -276,7 +276,7 @@ const StockList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={oandmWarehouseStockDataReducer?.data?.result?.total_pages || 1}
           page={page}
           onChange={handleChangePage}
           sx={{

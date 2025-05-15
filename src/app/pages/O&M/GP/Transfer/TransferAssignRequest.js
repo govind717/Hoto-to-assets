@@ -46,7 +46,7 @@ const TransferAssignRequest = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
-  const [row,setRow]=useState(null)
+  const [row, setRow] = useState(null);
   const { oandmGpTransferRequestAssignDataReducer } = useSelector(
     (state) => state
   );
@@ -97,10 +97,10 @@ const TransferAssignRequest = () => {
       })
     );
   }, [sort, page, sortBy, dispatch]);
-  const showDetails=(data)=>{
+  const showDetails = (data) => {
     setRow(data);
     setOpen(true);
-  }
+  };
   const closeModal = () => {
     setOpen(false);
   };
@@ -175,7 +175,10 @@ const TransferAssignRequest = () => {
                   Transfer Id
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"160px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "160px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`createdAt`)}
                   direction={sort}
@@ -184,7 +187,10 @@ const TransferAssignRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
@@ -202,7 +208,10 @@ const TransferAssignRequest = () => {
                   Serial No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`transfer_type`)}
                   direction={sort}
@@ -253,7 +262,10 @@ const TransferAssignRequest = () => {
                   Issue Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`transfer_status`)}
                   direction={sort}
@@ -263,14 +275,14 @@ const TransferAssignRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Remark
+                Remark
               </TableCell>
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Document
+                Document
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Details
+                Details
               </TableCell>
             </TableRow>
           </TableHead>
@@ -446,7 +458,10 @@ const TransferAssignRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmGpTransferRequestAssignDataReducer?.data?.result
+              ?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{
@@ -459,7 +474,7 @@ const TransferAssignRequest = () => {
           }}
         />
       </TableContainer>
-      <AssignViewModal open={open} closeModal={closeModal} row={row}/>
+      <AssignViewModal open={open} closeModal={closeModal} row={row} />
     </>
   );
 };
