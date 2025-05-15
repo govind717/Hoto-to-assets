@@ -14,7 +14,7 @@ const colorsMap = {
   Robust: "#22CAAD",
   Damaged: "#F55757",
   "Semi-Damaged": "#FDCF2A",
-  "Not Found": "#E78F5D",
+  // "Not Found": "#E78F5D",
 };
 
 const CustomLegend = ({ total, data }) => (
@@ -96,10 +96,10 @@ const ConditionStatusChart2 = ({ selectedValue }) => {
       //   name: "Semi-Damaged",
       //   value: 0, // Always show 0 as required
       // },
-      {
-        name: "Not Found",
-        value: conditionMap[null] || 0, // Always show 0 as required
-      },
+      // {
+      //   name: "Not Found",
+      //   value: conditionMap[null] || 0, // Always show 0 as required
+      // },
     ];
 
     setOriginalData(finalData);

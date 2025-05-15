@@ -23,7 +23,7 @@ const CustomLegend = ({ data }) => {
   const legendItems = [
     { name: "Robust", color: "#22CAAD" },
     { name: "Damaged", color: "#F55757" },
-    { name: "Not Found", color: "#E78F5D" },
+    // { name: "Not Found", color: "#E78F5D" },
     // { name: "Semi-Damaged", color: "#FDCF2A" }, // Commented as requested
   ];
 
@@ -104,9 +104,9 @@ const AssetConditionByTypeChart4 = ({ selectedValue }) => {
                 ?.count || 0) +
               (responseData.find((item) => item._id.condition === "Bad")
                 ?.count || 0),
-            "Not Found":
-              responseData.find((item) => item._id.condition === null)?.count ||
-              0,
+            // "Not Found":
+            //   responseData.find((item) => item._id.condition === null)?.count ||
+            //   0,
             // "Semi-Damaged": 0, // Commented out as requested
           },
         ];
@@ -209,7 +209,7 @@ const AssetConditionByTypeChart4 = ({ selectedValue }) => {
             <Legend content={<CustomLegend data={chartData} />} />
             <Bar dataKey="Robust" fill="#22CAAD" barSize={30} />
             <Bar dataKey="Damaged" fill="#F55757" barSize={30} />
-            <Bar dataKey="Not Found" fill="#E78F5D" barSize={30} />
+            {/* <Bar dataKey="Not Found" fill="#E78F5D" barSize={30} /> */}
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
