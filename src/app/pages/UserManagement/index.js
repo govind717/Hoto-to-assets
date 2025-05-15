@@ -5,8 +5,8 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import HotoHeader from 'app/pages/Hoto_to_Assets/HotoHeader';
 import UserManagementList from './UserManagementList/UserManagementList';
+import HotoHeader2 from '../Hoto_to_Assets/HotoHeader/HotoHeader2';
 
 const UserManagement = () => {
     const [value, setValue] = React.useState('1');
@@ -16,9 +16,9 @@ const UserManagement = () => {
     };
 
     return (
-        <Box>
-            <HotoHeader />
-            {/* <Box sx={{ width: '100%', typography: 'body1', mt: 1 }}>
+      <Box>
+        <HotoHeader2/>
+        {/* <Box sx={{ width: '100%', typography: 'body1', mt: 1 }}>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -36,8 +36,8 @@ const UserManagement = () => {
                     <TabPanel value="4" sx={{ p: 0 }}><Transfer_list /></TabPanel>
                 </TabContext>
             </Box> */}
-            <UserManagementList/>
-        </Box>
+        <UserManagementList />
+      </Box>
     );
 }
 

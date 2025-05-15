@@ -145,7 +145,7 @@ const validationSchema = Yup.object().shape({
                       }}
                     >
                       <Typography variant="h3" fontWeight={600} mb={2}>
-                        Edit equipment_name Details
+                        Edit Equipment Details
                       </Typography>
                       <Grid container rowSpacing={2} columnSpacing={3}>
                         <Grid item xs={6} md={2.4}>
@@ -160,12 +160,17 @@ const validationSchema = Yup.object().shape({
                             onChange={(e) =>
                               setFieldValue("equipment_name", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("equipment_name", true)}
+                            onBlur={() =>
+                              setFieldTouched("equipment_name", true)
+                            }
                             value={values?.equipment_name}
                             error={
-                              touched?.equipment_name && Boolean(errors?.equipment_name)
+                              touched?.equipment_name &&
+                              Boolean(errors?.equipment_name)
                             }
-                            helperText={touched?.equipment_name && errors?.equipment_name}
+                            helperText={
+                              touched?.equipment_name && errors?.equipment_name
+                            }
                           />
                         </Grid>
                         <Grid item xs={6} md={2.4}>
@@ -270,17 +275,13 @@ const validationSchema = Yup.object().shape({
                             onBlur={() =>
                               setFieldTouched("warranty_date", true)
                             }
-                            value={
-                              values?.warranty_date
-                                .split("T")[0] 
-                            }
+                            value={values?.warranty_date.split("T")[0]}
                             error={
                               touched?.warranty_date &&
                               Boolean(errors?.warranty_date)
                             }
                             helperText={
-                              touched?.warranty_date &&
-                              errors?.warranty_date
+                              touched?.warranty_date && errors?.warranty_date
                             }
                           />
                         </Grid>
@@ -329,7 +330,10 @@ const validationSchema = Yup.object().shape({
                             getOptionLabel={(option) => option || ""}
                             value={values?.condition_status}
                             onChange={(e, newValue) => {
-                              setFieldValue("condition_status", newValue ? newValue : "");
+                              setFieldValue(
+                                "condition_status",
+                                newValue ? newValue : ""
+                              );
                             }}
                             renderInput={(params) => (
                               <TextField
@@ -338,8 +342,14 @@ const validationSchema = Yup.object().shape({
                                 size="small"
                                 placeholder="Select Status"
                                 name="condition_status"
-                                error={touched.condition_status && Boolean(errors.condition_status)}
-                                helperText={touched.condition_status && errors.condition_status}
+                                error={
+                                  touched.condition_status &&
+                                  Boolean(errors.condition_status)
+                                }
+                                helperText={
+                                  touched.condition_status &&
+                                  errors.condition_status
+                                }
                               />
                             )}
                           />

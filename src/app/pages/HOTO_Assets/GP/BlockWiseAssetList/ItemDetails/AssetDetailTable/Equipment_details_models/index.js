@@ -465,58 +465,18 @@ export const SfpDetails = function ({ data }) {
       <Grid container spacing={2} mt={2}>
         <Grid item xs={6} md={4}>
           <Typography variant="h6" fontSize="14px">
-            Has OLT
+            Has SFP
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.has_olt ? "Yes" : "No"}{" "}
+            {data?.other_details?.has_sfp ? "Yes" : "No"}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={4}>
           <Typography variant="h6" fontSize="14px">
-            OLT Condition
+            SFP Count
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_condition || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Typography variant="h6" fontSize="14px">
-            OLT Connector Type
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_connector_type || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Typography variant="h6" fontSize="14px">
-            OLT Pon Port
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_pon_port || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Typography variant="h6" fontSize="14px">
-            Serial No.
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_serial_no_controller || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Typography variant="h6" fontSize="14px">
-            Status
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_status || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Typography variant="h6" fontSize="14px">
-            Used Port
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_used_port_controller || "-"}{" "}
+            {data?.other_details?.sfp_count || "-"}{" "}
           </Box>
         </Grid>
       </Grid>

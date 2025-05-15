@@ -1,16 +1,15 @@
 import React from 'react';
-
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
+import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
 import AssetsPortfolioList from './AssetsPortfolioList';
-import HotoHeader from 'app/pages/Hoto_to_Assets/HotoHeader';
 import MaintainanceList from './Maintenance';
-import WarehouseList from './Warehouse';
 import ReplacementList from './Replacement';
 import Transferlist from './Transfer';
+import WarehouseList from './Warehouse';
 import WarehouseWiseAssetList from './WarehouseWiseAssetList';
 
 
@@ -23,7 +22,7 @@ const HotoWarehouse = () => {
 
     return (
       <Box>
-        <HotoHeader />
+        <HotoHeader2 />
         <Box sx={{ width: "100%", typography: "body1", mt: 1 }}>
           <TabContext value={value}>
             <Box

@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
 import RequestLogList from "./RequestLogList/RequestLogList";
 import OpenRequestList from "./OpenRequestList/OpenRequestList";
+import HotoHeader2 from "app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2";
 
 const OandMMaterialRequest = () => {
   const [value, setValue] = useState("1");
@@ -21,7 +22,7 @@ const OandMMaterialRequest = () => {
 
   return (
     <Box>
-      <HotoHeader />
+      <HotoHeader2 />
       <Box
         display="flex"
         justifyContent="space-between"

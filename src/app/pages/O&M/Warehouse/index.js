@@ -18,6 +18,7 @@ import ReplacementList from "./Replacement/ReplacementList";
 import TransferList from "./Transfer/TransferList";
 import ScrapList from "./Scrap/ScrapList";
 import MaintenanceList from "./Maintenance/MaintenanceList";
+import HotoHeader2 from "app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2";
 
 const conditionColors = {
   "Semi-Damaged": "warning",
@@ -33,7 +34,7 @@ const WarehouseOandM = () => {
 
   return (
     <>
-    <HotoHeader />
+      <HotoHeader2 />
       <Box
         display="flex"
         justifyContent="space-between"
@@ -41,28 +42,10 @@ const WarehouseOandM = () => {
         mt={0}
         mb={0}
       >
-        <h3 style={{ fontWeight: "500", color: "#000",fontSize:"20px" }}>O&M-Warehouse</h3>
+        <h3 style={{ fontWeight: "500", color: "#000", fontSize: "20px" }}>
+          O&M-Warehouse
+        </h3>
         <Box display="flex" alignItems="center" gap={2}>
-          {/* <TextField
-            id="search"
-            type="search"
-            label="Search"
-            value={searchTerm}
-            size="small"
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              // your dispatch logic
-            }}
-            sx={{ width: 300 }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon sx={{ cursor: "pointer" }} />
-                </InputAdornment>
-              ),
-            }}
-          /> */}
-
           <FormControl size="small" sx={{ minWidth: 160 }}>
             <Select
               displayEmpty

@@ -1,23 +1,16 @@
-import React, { useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
+import { useState } from "react";
 
 import {
-  Select,
-  MenuItem,
-  FormControl,
-  TextField,
-  Button,
   Box,
-
-  InputAdornment,
+  FormControl,
+  MenuItem,
+  Select
 } from "@mui/material";
-import Div from "@jumbo/shared/Div";
-import ReplacementList from "./Replacement/ReplacementList";
-import TransferList from "./Transfer/TransferList";
-import ScrapList from "./Scrap/ScrapList";
+import HotoHeader2 from "app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2";
 import MaintenanceList from "./Maintenance/MaintenanceList";
+import ReplacementList from "./Replacement/ReplacementList";
+import ScrapList from "./Scrap/ScrapList";
+import TransferList from "./Transfer/TransferList";
 
 const conditionColors = {
   "Semi-Damaged": "warning",
@@ -33,7 +26,7 @@ const GPOandM = () => {
 
   return (
     <>
-    <HotoHeader />
+      <HotoHeader2 />
       <Box
         display="flex"
         justifyContent="space-between"
@@ -41,7 +34,9 @@ const GPOandM = () => {
         mt={0}
         mb={0}
       >
-        <h3 style={{ fontWeight: "500", color: "#000",fontSize:"20px" }}>O&M-GP</h3>
+        <h3 style={{ fontWeight: "500", color: "#000", fontSize: "20px" }}>
+          O&M-GP
+        </h3>
         <Box display="flex" alignItems="center" gap={2}>
           {/* <TextField
             id="search"
