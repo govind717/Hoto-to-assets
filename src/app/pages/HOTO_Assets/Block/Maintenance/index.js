@@ -469,21 +469,21 @@ const MaintainanceList = () => {
                         <Chip
                           label={
                             ele?.assets_details?.condition
-                              ? ele?.assets_details?.condition.toUpperCase()
+                              ? ele?.assets_details?.condition?.toUpperCase()
                               : "-"
                           }
                           sx={{
                             backgroundColor:
-                              ele?.assets_details?.condition.toUpperCase() ===
+                              ele?.assets_details?.condition?.toUpperCase() ===
                               "DAMAGED"
                                 ? Red
-                                : ele?.assets_details?.condition.toUpperCase() ===
+                                : ele?.assets_details?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
                                 ? Yellow
-                                : ele?.assets_details?.condition.toUpperCase() ===
+                                : ele?.assets_details?.condition?.toUpperCase() ===
                                   "ROBUST"
                                 ? Green
-                                : ele?.assets_details?.condition.toUpperCase() ===
+                                : ele?.assets_details?.condition?.toUpperCase() ===
                                   "MISSING"
                                 ? Orange
                                 : "",

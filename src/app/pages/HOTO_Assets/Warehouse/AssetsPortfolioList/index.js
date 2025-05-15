@@ -56,7 +56,7 @@ const hideBtnStyle = {
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
-  const {hotoWarehouseAssetPortfolioDataReducer} = useSelector(
+  const { hotoWarehouseAssetPortfolioDataReducer } = useSelector(
     (state) => state
   );
 
@@ -441,7 +441,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
-                    Location
+                    Warehouse Location
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -455,7 +455,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
-                    Location Code
+                    Warehouse Code
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -547,7 +547,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoWarehouseAssetPortfolioDataReducer?.data.result?.data &&
-            hotoWarehouseAssetPortfolioDataReducer?.data?.result?.data?.length >
+              hotoWarehouseAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoWarehouseAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {

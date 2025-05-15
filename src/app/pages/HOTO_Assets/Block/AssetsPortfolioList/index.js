@@ -384,7 +384,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </Div>
         )}
       </Div>
-      {hotoBlockAssetPortfolioDataReducer?.loading && <FullScreenLoader/>}
+      {hotoBlockAssetPortfolioDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -453,7 +453,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
-                    Location
+                    Block Location
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -467,7 +467,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
-                    Location Code
+                    Block Code
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -560,7 +560,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoBlockAssetPortfolioDataReducer?.data.result?.data &&
-            hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
+              hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {

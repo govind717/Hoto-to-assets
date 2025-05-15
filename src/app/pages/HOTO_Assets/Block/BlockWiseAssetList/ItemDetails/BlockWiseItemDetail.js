@@ -1,7 +1,5 @@
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Divider, Grid, Tab, Typography } from "@mui/material";
-import Header from "app/layouts/shared/headers/Header";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import { Box, Divider, Grid, Typography } from "@mui/material";
+import HotoHeader from "app/Components/HotoHeader/index";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import AssetDetailTable from "./AssetDetailTable/AssetDetailTable";
@@ -32,7 +30,7 @@ const BlockWiseItemDetail = () => {
   console.log("state : ",state);
   return (
     <>
-      <HotoHeader />
+      <HotoHeader/>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={2} mb={2}>
           {/* Left column */}
