@@ -162,7 +162,7 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`equipment_name`)}
+                  onClick={() => handleSort(`gp_asset_details.equipment_name`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -171,7 +171,7 @@ const ReplacementList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`serialNumber`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -442,7 +442,7 @@ const ReplacementList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.replacementStatus?.replaceAll("_"," ") || "-"}
+                        {ele?.replacementStatus?.replaceAll("_", " ") || "-"}
                       </TableCell>
 
                       <TableCell

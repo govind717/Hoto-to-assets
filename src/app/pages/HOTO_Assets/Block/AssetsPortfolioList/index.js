@@ -30,6 +30,7 @@ import { hoto_block_asset_partfolio_data_disptach } from "app/redux/actions/Hoto
 import { Axios } from "index";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { BorderColor } from "@mui/icons-material";
+import FullScreenLoader from "app/pages/Components/Loader";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -373,6 +374,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </Div>
         )}
       </Div>
+      {hotoBlockAssetPortfolioDataReducer?.loading && <FullScreenLoader/>}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>

@@ -30,6 +30,7 @@ import { Axios } from "index";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { BorderColor } from "@mui/icons-material";
 import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
+import FullScreenLoader from "app/pages/Components/Loader";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -374,6 +375,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </Div>
         )}
       </Div>
+      {hotoGpAssetPortfolioDataReducer?.loading && <FullScreenLoader/>}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -579,7 +581,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableBody>
         </Table>
         <Pagination
-          count={hotoGpAssetPortfolioDataReducer?.data?.result?.total_pages || 1}
+          count={
+            hotoGpAssetPortfolioDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

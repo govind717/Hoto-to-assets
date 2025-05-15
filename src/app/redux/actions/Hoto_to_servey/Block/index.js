@@ -347,16 +347,17 @@ export const hoto_block_replacement_data_disptach = function ({
           searchFields: {
             string: [
               "replacementId",
-              // "block_asset_details.equipment_name",
-              "block_asset_details.equipment_name",
               "serialNumber",
-              // "block_asset_details.equipment_details.location_name",
-              // "block_asset_details.equipment_details.location_code",
+              "dueDate",
               "replacementReason",
               "initiatedBy",
             ],
             numbers: [],
-            arrayField: [],
+            arrayField: [
+              "block_asset_details.equipment_name",
+              "block_asset_details.equipment_details.location_name",
+              "block_asset_details.equipment_details.location_code",
+            ],
             boolean: [],
           },
         };

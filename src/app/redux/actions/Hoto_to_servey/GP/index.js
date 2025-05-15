@@ -338,15 +338,17 @@ export const hoto_gp_replacement_data_disptach = function ({
        searchFields: {
          string: [
            "replacementId",
-           "gp_asset_details.equipment_name",
+          //  "gp_asset_details.equipment_name",
            "serialNumber",
-           "gp_asset_details.gp_details.location_name",
-           "gp_asset_details.gp_details.location_code",
            "replacementReason",
            "initiatedBy",
          ],
          numbers: [],
-         arrayField: [],
+         arrayField: [
+           "gp_asset_details.equipment_details.location_name",
+           "gp_asset_details.equipment_details.location_code",
+           "gp_asset_details.equipment_name",
+         ],
          boolean: [],
        },
      };

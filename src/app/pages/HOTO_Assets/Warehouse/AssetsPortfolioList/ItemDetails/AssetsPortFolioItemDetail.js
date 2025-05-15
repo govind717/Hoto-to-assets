@@ -7,6 +7,8 @@ import { useLocation } from "react-router-dom";
 import TranferTable from "./TranferTable/TranferTable";
 import MaintenanceTable from "./MaintenanceTable/MaintenanceTable";
 import ReplacementTable from "./ReplacementTable/ReplacementTable";
+import HotoHeader2 from "app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2";
+import DynamicQuestions from "./Components/DynamicQuestions";
 
 const patternBoxStyle = {
   width: "100%",
@@ -33,7 +35,7 @@ const WarehouseItemDetail = () => {
   };
   return (
     <>
-      <HotoHeader />
+      <HotoHeader2 />
       <Box sx={{ p: 2 }}>
         <Grid container spacing={2}>
           {/* Left column */}
@@ -90,77 +92,7 @@ const WarehouseItemDetail = () => {
             </Typography>
           </Grid>
         </Grid>
-        <Typography
-          variant="h5"
-          fontSize="16px"
-          fontWeight="600"
-          mb={-2}
-          mt={2}
-        >
-          Details
-        </Typography>
-        <Grid container spacing={2} mt={2}>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              Unit Size
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
-          </Grid>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              Make
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.make || "-"} </Box>
-          </Grid>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              Model
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.model || "-"} </Box>
-          </Grid>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              Rack Positioning
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.rack_positioning || "-"} </Box>
-          </Grid>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              OFC Connectivity
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
-          </Grid>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              No. of Connectivity Entry
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
-          </Grid>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              OFC Type
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
-          </Grid>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              Entry Point
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
-          </Grid>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              Power Socket Availability
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
-          </Grid>
-          <Grid item xs={6} md={2.4}>
-            <Typography variant="h6" fontSize="14px">
-              Single Slot/Multy Slot
-            </Typography>
-            <Box sx={patternBoxStyle}>{state?.current_stage || "-"} </Box>
-          </Grid>
-        </Grid>
+        <DynamicQuestions data={state} />
       </Box>
       <Box sx={{ width: "100%", typography: "body1", mt: 1 }}>
         <TabContext value={value}>
