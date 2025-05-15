@@ -5,7 +5,8 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
+import HotoHeader from 'app/Components/HotoHeader';
+import { useSelector } from 'react-redux';
 import AssetsPortfolioList from './AssetsPortfolioList';
 import BlockWiseAssetList from './BlockWiseAssetList';
 import MaintainanceList from './Maintenance';
@@ -15,6 +16,8 @@ import WarehouseList from './Warehouse';
 
 
 const HotoGP = () => {
+   const {packageNoDataReducer}=useSelector((state)=>state);
+    console.log("Gp : ", packageNoDataReducer);
     const [value, setValue] = React.useState('1');
 
     const handleChange = (event, newValue) => {
@@ -23,7 +26,7 @@ const HotoGP = () => {
 
     return (
       <Box>
-        <HotoHeader2 />
+        <HotoHeader />
         <Box sx={{ width: "100%", typography: "body1", mt: 1 }}>
           <TabContext value={value}>
             <Box

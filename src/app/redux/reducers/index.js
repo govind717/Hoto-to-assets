@@ -95,11 +95,13 @@ import {
   hotoWarehouseWiseAssetDataReducer,
 } from "./Hoto_servey_data/Warehouse";
 import { oandmWarehouseMaintenaceRequestAssignDataReducer, oandmWarehouseMaintenaceRequestDataReducer, oandmWarehouseReplacementRequestAssignDataReducer, oandmWarehouseReplacementRequestDataReducer, oandmWarehouseScrapRequestAssignDataReducer, oandmWarehouseScrapRequestDataReducer, oandmWarehouseTransferRequestAssignDataReducer, oandmWarehouseTransferRequestDataReducer } from "./O&M/Warehouse";
+import packageNoDataReducer from "./HotoHeader";
 
 const exportReducers = (history) => {
   return combineReducers({
     router: connectRouter(history),
     hotoServeyDataReducer: hotoServeyDataReducer,
+    packageNoDataReducer:packageNoDataReducer,
     hotoServeyBlockDataReducer: hotoServeyBlockDataReducer,
     packageDataReducer: packageDataReducer,
     districtDataReducer: districtDataReducer,
