@@ -14,7 +14,7 @@ const colorsMap = {
   Robust: "#22CAAD",
   Damaged: "#F55757",
   "Semi-Damaged": "#FDCF2A",
-  Missing: "#E78F5D",
+  "Not Found": "#E78F5D",
 };
 
 const CustomLegend = ({ total, data }) => (
@@ -97,7 +97,7 @@ const ConditionStatusChart2 = ({ selectedValue }) => {
       //   value: 0, // Always show 0 as required
       // },
       {
-        name: "Missing",
+        name: "Not Found",
         value: conditionMap[null] || 0, // Always show 0 as required
       },
     ];
@@ -113,8 +113,8 @@ const ConditionStatusChart2 = ({ selectedValue }) => {
     setGps([]);
 
     const endpoint = newValue
-      ? `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${newValue}`
-      : "/hoto-to-assets/equipment/fetch-block-and-gp-equipments";
+      ? `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${newValue}&package_name=${selectedValue}`
+      : `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${selectedValue}`;
 
     Axios.get(endpoint)
       .then((result) => processFetchedData(result?.data?.result))
@@ -134,13 +134,13 @@ const ConditionStatusChart2 = ({ selectedValue }) => {
     setSelectedGP(newValue);
     if (newValue) {
       Axios.get(
-        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}`
+        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${selectedValue}`
       )
         .then((result) => processFetchedData(result?.data?.result))
         .catch((err) => console.log("Error : ", err));
     } else {
       Axios.get(
-        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}`
+        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&package_name=${selectedValue}`
       )
         .then((result) => processFetchedData(result?.data?.result))
         .catch((err) => console.log("Error : ", err));

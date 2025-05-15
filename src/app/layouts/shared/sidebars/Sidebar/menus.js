@@ -14,12 +14,12 @@ const menus = [
     type: "nav-item",
     icon: <DashboardIcon sx={{ fontSize: 20 }} />,
   },
-  {
-    uri: "/user-management",
-    label: "User Management",
-    type: "nav-item",
-    icon: <PeopleIcon sx={{ fontSize: 20 }} />,
-  },
+  // {
+  //   uri: "/user-management",
+  //   label: "User Management",
+  //   type: "nav-item",
+  //   icon: <PeopleIcon sx={{ fontSize: 20 }} />,
+  // },
   // {
   //     label: 'Hoto Survey',
   //     type: "section",
@@ -34,110 +34,110 @@ const menus = [
   // },
 
   // ----------------------------------
-  {
-    label: "Masters",
-    type: "collapsible",
-    icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
-    children: [
-      {
-        uri: "/masters/package",
-        isActiveUri: ["/masters/package/add", "/masters/package/edit"],
-        label: "Package",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/district",
-        isActiveUri: ["/masters/district/add", "/masters/district/edit"],
-        label: "District",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/block",
-        isActiveUri: ["/masters/block/add", "/masters/block/edit"],
-        label: "Block",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/gp",
-        isActiveUri: ["/masters/gp/add", "/masters/gp/edit"],
-        label: "GP",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/organization",
-        isActiveUri: [
-          "/masters/organization/add",
-          "/masters/organization/edit",
-        ],
-        label: "Organisation",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/department",
-        isActiveUri: ["/masters/department/add", "/masters/department/edit"],
-        label: "Department",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/team",
-        isActiveUri: ["/masters/team/add", "/masters/team/edit"],
-        label: "Team",
-        type: "nav-item",
-      },
+  // {
+  //   label: "Masters",
+  //   type: "collapsible",
+  //   icon: <StarBorderPurple500Icon sx={{ fontSize: 20 }} />,
+  //   children: [
+  //     {
+  //       uri: "/masters/package",
+  //       isActiveUri: ["/masters/package/add", "/masters/package/edit"],
+  //       label: "Package",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/district",
+  //       isActiveUri: ["/masters/district/add", "/masters/district/edit"],
+  //       label: "District",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/block",
+  //       isActiveUri: ["/masters/block/add", "/masters/block/edit"],
+  //       label: "Block",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/gp",
+  //       isActiveUri: ["/masters/gp/add", "/masters/gp/edit"],
+  //       label: "GP",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/organization",
+  //       isActiveUri: [
+  //         "/masters/organization/add",
+  //         "/masters/organization/edit",
+  //       ],
+  //       label: "Organisation",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/department",
+  //       isActiveUri: ["/masters/department/add", "/masters/department/edit"],
+  //       label: "Department",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/team",
+  //       isActiveUri: ["/masters/team/add", "/masters/team/edit"],
+  //       label: "Team",
+  //       type: "nav-item",
+  //     },
 
-      {
-        uri: "/masters/category",
-        isActiveUri: ["/masters/category/add", "/masters/category/edit"],
-        label: "Category",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/sub-category",
-        isActiveUri: [
-          "/masters/sub-category/add",
-          "/masters/sub-category/edit",
-        ],
-        label: "Sub Category",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/material",
-        isActiveUri: ["/masters/material/add", "/masters/material/edit"],
-        label: "Material",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/uom",
-        isActiveUri: ["/masters/uom/add", "/masters/uom/edit"],
-        label: "UOM",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/hsn-code",
-        isActiveUri: ["/masters/hsn-code/add", "/masters/hsn-code/edit"],
-        label: "HSN Code",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/gst",
-        isActiveUri: ["/masters/gst/add", "/masters/gst/edit"],
-        label: "GST",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/warehouse",
-        isActiveUri: ["/masters/warehouse/add", "/masters/warehouse/edit"],
-        label: "Warehouse",
-        type: "nav-item",
-      },
-      {
-        uri: "/masters/supplier",
-        isActiveUri: ["/masters/supplier/add", "/masters/supplier/edit"],
-        label: "Supplier",
-        type: "nav-item",
-      },
-    ],
-  },
+  //     {
+  //       uri: "/masters/category",
+  //       isActiveUri: ["/masters/category/add", "/masters/category/edit"],
+  //       label: "Category",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/sub-category",
+  //       isActiveUri: [
+  //         "/masters/sub-category/add",
+  //         "/masters/sub-category/edit",
+  //       ],
+  //       label: "Sub Category",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/material",
+  //       isActiveUri: ["/masters/material/add", "/masters/material/edit"],
+  //       label: "Material",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/uom",
+  //       isActiveUri: ["/masters/uom/add", "/masters/uom/edit"],
+  //       label: "UOM",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/hsn-code",
+  //       isActiveUri: ["/masters/hsn-code/add", "/masters/hsn-code/edit"],
+  //       label: "HSN Code",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/gst",
+  //       isActiveUri: ["/masters/gst/add", "/masters/gst/edit"],
+  //       label: "GST",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/warehouse",
+  //       isActiveUri: ["/masters/warehouse/add", "/masters/warehouse/edit"],
+  //       label: "Warehouse",
+  //       type: "nav-item",
+  //     },
+  //     {
+  //       uri: "/masters/supplier",
+  //       isActiveUri: ["/masters/supplier/add", "/masters/supplier/edit"],
+  //       label: "Supplier",
+  //       type: "nav-item",
+  //     },
+  //   ],
+  // },
   {
     label: "Hoto - Assets",
     type: "collapsible",
