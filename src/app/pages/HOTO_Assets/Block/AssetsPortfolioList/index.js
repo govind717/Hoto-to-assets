@@ -57,6 +57,7 @@ const hideBtnStyle = {
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
+  const { packageNoDataReducer } = useSelector((state) => state);
   const hotoBlockAssetPortfolioDataReducer = useSelector(
     (state) => state?.hotoBlockAssetPortfolioDataReducer
   );
@@ -88,12 +89,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_block_asset_partfolio_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_block_asset_partfolio_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
   };
   const debouncedHandleSearch = debounce(handleSearch, 500);
@@ -108,14 +112,17 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
 
   useEffect(() => {
     dispatch(
-      hoto_block_asset_partfolio_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_block_asset_partfolio_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -264,12 +271,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_block_asset_partfolio_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                })
+                hoto_block_asset_partfolio_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                  },
+                  packageNoDataReducer?.data
+                )
               );
             }
           }}

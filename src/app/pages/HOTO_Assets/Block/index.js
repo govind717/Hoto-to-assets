@@ -16,8 +16,7 @@ import HotoHeader from 'app/Components/HotoHeader';
 
 
 const HotoBlock = () => {
-    const {packageNoDataReducer}=useSelector((state)=>state);
-    console.log("block : ", packageNoDataReducer);
+   
     const [value, setValue] = React.useState('1');
 
     const handleChange = (event, newValue) => {
