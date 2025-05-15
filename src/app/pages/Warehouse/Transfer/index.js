@@ -415,7 +415,9 @@ const Transferlist = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            outhotoWarehousetransferDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

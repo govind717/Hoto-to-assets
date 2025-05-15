@@ -313,7 +313,9 @@ const DailyStockList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmWarehouseDailyStockDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

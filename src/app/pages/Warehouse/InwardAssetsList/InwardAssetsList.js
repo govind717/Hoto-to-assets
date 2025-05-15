@@ -492,7 +492,10 @@ const InwardAssetsList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            outhotoWarehouseInwardAssetsDataReducer?.data?.result
+              ?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

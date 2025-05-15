@@ -47,12 +47,10 @@ const TransferRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [openCreateTransefer,setOpenCreateTransefer]=useState(false);
-  const [openTransferRequest,setOpenTransferRequest]=useState(false);
-  const [row,setRow]=useState(null);
-  const { oandmGpTransferRequestDataReducer } = useSelector(
-    (state) => state
-  );
+  const [openCreateTransefer, setOpenCreateTransefer] = useState(false);
+  const [openTransferRequest, setOpenTransferRequest] = useState(false);
+  const [row, setRow] = useState(null);
+  const { oandmGpTransferRequestDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -100,20 +98,20 @@ const TransferRequest = () => {
       })
     );
   }, [sort, page, sortBy, dispatch]);
-  const closeCreateTransefer=()=>{
-    setOpenCreateTransefer(false)
-  }
-  const closeTransferRequest =()=>{
+  const closeCreateTransefer = () => {
+    setOpenCreateTransefer(false);
+  };
+  const closeTransferRequest = () => {
     setOpenTransferRequest(false);
-  }
-   const handleAssign = (data) => {
-     setRow(data);
-     setOpenCreateTransefer(true);
-   };
-   const showDetails = (data) => {
-     setRow(data);
-     setOpenTransferRequest(true);
-   };
+  };
+  const handleAssign = (data) => {
+    setRow(data);
+    setOpenCreateTransefer(true);
+  };
+  const showDetails = (data) => {
+    setRow(data);
+    setOpenTransferRequest(true);
+  };
   return (
     <>
       {oandmGpTransferRequestDataReducer?.loading && <FullScreenLoader />}
@@ -182,7 +180,10 @@ const TransferRequest = () => {
                   Transfer ID
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`createdAt`)}
                   direction={sort}
@@ -191,7 +192,10 @@ const TransferRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth:"220px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
@@ -209,7 +213,10 @@ const TransferRequest = () => {
                   Serial No.
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx ,minWidth:"180px"}}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`transfer_type`)}
                   direction={sort}
@@ -250,7 +257,10 @@ const TransferRequest = () => {
                   Location
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() =>
                     handleSort(`assets_details.location_details.location_code`)
@@ -262,19 +272,19 @@ const TransferRequest = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Remark
+                Remark
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                  Details
+                Details
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                  Actions
+                Actions
               </TableCell>
             </TableRow>
           </TableHead>
@@ -373,7 +383,8 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.location_name || "-"}
+                        {ele?.assets_details?.location_details?.location_name ||
+                          "-"}
                       </TableCell>
 
                       <TableCell
@@ -384,7 +395,8 @@ const TransferRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.location_details?.location_code || "-"}
+                        {ele?.assets_details?.location_details?.location_code ||
+                          "-"}
                       </TableCell>
                       <TableCell
                         align="left"
@@ -454,7 +466,9 @@ const TransferRequest = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmGpTransferRequestDataReducer?.data?.result?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{
