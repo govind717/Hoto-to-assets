@@ -86,7 +86,7 @@ export const hoto_block_asset_partfolio_maintenance_data_disptach = function ({
   sort = "",
   sortBy = "",
   filters={}
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
     const body = {
       filters: filters,
@@ -108,7 +108,7 @@ export const hoto_block_asset_partfolio_maintenance_data_disptach = function ({
       dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_MAINTENANCE_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${hoto_apis?.block?.asset_portfolio?.maintenance_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.block?.asset_portfolio?.maintenance_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
         body
       );
       dispatch({
@@ -131,7 +131,7 @@ export const hoto_block_asset_partfolio_replacement_data_disptach = function ({
   sort = "",
   sortBy = "",
   filters={},
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
     try {
       const body = {
@@ -154,7 +154,7 @@ export const hoto_block_asset_partfolio_replacement_data_disptach = function ({
       dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_REPLACEMENT_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${hoto_apis?.block?.asset_portfolio?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.block?.asset_portfolio?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
         body
       );
       dispatch({
@@ -177,7 +177,7 @@ export const hoto_block_asset_partfolio_transfer_data_disptach = function ({
   sort = "",
   sortBy = "",
   filters={}
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
     const body = {
       filters: filters,
@@ -192,7 +192,7 @@ export const hoto_block_asset_partfolio_transfer_data_disptach = function ({
       dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_TRANSFER_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${hoto_apis?.block?.asset_portfolio?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.block?.asset_portfolio?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
         body
       );
       dispatch({

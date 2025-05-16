@@ -30,6 +30,7 @@ import { Axios } from "index";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { BorderColor } from "@mui/icons-material";
 import { hoto_warehouse_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/Warehouse";
+import FullScreenLoader from "app/pages/Components/Loader";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -59,6 +60,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const { hotoWarehouseAssetPortfolioDataReducer } = useSelector(
     (state) => state
   );
+  const { packageNoDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const [selectedIds, setSelectedIds] = useState([]);
@@ -66,7 +68,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [toggle,setToggle]=useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
 
@@ -87,12 +89,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_warehouse_asset_partfolio_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_warehouse_asset_partfolio_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
   };
   const debouncedHandleSearch = debounce(handleSearch, 500);
@@ -107,14 +112,17 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
 
   useEffect(() => {
     dispatch(
-      hoto_warehouse_asset_partfolio_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_warehouse_asset_partfolio_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page,packageNoDataReducer?.data, toggle, sortBy, dispatch]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -263,12 +271,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_warehouse_asset_partfolio_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                })
+                hoto_warehouse_asset_partfolio_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                  },
+                  packageNoDataReducer?.data
+                )
               );
             }
           }}
@@ -373,6 +384,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </Div>
         )}
       </Div>
+      {hotoWarehouseAssetPortfolioDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -404,7 +416,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   size="small"
                 />
               </TableCell> */}
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell align="left" sx={{ ...tableCellSx ,minWidth:"100px"}}>
                 Sr No
               </TableCell>
 
@@ -432,7 +444,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell align="left" sx={{ ...tableCellSx,minWidth:"220px" }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
@@ -529,7 +541,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              <TableCell
+              {/* <TableCell
                 sx={{
                   ...tableCellSx,
                   textAlign: "center",
@@ -542,12 +554,12 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 }}
               >
                 Action
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
             {hotoWarehouseAssetPortfolioDataReducer?.data.result?.data &&
-              hotoWarehouseAssetPortfolioDataReducer?.data?.result?.data?.length >
+            hotoWarehouseAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoWarehouseAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
@@ -561,19 +573,23 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                       setSelectedIds={setSelectedIds}
                       setItemDetailsForModal={setItemDetailsForModal}
                       handleOpenDetailModal={handleOpenDetailModal}
+                      setToggle={setToggle}
                     />
                   );
                 }
               )
             ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={14}
-                  sx={{ textAlign: "center", py: 2, fontSize: 18 }}
-                >
-                  No Data Found
-                </TableCell>
-              </TableRow>
+              <TableCell
+                align="left"
+                colSpan={10}
+                sx={{
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  textTransform: "capitalize",
+                }}
+              >
+                No Data Found!
+              </TableCell>
             )}
           </TableBody>
         </Table>

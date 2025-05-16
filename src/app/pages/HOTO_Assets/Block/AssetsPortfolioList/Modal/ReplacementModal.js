@@ -27,10 +27,10 @@ const style = {
   minWidth: "1000px",
 };
 
-function ReplacementModal({ open, handleClose, row }) {
+function ReplacementModal({ open, handleClose, row, setToggle }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
- 
+
   const initialValues = {
     issueDate: "",
     serialNumber: 3,
@@ -48,11 +48,11 @@ function ReplacementModal({ open, handleClose, row }) {
     remarks: Yup.string(),
   });
 
-  const handleSubmit = async (values ) => {
+  const handleSubmit = async (values) => {
     const body = {
       block_asset_id: row?._id,
-      block_asset_details:{
-        ...row
+      block_asset_details: {
+        ...row,
       },
       issueDate: values?.issueDate,
       serialNumber: values?.serialNumber,
@@ -61,7 +61,7 @@ function ReplacementModal({ open, handleClose, row }) {
       initiatedBy: values?.initiatedBy,
       remarks: values?.remarks,
     };
-    
+
     setSubmitting(true);
     try {
       const res = await Axios.post(
@@ -74,11 +74,11 @@ function ReplacementModal({ open, handleClose, row }) {
       if (statusCode === 200 || statusCode === 201) {
         Swal.fire({
           icon: "success",
-          text:"Replacement request send successfully",
+          text: "Replacement request send successfully",
           timer: 1000,
           showConfirmButton: false,
         });
-         hoto_block_asset_partfolio_data_disptach({});
+        setToggle((prev) => !prev);
         handleClose();
       } else {
         throw new Error(res?.data?.message || "Unknown Error");
@@ -88,9 +88,9 @@ function ReplacementModal({ open, handleClose, row }) {
         icon: "error",
         text: err?.response?.data?.message || err.message,
       });
-       handleClose();
+      handleClose();
     } finally {
-       handleClose();
+      handleClose();
       setSubmitting(false);
     }
   };
@@ -123,7 +123,6 @@ function ReplacementModal({ open, handleClose, row }) {
                 setFieldTouched,
                 setValues,
               }) => (
-                
                 <Form noValidate autoComplete="off">
                   <Div sx={{ mt: 0 }}>
                     <Div
@@ -150,19 +149,12 @@ function ReplacementModal({ open, handleClose, row }) {
                             onChange={(e) =>
                               setFieldValue("issueDate", e.target.value)
                             }
-                            onBlur={() =>
-                              setFieldTouched("issueDate", true)
-                            }
-                            value={
-                              values?.issueDate 
-                            }
+                            onBlur={() => setFieldTouched("issueDate", true)}
+                            value={values?.issueDate}
                             error={
-                              touched?.issueDate &&
-                              Boolean(errors?.issueDate)
+                              touched?.issueDate && Boolean(errors?.issueDate)
                             }
-                            helperText={
-                              touched?.issueDate && errors?.issueDate
-                            }
+                            helperText={touched?.issueDate && errors?.issueDate}
                           />
                         </Grid>
 
@@ -204,14 +196,17 @@ function ReplacementModal({ open, handleClose, row }) {
                             onChange={(e) =>
                               setFieldValue("replacementReason", e.target.value)
                             }
-                            onBlur={() => setFieldTouched("replacementReason", true)}
+                            onBlur={() =>
+                              setFieldTouched("replacementReason", true)
+                            }
                             value={values?.replacementReason}
                             error={
                               touched?.replacementReason &&
                               Boolean(errors?.replacementReason)
                             }
                             helperText={
-                              touched?.replacementReason && errors?.replacementReason
+                              touched?.replacementReason &&
+                              errors?.replacementReason
                             }
                           />
                         </Grid>
@@ -228,9 +223,7 @@ function ReplacementModal({ open, handleClose, row }) {
                               setFieldValue("dueDate", e.target.value)
                             }
                             onBlur={() => setFieldTouched("dueDate", true)}
-                            value={
-                              values?.dueDate 
-                            }
+                            value={values?.dueDate}
                             error={touched?.dueDate && Boolean(errors?.dueDate)}
                             helperText={touched?.dueDate && errors?.dueDate}
                           />

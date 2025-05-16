@@ -1,7 +1,6 @@
 import Div from "@jumbo/shared/Div";
 import SearchIcon from "@mui/icons-material/Search";
 import {
-  Button,
   InputAdornment,
   Pagination,
   Paper,
@@ -12,11 +11,10 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField,
+  TextField
 } from "@mui/material";
 import {
-  hoto_block_asset_partfolio_replacement_data_disptach,
-  hoto_block_replacement_data_disptach,
+  hoto_block_asset_partfolio_replacement_data_disptach
 } from "app/redux/actions/Hoto_to_servey/Block";
 import { debounce } from "lodash";
 import moment from "moment";
@@ -46,7 +44,7 @@ const ReplacementTable = ({ row }) => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const { hotoBlockReplacementDataReducer } = useSelector((state) => state);
-
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -63,17 +61,20 @@ const ReplacementTable = ({ row }) => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_block_asset_partfolio_replacement_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-        filters: {
-          _ids: {
-            "requested_item.requested_item_id": row?._id,
+      hoto_block_asset_partfolio_replacement_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+          filters: {
+            _ids: {
+              "requested_item.requested_item_id": row?._id,
+            },
           },
         },
-      })
+        packageNoDataReducer?.data
+      )
     );
   };
 
@@ -90,20 +91,22 @@ const ReplacementTable = ({ row }) => {
 
   useEffect(() => {
     dispatch(
-      hoto_block_asset_partfolio_replacement_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-        filters: {
-          _ids: {
-            "requested_item.requested_item_details.block_asset_id":
-              row?._id,
+      hoto_block_asset_partfolio_replacement_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+          filters: {
+            _ids: {
+              "requested_item.requested_item_details.block_asset_id": row?._id,
+            },
           },
         },
-      })
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
 
   return (
     <>
@@ -118,17 +121,20 @@ const ReplacementTable = ({ row }) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_block_asset_partfolio_replacement_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                  filters: {
-                    _ids: {
-                      "requested_item.requested_item_id": row?._id,
+                hoto_block_asset_partfolio_replacement_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                    filters: {
+                      _ids: {
+                        "requested_item.requested_item_id": row?._id,
+                      },
                     },
                   },
-                })
+                  packageNoDataReducer?.data
+                )
               );
             }
           }}

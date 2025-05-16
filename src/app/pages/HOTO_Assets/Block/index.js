@@ -5,14 +5,13 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
+import HotoHeader from 'app/Components/HotoHeader';
 import AssetsPortfolioList from './AssetsPortfolioList';
 import BlockWiseAssetList from './BlockWiseAssetList';
 import MaintainanceList from './Maintenance';
 import ReplacementList from './Replacement';
 import Transferlist from './Transfer';
 import WarehouseList from './Warehouse';
-import { useSelector } from 'react-redux';
-import HotoHeader from 'app/Components/HotoHeader';
 
 
 const HotoBlock = () => {
@@ -38,19 +37,20 @@ const HotoBlock = () => {
                 onChange={handleChange}
                 aria-label="lab API tabs example"
               >
-                {/* Left side tabs */}
+               
                 <Tab label="Asset Portfolio" value="1" />
                 <Tab label="Block-Wise Assets" value="2" />
                 {/* <Tab label="Warehouse" value="3" /> */}
 
                 {/* Push next tab to the right using margin-left: auto */}
-                <Tab
+                
+                {/* <Tab
                   label="Maintenance"
                   value="4"
                   sx={{ marginLeft: "auto" }}
                 />
                 <Tab label="Replacement" value="5" />
-                <Tab label="Transfer" value="6" />
+                <Tab label="Transfer" value="6" /> */}
               </TabList>
             </Box>
 

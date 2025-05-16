@@ -37,6 +37,7 @@ const AssetPortfolioTableRow = ({
   setSelectedIds,
   setItemDetailsForModal,
   handleOpenDetailModal,
+  setToggle,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -163,17 +164,10 @@ const AssetPortfolioTableRow = ({
             }}
           />
         </TableCell>
-        <TableCell sx={{ ...tableBodyCell, ...tableRowBodySticky }}>
+        {/* <TableCell sx={{ ...tableBodyCell, ...tableRowBodySticky }}>
           <JumboDdMenu
             icon={<MoreHorizIcon />}
             menuItems={[
-              // {
-              //   icon: <EditIcon />,
-              //   title: "Edit",
-              //   action: "edit",
-              //   show: true,
-              //   row: e,
-              // },
               {
                 icon: <AddCircleOutlineIcon />,
                 title: "Request Maintenance",
@@ -198,22 +192,25 @@ const AssetPortfolioTableRow = ({
             ].filter((ele) => ele?.show)}
             onClickCallback={handleItemAction}
           />
-        </TableCell>
+        </TableCell> */}
       </TableRow>
       <RequestMaintenanceModal
         handleClose={handleCloseModal}
         open={openMaintenance}
         row={row}
+        setToggle={setToggle}
       />
       <ReplacementModal
         handleClose={handleCloseModal}
         row={row}
         open={openReplacement}
+        setToggle={setToggle}
       />
       <TransferModal
         handleClose={handleCloseModal}
         row={row}
         open={openTransfer}
+        setToggle={setToggle}
       />
     </>
   );

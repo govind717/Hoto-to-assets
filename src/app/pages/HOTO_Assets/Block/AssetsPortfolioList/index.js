@@ -68,7 +68,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [toggle,setToggle]=useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
 
@@ -122,7 +122,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data,toggle, dispatch]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -395,27 +395,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 "& .MuiTableCell-root": {},
               }}
             >
-              {/* <TableCell
-                sx={{
-                  ...tableCellSx,
-                  color: "white",
-                  minWidth: "50px",
-                  textAlign: "center",
-                }}
-              >
-                <Checkbox
-                  {...label}
-                  sx={{
-                    color: "white",
-                    "&.Mui-checked": {
-                      color: "white",
-                    },
-                  }}
-                  checked={isSelectedAll()}
-                  onChange={handleSelectAll}
-                  size="small"
-                />
-              </TableCell> */}
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 Sr No
               </TableCell>
@@ -542,7 +521,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              <TableCell
+              {/* <TableCell
                 sx={{
                   ...tableCellSx,
                   textAlign: "center",
@@ -555,7 +534,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 }}
               >
                 Action
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -574,6 +553,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                       setSelectedIds={setSelectedIds}
                       setItemDetailsForModal={setItemDetailsForModal}
                       handleOpenDetailModal={handleOpenDetailModal}
+                      setToggle={setToggle}
                     />
                   );
                 }
@@ -582,7 +562,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableRow>
                 <TableCell
                   colSpan={14}
-                  sx={{ textAlign: "center", py: 2, fontSize: 18 }}
+                  sx={{ textAlign: "center" }}
                 >
                   No Data Found
                 </TableCell>

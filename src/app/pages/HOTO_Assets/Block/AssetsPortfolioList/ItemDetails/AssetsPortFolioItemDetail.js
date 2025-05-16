@@ -7,6 +7,7 @@ import DynamicQuestions from "./Components/DynamicQuestions";
 import MaintenanceTable from "./MaintenanceTable/MaintenanceTable";
 import ReplacementTable from "./ReplacementTable/ReplacementTable";
 import TranferTable from "./TranferTable/TranferTable";
+import HotoHeader from "app/Components/HotoHeader";
 
 const patternBoxStyle = {
   width: "100%",
@@ -33,7 +34,7 @@ const WarehouseItemDetail = () => {
   };
   return (
     <>
-      <HotoHeader2 />
+      <HotoHeader />
       <Box sx={{ p: 2 }}>
         <Grid container spacing={2}>
           {/* Left column */}

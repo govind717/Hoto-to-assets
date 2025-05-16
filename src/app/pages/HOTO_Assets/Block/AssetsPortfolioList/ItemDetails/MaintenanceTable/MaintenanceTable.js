@@ -65,7 +65,7 @@ const MaintenanceTable = ({ row }) => {
   const { hotoBlockAssetPortfolioMaintenanceDataReducer } = useSelector(
     (state) => state
   );
-
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -82,18 +82,20 @@ const MaintenanceTable = ({ row }) => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_block_asset_partfolio_maintenance_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-        filters: {
-          _ids: {
-            assets_id: row._id,
+      hoto_block_asset_partfolio_maintenance_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+          filters: {
+            _ids: {
+              assets_id: row._id,
+            },
           },
-          
         },
-      })
+        packageNoDataReducer?.data
+      )
     );
   };
 
@@ -110,19 +112,22 @@ const MaintenanceTable = ({ row }) => {
 
   useEffect(() => {
     dispatch(
-      hoto_block_asset_partfolio_maintenance_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-        filters: {
-          _ids: {
-            assets_id: row._id,
+      hoto_block_asset_partfolio_maintenance_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+          filters: {
+            _ids: {
+              assets_id: row._id,
+            },
           },
         },
-      })
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
 
   return (
     <>
@@ -140,17 +145,20 @@ const MaintenanceTable = ({ row }) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_block_asset_partfolio_maintenance_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                  filters: {
-                    _ids: {
-                      assets_id: row._id,
+                hoto_block_asset_partfolio_maintenance_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                    filters: {
+                      _ids: {
+                        assets_id: row._id,
+                      },
                     },
                   },
-                })
+                  packageNoDataReducer?.data
+                )
               );
             }
           }}

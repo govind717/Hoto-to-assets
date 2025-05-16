@@ -27,7 +27,7 @@ const style = {
   minWidth: "1000px",
 };
 
-function TransferModal({ open, handleClose, row }) {
+function TransferModal({ open, handleClose, row, setToggle }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const [transferToOprtions, setTransferToOprtions] = useState([]);
@@ -35,7 +35,7 @@ function TransferModal({ open, handleClose, row }) {
     transfer_type: "",
     transfer_from: row
       ? {
-          location_type: row?.equipment_details?.location_type ,
+          location_type: row?.equipment_details?.location_type,
           location_name: row?.equipment_details?.location_name,
           location_code: row?.equipment_details?.location_code,
         }
@@ -49,28 +49,28 @@ function TransferModal({ open, handleClose, row }) {
     transfer_from: Yup.object()
       .nullable()
       .required("Transfer From is required"),
-    transfer_to_type:Yup.string().required("Transfer to type is required"),
+    transfer_to_type: Yup.string().required("Transfer to type is required"),
     transfer_to: Yup.object().nullable().required("Transfer To is Required"),
     remarks: Yup.string(),
   });
-  
+
   const handleSubmit = async (values) => {
     let tranfer_to = {};
-    if (values?.transfer_to_type === "block"){
+    if (values?.transfer_to_type === "block") {
       tranfer_to = {
         location_type: values?.transfer_to_type,
         location_name: values?.transfer_to?.blockName,
         location_code: values?.transfer_to?.blockCode,
       };
     }
-    if (values?.transfer_to_type === "gp"){
+    if (values?.transfer_to_type === "gp") {
       tranfer_to = {
         location_type: values?.transfer_to_type,
         location_name: values?.transfer_to?.gpName,
         location_code: values?.transfer_to?.LGDCode,
       };
     }
-    if (values?.transfer_to_type === "warehouse"){
+    if (values?.transfer_to_type === "warehouse") {
       tranfer_to = {
         location_type: values?.transfer_to_type,
         location_name: values?.transfer_to?.warehouse_name,
@@ -82,7 +82,7 @@ function TransferModal({ open, handleClose, row }) {
       other_details: {
         transfer_type: values?.transfer_type,
         transfer_from: {
-          location_type: row?.equipment_details?.location_type ,
+          location_type: row?.equipment_details?.location_type,
           location_name: row?.equipment_details?.location_name,
           location_code: row?.equipment_details?.location_code,
         },
@@ -106,7 +106,7 @@ function TransferModal({ open, handleClose, row }) {
           timer: 1000,
           showConfirmButton: false,
         });
-        hoto_warehouse_asset_partfolio_data_disptach({})
+        setToggle((prev) => !prev);
         handleClose();
       } else {
         throw new Error(res?.data?.message || "Unknown Error");

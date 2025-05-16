@@ -67,7 +67,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [toggle,setToggle]=useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
 
@@ -121,7 +121,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data,toggle, dispatch]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -545,7 +545,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                 </Box>
               </TableCell>
 
-              <TableCell
+              {/* <TableCell
                 sx={{
                   ...tableCellSx,
                   textAlign: "center",
@@ -558,7 +558,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                 }}
               >
                 Action
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -576,6 +576,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                       setSelectedIds={setSelectedIds}
                       setItemDetailsForModal={setItemDetailsForModal}
                       handleOpenDetailModal={handleOpenDetailModal}
+                      setToggle={setToggle}
                     />
                   );
                 }

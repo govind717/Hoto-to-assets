@@ -43,7 +43,7 @@ const ReplacementTable = ({ row }) => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const { hotoGpReplacementDataReducer } = useSelector((state) => state);
-
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -60,17 +60,20 @@ const ReplacementTable = ({ row }) => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_gp_asset_partfolio_replacement_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-        filters: {
-          _ids: {
-            "requested_item.requested_item_id": row?._id,
+      hoto_gp_asset_partfolio_replacement_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+          filters: {
+            _ids: {
+              "requested_item.requested_item_id": row?._id,
+            },
           },
         },
-      })
+        packageNoDataReducer?.data
+      )
     );
   };
 
@@ -87,19 +90,22 @@ const ReplacementTable = ({ row }) => {
 
   useEffect(() => {
     dispatch(
-      hoto_gp_asset_partfolio_replacement_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-        filters: {
-          _ids: {
-            "requested_item.requested_item_id": row?._id,
+      hoto_gp_asset_partfolio_replacement_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+          filters: {
+            _ids: {
+              "requested_item.requested_item_id": row?._id,
+            },
           },
         },
-      })
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
 
   return (
     <>
@@ -114,17 +120,20 @@ const ReplacementTable = ({ row }) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_gp_asset_partfolio_replacement_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                  filters: {
-                    _ids: {
-                      "requested_item.requested_item_id": row?._id,
+                hoto_gp_asset_partfolio_replacement_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                    filters: {
+                      _ids: {
+                        "requested_item.requested_item_id": row?._id,
+                      },
                     },
                   },
-                })
+                  packageNoDataReducer?.data
+                )
               );
             }
           }}

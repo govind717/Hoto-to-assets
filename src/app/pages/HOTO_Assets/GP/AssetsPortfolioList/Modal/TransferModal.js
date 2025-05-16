@@ -27,7 +27,7 @@ const style = {
   minWidth: "1000px",
 };
 
-function TransferModal({ open, handleClose, row }) {
+function TransferModal({ open, handleClose, row , setToggle}) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const [transferToOprtions, setTransferToOprtions] = useState([]);
@@ -106,7 +106,7 @@ function TransferModal({ open, handleClose, row }) {
           timer: 1000,
           showConfirmButton: false,
         });
-        hoto_gp_asset_partfolio_data_disptach({})
+        setToggle((prev) => !prev);
         handleClose();
       } else {
         throw new Error(res?.data?.message || "Unknown Error");
