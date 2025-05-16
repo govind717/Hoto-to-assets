@@ -36,7 +36,7 @@ const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
   textAlign: "left",
-  minWidth: "150px",
+  minWidth: "100px",
   verticalAlign: "middle",
 };
 
@@ -423,7 +423,10 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
@@ -437,7 +440,10 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "140px" }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
@@ -539,7 +545,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoBlockAssetPortfolioDataReducer?.data.result?.data &&
-              hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
+            hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
@@ -560,10 +566,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               )
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={14}
-                  sx={{ textAlign: "center" }}
-                >
+                <TableCell colSpan={14} sx={{ textAlign: "center" }}>
                   No Data Found
                 </TableCell>
               </TableRow>

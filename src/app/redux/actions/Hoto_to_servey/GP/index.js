@@ -41,7 +41,7 @@ export const hoto_gp_asset_partfolio_data_disptach = function ({
     try {
        const body = {
          filters: {
-           "equipment_details.location_type":"old gp"
+           "equipment_details.location_type":"old gp",
          },
          searchFields: {
            string: [

@@ -36,7 +36,7 @@ const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
   textAlign: "left",
-  minWidth: "150px",
+  minWidth: "100px",
   verticalAlign: "middle",
 };
 
@@ -419,7 +419,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                   size="small"
                 />
               </TableCell> */}
-              <TableCell align="left" sx={{ ...tableCellSx, minWidth: "80px" }}>
+              <TableCell align="left" sx={{ ...tableCellSx}}>
                 Sr No
               </TableCell>
 
@@ -447,7 +447,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                 </Box>
               </TableCell>
 
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell align="left" sx={{ ...tableCellSx, minWidth:"150px" }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
@@ -456,7 +456,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
-                    GP  Location
+                    GP Location
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -488,7 +488,14 @@ const { packageNoDataReducer } = useSelector((state) => state);
               </TableCell> */}
 
               <TableCell align="left" sx={{ ...tableCellSx }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    minWidth: "70px",
+                  }}
+                >
                   <TableSortLabel
                     onClick={() => handleSort("warranty_status")}
                     direction={sort}
@@ -563,7 +570,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
           </TableHead>
           <TableBody>
             {hotoGpAssetPortfolioDataReducer?.data.result?.data &&
-              hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
+            hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
                   return (
