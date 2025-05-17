@@ -295,7 +295,10 @@ const OpenRequestList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmMaterialRequestOpenRequestDataReducer?.data?.result
+              ?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

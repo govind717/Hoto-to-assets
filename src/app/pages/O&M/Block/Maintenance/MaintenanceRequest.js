@@ -391,7 +391,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details?.location_name ||
+                        {ele?.assets_details?.location_details?.location_name ||
                           "-"}
                       </TableCell>
                       <TableCell
@@ -402,7 +402,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.location_details.location_code ||
+                        {ele?.assets_details?.location_details.location_code ||
                           "-"}
                       </TableCell>
                       <TableCell
@@ -413,7 +413,7 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details.condition || "-"}
+                        {ele?.assets_details?.condition || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

@@ -30,12 +30,13 @@ import { hoto_block_asset_partfolio_data_disptach } from "app/redux/actions/Hoto
 import { Axios } from "index";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { BorderColor } from "@mui/icons-material";
+import FullScreenLoader from "app/pages/Components/Loader";
 
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
   textAlign: "left",
-  minWidth: "150px",
+  minWidth: "100px",
   verticalAlign: "middle",
 };
 
@@ -56,6 +57,7 @@ const hideBtnStyle = {
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
+  const { packageNoDataReducer } = useSelector((state) => state);
   const hotoBlockAssetPortfolioDataReducer = useSelector(
     (state) => state?.hotoBlockAssetPortfolioDataReducer
   );
@@ -66,7 +68,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [toggle,setToggle]=useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
 
@@ -87,12 +89,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_block_asset_partfolio_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_block_asset_partfolio_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
   };
   const debouncedHandleSearch = debounce(handleSearch, 500);
@@ -107,14 +112,17 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
 
   useEffect(() => {
     dispatch(
-      hoto_block_asset_partfolio_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_block_asset_partfolio_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data,toggle, dispatch]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -263,12 +271,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_block_asset_partfolio_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                })
+                hoto_block_asset_partfolio_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                  },
+                  packageNoDataReducer?.data
+                )
               );
             }
           }}
@@ -373,6 +384,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </Div>
         )}
       </Div>
+      {hotoBlockAssetPortfolioDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -383,27 +395,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 "& .MuiTableCell-root": {},
               }}
             >
-              {/* <TableCell
-                sx={{
-                  ...tableCellSx,
-                  color: "white",
-                  minWidth: "50px",
-                  textAlign: "center",
-                }}
-              >
-                <Checkbox
-                  {...label}
-                  sx={{
-                    color: "white",
-                    "&.Mui-checked": {
-                      color: "white",
-                    },
-                  }}
-                  checked={isSelectedAll()}
-                  onChange={handleSelectAll}
-                  size="small"
-                />
-              </TableCell> */}
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 Sr No
               </TableCell>
@@ -432,7 +423,10 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
@@ -441,12 +435,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
-                    Location
+                    Block Location
                   </TableSortLabel>
                 </Box>
               </TableCell>
 
-              <TableCell align="left" sx={{ ...tableCellSx }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "140px" }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
@@ -455,7 +452,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
-                    Location Code
+                    Block Code
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -530,7 +527,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              <TableCell
+              {/* <TableCell
                 sx={{
                   ...tableCellSx,
                   textAlign: "center",
@@ -543,7 +540,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 }}
               >
                 Action
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -562,16 +559,14 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                       setSelectedIds={setSelectedIds}
                       setItemDetailsForModal={setItemDetailsForModal}
                       handleOpenDetailModal={handleOpenDetailModal}
+                      setToggle={setToggle}
                     />
                   );
                 }
               )
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={14}
-                  sx={{ textAlign: "center", py: 2, fontSize: 18 }}
-                >
+                <TableCell colSpan={14} sx={{ textAlign: "center" }}>
                   No Data Found
                 </TableCell>
               </TableRow>

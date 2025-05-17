@@ -44,7 +44,7 @@ const ReplacementList = () => {
   const [page, setPage] = useState(1);
 
   const { hotoBlockReplacementDataReducer } = useSelector((state) => state);
-
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -61,12 +61,15 @@ const ReplacementList = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_block_replacement_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_block_replacement_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
   };
 
@@ -83,14 +86,17 @@ const ReplacementList = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_block_replacement_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_block_replacement_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
 
   return (
     <>
@@ -105,12 +111,15 @@ const ReplacementList = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_block_replacement_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                })
+                hoto_block_replacement_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                  },
+                  packageNoDataReducer?.data
+                )
               );
             }
           }}
@@ -173,7 +182,7 @@ const ReplacementList = () => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`serialNumber`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -185,7 +194,11 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() =>
+                    handleSort(
+                      `block_asset_details.equipment_details.location_name`
+                    )
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -197,7 +210,11 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() =>
+                    handleSort(
+                      `block_asset_details.equipment_details.location_code`
+                    )
+                  }
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -210,9 +227,7 @@ const ReplacementList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`replacementReason`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -223,24 +238,14 @@ const ReplacementList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  ETA
-                </TableSortLabel>
+                ETA
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`dueDate`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -251,38 +256,20 @@ const ReplacementList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Initiated By
-                </TableSortLabel>
+                Initiated By
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  New Serial No.
-                </TableSortLabel>
+                New Serial No.
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`replacementStatus`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >

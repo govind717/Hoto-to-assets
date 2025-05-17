@@ -29,7 +29,7 @@ const style = {
 
 
 
-function RequestMaintenanceModal({ open, handleClose,row }) {
+function RequestMaintenanceModal({ open, handleClose, row, setToggle }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
 
@@ -45,49 +45,49 @@ function RequestMaintenanceModal({ open, handleClose,row }) {
     issue_reported: Yup.string().required("Issue Reported is Required"),
     remarks: Yup.string(),
   });
-  
-  const handleSubmit = async (values ) => {
-      const body = {
-        assets_ids: [row?._id],
-        other_details:{
-          repair_type:values?.repair_type,
-          maintenance_type:values?.maintenance_type,
-          issue_reported:values?.issue_reported,
-          remarks: values?.remarks,
-        }
-      };
-      setSubmitting(true);
-      try {
-        const res = await Axios.post(
-          "/gp-maintenance-request/add-maintenance-request",
-          body
-        );
-  
-        const statusCode = res?.data?.statusCode;
-  
-        if (statusCode === 200 || statusCode === 201) {
-          Swal.fire({
-            icon: "success",
-            text:"Maintenance request send successfully",
-            timer: 1000,
-            showConfirmButton: false,
-          });
-          hoto_gp_asset_partfolio_data_disptach({})
-          handleClose();
-        } else {
-          throw new Error(res?.data?.message || "Unknown Error");
-        }
-      } catch (err) {
-        Swal.fire({
-          icon: "error",
-          text: err?.response?.data?.message || err.message,
-        });
-        handleClose();
-      } finally {
-        setSubmitting(false);
-        handleClose();
-      }
+
+  const handleSubmit = async (values) => {
+    const body = {
+      assets_ids: [row?._id],
+      other_details: {
+        repair_type: values?.repair_type,
+        maintenance_type: values?.maintenance_type,
+        issue_reported: values?.issue_reported,
+        remarks: values?.remarks,
+      },
     };
+    setSubmitting(true);
+    try {
+      const res = await Axios.post(
+        "/gp-maintenance-request/add-maintenance-request",
+        body
+      );
+
+      const statusCode = res?.data?.statusCode;
+
+      if (statusCode === 200 || statusCode === 201) {
+        Swal.fire({
+          icon: "success",
+          text: "Maintenance request send successfully",
+          timer: 1000,
+          showConfirmButton: false,
+        });
+        setToggle((prev) => !prev);
+        handleClose();
+      } else {
+        throw new Error(res?.data?.message || "Unknown Error");
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        text: err?.response?.data?.message || err.message,
+      });
+      handleClose();
+    } finally {
+      setSubmitting(false);
+      handleClose();
+    }
+  };
 
   return (
     <div>

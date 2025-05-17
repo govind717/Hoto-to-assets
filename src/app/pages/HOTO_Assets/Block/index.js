@@ -5,7 +5,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
+import HotoHeader from 'app/Components/HotoHeader';
 import AssetsPortfolioList from './AssetsPortfolioList';
 import BlockWiseAssetList from './BlockWiseAssetList';
 import MaintainanceList from './Maintenance';
@@ -15,15 +15,15 @@ import WarehouseList from './Warehouse';
 
 
 const HotoBlock = () => {
+   
     const [value, setValue] = React.useState('1');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
     return (
       <Box>
-        <HotoHeader2 />
+        <HotoHeader/>
         <Box sx={{ width: "100%", typography: "body1", mt: 1 }}>
           <TabContext value={value}>
             <Box
@@ -37,19 +37,20 @@ const HotoBlock = () => {
                 onChange={handleChange}
                 aria-label="lab API tabs example"
               >
-                {/* Left side tabs */}
+               
                 <Tab label="Asset Portfolio" value="1" />
                 <Tab label="Block-Wise Assets" value="2" />
                 {/* <Tab label="Warehouse" value="3" /> */}
 
                 {/* Push next tab to the right using margin-left: auto */}
-                <Tab
+                
+                {/* <Tab
                   label="Maintenance"
                   value="4"
                   sx={{ marginLeft: "auto" }}
                 />
                 <Tab label="Replacement" value="5" />
-                <Tab label="Transfer" value="6" />
+                <Tab label="Transfer" value="6" /> */}
               </TabList>
             </Box>
 

@@ -27,22 +27,22 @@ const style = {
   minWidth: "1000px",
 };
 
-function RequestMaintenanceModal({ open, handleClose, row }) {
+function RequestMaintenanceModal({ open, handleClose, row, setToggle }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
 
- const initialValues = {
-     repair_type: "",
-     maintenance_type: "",
-     issue_reported: "",
-     remark: "",
-   };
-   const validationSchema = Yup.object().shape({
-     repair_type: Yup.string().required("Repair type is required"),
-     maintenance_type: Yup.string().required("Maintenance type is required"),
-     issue_reported: Yup.string().required("Issue Reported is Required"),
-     remark: Yup.string(),
-   });
+  const initialValues = {
+    repair_type: "",
+    maintenance_type: "",
+    issue_reported: "",
+    remark: "",
+  };
+  const validationSchema = Yup.object().shape({
+    repair_type: Yup.string().required("Repair type is required"),
+    maintenance_type: Yup.string().required("Maintenance type is required"),
+    issue_reported: Yup.string().required("Issue Reported is Required"),
+    remark: Yup.string(),
+  });
 
   const handleSubmit = async (values) => {
     const body = {
@@ -70,7 +70,7 @@ function RequestMaintenanceModal({ open, handleClose, row }) {
           timer: 1000,
           showConfirmButton: false,
         });
-        hoto_warehouse_asset_partfolio_data_disptach({})
+        setToggle((prev) => !prev);
         handleClose();
       } else {
         throw new Error(res?.data?.message || "Unknown Error");

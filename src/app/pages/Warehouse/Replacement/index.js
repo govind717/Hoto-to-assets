@@ -43,7 +43,9 @@ const ReplacementList = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { outhotoWarehouseReplacementDataReducer } = useSelector((state) => state);
+  const { outhotoWarehouseReplacementDataReducer } = useSelector(
+    (state) => state
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -229,7 +231,9 @@ const ReplacementList = () => {
               >
                 <TableSortLabel
                   onClick={() =>
-                    handleSort(`requested_item.requested_item_details.replacementReason`)
+                    handleSort(
+                      `requested_item.requested_item_details.replacementReason`
+                    )
                   }
                   direction={sort}
                   sx={{ ...tableCellSort }}
@@ -315,8 +319,8 @@ const ReplacementList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {outhotoWarehouseReplacementDataReducer?.data?.result?.data?.length >
-            0 ? (
+            {outhotoWarehouseReplacementDataReducer?.data?.result?.data
+              ?.length > 0 ? (
               outhotoWarehouseReplacementDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
@@ -500,7 +504,10 @@ const ReplacementList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            outhotoWarehouseReplacementDataReducer?.data?.result?.total_pages ||
+            1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

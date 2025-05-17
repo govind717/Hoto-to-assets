@@ -36,12 +36,12 @@ export const hoto_gp_asset_partfolio_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
     try {
        const body = {
          filters: {
-           "equipment_details.location_type":"old gp"
+           "equipment_details.location_type":"old gp",
          },
          searchFields: {
            string: [
@@ -60,7 +60,7 @@ export const hoto_gp_asset_partfolio_data_disptach = function ({
       dispatch({ type: HOTO_GP_ASSET_PORTFOLIO_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.gp?.asset_portfolio_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
+        `${hoto_apis?.gp?.asset_portfolio_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,body
       );
       dispatch({
         type: HOTO_GP_ASSET_PORTFOLIO_DATA_SUCCESS,
@@ -84,7 +84,7 @@ export const hoto_gp_asset_partfolio_maintenance_data_disptach = function ({
   sort = "",
   sortBy = "",
   filters={}
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
     const body = {
       filters: filters,
@@ -106,7 +106,7 @@ export const hoto_gp_asset_partfolio_maintenance_data_disptach = function ({
       dispatch({ type: HOTO_GP_ASSET_PORTFOLIO_MAINTENANCE_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${hoto_apis?.gp?.asset_portfolio?.maintenance_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.gp?.asset_portfolio?.maintenance_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
         body
       );
       dispatch({
@@ -129,7 +129,7 @@ export const hoto_gp_asset_partfolio_replacement_data_disptach = function ({
   sort = "",
   sortBy = "",
   filters={},
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
     try {
       const body = {
@@ -152,7 +152,7 @@ export const hoto_gp_asset_partfolio_replacement_data_disptach = function ({
       dispatch({ type: HOTO_GP_ASSET_PORTFOLIO_REPLACEMENT_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${hoto_apis?.gp?.asset_portfolio?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.gp?.asset_portfolio?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
         body
       );
       dispatch({
@@ -175,7 +175,7 @@ export const hoto_gp_asset_partfolio_transfer_data_disptach = function ({
   sort = "",
   sortBy = "",
   filters={}
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
     const body = {
       filters: filters,
@@ -190,7 +190,7 @@ export const hoto_gp_asset_partfolio_transfer_data_disptach = function ({
       dispatch({ type: HOTO_GP_ASSET_PORTFOLIO_TRANSFER_DATA_REQUEST});
 
       const response = await Axios.post(
-        `${hoto_apis?.gp?.asset_portfolio?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        `${hoto_apis?.gp?.asset_portfolio?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
         body
       );
       dispatch({
@@ -207,13 +207,13 @@ export const hoto_gp_asset_partfolio_transfer_data_disptach = function ({
     }
   };
 };
-
+// ------------------------
 export const hoto_gp_wise_asset_data_disptach = function ({
   page = 1,
   search_value = "",
   sort = "",
   sortBy = "",
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
     try {
        const body = {
@@ -230,7 +230,7 @@ export const hoto_gp_wise_asset_data_disptach = function ({
       dispatch({ type: HOTO_GP_WISE_ASSET_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.gp?.gp_wise_assets_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
+        `${hoto_apis?.gp?.gp_wise_assets_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,body
       );
       dispatch({
         type: HOTO_GP_WISE_ASSET_DATA_SUCCESS,
@@ -288,7 +288,7 @@ export const hoto_gp_maintenance_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
      const body = {
        filters: {},
@@ -310,7 +310,7 @@ export const hoto_gp_maintenance_data_disptach = function ({
       dispatch({ type: HOTO_GP_MAINTENANCE_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.gp?.maintenance_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
+        `${hoto_apis?.gp?.maintenance_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,body
       );
       dispatch({
         type: HOTO_GP_MAINTENANCE_DATA_SUCCESS,
@@ -331,22 +331,24 @@ export const hoto_gp_replacement_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
      const body = {
        filters: {},
        searchFields: {
          string: [
            "replacementId",
-           "gp_asset_details.equipment_name",
+          //  "gp_asset_details.equipment_name",
            "serialNumber",
-           "gp_asset_details.gp_details.location_name",
-           "gp_asset_details.gp_details.location_code",
            "replacementReason",
            "initiatedBy",
          ],
          numbers: [],
-         arrayField: [],
+         arrayField: [
+           "gp_asset_details.equipment_details.location_name",
+           "gp_asset_details.equipment_details.location_code",
+           "gp_asset_details.equipment_name",
+         ],
          boolean: [],
        },
      };
@@ -357,7 +359,7 @@ export const hoto_gp_replacement_data_disptach = function ({
       dispatch({ type: HOTO_GP_REPLACEMENT_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.gp?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,{...body}
+        `${hoto_apis?.gp?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,{...body}
       );
       dispatch({
         type: HOTO_GP_REPLACEMENT_DATA_SUCCESS,
@@ -378,7 +380,7 @@ export const hoto_gp_transfer_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {}) {
+} = {},package_name) {
   return async (dispatch) => {
     try {
        const body = {
@@ -401,7 +403,7 @@ export const hoto_gp_transfer_data_disptach = function ({
       dispatch({ type: HOTO_GP_TRANSFER_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.gp?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
+        `${hoto_apis?.gp?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,body
       );
       dispatch({
         type: HOTO_GP_TRANSFER_DATA_SUCCESS,

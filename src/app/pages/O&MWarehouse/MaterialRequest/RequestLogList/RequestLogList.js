@@ -295,7 +295,10 @@ const RequestLogList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            oandmMaterialRequestRequestLogDataReducer?.data?.result
+              ?.total_pages || 1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

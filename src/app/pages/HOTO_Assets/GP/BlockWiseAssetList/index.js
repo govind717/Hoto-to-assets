@@ -47,7 +47,7 @@ const BlockWiseAssetList = () => {
   const [page, setPage] = useState(1);
 
   const { hotoGpWiseAssetDataReducer } = useSelector((state) => state);
-
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -79,12 +79,15 @@ const BlockWiseAssetList = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_gp_wise_asset_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_gp_wise_asset_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
   };
 
@@ -101,14 +104,17 @@ const BlockWiseAssetList = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_gp_wise_asset_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_gp_wise_asset_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
 
   const showDetails = (data) => {
     navigate("/dashboards/hoto-survey-gp-data/gp-wise-details", {
@@ -129,12 +135,15 @@ const BlockWiseAssetList = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_gp_wise_asset_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                })
+                hoto_gp_wise_asset_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                  },
+                  packageNoDataReducer?.data
+                )
               );
             }
           }}

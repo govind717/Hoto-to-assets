@@ -1,10 +1,11 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Divider, Grid, Tab, Typography } from "@mui/material";
 import Header from "app/layouts/shared/headers/Header";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import AssetDetailTable from "./AssetDetailTable/AssetDetailTable";
+import HotoHeader from "app/Components/HotoHeader";
 
 const patternBoxStyle = {
   width: "100%",

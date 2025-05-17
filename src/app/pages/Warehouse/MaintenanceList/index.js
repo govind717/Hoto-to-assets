@@ -62,7 +62,9 @@ const MaintainanceList = () => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
-  const { outhotoWarehouseMaintenanceDataReducer } = useSelector((state) => state);
+  const { outhotoWarehouseMaintenanceDataReducer } = useSelector(
+    (state) => state
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -276,7 +278,7 @@ const MaintainanceList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                  Document
+                Document
               </TableCell>
               <TableCell
                 align={"left"}
@@ -287,8 +289,8 @@ const MaintainanceList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {outhotoWarehouseMaintenanceDataReducer?.data?.result?.data?.length >
-            0 ? (
+            {outhotoWarehouseMaintenanceDataReducer?.data?.result?.data
+              ?.length > 0 ? (
               outhotoWarehouseMaintenanceDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
@@ -456,7 +458,10 @@ const MaintainanceList = () => {
           </TableBody>
         </Table>
         <Pagination
-          count={1}
+          count={
+            outhotoWarehouseMaintenanceDataReducer?.data?.result?.total_pages ||
+            1
+          }
           page={page}
           onChange={handleChangePage}
           sx={{

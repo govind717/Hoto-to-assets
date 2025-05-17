@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import React from 'react';
-import HotoHeader from '../HotoHeader';
+import HotoHeader from 'app/Components/HotoHeader/index';
 
 const Rkm_survey_data = () => {
     const [value, setValue] = React.useState('1');

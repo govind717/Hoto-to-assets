@@ -27,7 +27,7 @@ const style = {
   minWidth: "1000px",
 };
 
-function RequestMaintenanceModal({ open, handleClose, row }) {
+function RequestMaintenanceModal({ open, handleClose, row, setToggle }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
 
@@ -70,7 +70,7 @@ function RequestMaintenanceModal({ open, handleClose, row }) {
           timer: 1000,
           showConfirmButton: false,
         });
-        hoto_block_asset_partfolio_data_disptach({});
+        setToggle((prev)=>!prev);
         handleClose();
       } else {
         throw new Error(res?.data?.message || "Unknown Error");

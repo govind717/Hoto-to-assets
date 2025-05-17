@@ -44,7 +44,7 @@ const Transferlist = () => {
   const [page, setPage] = useState(1);
 
   const { hotoWarehouseTransferDataReducer } = useSelector((state) => state);
-
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -61,12 +61,15 @@ const Transferlist = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_warehouse_transfer_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_warehouse_transfer_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
   };
 
@@ -83,14 +86,17 @@ const Transferlist = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_warehouse_transfer_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_warehouse_transfer_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page,packageNoDataReducer?.data, sortBy, dispatch]);
 
   return (
     <>
@@ -104,6 +110,17 @@ const Transferlist = () => {
           onChange={(e) => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
+              dispatch(
+                hoto_warehouse_transfer_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: searchTerm.trim(),
+                    sort: sort,
+                    page: page,
+                  },
+                  packageNoDataReducer?.data
+                )
+              );
             }
           }}
           sx={{ width: 300, my: "2%" }}

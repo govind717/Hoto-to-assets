@@ -68,7 +68,7 @@ const MaintainanceList = () => {
   const [page, setPage] = useState(1);
 
   const { hotoBlockMaintenanceDataReducer } = useSelector((state) => state);
-
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -85,12 +85,15 @@ const MaintainanceList = () => {
   const handleSearch = (searchTerm) => {
     setPage(1);
     dispatch(
-      hoto_block_maintenance_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_block_maintenance_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
   };
 
@@ -107,14 +110,17 @@ const MaintainanceList = () => {
 
   useEffect(() => {
     dispatch(
-      hoto_block_maintenance_data_disptach({
-        sortBy: sortBy,
-        search_value: searchTerm.trim(),
-        sort: sort,
-        page: page,
-      })
+      hoto_block_maintenance_data_disptach(
+        {
+          sortBy: sortBy,
+          search_value: searchTerm.trim(),
+          sort: sort,
+          page: page,
+        },
+        packageNoDataReducer?.data
+      )
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
 
   return (
     <>
@@ -130,12 +136,15 @@ const MaintainanceList = () => {
             setSearchTerm(e.target.value);
             if (e.target.value === "") {
               dispatch(
-                hoto_block_maintenance_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                })
+                hoto_block_maintenance_data_disptach(
+                  {
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                  },
+                  packageNoDataReducer?.data
+                )
               );
             }
           }}
@@ -460,21 +469,21 @@ const MaintainanceList = () => {
                         <Chip
                           label={
                             ele?.assets_details?.condition
-                              ? ele?.assets_details?.condition.toUpperCase()
+                              ? ele?.assets_details?.condition?.toUpperCase()
                               : "-"
                           }
                           sx={{
                             backgroundColor:
-                              ele?.assets_details?.condition.toUpperCase() ===
+                              ele?.assets_details?.condition?.toUpperCase() ===
                               "DAMAGED"
                                 ? Red
-                                : ele?.assets_details?.condition.toUpperCase() ===
+                                : ele?.assets_details?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
                                 ? Yellow
-                                : ele?.assets_details?.condition.toUpperCase() ===
+                                : ele?.assets_details?.condition?.toUpperCase() ===
                                   "ROBUST"
                                 ? Green
-                                : ele?.assets_details?.condition.toUpperCase() ===
+                                : ele?.assets_details?.condition?.toUpperCase() ===
                                   "MISSING"
                                 ? Orange
                                 : "",
