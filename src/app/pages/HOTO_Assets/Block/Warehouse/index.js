@@ -1,11 +1,7 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import InfoIcon from "@mui/icons-material/Info";
 import SearchIcon from "@mui/icons-material/Search";
 import {
-  Button,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -16,20 +12,14 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField,
+  TextField
 } from "@mui/material";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { hoto_block_warehouse_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import InfoIcon from "@mui/icons-material/Info";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MapLocation from "app/pages/Hoto_to_Assets/MapLocation";
-import { BLOCK_MASTER } from "app/utils/constants/routeConstants";
-import { hoto_block_warehouse_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 import DetailModal from "./DetailModal/DetailModal";
 
 const tableCellSx = {
