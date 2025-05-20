@@ -31,6 +31,7 @@ import { Axios } from "index";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { BorderColor } from "@mui/icons-material";
 import FullScreenLoader from "app/pages/Components/Loader";
+import DownloadFullEquipmentExcel from "./DownloadExcel/DownloadExcel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -294,7 +295,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             ),
           }}
         />
-        {selectedIds?.length > 0 && (
+        <Div sx={{ my: "2%" }}>
+          <DownloadFullEquipmentExcel
+            data={
+              hotoBlockAssetPortfolioDataReducer?.hoto_servey_data?.data?.data
+            }
+            fileName="GP-Wise Assets"
+          />
+        </Div>
+        {/* {selectedIds?.length > 0 && (
           <Div
             sx={{
               display: "flex",
@@ -382,7 +391,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               </LoadingButton>
             </Div>
           </Div>
-        )}
+        )} */}
       </Div>
       {hotoBlockAssetPortfolioDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
