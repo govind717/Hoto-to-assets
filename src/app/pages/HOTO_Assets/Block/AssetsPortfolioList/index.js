@@ -2,14 +2,20 @@ import Div from "@jumbo/shared/Div";
 import { LoadingButton } from "@mui/lab";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Box,
   Button,
   Checkbox,
+  FormControl,
   FormControlLabel,
   InputAdornment,
+  InputLabel,
+  MenuItem,
   Modal,
   Pagination,
   Paper,
+  Select,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -26,13 +32,15 @@ import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import Swal from "sweetalert2";
 import { debounce } from "lodash";
-import { hoto_block_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import { hoto_block_asset_partfolio_data_disptach, hoto_block_asset_partfolio_data_disptach_search_filter } from "app/redux/actions/Hoto_to_servey/Block";
 import { Axios } from "index";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { BorderColor } from "@mui/icons-material";
 import FullScreenLoader from "app/pages/Components/Loader";
 import DownloadFullEquipmentExcel from "./DownloadExcel/DownloadExcel";
-
+import FilterListIcon from '@mui/icons-material/FilterList';
+import CloseFilterIcon from '@mui/icons-material/Close';
+import FilterModel from "app/Components/FilterModel";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -57,6 +65,9 @@ const hideBtnStyle = {
 };
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
+
+
+
 const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const hotoBlockAssetPortfolioDataReducer = useSelector(
@@ -69,9 +80,12 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [toggle,setToggle]=useState(false);
+  const [toggle, setToggle] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
+
+
+
 
   const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);
@@ -123,7 +137,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data,toggle, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, toggle, dispatch]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -258,6 +272,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       });
     }
   };
+
+
+
 
   return (
     <>
@@ -417,8 +434,56 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Equipment
                   </TableSortLabel>
+                  <FilterModel label="Filter Equipment" />
                 </Box>
               </TableCell>
+
+
+
+              {/* <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+
+              >
+                <Box sx={style}>
+                  <CloseFilterIcon
+                    onClick={handleClose}
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      cursor: "pointer",
+                      color: "#555",
+                    }}
+                  />
+                  <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+
+                    <Autocomplete
+                      disablePortal
+                      size="small"
+                      options={top100Films}
+                      getOptionLabel={(option) => option.label || option}
+                      sx={{ width: 300 }}
+                      value={selectedFilter}
+                      onChange={(_, newValue) => setSelectedFilter(newValue)}
+                      renderInput={(params) => <TextField {...params} label="Filter Equipment" />}
+                    />
+
+                  </FormControl>
+                  <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+                    <Stack direction="row" spacing={2}>
+                      <Button variant="outlined" onClick={handleClose} size="small">
+                        Cancel
+                      </Button>
+                      <Button variant="contained" onClick={handleApply} disabled={!selectedFilter} size="small">
+                        Apply
+                      </Button>
+                    </Stack>
+                  </Box>
+                </Box>
+              </Modal> */}
 
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
@@ -429,6 +494,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Serial No.
                   </TableSortLabel>
+                  <FilterModel label="Filter Serial No" />
                 </Box>
               </TableCell>
 
@@ -446,6 +512,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Location
                   </TableSortLabel>
+                  <FilterModel label="Filter Block Location" />
                 </Box>
               </TableCell>
 
@@ -463,6 +530,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Code
                   </TableSortLabel>
+                  <FilterModel label="Filter Block Code" />
                 </Box>
               </TableCell>
 
@@ -498,6 +566,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Condition
                   </TableSortLabel>
+                  <FilterModel label="Filter Condition" />
                 </Box>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
@@ -554,7 +623,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoBlockAssetPortfolioDataReducer?.data.result?.data &&
-            hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
+              hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {

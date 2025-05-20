@@ -36,28 +36,28 @@ export const hoto_block_asset_partfolio_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {},package_name) {
+} = {}, package_name) {
   return async (dispatch) => {
     try {
-        const body = {
-          filters: {
-            "equipment_details.location_type": "block",
-          },
-          searchFields: {
-            string: [
-              "equipment_name",
-              "serial_no",
-              "issued_for",
-              "condition_status",
-              "condition",
-              "equipment_details.location_name",
-              "equipment_details.location_code",
-            ],
-            numbers: [],
-            arrayField: [],
-            boolean: [],
-          },
-        };
+      const body = {
+        filters: {
+          "equipment_details.location_type": "block",
+        },
+        searchFields: {
+          string: [
+            "equipment_name",
+            "serial_no",
+            "issued_for",
+            "condition_status",
+            "condition",
+            "equipment_details.location_name",
+            "equipment_details.location_code",
+          ],
+          numbers: [],
+          arrayField: [],
+          boolean: [],
+        },
+      };
       dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_DATA_REQUEST });
 
       const response = await Axios.post(
@@ -79,14 +79,71 @@ export const hoto_block_asset_partfolio_data_disptach = function ({
   };
 };
 
+export const hoto_block_asset_partfolio_data_disptach_search_filter = function (
+  {
+    page = 1,
+    search_value = "",
+    sort = "",
+    sortBy = "",
+    searchField = "", // <-- new param
+  } = {},
+  package_name
+) {
+  return async (dispatch) => {
+    try {
+      const body = {
+        filters: {
+          "equipment_details.location_type": "block",
+        },
+        searchFields: {
+          string: searchField
+            ? [searchField] // single field filter
+            : [
+              // fallback to default search across all
+              "equipment_name",
+              "serial_no",
+              "issued_for",
+              "condition_status",
+              "condition",
+              "equipment_details.location_name",
+              "equipment_details.location_code",
+            ],
+          numbers: [],
+          arrayField: [],
+          boolean: [],
+        },
+      };
+
+      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_DATA_REQUEST });
+
+      const response = await Axios.post(
+        `${hoto_apis?.block?.asset_portfolio_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
+        body
+      );
+
+      dispatch({
+        type: HOTO_BLOCK_ASSET_PORTFOLIO_DATA_SUCCESS,
+        payload: {
+          data: response?.data,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: HOTO_BLOCK_ASSET_PORTFOLIO_DATA_FAILED,
+        payload: error?.response?.data?.message,
+      });
+    }
+  };
+};
+
 //portfolio inner tables dispacture
 export const hoto_block_asset_partfolio_maintenance_data_disptach = function ({
   page = 1,
   search_value = "",
   sort = "",
   sortBy = "",
-  filters={}
-} = {},package_name) {
+  filters = {}
+} = {}, package_name) {
   return async (dispatch) => {
     const body = {
       filters: filters,
@@ -105,7 +162,7 @@ export const hoto_block_asset_partfolio_maintenance_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_MAINTENANCE_DATA_REQUEST});
+      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_MAINTENANCE_DATA_REQUEST });
 
       const response = await Axios.post(
         `${hoto_apis?.block?.asset_portfolio?.maintenance_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
@@ -130,8 +187,8 @@ export const hoto_block_asset_partfolio_replacement_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-  filters={},
-} = {},package_name) {
+  filters = {},
+} = {}, package_name) {
   return async (dispatch) => {
     try {
       const body = {
@@ -151,7 +208,7 @@ export const hoto_block_asset_partfolio_replacement_data_disptach = function ({
           boolean: [],
         },
       };
-      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_REPLACEMENT_DATA_REQUEST});
+      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_REPLACEMENT_DATA_REQUEST });
 
       const response = await Axios.post(
         `${hoto_apis?.block?.asset_portfolio?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
@@ -176,8 +233,8 @@ export const hoto_block_asset_partfolio_transfer_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-  filters={}
-} = {},package_name) {
+  filters = {}
+} = {}, package_name) {
   return async (dispatch) => {
     const body = {
       filters: filters,
@@ -189,7 +246,7 @@ export const hoto_block_asset_partfolio_transfer_data_disptach = function ({
       },
     };
     try {
-      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_TRANSFER_DATA_REQUEST});
+      dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_TRANSFER_DATA_REQUEST });
 
       const response = await Axios.post(
         `${hoto_apis?.block?.asset_portfolio?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
@@ -217,11 +274,11 @@ export const hoto_block_wise_asset_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {},package_name) {
+} = {}, package_name) {
   return async (dispatch) => {
     const body = {
       filters: {
-        "location_type":"block"
+        "location_type": "block"
       },
       searchFields: {
         string: ["block.name", "block_id", "district.name", "district_id"],
@@ -234,7 +291,7 @@ export const hoto_block_wise_asset_data_disptach = function ({
       dispatch({ type: HOTO_BLOCK_WISE_ASSET_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.block?.block_wise_assets_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,body
+        `${hoto_apis?.block?.block_wise_assets_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`, body
       );
       dispatch({
         type: HOTO_BLOCK_WISE_ASSET_DATA_SUCCESS,
@@ -259,19 +316,19 @@ export const hoto_block_warehouse_data_disptach = function ({
 } = {}) {
   return async (dispatch) => {
     try {
-        const body = {
-          filters: {},
-          searchFields: {
-            string: ["equipment_name", "serial_no","condition"],
-            numbers: [],
-            arrayField: [],
-            boolean: [],
-          },
-        };
+      const body = {
+        filters: {},
+        searchFields: {
+          string: ["equipment_name", "serial_no", "condition"],
+          numbers: [],
+          arrayField: [],
+          boolean: [],
+        },
+      };
       dispatch({ type: HOTO_BLOCK_WAREHOUSE_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.block?.warehouse_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
+        `${hoto_apis?.block?.warehouse_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`, body
       );
       dispatch({
         type: HOTO_BLOCK_WAREHOUSE_DATA_SUCCESS,
@@ -294,7 +351,7 @@ export const hoto_block_maintenance_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {},package_name) {
+} = {}, package_name) {
   return async (dispatch) => {
     const body = {
       filters: {},
@@ -340,32 +397,32 @@ export const hoto_block_replacement_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {},package_name) {
+} = {}, package_name) {
   return async (dispatch) => {
     try {
-        const body = {
-          filters: {},
-          searchFields: {
-            string: [
-              "replacementId",
-              "serialNumber",
-              "dueDate",
-              "replacementReason",
-              "initiatedBy",
-            ],
-            numbers: [],
-            arrayField: [
-              "block_asset_details.equipment_name",
-              "block_asset_details.equipment_details.location_name",
-              "block_asset_details.equipment_details.location_code",
-            ],
-            boolean: [],
-          },
-        };
+      const body = {
+        filters: {},
+        searchFields: {
+          string: [
+            "replacementId",
+            "serialNumber",
+            "dueDate",
+            "replacementReason",
+            "initiatedBy",
+          ],
+          numbers: [],
+          arrayField: [
+            "block_asset_details.equipment_name",
+            "block_asset_details.equipment_details.location_name",
+            "block_asset_details.equipment_details.location_code",
+          ],
+          boolean: [],
+        },
+      };
       dispatch({ type: HOTO_BLOCK_REPLACEMENT_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.block?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,body
+        `${hoto_apis?.block?.replacement_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`, body
       );
       dispatch({
         type: HOTO_BLOCK_REPLACEMENT_DATA_SUCCESS,
@@ -386,7 +443,7 @@ export const hoto_block_transfer_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {},package_name) {
+} = {}, package_name) {
   return async (dispatch) => {
     const body = {
       filters: {},
@@ -399,7 +456,7 @@ export const hoto_block_transfer_data_disptach = function ({
           "transfer_type",
           "transfer_from.location_name",
           "transfer_to.location_name",
-          
+
         ],
         numbers: [],
         arrayField: [],
@@ -410,7 +467,7 @@ export const hoto_block_transfer_data_disptach = function ({
       dispatch({ type: HOTO_BLOCK_TRANSFER_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.block?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,body
+        `${hoto_apis?.block?.transfer_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`, body
       );
       dispatch({
         type: HOTO_BLOCK_TRANSFER_DATA_SUCCESS,

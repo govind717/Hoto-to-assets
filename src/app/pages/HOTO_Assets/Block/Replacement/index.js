@@ -14,6 +14,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FilterModel from "app/Components/FilterModel";
 import { hoto_block_replacement_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 import { debounce } from "lodash";
 import moment from "moment";
@@ -96,7 +97,7 @@ const ReplacementList = () => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
 
   return (
     <>
@@ -153,6 +154,7 @@ const ReplacementList = () => {
                 >
                   Replacement ID
                 </TableSortLabel>
+                <FilterModel label="Filter Replacement ID" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -165,6 +167,7 @@ const ReplacementList = () => {
                 >
                   Request Date
                 </TableSortLabel>
+                <FilterModel label="Filter Request Date" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -179,6 +182,7 @@ const ReplacementList = () => {
                 >
                   Equipment
                 </TableSortLabel>
+                <FilterModel label="Filter Equipment" />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -188,6 +192,7 @@ const ReplacementList = () => {
                 >
                   Serial No.
                 </TableSortLabel>
+                <FilterModel label="Filter  Serial No." />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -204,6 +209,7 @@ const ReplacementList = () => {
                 >
                   Location
                 </TableSortLabel>
+                <FilterModel label="Filter  Location" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -220,6 +226,7 @@ const ReplacementList = () => {
                 >
                   Location Code
                 </TableSortLabel>
+                <FilterModel label="Filter   Location Code" />
               </TableCell>
 
               <TableCell
@@ -233,6 +240,7 @@ const ReplacementList = () => {
                 >
                   Replacement Reason
                 </TableSortLabel>
+                <FilterModel label="Filter Replacement Reason" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -251,6 +259,7 @@ const ReplacementList = () => {
                 >
                   Due Date
                 </TableSortLabel>
+                <FilterModel label="Filter  Due Date" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -258,12 +267,14 @@ const ReplacementList = () => {
               >
                 Initiated By
               </TableCell>
+              <FilterModel label="Filter Initiated By" />
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 New Serial No.
               </TableCell>
+              <FilterModel label="Filter   New Serial No." />
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
@@ -275,16 +286,19 @@ const ReplacementList = () => {
                 >
                   Replacement Status
                 </TableSortLabel>
+                <FilterModel label="Filter  Replacement Status" />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Document
               </TableCell>
+              <FilterModel label="Filter  Document" />
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 Remark
               </TableCell>
+              <FilterModel label="Filter  Remark" />
             </TableRow>
           </TableHead>
           <TableBody>

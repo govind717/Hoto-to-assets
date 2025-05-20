@@ -35,6 +35,7 @@ import {
 } from "app/pages/Constants/colors";
 import { hoto_block_maintenance_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 import moment from "moment";
+import FilterModel from "app/Components/FilterModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -120,7 +121,7 @@ const MaintainanceList = () => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
 
   return (
     <>
@@ -159,7 +160,7 @@ const MaintainanceList = () => {
             ),
           }}
         />
-        
+
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -185,6 +186,7 @@ const MaintainanceList = () => {
                 >
                   Maintenance ID
                 </TableSortLabel>
+                <FilterModel label="Filter Maintenance ID " />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -197,6 +199,7 @@ const MaintainanceList = () => {
                 >
                   Requested Date
                 </TableSortLabel>
+                <FilterModel label="Filter Requested Date " />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -208,6 +211,7 @@ const MaintainanceList = () => {
                 >
                   Equipment
                 </TableSortLabel>
+                <FilterModel label="Filter Equipment " />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -219,6 +223,7 @@ const MaintainanceList = () => {
                 >
                   Serial No.
                 </TableSortLabel>
+                <FilterModel label="Filter Serial No. " />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -230,6 +235,7 @@ const MaintainanceList = () => {
                 >
                   Repair Type
                 </TableSortLabel>
+                <FilterModel label="Filter Repair Type" />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -241,6 +247,7 @@ const MaintainanceList = () => {
                 >
                   Allocated To
                 </TableSortLabel>
+                <FilterModel label="Filter Allocated To" />
               </TableCell>
 
               <TableCell
@@ -256,6 +263,7 @@ const MaintainanceList = () => {
                 >
                   Assigned To
                 </TableSortLabel>
+                <FilterModel label="Filter Allocated To" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -270,6 +278,7 @@ const MaintainanceList = () => {
                 >
                   Issue Reported
                 </TableSortLabel>
+                <FilterModel label="Filter Issue Reported" />
               </TableCell>
 
               <TableCell
@@ -285,6 +294,7 @@ const MaintainanceList = () => {
                 >
                   Issue Date
                 </TableSortLabel>
+                <FilterModel label="Filter Issue Date" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -299,6 +309,7 @@ const MaintainanceList = () => {
                 >
                   ETA
                 </TableSortLabel>
+                <FilterModel label="Filter ETA" />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -308,6 +319,7 @@ const MaintainanceList = () => {
                 >
                   Condition
                 </TableSortLabel>
+                <FilterModel label="Filter Condition" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -320,6 +332,7 @@ const MaintainanceList = () => {
                 >
                   Status
                 </TableSortLabel>
+                <FilterModel label="Filter Status" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -334,6 +347,7 @@ const MaintainanceList = () => {
                 >
                   Document
                 </TableSortLabel>
+                <FilterModel label="Filter Document" />
               </TableCell>
               <TableCell
                 align={"left"}
@@ -341,6 +355,7 @@ const MaintainanceList = () => {
               >
                 Remark
               </TableCell>
+              <FilterModel label="Filter Remark" />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -476,18 +491,18 @@ const MaintainanceList = () => {
                           sx={{
                             backgroundColor:
                               ele?.assets_details?.condition?.toUpperCase() ===
-                              "DAMAGED"
+                                "DAMAGED"
                                 ? Red
                                 : ele?.assets_details?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
-                                ? Yellow
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "ROBUST"
-                                ? Green
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "MISSING"
-                                ? Orange
-                                : "",
+                                  ? Yellow
+                                  : ele?.assets_details?.condition?.toUpperCase() ===
+                                    "ROBUST"
+                                    ? Green
+                                    : ele?.assets_details?.condition?.toUpperCase() ===
+                                      "MISSING"
+                                      ? Orange
+                                      : "",
                             color: "#FFF",
                             fontWeight: "bold",
                             fontSize: "14",

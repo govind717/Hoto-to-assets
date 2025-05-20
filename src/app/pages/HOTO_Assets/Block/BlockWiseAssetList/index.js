@@ -28,6 +28,7 @@ import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { hoto_block_wise_asset_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import FilterModel from "app/Components/FilterModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -127,7 +128,7 @@ const BlockWiseAssetList = () => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
 
   const showDetails = (data) => {
     navigate("/dashboards/hoto-survey-block-data/block-wise-details", {
@@ -187,6 +188,7 @@ const BlockWiseAssetList = () => {
                 >
                   Block
                 </TableSortLabel>
+                <FilterModel label="Filter Block " />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -196,6 +198,7 @@ const BlockWiseAssetList = () => {
                 >
                   Block Code
                 </TableSortLabel>
+                <FilterModel label="Filter Block Code" />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -205,6 +208,7 @@ const BlockWiseAssetList = () => {
                 >
                   District
                 </TableSortLabel>
+                <FilterModel label="Filter District " />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -214,6 +218,7 @@ const BlockWiseAssetList = () => {
                 >
                   District Code
                 </TableSortLabel>
+                <FilterModel label="Filter District Code" />
               </TableCell>
 
               <TableCell
