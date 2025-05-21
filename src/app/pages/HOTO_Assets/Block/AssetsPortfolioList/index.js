@@ -32,14 +32,17 @@ import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import Swal from "sweetalert2";
 import { debounce } from "lodash";
-import { hoto_block_asset_partfolio_data_disptach, hoto_block_asset_partfolio_data_disptach_search_filter } from "app/redux/actions/Hoto_to_servey/Block";
+import {
+  hoto_block_asset_partfolio_data_disptach,
+  hoto_block_asset_partfolio_data_disptach_search_filter,
+} from "app/redux/actions/Hoto_to_servey/Block";
 import { Axios } from "index";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { BorderColor } from "@mui/icons-material";
 import FullScreenLoader from "app/pages/Components/Loader";
 import DownloadFullEquipmentExcel from "./DownloadExcel/DownloadExcel";
-import FilterListIcon from '@mui/icons-material/FilterList';
-import CloseFilterIcon from '@mui/icons-material/Close';
+import FilterListIcon from "@mui/icons-material/FilterList";
+import CloseFilterIcon from "@mui/icons-material/Close";
 import FilterModel from "app/Components/FilterModel";
 const tableCellSx = {
   textTransform: "capitalize",
@@ -65,9 +68,6 @@ const hideBtnStyle = {
 };
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-
-
-
 const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const hotoBlockAssetPortfolioDataReducer = useSelector(
@@ -83,9 +83,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [toggle, setToggle] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-
-
-
 
   const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);
@@ -273,9 +270,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     }
   };
 
-
-
-
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -434,11 +428,12 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Equipment
                   </TableSortLabel>
-                  <FilterModel label="Filter Equipment" />
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="equipment_name"
+                  />
                 </Box>
               </TableCell>
-
-
 
               {/* <Modal
                 open={open}
@@ -623,7 +618,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoBlockAssetPortfolioDataReducer?.data.result?.data &&
-              hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
+            hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
