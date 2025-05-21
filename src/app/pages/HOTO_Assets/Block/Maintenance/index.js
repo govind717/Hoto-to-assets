@@ -1,12 +1,9 @@
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
   Chip,
-  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -19,22 +16,16 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
+import { hoto_block_maintenance_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import { Axios } from "index";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MapIcon from "@mui/icons-material/Map";
-import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import FullScreenLoader from "app/pages/Components/Loader";
-import {
-  Green,
-  Orange,
-  orangeSecondary,
-  Red,
-  Yellow,
-} from "app/pages/Constants/colors";
-import { hoto_block_maintenance_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
-import moment from "moment";
+import Swal from "sweetalert2";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -66,7 +57,7 @@ const MaintainanceList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [loading, setLoading] = useState(false);
   const { hotoBlockMaintenanceDataReducer } = useSelector((state) => state);
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -120,8 +111,68 @@ const MaintainanceList = () => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
 
+  
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    timer: 3000,
+    customClass: {
+      container: "popupImportant",
+    },
+    timerProgressBar: true,
+    onOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+  const handleExportCSV = async () => {
+    try {
+      setLoading(true);
+      // setSnackbarOpen(true);
+      const res = await Axios.post(
+        "/hoto-to-assets/block/maintenance/download-excel"
+      );
+      console.log("Res : ", res);
+      if (res.data.success) {
+        window.open(res?.data?.result);
+
+        Toast.fire({
+          timer: 3000,
+          icon: "success",
+          title: "CSV  Downloaded Successfully...",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      } else {
+        Toast.fire({
+          timer: 3000,
+          icon: "error",
+          title: "CSV  Downloading failed..",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      // setSnackbarOpen(false);
+      Toast.fire({
+        timer: 3000,
+        icon: "error",
+        title:
+          error.response?.data.message ||
+          "An error occured while downloading csv",
+        position: "top-right",
+        // background: theme.palette.background.paper,
+      });
+    }
+  };
   return (
     <>
       {hotoBlockMaintenanceDataReducer?.loading && <FullScreenLoader />}
@@ -159,7 +210,20 @@ const MaintainanceList = () => {
             ),
           }}
         />
-        
+        <Div sx={{ my: "2%" }}>
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: "#B0BAC9",
+              padding: "6px 20px",
+              color: "#000",
+              borderRadius: "5px",
+            }}
+            onClick={handleExportCSV}
+          >
+            <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
+          </Button>
+        </Div>
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -348,7 +412,7 @@ const MaintainanceList = () => {
               hotoBlockMaintenanceDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
-                    <TableRow key={ele?.id}>
+                    <TableRow key={ele?._id}>
                       <TableCell
                         align="left"
                         sx={{

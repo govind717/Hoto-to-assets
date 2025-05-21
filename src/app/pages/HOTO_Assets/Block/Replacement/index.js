@@ -15,11 +15,14 @@ import {
   TextField,
 } from "@mui/material";
 import { hoto_block_replacement_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import { debounce } from "lodash";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { Axios } from "index";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -42,7 +45,7 @@ const ReplacementList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [loading,setLoading]=useState(false);
   const { hotoBlockReplacementDataReducer } = useSelector((state) => state);
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -98,6 +101,66 @@ const ReplacementList = () => {
     );
   }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
 
+  
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    timer: 3000,
+    customClass: {
+      container: "popupImportant",
+    },
+    timerProgressBar: true,
+    onOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+  const handleExportCSV = async () => {
+    try {
+      setLoading(true);
+      // setSnackbarOpen(true);
+      const res = await Axios.post(
+        "/hoto-to-assets/block/replacement/download-excel"
+      );
+      console.log("Res : ", res);
+      if (res.data.success) {
+        window.open(res?.data?.result);
+
+        Toast.fire({
+          timer: 3000,
+          icon: "success",
+          title: "CSV  Downloaded Successfully...",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      } else {
+        Toast.fire({
+          timer: 3000,
+          icon: "error",
+          title: "CSV  Downloading failed..",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      // setSnackbarOpen(false);
+      Toast.fire({
+        timer: 3000,
+        icon: "error",
+        title:
+          error.response?.data.message ||
+          "An error occured while downloading csv",
+        position: "top-right",
+        // background: theme.palette.background.paper,
+      });
+    }
+  };
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -134,6 +197,20 @@ const ReplacementList = () => {
             ),
           }}
         />
+        <Div sx={{ my: "2%" }}>
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: "#B0BAC9",
+              padding: "6px 20px",
+              color: "#000",
+              borderRadius: "5px",
+            }}
+            onClick={handleExportCSV}
+          >
+            <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
+          </Button>
+        </Div>
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
