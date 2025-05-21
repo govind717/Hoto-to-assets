@@ -83,11 +83,12 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [toggle, setToggle] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-
+  const [filters,setFilters]=useState({});
+  const [applyFilter,setApplyFilter]=useState(false);
   const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);
   };
-
+  console.log("applyFilter", filters);
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -130,11 +131,12 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data, toggle, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data,applyFilter, toggle, dispatch]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -431,6 +433,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   <FilterModel
                     label="Filter Equipment"
                     field="equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
                   />
                 </Box>
               </TableCell>

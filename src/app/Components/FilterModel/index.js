@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  FormControl,
-  Modal,
-  Stack,
-  TextField,
-} from "@mui/material";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import CloseFilterIcon from "@mui/icons-material/Close";
-import { useDispatch, useSelector } from "react-redux";
-import { hoto_block_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import {
+    Box,
+    Button,
+    FormControl,
+    Modal,
+    Stack,
+    TextField
+} from "@mui/material";
+import { useState } from "react";
 const style = {
   position: "absolute",
   top: "50%",
@@ -137,18 +134,10 @@ const top100Films = [
   },
 ];
 
-const FilterModel = ({ label, iconSx, field }) => {
+const FilterModel = ({ label, field, setFilters, filters, setApplyFilter }) => {
   const [open, setOpen] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState(null);
-  const dispatch = useDispatch();
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("createdAt");
-  const [sort, setSort] = useState("desc");
-  const [page, setPage] = useState(1);
-  const { packageNoDataReducer } = useSelector((state) => state);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
-
+  const [filterValue,setFilterValue]=useState('');
   const handleOpen = () => {
     setOpen(true);
   };
@@ -156,37 +145,30 @@ const FilterModel = ({ label, iconSx, field }) => {
     setOpen(false);
   };
 
-  //   const handleApply = () => {
-  //     if (selectedFilter) {
-  //       // Call your filter logic here, e.g., update the table with the selected equipment
-  //       console.log("Apply filter for:", selectedFilter.label); // or selectedFilter.value
-  //     }
-  //     setOpen(false); // Close modal
-  //   };
-
-  const handleApply = () => {
-    console.log("searchTerm", searchTerm);
-    dispatch(
-      hoto_block_asset_partfolio_data_disptach(
-        {
-          sortBy,
-          sort,
-          page,
-          search_value: searchTerm.trim(),
-          search_field: field,
-        },
-        packageNoDataReducer?.data
-      )
-    );
+  const handleApply=()=>{
+    setFilters((prev) => ({
+      ...prev,
+      equipment_name: filterValue,
+    }));
+    setApplyFilter((prev) => !prev);
     setIsFilterApplied(true);
     setOpen(false);
-  };
+  }
+  const handleClear=()=>{
+    const newObj={...filters};
+    delete newObj.equipment_name
+    setFilters(newObj);
+    setApplyFilter((prev) => !prev);
+    setFilterValue("");
+    setIsFilterApplied(false);
+    setOpen(false);
+  }
   return (
     <>
       <FilterListIcon
         onClick={handleOpen}
         fontSize="small"
-        sx={{ color: isFilterApplied ? "#33eaff" : "inherit", ...iconSx }}
+        sx={{ color: isFilterApplied ? "#33eaff" : "inherit" }}
       />
 
       <Modal
@@ -219,18 +201,18 @@ const FilterModel = ({ label, iconSx, field }) => {
             /> */}
 
             <TextField
-              id="search"
-              type="search"
+              id="filter"
+              type="string"
               label={label}
-              value={searchTerm}
+              value={filterValue}
               size="small"
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setFilterValue(e.target.value)}
             />
           </FormControl>
           <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
             <Stack direction="row" spacing={2}>
-              <Button variant="outlined" onClick={handleClose} size="small">
-                Cancel
+              <Button variant="outlined" onClick={handleClear} size="small">
+                Clear
               </Button>
               {/* <Button
                 variant="contained"
@@ -243,7 +225,7 @@ const FilterModel = ({ label, iconSx, field }) => {
               <Button
                 variant="contained"
                 onClick={handleApply}
-                disabled={!searchTerm} // ✅ only disable if search is empty
+                disabled={!filterValue}
                 size="small"
               >
                 Apply

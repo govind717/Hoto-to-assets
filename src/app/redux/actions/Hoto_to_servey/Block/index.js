@@ -32,27 +32,16 @@ import { hoto_apis } from "app/Apis/hoto_assest";
 import { oandmApis } from "app/Apis/O&M";
 
 export const hoto_block_asset_partfolio_data_disptach = function (
-  {
-    page = 1,
-    search_value = "",
-    search_field = "",
-    sort = "",
-    sortBy = "",
-  } = {},
+  { page = 1, search_value = "", sort = "", sortBy = "", filters ={}} = {},
   package_name
 ) {
   return async (dispatch) => {
     try {
-      const filters = {
-        "equipment_details.location_type": "block",
-      };
-
-      if (search_field && search_value) {
-        filters[search_field] = search_value;
-      }
       const body = {
-        filters,
-
+        filters: {
+          "equipment_details.location_type": "block",
+          ...filters,
+        },
         searchFields: {
           string: [
             "equipment_name",
@@ -68,6 +57,7 @@ export const hoto_block_asset_partfolio_data_disptach = function (
           boolean: [],
         },
       };
+      console.log("body : ",body);
       dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_DATA_REQUEST });
 
       const response = await Axios.post(
