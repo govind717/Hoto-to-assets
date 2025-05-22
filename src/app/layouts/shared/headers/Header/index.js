@@ -111,8 +111,8 @@ const Header = () => {
                         <SearchIcon fontSize={"small"}/>
                     </JumboIconButton>
                 }
-                <MessagesDropdown/>
-                <NotificationsDropdown/>
+                {/* <MessagesDropdown/>
+                <NotificationsDropdown/> */}
                 <AuthUserDropdown/>
             </Stack>
         </React.Fragment>

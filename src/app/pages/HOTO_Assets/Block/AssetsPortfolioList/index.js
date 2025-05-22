@@ -1,21 +1,11 @@
 import Div from "@jumbo/shared/Div";
-import { LoadingButton } from "@mui/lab";
 import SearchIcon from "@mui/icons-material/Search";
 import {
-  Autocomplete,
   Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
   InputAdornment,
-  InputLabel,
-  MenuItem,
   Modal,
   Pagination,
   Paper,
-  Select,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -24,26 +14,19 @@ import {
   TableRow,
   TableSortLabel,
   TextField,
-  Typography,
 } from "@mui/material";
+import FilterModel from "app/Components/FilterModel";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import { hoto_block_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import { Axios } from "index";
+import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
-import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import Swal from "sweetalert2";
-import { debounce } from "lodash";
-import {
-  hoto_block_asset_partfolio_data_disptach,
-  hoto_block_asset_partfolio_data_disptach_search_filter,
-} from "app/redux/actions/Hoto_to_servey/Block";
-import { Axios } from "index";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import { BorderColor } from "@mui/icons-material";
-import FullScreenLoader from "app/pages/Components/Loader";
+import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import DownloadFullEquipmentExcel from "./DownloadExcel/DownloadExcel";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import CloseFilterIcon from "@mui/icons-material/Close";
-import FilterModel from "app/Components/FilterModel";
+import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -83,12 +66,11 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [toggle, setToggle] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-  const [filters,setFilters]=useState({});
-  const [applyFilter,setApplyFilter]=useState(false);
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
   const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);
   };
-  console.log("applyFilter", filters);
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -108,6 +90,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
@@ -136,7 +119,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data,applyFilter, toggle, dispatch]);
+  }, [
+    sort,
+    page,
+    sortBy,
+    packageNoDataReducer?.data,
+    applyFilter,
+    toggle,
+    dispatch,
+  ]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -291,6 +282,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    filters: filters,
                   },
                   packageNoDataReducer?.data
                 )
@@ -436,6 +428,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=equipment_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -494,13 +488,21 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Serial No.
                   </TableSortLabel>
-                  <FilterModel label="Filter Serial No" />
+                  <FilterModel
+                    label="Filter Serial No"
+                    field="serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
               <TableCell
                 align="left"
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
@@ -512,13 +514,21 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Location
                   </TableSortLabel>
-                  <FilterModel label="Filter Block Location" />
+                  <FilterModel
+                    label="Filter Block Location"
+                    field="equipment_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
               <TableCell
                 align="left"
-                sx={{ ...tableCellSx, minWidth: "140px" }}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
@@ -530,7 +540,16 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Code
                   </TableSortLabel>
-                  <FilterModel label="Filter Block Code" />
+                  <FilterModel
+                    label="Filter Block Code"
+                    field="equipment_details?.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=equipment_details?.location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                  {/* {console.log("filters bock code", filters)} */}
                 </Box>
               </TableCell>
 
@@ -566,7 +585,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Condition
                   </TableSortLabel>
-                  <FilterModel label="Filter Condition" />
+                  <FilterModel
+                    label="Filter Condition"
+                    field="condition"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=condition&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>

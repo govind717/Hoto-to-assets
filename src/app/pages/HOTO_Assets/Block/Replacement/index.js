@@ -1,6 +1,7 @@
 import Div from "@jumbo/shared/Div";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
   InputAdornment,
   Pagination,
@@ -49,6 +50,9 @@ const ReplacementList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
+
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -68,6 +72,7 @@ const ReplacementList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
@@ -93,11 +98,12 @@ const ReplacementList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
 
   return (
     <>
@@ -118,6 +124,7 @@ const ReplacementList = () => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    filters: filters,
                   },
                   packageNoDataReducer?.data
                 )
@@ -147,100 +154,173 @@ const ReplacementList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`replacementId`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Replacement ID
-                </TableSortLabel>
-                <FilterModel label="Filter Replacement ID" />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`replacementId`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Replacement ID
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Replacement ID"
+                    field="replacementId"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/replacement/filter-dropdown?filter_field=replacementId&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`issueDate`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Request Date
-                </TableSortLabel>
-                <FilterModel label="Filter Request Date" />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`issueDate`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Request Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Request Date"
+                    field="issueDate"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/replacement/filter-dropdown?filter_field=issueDate&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`block_asset_details.equipment_name`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Equipment
-                </TableSortLabel>
-                <FilterModel label="Filter Equipment" />
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`serialNumber`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Serial No.
-                </TableSortLabel>
-                <FilterModel label="Filter  Serial No." />
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      `block_asset_details.equipment_details.location_name`
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location
-                </TableSortLabel>
-                <FilterModel label="Filter  Location" />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(`block_asset_details.equipment_name`)
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Equipment
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="block_asset_details.equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/replacement/filter-dropdown?filter_field=block_asset_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      `block_asset_details.equipment_details.location_code`
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location Code
-                </TableSortLabel>
-                <FilterModel label="Filter   Location Code" />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`serialNumber`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Serial No.
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter  Serial No."
+                    field="serialNumber"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/replacement/filter-dropdown?filter_field=serialNumber&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `block_asset_details.equipment_details.location_name`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter  Location"
+                    field="block_asset_details.equipment_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/replacement/filter-dropdown?filter_field=block_asset_details.equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `block_asset_details.equipment_details.location_code`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter   Location Code"
+                    field="block_asset_details.equipment_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/replacement/filter-dropdown?filter_field=block_asset_details.equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
 
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "290px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`replacementReason`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Replacement Reason
-                </TableSortLabel>
-                <FilterModel label="Filter Replacement Reason" />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`replacementReason`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Replacement Reason
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Replacement Reason"
+                    field="replacementReason"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/replacement/filter-dropdown?filter_field=replacementReason&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
@@ -252,14 +332,24 @@ const ReplacementList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "160px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`dueDate`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Due Date
-                </TableSortLabel>
-                <FilterModel label="Filter  Due Date" />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`dueDate`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Due Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter  Due Date"
+                    field="dueDate"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/replacement/filter-dropdown?filter_field=dueDate&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
@@ -267,38 +357,45 @@ const ReplacementList = () => {
               >
                 Initiated By
               </TableCell>
-              <FilterModel label="Filter Initiated By" />
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 New Serial No.
               </TableCell>
-              <FilterModel label="Filter   New Serial No." />
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "290px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`replacementStatus`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Replacement Status
-                </TableSortLabel>
-                <FilterModel label="Filter  Replacement Status" />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`replacementStatus`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Replacement Status
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter  Replacement Status"
+                    field="replacementStatus"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/replacement/filter-dropdown?filter_field=replacementStatus&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Document
               </TableCell>
-              <FilterModel label="Filter  Document" />
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 Remark
               </TableCell>
-              <FilterModel label="Filter  Remark" />
             </TableRow>
           </TableHead>
           <TableBody>
