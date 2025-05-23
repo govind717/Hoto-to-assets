@@ -283,13 +283,14 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
             width: 10,
             height: 10,
             borderRadius: "50%",
+            
             backgroundColor: colorsMap[item.name] || "#ccc",
           }}
         />
-        <Typography variant="body2" sx={{ color: "#000" }}>
+        <Typography variant="body2" sx={{ color: "#000",cursor:"pointer"}}>
           {item.value}
         </Typography>
-        <Typography variant="body2" sx={{ color: "#000" }}>
+        <Typography variant="body2" sx={{ color: "#000" ,cursor:"pointer"}}>
           {item.name}
         </Typography>
       </Box>
@@ -420,6 +421,7 @@ const ConditionStatusChart2 = () => {
     navigate("/dashboards/hoto-survey-gp-data", {
       state: {
         "equipment_details.location_name": selectedGP?.location_name,
+         "equipment_details.block.name": selectedBlock,
         condition: item.name?.toLowerCase(),
       },
     });
