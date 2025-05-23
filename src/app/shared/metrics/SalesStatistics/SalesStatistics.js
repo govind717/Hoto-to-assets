@@ -64,11 +64,11 @@ const SalesStatistics = () => {
         </Div>
       </Grid>
 
-      <Grid item xs={12} md={12}>
+      {/* <Grid item xs={12} md={12}>
         <Div sx={{ p: 2, px: 0 }}>
           <AssetConditionByTypeChart/>
         </Div>
-      </Grid>
+      </Grid> */}
 
       {/* <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>

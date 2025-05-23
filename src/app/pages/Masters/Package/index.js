@@ -2,8 +2,9 @@ import React from 'react';
 
 import Box from '@mui/material/Box';
 
-import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
+
 import PackageList from './PackageList/PackageList';
+import HotoHeader from 'app/Components/HotoHeader';
 
 const Package = () => {
     const [value, setValue] = React.useState('1');
@@ -14,7 +15,7 @@ const Package = () => {
 
     return (
       <Box>
-        <HotoHeader2 />
+        <HotoHeader />
         <PackageList />
       </Box>
     );

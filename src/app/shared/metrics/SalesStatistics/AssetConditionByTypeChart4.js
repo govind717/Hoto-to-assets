@@ -96,15 +96,11 @@ const AssetConditionByTypeChart4 = () => {
           {
             type: equipment,
             Robust:
-              (responseData.find((item) => item._id.condition === "Good")
-                ?.count || 0) +
-              (responseData.find((item) => item._id.condition === "OK")
-                ?.count || 0),
+              responseData.find((item) => item._id.condition === "robust")
+                ?.count || 0,
             Damaged:
-              (responseData.find((item) => item._id.condition === "Damage")
-                ?.count || 0) +
-              (responseData.find((item) => item._id.condition === "Bad")
-                ?.count || 0),
+              responseData.find((item) => item._id.condition === "damaged")
+                ?.count || 0,
             // "Not Found":
             //   responseData.find((item) => item._id.condition === null)?.count ||
             //   0,

@@ -84,7 +84,6 @@ const SupplierList = () => {
   const [selectedContacts, setSelectedContacts] = useState([]);
 
   const { supplierDataReducer } = useSelector((state) => state);
-   console.log("supplierDataReducer : ", supplierDataReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -562,8 +561,6 @@ const SupplierList = () => {
                     Email
                   </TableSortLabel>
                 </TableCell>
-              
-              
               </TableRow>
             </TableHead>
             <TableBody>
@@ -574,15 +571,14 @@ const SupplierList = () => {
                       {index + 1}
                     </TableCell>
                     <TableCell align="left" sx={{ ...commonCellStyle }}>
-                      {ele?.supplierName || "-"}
+                      {ele?.firstName + " " + ele?.lastName || "-"}
+                    </TableCell>
+                    <TableCell align="left" sx={{ ...commonCellStyle }}>
+                      {ele?.mobileNumber || "-"}
                     </TableCell>
                     <TableCell align="left" sx={{ ...commonCellStyle }}>
                       {ele?.email || "-"}
                     </TableCell>
-                    <TableCell align="left" sx={{ ...commonCellStyle }}>
-                      {ele?.phoneNumber || "-"}
-                    </TableCell>
-                   
                   </TableRow>
                 ))
               ) : (

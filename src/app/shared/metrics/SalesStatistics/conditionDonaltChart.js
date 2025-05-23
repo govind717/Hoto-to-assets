@@ -64,10 +64,11 @@ const ConditionStatusChart = () => {
   const [gps, setGps] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [conditionData, setConditionData] = useState([]);
-   const { packageNoDataReducer } = useSelector((state) => state);
- useEffect(() => {
-  setSelectedBlock("")
- }, [packageNoDataReducer?.data]);
+  const { packageNoDataReducer } = useSelector((state) => state);
+  const [notFoundCount, setNotFoundCount] = useState(0);
+  useEffect(() => {
+    setSelectedBlock("");
+  }, [packageNoDataReducer?.data]);
   // Fetch initial blocks
   useEffect(() => {
     Axios.get(
@@ -79,28 +80,28 @@ const ConditionStatusChart = () => {
 
   // Helper function to process and fill missing data
   const processFetchedData = (fetchedData) => {
-    const conditionMap = fetchedData.reduce((acc, item) => {
-      acc[item._id.condition] = item.count;
+    const conditionMap = fetchedData?.reduce((acc, item) => {
+      acc[item._id?.toLowerCase()] = item.count;
       return acc;
     }, {});
 
-    // Create custom aggregations
     const finalData = [
       {
         name: "Robust",
-        value: (conditionMap["Good"] || 0) + (conditionMap["OK"] || 0),
+        value: conditionMap["robust"] || 0,
       },
       {
         name: "Damaged",
-        value: (conditionMap["Damaged"] || 0) + (conditionMap["Bad"] || 0),
+        value: conditionMap["damaged"] || 0,
       },
+      // Uncomment if you want to show these as 0 always:
       // {
       //   name: "Semi-Damaged",
-      //   value: 0, // Always show 0 as required
+      //   value: 0,
       // },
       // {
-      //   name: "Not Found",
-      //   value: conditionMap[null] || 0, // Always show 0 as required
+      //   name: "Missing",
+      //   value: conditionMap["missing"] || 0,
       // },
     ];
 
@@ -119,7 +120,10 @@ const ConditionStatusChart = () => {
       : `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`;
 
     Axios.get(endpoint)
-      .then((result) => processFetchedData(result?.data?.result))
+      .then((result) => {
+        processFetchedData(result?.data?.result[0]?.available);
+        setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+      })
       .catch((err) => console.log("Error : ", err));
 
     if (newValue) {
@@ -138,13 +142,19 @@ const ConditionStatusChart = () => {
       Axios.get(
         `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${packageNoDataReducer?.data}`
       )
-        .then((result) => processFetchedData(result?.data?.result))
+        .then((result) => {
+          processFetchedData(result?.data?.result[0]?.available);
+          setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+        })
         .catch((err) => console.log("Error : ", err));
     } else {
       Axios.get(
         `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&package_name=${packageNoDataReducer?.data}`
       )
-        .then((result) => processFetchedData(result?.data?.result))
+        .then((result) => {
+          processFetchedData(result?.data?.result[0]?.available);
+          setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+        })
         .catch((err) => console.log("Error : ", err));
     }
   };
@@ -154,7 +164,10 @@ const ConditionStatusChart = () => {
     Axios.get(
       `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`
     )
-      .then((result) => processFetchedData(result?.data?.result))
+      .then((result) => {
+        processFetchedData(result?.data?.result[0]?.available);
+        setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+      })
       .catch((err) => console.log("Error : ", err));
   }, [packageNoDataReducer?.data]);
 
@@ -169,7 +182,14 @@ const ConditionStatusChart = () => {
           alignItems="center"
           mb={1}
         >
-          <Typography variant="h6">Block Total Assets</Typography>
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: "500" }}>
+              GP Total Assets
+            </Typography>
+            <Typography sx={{ fontWeight: 400 }}>
+              {notFoundCount || 0} Not Found
+            </Typography>
+          </Box>
           <Box display="flex" gap={2}>
             <Autocomplete
               sx={{ minWidth: "200px" }}

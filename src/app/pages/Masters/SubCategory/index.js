@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
 import SubCategoryList from './SubCategoryList/SubCategoryList';
+import HotoHeader from 'app/Components/HotoHeader';
 
 const SubCategory = () => {
     const [value, setValue] = React.useState('1');
@@ -13,7 +13,7 @@ const SubCategory = () => {
 
     return (
       <Box>
-        <HotoHeader2 />
+        <HotoHeader/>
         <SubCategoryList />
       </Box>
     );

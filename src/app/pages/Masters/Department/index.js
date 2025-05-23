@@ -1,11 +1,8 @@
 import React from 'react';
 
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
+import HotoHeader from 'app/Components/HotoHeader';
 import DepartmentList from './DepartmentList/DepartmentList';
-import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
 
 const Department = () => {
     const [value, setValue] = React.useState('1');
@@ -16,7 +13,7 @@ const Department = () => {
 
     return (
       <Box>
-        <HotoHeader2 />
+        <HotoHeader/>
         <DepartmentList />
       </Box>
     );

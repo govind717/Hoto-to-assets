@@ -16,6 +16,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import HotoHeader from "app/Components/HotoHeader";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { uom_data_dispatch } from "app/redux/actions/Master";
@@ -148,6 +149,7 @@ const UOMList = () => {
   };
   return (
     <>
+    <HotoHeader/>
       {uomDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField

@@ -1,12 +1,8 @@
 import React from 'react';
 
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
 
-import HotoHeader from 'app/pages/Hoto_to_Assets/HotoHeader';
+import HotoHeader from 'app/Components/HotoHeader';
 import GSTList from './HSNCodeList/HSNCodeList';
 
 const HSNCode = () => {

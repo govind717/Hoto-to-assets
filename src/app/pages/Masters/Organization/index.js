@@ -1,8 +1,9 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
+
 import OrganizationList from './OrganizationList/OrganizationList';
+import HotoHeader from 'app/Components/HotoHeader';
 
 const Organization = () => {
     const [value, setValue] = React.useState('1');
@@ -13,7 +14,7 @@ const Organization = () => {
 
     return (
       <Box>
-        <HotoHeader2 />
+        <HotoHeader/>
         <OrganizationList />
       </Box>
     );

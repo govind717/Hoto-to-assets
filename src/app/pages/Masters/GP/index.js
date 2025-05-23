@@ -2,7 +2,7 @@ import React from 'react';
 
 import Box from '@mui/material/Box';
 
-import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
+import HotoHeader from 'app/Components/HotoHeader';
 import GPList from './GPList/GPList';
 
 const GP = () => {
@@ -14,7 +14,7 @@ const GP = () => {
 
     return (
       <Box>
-        <HotoHeader2 />
+        <HotoHeader />
         <GPList />
       </Box>
     );

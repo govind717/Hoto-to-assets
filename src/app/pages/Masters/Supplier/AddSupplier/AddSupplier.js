@@ -1,13 +1,12 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab, Typography } from "@mui/material";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
-import { useState } from "react";
-import SupplierDetails from "./SupplierDetails";
-import { useLocation } from "react-router-dom";
+
+import HotoHeader from "app/Components/HotoHeader";
 import { SUPPLIER_MASTER_EDIT } from "app/utils/constants/routeConstants";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import BranchDetails from "./BranchDetails";
-import Material from "./Material";
-import KYC from "./KYC";
+import SupplierDetails from "./SupplierDetails";
 function AddSupplier() {
   const [value, setValue] = useState("1");
   const { state, pathname } = useLocation();
@@ -39,7 +38,7 @@ function AddSupplier() {
   
   return (
     <>
-      <HotoHeader />
+      <HotoHeader/>
       <Box sx={{ width: "100%", typography: "body1", mt: 1 }}>
         <Typography variant="h3" fontWeight={600} mt={2}>
           {pathname === SUPPLIER_MASTER_EDIT ? "Edit Supplier" : "Add Supplier"}

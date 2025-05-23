@@ -7,7 +7,8 @@ import {
   TextField,
   Typography
 } from "@mui/material";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import HotoHeader from "app/Components/HotoHeader";
+
 import { addPackage, updatePackage } from "app/services/apis/master";
 import {
   PACKAGE_MASTER,
@@ -102,7 +103,7 @@ function AddPackage() {
 
   return (
     <>
-      <HotoHeader />
+      <HotoHeader/>
       <Div sx={{ mt: 0 }}>
         <Div>
           <Formik
