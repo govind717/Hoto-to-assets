@@ -397,7 +397,7 @@ const MaintainanceList = () => {
                   >
                     ETA
                   </TableSortLabel>
-                 
+
                 </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -590,18 +590,18 @@ const MaintainanceList = () => {
                           sx={{
                             backgroundColor:
                               ele?.assets_details?.condition?.toUpperCase() ===
-                              "DAMAGED"
+                                "DAMAGED"
                                 ? Red
                                 : ele?.assets_details?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
-                                ? Yellow
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "ROBUST"
-                                ? Green
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "MISSING"
-                                ? Orange
-                                : "",
+                                  ? Yellow
+                                  : ele?.assets_details?.condition?.toUpperCase() ===
+                                    "ROBUST"
+                                    ? Green
+                                    : ele?.assets_details?.condition?.toUpperCase() ===
+                                      "MISSING"
+                                      ? Orange
+                                      : "",
                             color: "#FFF",
                             fontWeight: "bold",
                             fontSize: "14",
@@ -617,8 +617,23 @@ const MaintainanceList = () => {
                           verticalAlign: "middle",
                           textTransform: "capitalize",
                         }}
-                      >
-                        {ele?.assets_details?.condition_status || "-"}
+                      > 
+                        {/* {ele?.assets_details?.condition_status || "-"} */}
+                        <Chip
+                          label={
+                            ele?.assets_details?.condition_status
+                              ? ele?.assets_details?.condition_status?.toUpperCase()
+                              : "-"
+                          }
+                          sx={{
+
+                            color: "#FFF",
+                            fontWeight: "bold",
+                            fontSize: "14",
+                            height: "25px",
+                            px: 2,
+                          }}
+                        />
                       </TableCell>
 
                       <TableCell

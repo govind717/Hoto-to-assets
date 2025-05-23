@@ -2,9 +2,11 @@ import Div from "@jumbo/shared/Div";
 import { LoadingButton } from "@mui/lab";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Box,
   Button,
   Checkbox,
+  FormControl,
   FormControlLabel,
   InputAdornment,
   Modal,
@@ -114,6 +116,28 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     };
   }, [searchTerm]);
 
+  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(null);
+  const filterAvailabilityOptions = [
+    { label: "Yes", value: true },
+    { label: "No", value: false },
+    { label: "All", value: 'all' },
+  ];
+
+
+  const handleAvailabilityChange = (selectedOption) => {
+    setFilterAvailabilityValue(selectedOption);
+    const val = selectedOption?.value;
+    if (val === true) {
+      setFilters((prev) => ({ ...prev, availability: true }))
+    } else if (val === false) {
+      setFilters((prev) => ({ ...prev, availability: false }))
+    } else {
+      const newObj = { ...filters };
+      delete newObj.availability
+      setFilters(newObj);
+    }
+  }
+
   useEffect(() => {
     dispatch(
       hoto_gp_asset_partfolio_data_disptach(
@@ -134,6 +158,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     packageNoDataReducer?.data,
     applyFilter,
     toggle,
+    filterAvailabilityValue,
     dispatch,
   ]);
 
@@ -281,6 +306,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Div  sx={{display:'flex', gap: "2%",flexDirection:'row' }}>
         <TextField
           id="search"
           type="search"
@@ -315,6 +341,23 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             ),
           }}
         />
+         
+        <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+          <Autocomplete
+            disablePortal
+            size="small"
+            options={filterAvailabilityOptions}
+            getOptionLabel={(option) => option?.label || ""}
+            isOptionEqualToValue={(option, value) =>
+              option?.label === value?.label
+            }
+            sx={{ width: 200 }}
+            value={filterAvailabilityValue}
+            onChange={(_, newValue) => handleAvailabilityChange(newValue)}
+            renderInput={(params) => <TextField {...params} label="Select Availability" />}
+          />
+        </FormControl>
+        </Div>
         {selectedIds?.length > 0 && (
           <Div
             sx={{
@@ -636,7 +679,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoGpAssetPortfolioDataReducer?.data.result?.data &&
-            hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
+              hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
                   return (
