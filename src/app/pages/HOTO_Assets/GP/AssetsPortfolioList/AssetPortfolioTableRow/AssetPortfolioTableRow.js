@@ -115,7 +115,7 @@ const AssetPortfolioTableRow = ({
         <TableCell sx={{ ...tableBodyCell  }}>
           {e?.warranty_status ? "Yes" : "No"}
         </TableCell>
-        {/* <TableCell sx={{ ...tableBodyCell }}>
+        <TableCell sx={{ ...tableBodyCell }}>
           <Chip
             label={e?.condition ? e?.condition?.toUpperCase() : "-"}
             sx={{
@@ -136,8 +136,8 @@ const AssetPortfolioTableRow = ({
               px: 2,
             }}
           />
-        </TableCell> */}
-        <TableCell sx={{ ...tableBodyCell }}>
+        </TableCell>
+        {/* <TableCell sx={{ ...tableBodyCell }}>
           {e?.condition !== null ? (
             <Chip
               label={
@@ -176,7 +176,7 @@ const AssetPortfolioTableRow = ({
               }}
             />
           )}
-        </TableCell>
+        </TableCell> */}
         <TableCell sx={{ ...tableBodyCell }}>{e?.issued_for || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
@@ -204,7 +204,7 @@ const AssetPortfolioTableRow = ({
             }}
           />
         </TableCell>
-        {/* <TableCell sx={{ ...tableBodyCell, ...tableRowBodySticky }}>
+        <TableCell sx={{ ...tableBodyCell, ...tableRowBodySticky }}>
           <JumboDdMenu
             icon={<MoreHorizIcon />}
             menuItems={[
@@ -232,7 +232,7 @@ const AssetPortfolioTableRow = ({
             ].filter((ele) => ele?.show)}
             onClickCallback={handleItemAction}
           />
-        </TableCell> */}
+        </TableCell>
       </TableRow>
       <RequestMaintenanceModal
         handleClose={handleCloseModal}

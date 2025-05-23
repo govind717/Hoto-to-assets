@@ -661,7 +661,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              {/* <TableCell
+              <TableCell
                 sx={{
                   ...tableCellSx,
                   textAlign: "center",
@@ -674,7 +674,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 }}
               >
                 Action
-              </TableCell> */}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
