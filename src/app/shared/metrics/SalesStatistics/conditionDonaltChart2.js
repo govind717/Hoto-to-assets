@@ -420,9 +420,10 @@ const ConditionStatusChart2 = () => {
     navigate("/dashboards/hoto-survey-gp-data", {
       state: {
         "equipment_details.location_name": selectedGP?.location_name,
+        "equipment_details.block.name": selectedBlock,
         condition: item.name?.toLowerCase(),
       },
-    });
+    }); 
   }
   return (
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>

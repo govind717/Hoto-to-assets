@@ -1,3 +1,4 @@
+
 import {
   Autocomplete,
   Box,
@@ -9,6 +10,7 @@ import {
 import { Axios } from "index";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Bar,
   BarChart,
@@ -20,19 +22,20 @@ import {
   YAxis,
 } from "recharts";
 
-const CustomLegend = ({ data }) => {
+// CustomLegend component with click handler
+const CustomLegend = ({ data, onLegendClick }) => {
   const legendItems = [
     { name: "Robust", color: "#22CAAD" },
     { name: "Damaged", color: "#F55757" },
-    // { name: "Not Found", color: "#E78F5D" },
-    // { name: "Semi-Damaged", color: "#FDCF2A" }, // Commented as requested
+    // Add more conditions here if needed
   ];
 
   const latestData = data[0] || {};
   let total = 0;
-  legendItems.map((item) => {
-    total = total + latestData[item.name];
+  legendItems.forEach((item) => {
+    total += latestData[item.name] || 0;
   });
+
   return (
     <Box
       display="flex"
@@ -58,7 +61,14 @@ const CustomLegend = ({ data }) => {
         </Typography>
       </Box>
       {legendItems.map((item, index) => (
-        <Box key={index} display="flex" alignItems="center" gap={1}>
+        <Box
+          key={index}
+          display="flex"
+          alignItems="center"
+          gap={1}
+          sx={{ cursor: "pointer" }}
+          onClick={() => onLegendClick?.(item.name)}
+        >
           <Box
             sx={{
               width: 12,
@@ -76,7 +86,7 @@ const CustomLegend = ({ data }) => {
   );
 };
 
-const AssetConditionByTypeChart = () => {
+const AssetConditionByTypeChart4 = () => {
   const [selectedBlock, setSelectedBlock] = useState("");
   const [selectedGP, setSelectedGP] = useState(null);
   const [selectedEquipment, setSelectedEquipment] = useState("CCU");
@@ -86,28 +96,14 @@ const AssetConditionByTypeChart = () => {
   const [chartData, setChartData] = useState([]);
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
+  const navigate=useNavigate();
   const fetchData = (equipment, block = "", gp = "") => {
     Axios.get(
-      `/hoto-to-assets/equipment/fetch-equipments-by-block-and-gp?equipment_name=${equipment}&package_name=${packageNoDataReducer?.data}&block_name=${block}&gp_name=${gp}`
+      `/hoto-to-assets/equipment/fetch-equipments-by-block-and-gp-for-block?equipment_name=${equipment}&package_name=${packageNoDataReducer?.data}&block_name=${block}&gp_name=${gp}`
     )
       .then((result) => {
-        const responseData = result?.data?.result[0]?.available;
+        const responseData = result?.data?.result[0]?.available || [];
 
-        // const transformedData = [
-        //   {
-        //     type: equipment,
-        //     Robust:
-        //       responseData.find((item) => item._id.condition === "robust")
-        //         ?.count || 0,
-        //     Damaged:
-        //       responseData.find((item) => item._id.condition === "damaged")
-        //         ?.count || 0,
-        //     // "Not Found":
-        //     //   responseData.find((item) => item._id.condition === null)?.count ||
-        //     //   0,
-        //     // "Semi-Damaged": 0, // Commented out as requested
-        //   },
-        // ];
         const transformedData = [
           {
             type: equipment,
@@ -118,7 +114,7 @@ const AssetConditionByTypeChart = () => {
           },
         ];
         setChartData(transformedData);
-        setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+        setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count || 0);
       })
       .catch((err) => console.error("Error fetching chart data:", err));
   };
@@ -131,12 +127,14 @@ const AssetConditionByTypeChart = () => {
     Axios.get("/hoto-to-assets/equipment/dropdown-equipments").then(
       (response) => setEquipmentTypes(response?.data?.result)
     );
+
     fetchData(selectedEquipment);
   }, [packageNoDataReducer?.data]);
 
   useEffect(() => {
     setSelectedBlock("");
   }, [packageNoDataReducer?.data]);
+
   const handleEquipmentChange = (_, newValue) => {
     if (newValue) {
       setSelectedEquipment(newValue);
@@ -161,6 +159,31 @@ const AssetConditionByTypeChart = () => {
     fetchData(selectedEquipment, selectedBlock, newValue?.location_name);
   };
 
+  // Legend click handler
+  const handleLegendClick = (conditionName) => {
+    if (conditionName === "Not Found"){
+      navigate("/dashboards/hoto-survey-block-data", {
+        state: {
+          equipment_name: selectedEquipment,
+          "equipment_details.location_name": selectedGP?.location_name,
+          "equipment_details.block.name": selectedBlock,
+          availability:false
+          // condition: conditionName?.toLowerCase(),
+        },
+      }); 
+    }else{
+      navigate("/dashboards/hoto-survey-block-data", {
+        state: {
+          equipment_name: selectedEquipment,
+          "equipment_details.location_name": selectedGP?.location_name,
+          "equipment_details.block.name": selectedBlock,
+          condition: conditionName?.toLowerCase(),
+        },
+      }); 
+    }
+    
+  };
+
   return (
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
@@ -172,9 +195,12 @@ const AssetConditionByTypeChart = () => {
         >
           <Box>
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
-              Block POP Asset Condition
+              GP POP Asset Condition
             </Typography>
-            <Typography sx={{ fontWeight: 400 }}>
+            <Typography
+              sx={{ fontWeight: 400, cursor: "pointer" }}
+              onClick={() => handleLegendClick("Not Found")}
+            >
               {notFoundCount || 0} Not Found
             </Typography>
           </Box>
@@ -221,10 +247,16 @@ const AssetConditionByTypeChart = () => {
             <YAxis />
             <CartesianGrid stroke="#ccc" vertical={false} />
             <Tooltip cursor={{ fill: "transparent" }} />
-            <Legend content={<CustomLegend data={chartData} />} />
+            <Legend
+              content={
+                <CustomLegend
+                  data={chartData}
+                  onLegendClick={handleLegendClick}
+                />
+              }
+            />
             <Bar dataKey="Robust" fill="#22CAAD" barSize={30} />
             <Bar dataKey="Damaged" fill="#F55757" barSize={30} />
-            {/* <Bar dataKey="Not Found" fill="#E78F5D" barSize={30} /> */}
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
@@ -232,4 +264,4 @@ const AssetConditionByTypeChart = () => {
   );
 };
 
-export default AssetConditionByTypeChart;
+export default AssetConditionByTypeChart4;

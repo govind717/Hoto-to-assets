@@ -71,7 +71,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [toggle,setToggle]=useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(state ? { ...state } : {});
   const [applyFilter, setApplyFilter] = useState(false);
   const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);

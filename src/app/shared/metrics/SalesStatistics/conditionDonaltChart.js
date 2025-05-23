@@ -116,8 +116,8 @@ const ConditionStatusChart = () => {
     setGps([]);
 
     const endpoint = newValue
-      ? `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${newValue}&package_name=${packageNoDataReducer?.data}`
-      : `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`;
+      ? `/hoto-to-assets/equipment/fetch-block-and-gp-equipments-for-block?block_name=${newValue}&package_name=${packageNoDataReducer?.data}`
+      : `/hoto-to-assets/equipment/fetch-block-and-gp-equipments-for-block?package_name=${packageNoDataReducer?.data}`;
 
     Axios.get(endpoint)
       .then((result) => {
@@ -140,7 +140,7 @@ const ConditionStatusChart = () => {
     setSelectedGP(newValue);
     if (newValue) {
       Axios.get(
-        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${packageNoDataReducer?.data}`
+        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments-for-block?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${packageNoDataReducer?.data}`
       )
         .then((result) => {
           processFetchedData(result?.data?.result[0]?.available);
@@ -149,7 +149,7 @@ const ConditionStatusChart = () => {
         .catch((err) => console.log("Error : ", err));
     } else {
       Axios.get(
-        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&package_name=${packageNoDataReducer?.data}`
+        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments-for-block?block_name=${selectedBlock}&package_name=${packageNoDataReducer?.data}`
       )
         .then((result) => {
           processFetchedData(result?.data?.result[0]?.available);
@@ -162,7 +162,7 @@ const ConditionStatusChart = () => {
   // Initial load of all equipment
   useEffect(() => {
     Axios.get(
-      `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`
+      `/hoto-to-assets/equipment/fetch-block-and-gp-equipments-for-block?package_name=${packageNoDataReducer?.data}`
     )
       .then((result) => {
         processFetchedData(result?.data?.result[0]?.available);
