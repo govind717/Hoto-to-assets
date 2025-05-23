@@ -426,6 +426,17 @@ const ConditionStatusChart2 = () => {
       },
     });
   }
+
+    const handleNotFoundClick = () => {
+    navigate("/dashboards/hoto-survey-gp-data", {
+      state: {
+        "equipment_details.location_name": selectedGP?.location_name,
+         "equipment_details.block.name": selectedBlock,
+        "availability": true,
+      },
+    });
+  }
+
   return (
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
       <CardContent>
@@ -439,7 +450,7 @@ const ConditionStatusChart2 = () => {
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
               GP Total Assets
             </Typography>
-            <Typography sx={{ fontWeight: 400 }}>
+           <Typography sx={{ fontWeight: 400,cursor: "pointer" }} onNotFoundClick={handleNotFoundClick}>
               {notFoundCount || 0} Not Found
             </Typography>
           </Box>
