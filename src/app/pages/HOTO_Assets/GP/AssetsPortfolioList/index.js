@@ -32,6 +32,7 @@ import { BorderColor } from "@mui/icons-material";
 import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
 import FullScreenLoader from "app/pages/Components/Loader";
 import FilterModel from "app/Components/FilterModel";
+import { useLocation } from "react-router-dom";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -63,6 +64,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   );
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const {state}=useLocation();
+  console.log("this is gp state : ",state);
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,7 +75,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
 
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(state ? { ...state } : {});
   const [applyFilter, setApplyFilter] = useState(false);
 
   const handleOpenDetailModal = (rowDetails) => {

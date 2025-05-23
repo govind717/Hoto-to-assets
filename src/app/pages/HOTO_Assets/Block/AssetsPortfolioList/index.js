@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
+import { useLocation } from "react-router-dom";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -58,7 +59,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const hotoBlockAssetPortfolioDataReducer = useSelector(
     (state) => state?.hotoBlockAssetPortfolioDataReducer
   );
-
+  const { state }=useLocation();
+  console.log("this is State : ", state);
   const dispatch = useDispatch();
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");

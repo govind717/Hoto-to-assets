@@ -242,6 +242,7 @@ import {
 import { Axios } from "index";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const colorsMap = {
@@ -251,7 +252,7 @@ const colorsMap = {
   // "Not Found": "#E78F5D",
 };
 
-const CustomLegend = ({ total, data }) => (
+const CustomLegend = ({ total, data, onConditionClick }) => (
   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
     <Box display="flex" alignItems="center" gap={1}>
       <Box
@@ -270,7 +271,13 @@ const CustomLegend = ({ total, data }) => (
       </Typography>
     </Box>
     {data.map((item, index) => (
-      <Box key={index} display="flex" alignItems="center" gap={1}>
+      <Box
+        key={index}
+        display="flex"
+        alignItems="center"
+        gap={1}
+        onClick={() => onConditionClick(item)}
+      >
         <Box
           sx={{
             width: 10,
@@ -299,6 +306,7 @@ const ConditionStatusChart2 = () => {
   const [conditionData, setConditionData] = useState([]);
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount,setNotFoundCount]=useState(0);
+  const navigate=useNavigate();
   useEffect(() => {
     setSelectedBlock("");
   }, [packageNoDataReducer?.data]);
@@ -408,7 +416,14 @@ const ConditionStatusChart2 = () => {
   }, [packageNoDataReducer?.data]);
 
   const total = originalData.reduce((sum, item) => sum + item.value, 0);
-
+  const handleConditionClick =(item)=>{
+    navigate("/dashboards/hoto-survey-gp-data", {
+      state: {
+        "equipment_details.location_name": selectedGP?.location_name,
+        condition: item.name?.toLowerCase(),
+      },
+    });
+  }
   return (
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
       <CardContent>
@@ -422,7 +437,9 @@ const ConditionStatusChart2 = () => {
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
               GP Total Assets
             </Typography>
-            <Typography sx={{fontWeight:400}}>{notFoundCount || 0} Not Found</Typography>
+            <Typography sx={{ fontWeight: 400 }}>
+              {notFoundCount || 0} Not Found
+            </Typography>
           </Box>
           <Box display="flex" gap={2}>
             <Autocomplete
@@ -475,7 +492,11 @@ const ConditionStatusChart2 = () => {
           </PieChart>
         </ResponsiveContainer>
 
-        <CustomLegend total={total} data={conditionData} />
+        <CustomLegend
+          total={total}
+          data={conditionData}
+          onConditionClick={handleConditionClick}
+        />
       </CardContent>
     </Card>
   );
