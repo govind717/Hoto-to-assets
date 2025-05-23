@@ -116,7 +116,12 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     };
   }, [searchTerm]);
 
-  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(null);
+   const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(
+    {
+      label: "Yes",
+      value: true,
+    }
+  );
   const filterAvailabilityOptions = [
     { label: "Yes", value: true },
     { label: "No", value: false },

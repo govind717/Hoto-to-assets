@@ -108,23 +108,28 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     };
   }, [searchTerm]);
 
-  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(null);
-   const filterAvailabilityOptions = [
+  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(
+    {
+      label: "Yes",
+      value: true,
+    }
+  );
+  const filterAvailabilityOptions = [
     { label: "Yes", value: true },
     { label: "No", value: false },
-     { label: "All", value: 'all' },
+    { label: "All", value: 'all' },
   ];
 
-  
-  const handleAvailabilityChange  = (selectedOption)=>{
-     setFilterAvailabilityValue(selectedOption);
-     const val = selectedOption?.value;
-    if(val===true){
-      setFilters((prev)=>({...prev,availability:true}))
-    } else if(val===false){
-      setFilters((prev)=>({...prev,availability:false}))
-    } else{
-      const newObj={...filters};
+
+  const handleAvailabilityChange = (selectedOption) => {
+    setFilterAvailabilityValue(selectedOption);
+    const val = selectedOption?.value;
+    if (val === true) {
+      setFilters((prev) => ({ ...prev, availability: true }))
+    } else if (val === false) {
+      setFilters((prev) => ({ ...prev, availability: false }))
+    } else {
+      const newObj = { ...filters };
       delete newObj.availability
       setFilters(newObj);
     }
@@ -290,60 +295,60 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
 
 
 
- 
+
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between", }}>
-        <Div  sx={{display:'flex', gap: "2%",flexDirection:'row' }}>
-        <TextField
-          id="search"
-          type="search"
-          label="Search"
-          value={searchTerm}
-          size="small"
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            if (e.target.value === "") {
-              dispatch(
-                hoto_block_asset_partfolio_data_disptach(
-                  {
-                    sortBy: sortBy,
-                    search_value: "",
-                    sort: sort,
-                    page: page,
-                    filters: filters,
-                  },
-                  packageNoDataReducer?.data
-                )
-              );
-            }
-          }}
-          sx={{ width: 300, my: "2%" }}
-          InputProps={{
-            endAdornment: (
-              <Div sx={{ cursor: "pointer" }}>
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              </Div>
-            ),
-          }}
-        />
-        <FormControl fullWidth size="small" sx={{ my: "2%" }}>
-          <Autocomplete
-            disablePortal
+        <Div sx={{ display: 'flex', gap: "2%", flexDirection: 'row' }}>
+          <TextField
+            id="search"
+            type="search"
+            label="Search"
+            value={searchTerm}
             size="small"
-            options={filterAvailabilityOptions}
-            getOptionLabel={(option) => option?.label || ""}
-            isOptionEqualToValue={(option, value) =>
-              option?.label === value?.label
-            }
-            sx={{ width: 200 }}
-            value={filterAvailabilityValue}
-            onChange={(_, newValue) => handleAvailabilityChange (newValue)}
-            renderInput={(params) => <TextField {...params} label="Select Availability" />}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              if (e.target.value === "") {
+                dispatch(
+                  hoto_block_asset_partfolio_data_disptach(
+                    {
+                      sortBy: sortBy,
+                      search_value: "",
+                      sort: sort,
+                      page: page,
+                      filters: filters,
+                    },
+                    packageNoDataReducer?.data
+                  )
+                );
+              }
+            }}
+            sx={{ width: 300, my: "2%" }}
+            InputProps={{
+              endAdornment: (
+                <Div sx={{ cursor: "pointer" }}>
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                </Div>
+              ),
+            }}
           />
-        </FormControl>
+          <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={filterAvailabilityOptions}
+              getOptionLabel={(option) => option?.label || ""}
+              isOptionEqualToValue={(option, value) =>
+                option?.label === value?.label
+              }
+              sx={{ width: 200 }}
+              value={filterAvailabilityValue}
+              onChange={(_, newValue) => handleAvailabilityChange(newValue)}
+              renderInput={(params) => <TextField {...params} label="Select Availability" />}
+            />
+          </FormControl>
         </Div>
         <Div sx={{ my: "2%" }}>
           <DownloadFullEquipmentExcel
