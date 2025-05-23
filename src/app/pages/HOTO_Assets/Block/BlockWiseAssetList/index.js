@@ -4,6 +4,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
   IconButton,
   InputAdornment,
@@ -28,6 +29,7 @@ import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { hoto_block_wise_asset_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
+import FilterModel from "app/Components/FilterModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -55,6 +57,9 @@ const BlockWiseAssetList = () => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
@@ -98,6 +103,7 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
@@ -116,6 +122,7 @@ const BlockWiseAssetList = () => {
   }, [searchTerm]);
 
   useEffect(() => {
+    console.log("THis is useEffect blockwoise ");
     dispatch(
       hoto_block_wise_asset_data_disptach(
         {
@@ -123,11 +130,12 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
 
   const showDetails = (data) => {
     navigate("/dashboards/hoto-survey-block-data/block-wise-details", {
@@ -154,6 +162,7 @@ const BlockWiseAssetList = () => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    filters: filters,
                   },
                   packageNoDataReducer?.data
                 )
@@ -180,40 +189,85 @@ const BlockWiseAssetList = () => {
                 Sr No
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`block.name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Block
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`block.name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Block
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block "
+                    field="block.name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/block-wise/filter-dropdown?filter_field=block.name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`block_id`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Block Code
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`block.code`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Block Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block Code"
+                    field="block.code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/block-wise/filter-dropdown?filter_field=block.code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                  {console.log("filters ", filters)}
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`district.name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  District
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`district.name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    District
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter District "
+                    field="district.name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/block-wise/filter-dropdown?filter_field=district.name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`district_id`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  District Code
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`district.code`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    District Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter District Code"
+                    field="district.code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/block-wise/filter-dropdown?filter_field=district.code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
 
               <TableCell

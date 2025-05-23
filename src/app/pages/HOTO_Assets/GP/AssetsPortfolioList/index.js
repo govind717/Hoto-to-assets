@@ -31,6 +31,7 @@ import { orangeSecondary } from "app/pages/Constants/colors";
 import { BorderColor } from "@mui/icons-material";
 import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
 import FullScreenLoader from "app/pages/Components/Loader";
+import FilterModel from "app/Components/FilterModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -71,6 +72,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
 
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
+
   const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);
   };
@@ -94,6 +98,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
@@ -117,11 +122,20 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data, toggle, dispatch]);
+  }, [
+    sort,
+    page,
+    sortBy, 
+    packageNoDataReducer?.data, 
+    applyFilter,
+    toggle,
+    dispatch,
+  ]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -180,6 +194,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             search_value: searchTerm.trim(),
             sort: sort,
             page: page,
+            filters: filters,
           })
         );
         setSelectedIds([]);
@@ -210,6 +225,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             search_value: searchTerm.trim(),
             sort: sort,
             page: page,
+            filters: filters,
           })
         );
         setSelectedIds([]);
@@ -246,6 +262,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               search_value: searchTerm.trim(),
               sort: sort,
               page: page,
+              filters: filters,
             },
             packageNoDataReducer?.data
           )
@@ -280,6 +297,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    filters: filters,
                   },
                   packageNoDataReducer?.data
                 )
@@ -432,6 +450,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Equipment
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
@@ -444,12 +471,21 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Serial No.
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Serial No"
+                    field="serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
               <TableCell
                 align="left"
-                sx={{ ...tableCellSx, minWidth: "150px" }}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
@@ -461,6 +497,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     GP Location
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block Location"
+                    field="equipment_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
@@ -475,6 +520,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     GP Code
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block Code"
+                    field="equipment_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
               <TableCell
@@ -546,6 +600,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Condition
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Condition"
+                    field="condition"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=condition&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>

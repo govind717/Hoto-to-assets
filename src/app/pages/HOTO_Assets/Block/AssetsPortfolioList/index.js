@@ -16,17 +16,18 @@ import {
   TableSortLabel,
   TextField
 } from "@mui/material";
+import FilterModel from "app/Components/FilterModel";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { hoto_block_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 import { Axios } from "index";
 import { debounce } from "lodash";
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -68,11 +69,11 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [toggle,setToggle]=useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
   const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);
   };
-
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -92,6 +93,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
@@ -115,11 +117,20 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data,toggle, dispatch]);
+  }, [
+    sort,
+    page,
+    sortBy,
+    packageNoDataReducer?.data,
+    applyFilter,
+    toggle,
+    dispatch,
+  ]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -334,6 +345,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    filters: filters,
                   },
                   packageNoDataReducer?.data
                 )
@@ -479,8 +491,62 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Equipment
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
+
+              {/* <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+
+              >
+                <Box sx={style}>
+                  <CloseFilterIcon
+                    onClick={handleClose}
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      cursor: "pointer",
+                      color: "#555",
+                    }}
+                  />
+                  <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+
+                    <Autocomplete
+                      disablePortal
+                      size="small"
+                      options={top100Films}
+                      getOptionLabel={(option) => option.label || option}
+                      sx={{ width: 300 }}
+                      value={selectedFilter}
+                      onChange={(_, newValue) => setSelectedFilter(newValue)}
+                      renderInput={(params) => <TextField {...params} label="Filter Equipment" />}
+                    />
+
+                  </FormControl>
+                  <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+                    <Stack direction="row" spacing={2}>
+                      <Button variant="outlined" onClick={handleClose} size="small">
+                        Cancel
+                      </Button>
+                      <Button variant="contained" onClick={handleApply} disabled={!selectedFilter} size="small">
+                        Apply
+                      </Button>
+                    </Stack>
+                  </Box>
+                </Box>
+              </Modal> */}
 
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
@@ -491,12 +557,21 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Serial No.
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Serial No"
+                    field="serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
               <TableCell
                 align="left"
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
@@ -508,23 +583,42 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Location
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block Location"
+                    field="equipment_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
               <TableCell
                 align="left"
-                sx={{ ...tableCellSx, minWidth: "140px" }}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
-                      handleSort("equipment_details?.location_code")
+                      handleSort("equipment_details.location_code")
                     }
                     direction={sort}
                     sx={{ ...tableCellSx }}
                   >
                     Block Code
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block Code"
+                    field="equipment_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                  {/* {console.log("filters bock code", filters)} */}
                 </Box>
               </TableCell>
 
@@ -560,6 +654,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Condition
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Condition"
+                    field="condition"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=condition&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>

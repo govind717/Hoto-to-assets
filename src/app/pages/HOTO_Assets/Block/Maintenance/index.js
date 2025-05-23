@@ -2,8 +2,10 @@ import Div from "@jumbo/shared/Div";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
   Chip,
+  IconButton,  
   InputAdornment,
   Pagination,
   Paper,
@@ -26,6 +28,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import FilterModel from "app/Components/FilterModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -63,6 +66,9 @@ const MaintainanceList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
+
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -82,6 +88,7 @@ const MaintainanceList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
@@ -107,11 +114,12 @@ const MaintainanceList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy,  packageNoDataReducer?.data, applyFilter, dispatch]);
 
   
   const Toast = Swal.mixin({
@@ -193,6 +201,7 @@ const MaintainanceList = () => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    filters: filters,
                   },
                   packageNoDataReducer?.data
                 )
@@ -240,71 +249,138 @@ const MaintainanceList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Maintenance ID
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`maintenance_id`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Maintenance ID
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Maintenance ID "
+                    field="maintenance_id"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=maintenance_id&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`createdAt`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Requested Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Requested Date "
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.equipment_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Equipment
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment "
+                    field="assets_details.equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Requested Date
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.serial_no`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Serial No.
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Serial No. "
+                    field="assets_details.serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Equipment
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`repair_type`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Repair Type
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Repair Type"
+                    field="repair_type"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=repair_type&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Serial No.
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Repair Type
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Allocated To
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`maintenance_type`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Allocated To
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Allocated To"
+                    field="maintenance_type"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=maintenance_type&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
 
               <TableCell
@@ -312,28 +388,44 @@ const MaintainanceList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`assign_to`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Assigned To
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter Allocated To"
+                  field="assign_to"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  package_name={packageNoDataReducer?.data}
+                  apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assign_to&package_name=${packageNoDataReducer?.data}`}
+                />
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Issue Reported
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`issue_reported`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Issue Reported
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Issue Reported"
+                    field="issue_reported"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=issue_reported&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
 
               <TableCell
@@ -341,28 +433,36 @@ const MaintainanceList = () => {
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Issue Date
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter Issue Date"
+                  field="createdAt"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  package_name={packageNoDataReducer?.data}
+                  apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                />
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  ETA
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`gp.district.code`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    ETA
+                  </TableSortLabel>
+                  
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -372,32 +472,63 @@ const MaintainanceList = () => {
                 >
                   Condition
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter Condition"
+                  field="assets_details.condition"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  package_name={packageNoDataReducer?.data}
+                  apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.condition&package_name=${packageNoDataReducer?.data}`}
+                />
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.condition_status`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(`assets_details.condition_status`)
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Status
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Status"
+                    field="assets_details.condition_status"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.condition_status&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Document
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`gp.district.code`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Document
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Document"
+                    field="gp.district.code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=gp.district.code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}

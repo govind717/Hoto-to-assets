@@ -13,7 +13,14 @@ import InfoIcon from "@mui/icons-material/Info";
 import RequestMaintenanceModal from "../Modal/RequestMaintenanceModal";
 import ReplacementModal from "../Modal/ReplacementModal";
 import TransferModal from "../Modal/TransferModal";
-import { Blue, grayCheapColor, Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
+import {
+  Blue,
+  grayCheapColor,
+  Green,
+  Orange,
+  Red,
+  Yellow,
+} from "app/pages/Constants/colors";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 

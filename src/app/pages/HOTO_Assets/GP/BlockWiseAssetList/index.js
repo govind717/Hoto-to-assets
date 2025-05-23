@@ -2,6 +2,7 @@ import Div from "@jumbo/shared/Div";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
   InputAdornment,
   Pagination,
@@ -13,8 +14,9 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField
+  TextField,
 } from "@mui/material";
+import FilterModel from "app/Components/FilterModel";
 
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
@@ -51,6 +53,9 @@ const BlockWiseAssetList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
+
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -85,6 +90,7 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
@@ -110,11 +116,12 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
 
   const showDetails = (data) => {
     navigate("/dashboards/hoto-survey-gp-data/gp-wise-details", {
@@ -141,6 +148,7 @@ const BlockWiseAssetList = () => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    filters: filters,
                   },
                   packageNoDataReducer?.data
                 )
@@ -166,63 +174,137 @@ const BlockWiseAssetList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Sr No
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`location_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  GP Name
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`location_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    GP Name
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block "
+                    field="location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`location_code`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    LGD Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block "
+                    field="location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`location_code`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  LGD Code
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`block.name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Block
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block "
+                    field="block.name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=block.name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`block.code`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Block Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block Code"
+                    field="block.code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=block.code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`block.name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Block
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`district.name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    District
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter District "
+                    field="district.name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=district.name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`block_id`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Block Code
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`district.name`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  District
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`district_id`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  District Code
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`district.code`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    District Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter District Code"
+                    field="district.code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=district.code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
 
               <TableCell
