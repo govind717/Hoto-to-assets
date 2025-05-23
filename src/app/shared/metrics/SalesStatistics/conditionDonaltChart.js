@@ -184,7 +184,7 @@ const ConditionStatusChart = () => {
         >
           <Box>
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
-              GP Total Assets
+              Block Total Assets
             </Typography>
             <Typography sx={{ fontWeight: 400 }}>
               {notFoundCount || 0} Not Found

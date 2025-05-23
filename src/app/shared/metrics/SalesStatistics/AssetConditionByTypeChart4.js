@@ -85,29 +85,40 @@ const AssetConditionByTypeChart4 = () => {
   const [equipmentTypes, setEquipmentTypes] = useState([]);
   const [chartData, setChartData] = useState([]);
   const { packageNoDataReducer } = useSelector((state) => state);
+  const [notFoundCount, setNotFoundCount] = useState(0);
   const fetchData = (equipment, block = "", gp = "") => {
     Axios.get(
       `/hoto-to-assets/equipment/fetch-equipments-by-block-and-gp?equipment_name=${equipment}&package_name=${packageNoDataReducer?.data}&block_name=${block}&gp_name=${gp}`
     )
       .then((result) => {
-        const responseData = result?.data?.result;
+        const responseData = result?.data?.result[0]?.available;
 
+        // const transformedData = [
+        //   {
+        //     type: equipment,
+        //     Robust:
+        //       responseData.find((item) => item._id.condition === "robust")
+        //         ?.count || 0,
+        //     Damaged:
+        //       responseData.find((item) => item._id.condition === "damaged")
+        //         ?.count || 0,
+        //     // "Not Found":
+        //     //   responseData.find((item) => item._id.condition === null)?.count ||
+        //     //   0,
+        //     // "Semi-Damaged": 0, // Commented out as requested
+        //   },
+        // ];
         const transformedData = [
           {
             type: equipment,
             Robust:
-              responseData.find((item) => item._id.condition === "robust")
-                ?.count || 0,
+              responseData.find((item) => item._id === "robust")?.count || 0,
             Damaged:
-              responseData.find((item) => item._id.condition === "damaged")
-                ?.count || 0,
-            // "Not Found":
-            //   responseData.find((item) => item._id.condition === null)?.count ||
-            //   0,
-            // "Semi-Damaged": 0, // Commented out as requested
+              responseData.find((item) => item._id === "damaged")?.count || 0,
           },
         ];
         setChartData(transformedData);
+        setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
       })
       .catch((err) => console.error("Error fetching chart data:", err));
   };
@@ -159,7 +170,14 @@ const AssetConditionByTypeChart4 = () => {
           alignItems="center"
           mb={1}
         >
-          <Typography variant="h6">GP POP Asset Condition</Typography>
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: "500" }}>
+              GP POP Asset Condition
+            </Typography>
+            <Typography sx={{ fontWeight: 400 }}>
+              {notFoundCount || 0} Not Found
+            </Typography>
+          </Box>
           <Box display="flex" gap={2}>
             <Autocomplete
               sx={{ minWidth: "200px" }}
