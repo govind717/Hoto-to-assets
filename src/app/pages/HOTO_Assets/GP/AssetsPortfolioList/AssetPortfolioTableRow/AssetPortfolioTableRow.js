@@ -1,19 +1,15 @@
 import JumboDdMenu from "@jumbo/components/JumboDdMenu";
-import { Badge, Checkbox, Chip, TableCell, TableRow } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import EditIcon from "@mui/icons-material/Edit";
-import moment from "moment";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import { Axios } from "index";
-import { useDispatch, useSelector } from "react-redux";
 import InfoIcon from "@mui/icons-material/Info";
-import RequestMaintenanceModal from "../Modal/RequestMaintenanceModal";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Chip, TableCell, TableRow } from "@mui/material";
+import { Green, Orange, Red } from "app/pages/Constants/colors";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import ReplacementModal from "../Modal/ReplacementModal";
+import RequestMaintenanceModal from "../Modal/RequestMaintenanceModal";
 import TransferModal from "../Modal/TransferModal";
-import { Blue, Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -109,6 +105,12 @@ const AssetPortfolioTableRow = ({
         <TableCell sx={{ ...tableBodyCell }}>
           {e?.equipment_details?.location_code || "-"}
         </TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>
+          {e?.equipment_details?.block?.name || "-"}
+        </TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>
+          {e?.equipment_details?.block?.code || "-"}
+        </TableCell>
         {/* <TableCell sx={{ ...tableBodyCell }}>
           {e?.equipment_details?.location_type || "-"}
         </TableCell> */}
@@ -177,6 +179,7 @@ const AssetPortfolioTableRow = ({
             />
           )}
         </TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>{e?.availability || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell }}>{e?.issued_for || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
@@ -204,7 +207,7 @@ const AssetPortfolioTableRow = ({
             }}
           />
         </TableCell>
-        {/* <TableCell sx={{ ...tableBodyCell, ...tableRowBodySticky }}>
+        <TableCell sx={{ ...tableBodyCell, ...tableRowBodySticky }}>
           <JumboDdMenu
             icon={<MoreHorizIcon />}
             menuItems={[
@@ -232,7 +235,7 @@ const AssetPortfolioTableRow = ({
             ].filter((ele) => ele?.show)}
             onClickCallback={handleItemAction}
           />
-        </TableCell> */}
+        </TableCell>
       </TableRow>
       <RequestMaintenanceModal
         handleClose={handleCloseModal}

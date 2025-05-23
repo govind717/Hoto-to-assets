@@ -565,6 +565,17 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
+                    onClick={() => handleSort("availability")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Availability
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
+              <TableCell align="left" sx={{ ...tableCellSx }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
                     onClick={() => handleSort("issued_for")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
@@ -598,7 +609,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-              {/* <TableCell
+              <TableCell
                 sx={{
                   ...tableCellSx,
                   textAlign: "center",
@@ -611,7 +622,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 }}
               >
                 Action
-              </TableCell> */}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

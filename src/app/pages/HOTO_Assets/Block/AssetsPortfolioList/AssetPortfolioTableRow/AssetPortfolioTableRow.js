@@ -135,46 +135,47 @@ const AssetPortfolioTableRow = ({
             }}
           />
         </TableCell> */}
-         <TableCell sx={{ ...tableBodyCell }}>
-                  {e?.condition !== null ? (
-                    <Chip
-                      label={
-                        e?.condition === "Good" || e?.condition === "OK"
-                          ? "ROBUST"
-                          : e?.condition === "Bad" || e?.condition === "Damaged"
-                          ? "Damaged"
-                          : "-"
-                      }
-                      sx={{
-                        backgroundColor:
-                          e?.condition === "Good" || e?.condition === "OK"
-                            ? Green
-                            : e?.condition === "Bad" || e?.condition === "Damaged"
-                            ? Red
-                            : e?.condition?.toUpperCase() === "MISSING"
-                            ? Orange
-                            : "",
-                        color: "#FFF",
-                        fontWeight: "bold",
-                        fontSize: "14",
-                        height: "25px",
-                        px: 2,
-                      }}
-                    />
-                  ) : (
-                    <Chip
-                      label={"-"}
-                      sx={{
-                        backgroundColor: "#fff",
-                        color: "#4E4E4E",
-                        fontWeight: "bold",
-                        height: "25px",
-                        px: 2,
-                        minWidth:"110px"
-                      }}
-                    />
-                  )}
-                </TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>
+          {e?.condition !== null ? (
+            <Chip
+              label={
+                e?.condition === "Good" || e?.condition === "OK"
+                  ? "ROBUST"
+                  : e?.condition === "Bad" || e?.condition === "Damaged"
+                  ? "Damaged"
+                  : "-"
+              }
+              sx={{
+                backgroundColor:
+                  e?.condition === "Good" || e?.condition === "OK"
+                    ? Green
+                    : e?.condition === "Bad" || e?.condition === "Damaged"
+                    ? Red
+                    : e?.condition?.toUpperCase() === "MISSING"
+                    ? Orange
+                    : "",
+                color: "#FFF",
+                fontWeight: "bold",
+                fontSize: "14",
+                height: "25px",
+                px: 2,
+              }}
+            />
+          ) : (
+            <Chip
+              label={"-"}
+              sx={{
+                backgroundColor: "#fff",
+                color: "#4E4E4E",
+                fontWeight: "bold",
+                height: "25px",
+                px: 2,
+                minWidth: "110px",
+              }}
+            />
+          )}
+        </TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>{e?.availability || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell }}>{e?.issued_for || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
@@ -202,7 +203,7 @@ const AssetPortfolioTableRow = ({
             }}
           />
         </TableCell>
-        {/* <TableCell sx={{ ...tableBodyCell, ...tableRowBodySticky }}>
+        <TableCell sx={{ ...tableBodyCell, ...tableRowBodySticky }}>
           <JumboDdMenu
             icon={<MoreHorizIcon />}
             menuItems={[
@@ -230,7 +231,7 @@ const AssetPortfolioTableRow = ({
             ].filter((ele) => ele?.show)}
             onClickCallback={handleItemAction}
           />
-        </TableCell> */}
+        </TableCell>
       </TableRow>
       <RequestMaintenanceModal
         handleClose={handleCloseModal}

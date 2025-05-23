@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { Axios } from "index";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   Bar,
   BarChart,
@@ -75,7 +76,7 @@ const CustomLegend = ({ data }) => {
   );
 };
 
-const AssetConditionByTypeChart4 = ({ selectedValue }) => {
+const AssetConditionByTypeChart4 = () => {
   const [selectedBlock, setSelectedBlock] = useState("");
   const [selectedGP, setSelectedGP] = useState(null);
   const [selectedEquipment, setSelectedEquipment] = useState("CCU");
@@ -83,10 +84,10 @@ const AssetConditionByTypeChart4 = ({ selectedValue }) => {
   const [gps, setGps] = useState([]);
   const [equipmentTypes, setEquipmentTypes] = useState([]);
   const [chartData, setChartData] = useState([]);
- 
+  const { packageNoDataReducer } = useSelector((state) => state);
   const fetchData = (equipment, block = "", gp = "") => {
     Axios.get(
-      `/hoto-to-assets/equipment/fetch-equipments-by-block-and-gp?equipment_name=${equipment}&package_name=${selectedValue}&block_name=${block}&gp_name=${gp}`
+      `/hoto-to-assets/equipment/fetch-equipments-by-block-and-gp?equipment_name=${equipment}&package_name=${packageNoDataReducer?.data}&block_name=${block}&gp_name=${gp}`
     )
       .then((result) => {
         const responseData = result?.data?.result;
@@ -117,18 +118,18 @@ const AssetConditionByTypeChart4 = ({ selectedValue }) => {
 
   useEffect(() => {
     Axios.get(
-      `/hoto-to-assets/equipment/dropdown-block?package_name=${selectedValue}`
+      `/hoto-to-assets/equipment/dropdown-block?package_name=${packageNoDataReducer?.data}`
     ).then((response) => setBlocks(response?.data?.result));
 
     Axios.get("/hoto-to-assets/equipment/dropdown-equipments").then(
       (response) => setEquipmentTypes(response?.data?.result)
     );
     fetchData(selectedEquipment);
-  }, [selectedValue]);
+  }, [packageNoDataReducer?.data]);
 
   useEffect(() => {
     setSelectedBlock("");
-  }, [selectedValue]);
+  }, [packageNoDataReducer?.data]);
   const handleEquipmentChange = (_, newValue) => {
     if (newValue) {
       setSelectedEquipment(newValue);
@@ -162,7 +163,7 @@ const AssetConditionByTypeChart4 = ({ selectedValue }) => {
           alignItems="center"
           mb={1}
         >
-          <Typography variant="h6">POP Asset Condition</Typography>
+          <Typography variant="h6">GP POP Asset Condition</Typography>
           <Box display="flex" gap={2}>
             <Autocomplete
               sx={{ minWidth: "200px" }}

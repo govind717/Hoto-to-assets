@@ -60,14 +60,14 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const hotoGpAssetPortfolioDataReducer = useSelector(
     (state) => state?.hotoGpAssetPortfolioDataReducer
   );
-const { packageNoDataReducer } = useSelector((state) => state);
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [toggle,setToggle]=useState(false);
+  const [toggle, setToggle] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
 
@@ -121,7 +121,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data,toggle, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, toggle, dispatch]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -419,7 +419,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                   size="small"
                 />
               </TableCell> */}
-              <TableCell align="left" sx={{ ...tableCellSx}}>
+              <TableCell align="left" sx={{ ...tableCellSx }}>
                 Sr No
               </TableCell>
 
@@ -447,7 +447,10 @@ const { packageNoDataReducer } = useSelector((state) => state);
                 </Box>
               </TableCell>
 
-              <TableCell align="left" sx={{ ...tableCellSx, minWidth:"150px" }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "150px" }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
@@ -471,6 +474,34 @@ const { packageNoDataReducer } = useSelector((state) => state);
                     sx={{ ...tableCellSx }}
                   >
                     GP Code
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("equipment_details.block.name")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Block Name
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("equipment_details.block.code")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Block Code
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -520,6 +551,17 @@ const { packageNoDataReducer } = useSelector((state) => state);
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
+                    onClick={() => handleSort("availability")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Availability
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
+              <TableCell align="left" sx={{ ...tableCellSx }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
                     onClick={() => handleSort("issued_for")}
                     direction={sort}
                     sx={{ ...tableCellSx }}
@@ -552,7 +594,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                 </Box>
               </TableCell>
 
-              {/* <TableCell
+              <TableCell
                 sx={{
                   ...tableCellSx,
                   textAlign: "center",
@@ -565,7 +607,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                 }}
               >
                 Action
-              </TableCell> */}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

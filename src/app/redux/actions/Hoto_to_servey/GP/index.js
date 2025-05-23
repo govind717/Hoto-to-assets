@@ -49,6 +49,8 @@ export const hoto_gp_asset_partfolio_data_disptach = function ({
              "serial_no",
              "equipment_details.location_name",
              "equipment_details.location_code",
+             "equipment_details.block.name",
+             "equipment_details.block.code",
              "warranty_status",
              "condition",
            ],

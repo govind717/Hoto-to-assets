@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { Axios } from "index";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const colorsMap = {
@@ -56,24 +57,25 @@ const CustomLegend = ({ total, data }) => (
   </Box>
 );
 
-const ConditionStatusChart2 = ({ selectedValue }) => {
+const ConditionStatusChart2 = () => {
   const [selectedBlock, setSelectedBlock] = useState("");
   const [selectedGP, setSelectedGP] = useState(null);
   const [blocks, setBlocks] = useState([]);
   const [gps, setGps] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [conditionData, setConditionData] = useState([]);
+   const { packageNoDataReducer } = useSelector((state) => state);
  useEffect(() => {
   setSelectedBlock("")
- }, [selectedValue]);
+ }, [packageNoDataReducer?.data]);
   // Fetch initial blocks
   useEffect(() => {
     Axios.get(
-      `/hoto-to-assets/equipment/dropdown-block?package_name=${selectedValue}`
+      `/hoto-to-assets/equipment/dropdown-block?package_name=${packageNoDataReducer?.data}`
     ).then((response) => {
       setBlocks(response?.data?.result);
     });
-  }, [selectedValue]);
+  }, [packageNoDataReducer?.data]);
 
   // Helper function to process and fill missing data
   const processFetchedData = (fetchedData) => {
@@ -113,8 +115,8 @@ const ConditionStatusChart2 = ({ selectedValue }) => {
     setGps([]);
 
     const endpoint = newValue
-      ? `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${newValue}&package_name=${selectedValue}`
-      : `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${selectedValue}`;
+      ? `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${newValue}&package_name=${packageNoDataReducer?.data}`
+      : `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`;
 
     Axios.get(endpoint)
       .then((result) => processFetchedData(result?.data?.result))
@@ -134,13 +136,13 @@ const ConditionStatusChart2 = ({ selectedValue }) => {
     setSelectedGP(newValue);
     if (newValue) {
       Axios.get(
-        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${selectedValue}`
+        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${packageNoDataReducer?.data}`
       )
         .then((result) => processFetchedData(result?.data?.result))
         .catch((err) => console.log("Error : ", err));
     } else {
       Axios.get(
-        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&package_name=${selectedValue}`
+        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&package_name=${packageNoDataReducer?.data}`
       )
         .then((result) => processFetchedData(result?.data?.result))
         .catch((err) => console.log("Error : ", err));
@@ -150,11 +152,11 @@ const ConditionStatusChart2 = ({ selectedValue }) => {
   // Initial load of all equipment
   useEffect(() => {
     Axios.get(
-      `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${selectedValue}`
+      `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`
     )
       .then((result) => processFetchedData(result?.data?.result))
       .catch((err) => console.log("Error : ", err));
-  }, [selectedValue]);
+  }, [packageNoDataReducer?.data]);
 
   const total = originalData.reduce((sum, item) => sum + item.value, 0);
 
@@ -167,7 +169,7 @@ const ConditionStatusChart2 = ({ selectedValue }) => {
           alignItems="center"
           mb={1}
         >
-          <Typography variant="h6">Total Assets</Typography>
+          <Typography variant="h6">GP Total Assets</Typography>
           <Box display="flex" gap={2}>
             <Autocomplete
               sx={{ minWidth: "200px" }}

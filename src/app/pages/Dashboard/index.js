@@ -8,22 +8,19 @@ import IntranetDashboard from "./intranet/IntranetDashboard";
 import ListingDashboard from "./listing/ListingDashboard";
 import MiscDashboard from "./misc/MiscDashboard";
 import NewsDashboard from "./news/NewsDashboard";
-import HotoHeader from "../Hoto_to_Assets/HotoHeader";
+import HotoHeader from "app/Components/HotoHeader";
+
 // import HeaderTitleHoc from "app/components/HeaderTitleHoc";
 
 const Dashboard = () => {
-  const [selectedValue, setSelectedValue] = useState("Package 1");
   return (
     <Div sx={{ mt: -2 }}>
-      <HotoHeader
-        setSelectedValue={setSelectedValue}
-        selectedValue={selectedValue}
-      />
+      <HotoHeader/>
       {/* <Div sx={{ mb: 5,mt:2 }}>
         <ListingDashboard />
       </Div> */}
       <Div sx={{ mb: 5, mt: 2 }}>
-        <EcommerceDashboard selectedValue={selectedValue} />
+        <EcommerceDashboard />
       </Div>
       {/* <Div sx={{ mb: 5 }}>
         <IntranetDashboard/>
