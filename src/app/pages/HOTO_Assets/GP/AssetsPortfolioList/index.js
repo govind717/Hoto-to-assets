@@ -522,12 +522,12 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   </TableSortLabel>
                   <FilterModel
                     label="Filter Block Code"
-                    field="equipment_details?.location_code"
+                    field="equipment_details.location_code"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_details?.location_code&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>

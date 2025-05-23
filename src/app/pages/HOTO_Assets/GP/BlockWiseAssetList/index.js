@@ -246,7 +246,7 @@ const BlockWiseAssetList = () => {
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <TableSortLabel
-                    onClick={() => handleSort(`block_id`)}
+                    onClick={() => handleSort(`block.code`)}
                     direction={sort}
                     sx={{ ...tableCellSort }}
                   >
@@ -254,12 +254,12 @@ const BlockWiseAssetList = () => {
                   </TableSortLabel>
                   <FilterModel
                     label="Filter Block Code"
-                    field="block_id"
+                    field="block.code"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=block_id&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=block.code&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -289,7 +289,7 @@ const BlockWiseAssetList = () => {
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <TableSortLabel
-                    onClick={() => handleSort(`district_id`)}
+                    onClick={() => handleSort(`district.code`)}
                     direction={sort}
                     sx={{ ...tableCellSort }}
                   >
@@ -297,12 +297,12 @@ const BlockWiseAssetList = () => {
                   </TableSortLabel>
                   <FilterModel
                     label="Filter District Code"
-                    field="district_id"
+                    field="district.code"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=district_id&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/hoto-to-assets/gp/gp-wise/filter-dropdown?filter_field=district.code&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>

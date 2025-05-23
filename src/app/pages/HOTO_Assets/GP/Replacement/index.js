@@ -289,12 +289,12 @@ const ReplacementList = () => {
                   </TableSortLabel>
                   <FilterModel
                     label="Filter   Location Code"
-                    field="gp_asset_details.equipment_details.location_name"
+                    field="gp_asset_details.equipment_details.location_code"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/replacement/filter-dropdown?filter_field=gp_asset_details.equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/hoto-to-assets/gp/replacement/filter-dropdown?filter_field=gp_asset_details.equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>

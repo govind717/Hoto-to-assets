@@ -533,7 +533,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
-                      handleSort("equipment_details?.location_code")
+                      handleSort("equipment_details.location_code")
                     }
                     direction={sort}
                     sx={{ ...tableCellSx }}
@@ -542,12 +542,12 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   </TableSortLabel>
                   <FilterModel
                     label="Filter Block Code"
-                    field="equipment_details?.location_code"
+                    field="equipment_details.location_code"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=equipment_details?.location_code&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
                   />
                   {/* {console.log("filters bock code", filters)} */}
                 </Box>

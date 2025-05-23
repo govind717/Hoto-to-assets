@@ -7,7 +7,7 @@ import {
   Box,
   Button,
   Chip,
-  IconButton,
+  IconButton,  
   InputAdornment,
   Pagination,
   Paper,
@@ -395,15 +395,7 @@ const MaintainanceList = () => {
                   >
                     ETA
                   </TableSortLabel>
-                  <FilterModel
-                    label="Filter ETA"
-                    field="gp.district.code"
-                    filters={filters}
-                    setFilters={setFilters}
-                    setApplyFilter={setApplyFilter}
-                    package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=gp.district.code&package_name=${packageNoDataReducer?.data}`}
-                  />
+                  
                 </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
