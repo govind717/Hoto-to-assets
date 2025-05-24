@@ -62,8 +62,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   );
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const {state}=useLocation();
-  console.log("this is gp state : ",state);
+  const { state } = useLocation();
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,11 +71,10 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [toggle, setToggle] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-
-  const [filters, setFilters] = useState(state ? { ...state } : {});
+  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
   const [applyFilter, setApplyFilter] = useState(false);
 
-  const handleOpenDetailModal = (rowDetails) => { 
+  const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);
   };
 
@@ -115,12 +113,17 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     };
   }, [searchTerm]);
 
-   const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(
-    {
-      label: "Yes",
-      value: true,
-    }
-  );
+  
+  console.log('state?.availability',state?.availability)
+ const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+  if (state?.availability === true) {
+    return { label: "Yes", value: true };
+  } else if (state?.availability === false) {
+    return { label: "No", value: false };
+  } else {
+     return { label: "Yes", value: true };
+  }
+});
   const filterAvailabilityOptions = [
     { label: "Yes", value: true },
     { label: "No", value: false },
@@ -158,8 +161,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   }, [
     sort,
     page,
-    sortBy, 
-    packageNoDataReducer?.data, 
+    sortBy,
+    packageNoDataReducer?.data,
     applyFilter,
     toggle,
     filterAvailabilityValue,
@@ -656,7 +659,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=condition&package_name=${packageNoDataReducer?.data}`}
+                    // apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=condition&package_name=${packageNoDataReducer?.data}`}
+                    staticOptions={["robust", "damaged"]}
                   />
                 </Box>
               </TableCell>

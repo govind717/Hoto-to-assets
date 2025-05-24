@@ -177,19 +177,47 @@ const ConditionStatusChart = () => {
   const total = originalData.reduce((sum, item) => sum + item.value, 0);
   console.log('selectedBlock', selectedBlock)
   const handleConditionClick = (item) => {
+    let state={};
+      if (selectedBlock){
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        }; 
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
     navigate("/dashboards/hoto-survey-block-data", {
       state: {
-        "equipment_details.block.name": selectedBlock,
+        
+        // "equipment_details.block.name": selectedBlock,
         condition: item.name?.toLowerCase(),
       },
     });
   }
 
   const handleNotFoundClick = () => {
+     let state = {};
+      if (selectedBlock) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedGP?.location_name,
+        };
+      }
     navigate("/dashboards/hoto-survey-block-data", {
       state: {
-         "equipment_details.block.name": selectedBlock,
-        "availability": true,
+        ...state,
+        //  "equipment_details.block.name": selectedBlock,
+        "availability": false,
       },
     });
   }
@@ -207,7 +235,7 @@ const ConditionStatusChart = () => {
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
               Block Total Assets
             </Typography>
-            <Typography sx={{ fontWeight: 400,cursor: "pointer" }} onNotFoundClick={handleNotFoundClick}>
+            <Typography sx={{ fontWeight: 400,cursor: "pointer" }} onClick={handleNotFoundClick}>
               {notFoundCount || 0} Not Found
             </Typography>
           </Box>
