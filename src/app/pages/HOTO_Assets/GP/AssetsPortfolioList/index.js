@@ -575,7 +575,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     GP Code
                   </TableSortLabel>
                   <FilterModel
-                    label="Filter Block Code"
+                    label="Filter GP Code"
                     field="equipment_details.location_code"
                     filters={filters}
                     setFilters={setFilters}
@@ -597,6 +597,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Name
                   </TableSortLabel>
+                   <FilterModel
+                    label="Filter Block Name"
+                    field="equipment_details.block.name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_details.block.name&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
               <TableCell
@@ -611,6 +620,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Code
                   </TableSortLabel>
+                   <FilterModel
+                    label="Filter Block Code"
+                    field="equipment_details.block.code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_details.block.code&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
               {/* 
