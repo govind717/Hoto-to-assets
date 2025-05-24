@@ -283,14 +283,14 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
             width: 10,
             height: 10,
             borderRadius: "50%",
-            
+
             backgroundColor: colorsMap[item.name] || "#ccc",
           }}
         />
-        <Typography variant="body2" sx={{ color: "#000",cursor:"pointer"}}>
+        <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
           {item.value}
         </Typography>
-        <Typography variant="body2" sx={{ color: "#000" ,cursor:"pointer"}}>
+        <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
           {item.name}
         </Typography>
       </Box>
@@ -306,8 +306,8 @@ const ConditionStatusChart2 = () => {
   const [originalData, setOriginalData] = useState([]);
   const [conditionData, setConditionData] = useState([]);
   const { packageNoDataReducer } = useSelector((state) => state);
-  const [notFoundCount,setNotFoundCount]=useState(0);
-  const navigate=useNavigate();
+  const [notFoundCount, setNotFoundCount] = useState(0);
+  const navigate = useNavigate();
   useEffect(() => {
     setSelectedBlock("");
   }, [packageNoDataReducer?.data]);
@@ -350,7 +350,7 @@ const ConditionStatusChart2 = () => {
     setOriginalData(finalData);
     setConditionData(finalData);
   };
-  
+
 
   // Handle block change
   const handleBlockChange = (_, newValue) => {
@@ -385,18 +385,17 @@ const ConditionStatusChart2 = () => {
       Axios.get(
         `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${packageNoDataReducer?.data}`
       )
-        .then((result) =>
-          {
-            processFetchedData(result?.data?.result[0]?.available);
-            setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
-          }
+        .then((result) => {
+          processFetchedData(result?.data?.result[0]?.available);
+          setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+        }
         )
         .catch((err) => console.log("Error : ", err));
     } else {
       Axios.get(
         `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&package_name=${packageNoDataReducer?.data}`
       )
-        .then((result) =>{
+        .then((result) => {
           processFetchedData(result?.data?.result[0]?.available);
           setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
         })
@@ -409,7 +408,7 @@ const ConditionStatusChart2 = () => {
     Axios.get(
       `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`
     )
-      .then((result) =>{
+      .then((result) => {
         processFetchedData(result?.data?.result[0]?.available);
         setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
       })
@@ -417,22 +416,49 @@ const ConditionStatusChart2 = () => {
   }, [packageNoDataReducer?.data]);
 
   const total = originalData.reduce((sum, item) => sum + item.value, 0);
-  const handleConditionClick =(item)=>{
+  const handleConditionClick = (item) => {
+    let state = {};
+    if (selectedBlock) {
+      state = {
+        ...state,
+        "equipment_details.block.name": selectedBlock,
+      };
+    }
+    if (selectedGP?.location_name) {
+      state = {
+        ...state,
+        "equipment_details.location_name": selectedGP?.location_name,
+      };
+    }
     navigate("/dashboards/hoto-survey-gp-data", {
       state: {
-        "equipment_details.location_name": selectedGP?.location_name,
-        "equipment_details.block.name": selectedBlock,
+        ...state,
+        // "equipment_details.location_name": selectedGP?.location_name,
+        // "equipment_details.block.name": selectedBlock,
         condition: item.name?.toLowerCase(),
       },
-    }); 
+    });
   }
 
-    const handleNotFoundClick = () => {
+  const handleNotFoundClick = () => {
+    let state = {};
+    if (selectedBlock) {
+      state = {
+        ...state,
+        "equipment_details.block.name": selectedBlock,
+      };
+    }
+    if (selectedGP?.location_name) {
+      state = { 
+        ...state,
+        "equipment_details.location_name": selectedGP?.location_name,
+      };
+    }
     navigate("/dashboards/hoto-survey-gp-data", {
       state: {
-        "equipment_details.location_name": selectedGP?.location_name,
-         "equipment_details.block.name": selectedBlock,
-        "availability": true,
+        // "equipment_details.location_name": selectedGP?.location_name,
+        // "equipment_details.block.name": selectedBlock,
+        "availability": false,
       },
     });
   }
@@ -450,7 +476,7 @@ const ConditionStatusChart2 = () => {
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
               GP Total Assets
             </Typography>
-           <Typography sx={{ fontWeight: 400,cursor: "pointer" }} onNotFoundClick={handleNotFoundClick}>
+            <Typography sx={{ fontWeight: 400, cursor: "pointer" }} onClick={handleNotFoundClick}>
               {notFoundCount || 0} Not Found
             </Typography>
           </Box>

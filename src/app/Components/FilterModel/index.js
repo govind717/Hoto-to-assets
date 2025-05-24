@@ -31,6 +31,7 @@ const FilterModel = ({
   filters,
   setApplyFilter,
   apiUrl,
+  staticOptions, 
 }) => {
   const [open, setOpen] = useState(false);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
@@ -63,16 +64,38 @@ const FilterModel = ({
     setOpen(false);
   };
 
+  // useEffect(() => {
+  //   if (open && apiUrl) {
+  //     Axios.get(apiUrl)
+  //       .then((success) => {
+  //         setFilterOptions(success?.data?.result);
+  //         console.log("success?.data?.result", success?.data?.result);
+  //       })
+  //       .catch((error) => console.log("Error : ", error));
+  //   }
+  // }, [field, open]);
+
   useEffect(() => {
-    if (open && apiUrl) {
-      Axios.get(apiUrl)
-        .then((success) => {
-          setFilterOptions(success?.data?.result);
-          console.log("success?.data?.result", success?.data?.result);
-        })
-        .catch((error) => console.log("Error : ", error));
-    }
-  }, [field, open]);
+  if (!open) return;
+
+  if (staticOptions && Array.isArray(staticOptions)) {
+    // Static mode
+    const formattedOptions = staticOptions.map((opt) => ({
+      label: opt,
+    }));
+    setFilterOptions(formattedOptions);
+    return;
+  }
+
+  if (apiUrl) {
+    Axios.get(apiUrl)
+      .then((success) => {
+        setFilterOptions(success?.data?.result || []);
+      })
+      .catch((error) => console.log("Error : ", error));
+  }
+}, [field, open, staticOptions, apiUrl]);
+
   return (
     <>
       <FilterListIcon
