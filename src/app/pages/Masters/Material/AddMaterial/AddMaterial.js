@@ -8,7 +8,8 @@ import {
   Typography
 } from "@mui/material";
 import MasterApis from "app/Apis/master";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import HotoHeader from "app/Components/HotoHeader";
+
 import { addMaterial, updateMaterial } from "app/services/apis/master";
 import { MATERIAL_MASTER, MATERIAL_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { Form, Formik } from "formik";
@@ -119,7 +120,7 @@ function AddMaterial() {
 
   return (
     <>
-      <HotoHeader />
+      <HotoHeader/>
       <Div sx={{ mt: 0 }}>
         <Div>
           <Formik

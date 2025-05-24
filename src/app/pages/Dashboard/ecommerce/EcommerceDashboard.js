@@ -18,14 +18,14 @@ import LatestAlerts from "../../../shared/widgets/LatestAlerts";
 import ServeyStatus from 'app/shared/metrics/serveyStatus/serveyStatus';
 import Piecharts from 'app/shared/metrics/SalesStatistics/Piecharts';
 
-const EcommerceDashboard = ({ selectedValue}) => {
+const EcommerceDashboard = () => {
   return (
     <Grid container spacing={3.75}>
       {/* <Grid item xs={12}>
                 <ServeyStatus/>
             </Grid> */}
       <Grid item xs={12}>
-        <SalesStatistics selectedValue={selectedValue} />
+        <SalesStatistics/>
       </Grid>
       {/* <Grid item xs={12}>
                 <Piecharts/>

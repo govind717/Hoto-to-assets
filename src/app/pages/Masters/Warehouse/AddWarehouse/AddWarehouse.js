@@ -14,7 +14,7 @@ import {
   TextField,
   Typography
 } from "@mui/material";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import HotoHeader from "app/Components/HotoHeader";
 import { addWarehouse, updateWarehouse } from "app/services/apis/master";
 import {
   WAREHOUSE_MASTER,
@@ -151,7 +151,7 @@ function AddWarehouse() {
 
   return (
     <>
-      <HotoHeader />
+      <HotoHeader/>
       <Div sx={{ mt: 0 }}>
         <Formik
           validateOnChange={true}

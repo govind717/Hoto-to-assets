@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import MasterApis from "app/Apis/master";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import HotoHeader from "app/Components/HotoHeader";
 import { addSubCategory, updateSubCategory } from "app/services/apis/master";
 import { SUB_CATEGORY_MASTER, SUB_CATEGORY_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { Form, Formik } from "formik";
@@ -112,7 +112,7 @@ function AddSubCategory() {
 
   return (
     <>
-      <HotoHeader />
+      <HotoHeader/>
       <Div sx={{ mt: 0 }}>
         <Div>
           {formInitialValues && (

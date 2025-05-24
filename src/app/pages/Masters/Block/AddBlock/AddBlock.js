@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import MasterApis from "app/Apis/master";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import HotoHeader from "app/Components/HotoHeader";
 import { addBlock, updateBlock } from "app/services/apis/master";
 import { BLOCK_MASTER, BLOCK_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { Form, Formik } from "formik";
@@ -119,7 +119,7 @@ function AddBlock() {
 
   return (
     <>
-      <HotoHeader />
+      <HotoHeader/>
       <Div sx={{ mt: 4 }}>
         <Typography variant="h3" fontWeight={600} mb={3}>
           {pathname === BLOCK_MASTER_EDIT ? "Edit Block" : "Add Block"}

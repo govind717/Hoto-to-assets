@@ -8,7 +8,7 @@ import {
   Typography
 } from "@mui/material";
 import MasterApis from "app/Apis/master";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import HotoHeader from "app/Components/HotoHeader";
 import { addGP, updateGP } from "app/services/apis/master";
 import { GP_MASTER, GP_MASTER_EDIT } from "app/utils/constants/routeConstants";
 import { Form, Formik } from "formik";

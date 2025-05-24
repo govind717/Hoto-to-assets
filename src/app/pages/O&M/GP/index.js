@@ -6,7 +6,7 @@ import {
   MenuItem,
   Select
 } from "@mui/material";
-import HotoHeader2 from "app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2";
+import HotoHeader from "app/Components/HotoHeader";
 import MaintenanceList from "./Maintenance/MaintenanceList";
 import ReplacementList from "./Replacement/ReplacementList";
 import ScrapList from "./Scrap/ScrapList";
@@ -26,7 +26,7 @@ const GPOandM = () => {
 
   return (
     <>
-      <HotoHeader2 />
+      <HotoHeader />
       <Box
         display="flex"
         justifyContent="space-between"

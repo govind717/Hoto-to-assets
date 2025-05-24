@@ -1,13 +1,11 @@
 import Div from "@jumbo/shared/Div";
-import { LoadingButton } from "@mui/lab";
 import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
+  Autocomplete,
   Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
+  FormControl,
   InputAdornment,
-  Modal,
   Pagination,
   Paper,
   Table,
@@ -18,19 +16,21 @@ import {
   TableRow,
   TableSortLabel,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import ItemDetailsModal from "./ItemDetails/GpAssetsDetail";
-import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
-import Swal from "sweetalert2";
-import { debounce } from "lodash";
-import { Axios } from "index";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import { BorderColor } from "@mui/icons-material";
-import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
+import FilterModel from "app/Components/FilterModel";
 import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
+import { Axios } from "index";
+import { debounce } from "lodash";
+import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
+import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
+import StaticFilterModel from "app/Components/StaticFilterModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -60,16 +60,19 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const hotoGpAssetPortfolioDataReducer = useSelector(
     (state) => state?.hotoGpAssetPortfolioDataReducer
   );
-const { packageNoDataReducer } = useSelector((state) => state);
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const { state } = useLocation();
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [toggle,setToggle]=useState(false);
+  const [toggle, setToggle] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
+  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [applyFilter, setApplyFilter] = useState(false);
 
   const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);
@@ -94,6 +97,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
@@ -109,6 +113,38 @@ const { packageNoDataReducer } = useSelector((state) => state);
     };
   }, [searchTerm]);
 
+  
+  console.log('state?.availability',state?.availability)
+ const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+  if (state?.availability === true) {
+    return { label: "Yes", value: true };
+  } else if (state?.availability === false) {
+    return { label: "No", value: false };
+  } else {
+     return { label: "Yes", value: true };
+  }
+});
+  const filterAvailabilityOptions = [
+    { label: "Yes", value: true },
+    { label: "No", value: false },
+    { label: "All", value: 'all' },
+  ];
+
+
+  const handleAvailabilityChange = (selectedOption) => {
+    setFilterAvailabilityValue(selectedOption);
+    const val = selectedOption?.value;
+    if (val === true) {
+      setFilters((prev) => ({ ...prev, availability: true }))
+    } else if (val === false) {
+      setFilters((prev) => ({ ...prev, availability: false }))
+    } else {
+      const newObj = { ...filters };
+      delete newObj.availability
+      setFilters(newObj);
+    }
+  }
+
   useEffect(() => {
     dispatch(
       hoto_gp_asset_partfolio_data_disptach(
@@ -117,11 +153,21 @@ const { packageNoDataReducer } = useSelector((state) => state);
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,packageNoDataReducer?.data,toggle, dispatch]);
+  }, [
+    sort,
+    page,
+    sortBy,
+    packageNoDataReducer?.data,
+    applyFilter,
+    toggle,
+    filterAvailabilityValue,
+    dispatch,
+  ]);
 
   const isSelectedAll = () => {
     const allSelected =
@@ -180,6 +226,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
             search_value: searchTerm.trim(),
             sort: sort,
             page: page,
+            filters: filters,
           })
         );
         setSelectedIds([]);
@@ -210,6 +257,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
             search_value: searchTerm.trim(),
             sort: sort,
             page: page,
+            filters: filters,
           })
         );
         setSelectedIds([]);
@@ -246,6 +294,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
               search_value: searchTerm.trim(),
               sort: sort,
               page: page,
+              filters: filters,
             },
             packageNoDataReducer?.data
           )
@@ -264,39 +313,60 @@ const { packageNoDataReducer } = useSelector((state) => state);
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
-        <TextField
-          id="search"
-          type="search"
-          label="Search"
-          value={searchTerm}
-          size="small"
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            if (e.target.value === "") {
-              dispatch(
-                hoto_gp_asset_partfolio_data_disptach(
-                  {
-                    sortBy: sortBy,
-                    search_value: "",
-                    sort: sort,
-                    page: page,
-                  },
-                  packageNoDataReducer?.data
-                )
-              );
-            }
-          }}
-          sx={{ width: 300, my: "2%" }}
-          InputProps={{
-            endAdornment: (
-              <Div sx={{ cursor: "pointer" }}>
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              </Div>
-            ),
-          }}
-        />
+        <Div sx={{ display: "flex", gap: "2%", flexDirection: "row" }}>
+          <TextField
+            id="search"
+            type="search"
+            label="Search"
+            value={searchTerm}
+            size="small"
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              if (e.target.value === "") {
+                dispatch(
+                  hoto_gp_asset_partfolio_data_disptach(
+                    {
+                      sortBy: sortBy,
+                      search_value: "",
+                      sort: sort,
+                      page: page,
+                      filters: filters,
+                    },
+                    packageNoDataReducer?.data
+                  )
+                );
+              }
+            }}
+            sx={{ width: 300, my: "2%" }}
+            InputProps={{
+              endAdornment: (
+                <Div sx={{ cursor: "pointer" }}>
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                </Div>
+              ),
+            }}
+          />
+
+          <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={filterAvailabilityOptions}
+              getOptionLabel={(option) => option?.label || ""}
+              isOptionEqualToValue={(option, value) =>
+                option?.label === value?.label
+              }
+              sx={{ width: 200 }}
+              value={filterAvailabilityValue}
+              onChange={(_, newValue) => handleAvailabilityChange(newValue)}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Availability" />
+              )}
+            />
+          </FormControl>
+        </Div>
         {selectedIds?.length > 0 && (
           <Div
             sx={{
@@ -419,7 +489,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                   size="small"
                 />
               </TableCell> */}
-              <TableCell align="left" sx={{ ...tableCellSx}}>
+              <TableCell align="left" sx={{ ...tableCellSx }}>
                 Sr No
               </TableCell>
 
@@ -432,6 +502,15 @@ const { packageNoDataReducer } = useSelector((state) => state);
                   >
                     Equipment
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
@@ -444,10 +523,22 @@ const { packageNoDataReducer } = useSelector((state) => state);
                   >
                     Serial No.
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Serial No"
+                    field="serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
-              <TableCell align="left" sx={{ ...tableCellSx, minWidth:"150px" }}>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() =>
@@ -458,6 +549,15 @@ const { packageNoDataReducer } = useSelector((state) => state);
                   >
                     GP Location
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block Location"
+                    field="equipment_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
@@ -471,6 +571,43 @@ const { packageNoDataReducer } = useSelector((state) => state);
                     sx={{ ...tableCellSx }}
                   >
                     GP Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block Code"
+                    field="equipment_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("equipment_details.block.name")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Block Name
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("equipment_details.block.code")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Block Code
                   </TableSortLabel>
                 </Box>
               </TableCell>
@@ -515,6 +652,36 @@ const { packageNoDataReducer } = useSelector((state) => state);
                   >
                     Condition
                   </TableSortLabel>
+                  <FilterModel
+                    label="Filter Condition"
+                    field="condition"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    // apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=condition&package_name=${packageNoDataReducer?.data}`}
+                    staticOptions={["robust", "damaged"]}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell align="left" sx={{ ...tableCellSx }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("availability")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Availability
+                  </TableSortLabel>
+                  <StaticFilterModel
+                    label="Filter Availability"
+                    field="availability"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    filterOptions={["Yes", "No"]}
+                  />
                 </Box>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
@@ -552,7 +719,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                 </Box>
               </TableCell>
 
-              {/* <TableCell
+              <TableCell
                 sx={{
                   ...tableCellSx,
                   textAlign: "center",
@@ -565,7 +732,7 @@ const { packageNoDataReducer } = useSelector((state) => state);
                 }}
               >
                 Action
-              </TableCell> */}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

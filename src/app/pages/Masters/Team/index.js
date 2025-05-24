@@ -1,12 +1,13 @@
 
 import Box from '@mui/material/Box';
-import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
+
 import TeamList from './TeamList/TeamList';
+import HotoHeader from 'app/Components/HotoHeader';
 
 const Team = () => {
     return (
       <Box>
-        <HotoHeader2 />
+        <HotoHeader />
         <TeamList />
       </Box>
     );

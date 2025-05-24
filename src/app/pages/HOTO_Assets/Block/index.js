@@ -44,13 +44,13 @@ const HotoBlock = () => {
 
                 {/* Push next tab to the right using margin-left: auto */}
                 
-                {/* <Tab
+                <Tab
                   label="Maintenance"
                   value="4"
                   sx={{ marginLeft: "auto" }}
                 />
                 <Tab label="Replacement" value="5" />
-                <Tab label="Transfer" value="6" /> */}
+                <Tab label="Transfer" value="6" />
               </TabList>
             </Box>
 

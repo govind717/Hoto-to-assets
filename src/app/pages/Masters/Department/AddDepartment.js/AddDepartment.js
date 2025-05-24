@@ -8,7 +8,8 @@ import {
   Typography
 } from "@mui/material";
 import MasterApis from "app/Apis/master";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import HotoHeader from "app/Components/HotoHeader";
+
 import { addDepartment, updateDepartment } from "app/services/apis/master";
 import {
   DEPARTMENT_MASTER,
@@ -127,7 +128,7 @@ function AddDepartment() {
   }, [organisationNameOptions]);
   return (
     <>
-      <HotoHeader />
+      <HotoHeader/>
       <Div sx={{ mt: 0 }}>
         <Div>
           {

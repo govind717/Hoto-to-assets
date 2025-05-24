@@ -1,22 +1,11 @@
-import React from 'react';
-import { Card, Grid, Typography, useTheme } from "@mui/material";
-import { useTranslation } from "react-i18next";
-import JumboContent from "@jumbo/components/JumboContent";
-import JumboDdMenu from "@jumbo/components/JumboDdMenu";
 import Div from "@jumbo/shared/Div";
+import { Grid, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
-import renderSalesData from "./renderSalesData";
-import {dataItems, data, menuItems } from "./data";
-import StylishAssetHealthChart from './DistrictAssetHealthChart';
-import ConditionStatusChart from './conditionDonaltChart';
-import AssetConditionByTypeChart from './AssetConditionByTypeChart ';
-import ConditionStatusPieChart from './pieChart';
-import ChartOrderRevenue from './ChartOrderRevenue';
-import ChartHotoSurveyStatus from './ChartOrderRevenue';
-import AssetConditionByTypeChart2 from './AssetConditionByTypeChart2';
-import AssetConditionByTypeChart3 from './AssetConditionByTypeChart3';
 import AssetConditionByTypeChart4 from './AssetConditionByTypeChart4';
 import ConditionStatusChart2 from './conditionDonaltChart2';
+import ConditionStatusChart from "./conditionDonaltChart";
+import AssetConditionByTypeChart from "./AssetConditionByTypeChart ";
 
 const hotosurveyData = [
     {
@@ -41,7 +30,7 @@ const hotosurveyData = [
     },
 ];
 
-const SalesStatistics = ({ selectedValue }) => {
+const SalesStatistics = () => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -60,19 +49,27 @@ const SalesStatistics = ({ selectedValue }) => {
                     </Grid> */}
       <Grid item xs={12} md={12}>
         <Div sx={{ p: 2, pl: 0, pt: 0 }}>
-          <ConditionStatusChart2 selectedValue={selectedValue} />
+          <ConditionStatusChart2 />
         </Div>
       </Grid>
-      {/* <Grid item xs={12} md={12}>
-                        <Div sx={{ p: 2, px:0 }}>
-                            <AssetConditionByTypeChart />
-                        </Div>
-                    </Grid> */}
+
+      <Grid item xs={12} md={12}>
+        <Div sx={{ p: 2, px: 0 ,mb:2 }}>
+          <AssetConditionByTypeChart4 />
+        </Div>
+      </Grid>
+      <Grid item xs={12} md={12}>
+        <Div sx={{ p: 2, pl: 0, pt: 0 }}>
+          <ConditionStatusChart/>
+        </Div>
+      </Grid>
+
       <Grid item xs={12} md={12}>
         <Div sx={{ p: 2, px: 0 }}>
-          <AssetConditionByTypeChart4 selectedValue={selectedValue} />
+          <AssetConditionByTypeChart/>
         </Div>
       </Grid>
+
       {/* <Grid item xs={12} md={12}>
                         <Div sx={{ p: 2, px:0 }}>
                             <AssetConditionByTypeChart2 />

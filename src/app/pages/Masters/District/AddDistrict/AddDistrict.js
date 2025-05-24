@@ -8,7 +8,7 @@ import {
   Typography
 } from "@mui/material";
 import MasterApis from "app/Apis/master";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
+import HotoHeader from "app/Components/HotoHeader";
 import { addDistrict, updateDistrict } from "app/services/apis/master";
 import {
   DISTRICT_MASTER,
@@ -130,7 +130,7 @@ function AddDistrict() {
 
   return (
     <>
-      <HotoHeader />
+      <HotoHeader/>
       <Div sx={{ mt: 0 }}>
         <Div>
           <Formik

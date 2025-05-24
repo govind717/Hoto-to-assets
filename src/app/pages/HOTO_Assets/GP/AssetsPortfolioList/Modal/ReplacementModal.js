@@ -60,6 +60,7 @@ function ReplacementModal({ open, handleClose, row, setToggle }) {
       initiatedBy: values?.initiatedBy,
       remarks: values?.remark,
     };
+    return;
     setSubmitting(true);
     try {
       const res = await Axios.post("/hoto-to-assets/gp/replacement/add", body);

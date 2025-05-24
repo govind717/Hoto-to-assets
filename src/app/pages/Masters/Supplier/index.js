@@ -2,13 +2,13 @@ import React from 'react';
 
 import Box from '@mui/material/Box';
 
-import HotoHeader2 from 'app/pages/Hoto_to_Assets/HotoHeader/HotoHeader2';
 import WarehouseList from './SupplierList/SupplierList';
+import HotoHeader from 'app/Components/HotoHeader';
 
 const Supplier = () => {
     return (
       <Box>
-        <HotoHeader2 />
+        <HotoHeader/>
         <WarehouseList />
       </Box>
     );

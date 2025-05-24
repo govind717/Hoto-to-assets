@@ -90,6 +90,7 @@ function TransferModal({ open, handleClose, row , setToggle}) {
         remarks: values?.remarks,
       },
     };
+    return;
     setSubmitting(true);
     try {
       const res = await Axios.post(

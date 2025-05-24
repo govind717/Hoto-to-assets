@@ -1,12 +1,11 @@
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Divider, Grid, Tab, Typography } from "@mui/material";
+import { Box, Divider, Grid, Typography } from "@mui/material";
+import HotoHeader from "app/Components/HotoHeader";
 
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 // import TranferTable from "./TranferTable/TranferTable";
 // import MaintenanceTable from "./MaintenanceTable/MaintenanceTable";
 // import ReplacementTable from "./ReplacementTable/ReplacementTable";
-import HotoHeader from "app/pages/Hoto_to_Assets/HotoHeader";
 
 const patternBoxStyle = {
   width: "100%",
