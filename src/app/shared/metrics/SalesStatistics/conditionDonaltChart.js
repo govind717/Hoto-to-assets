@@ -9,6 +9,7 @@ import {
 import { Axios } from "index";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const colorsMap = {
@@ -18,7 +19,7 @@ const colorsMap = {
   // "Not Found": "#E78F5D",
 };
 
-const CustomLegend = ({ total, data }) => (
+const CustomLegend = ({ total, data, onConditionClick }) => (
   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
     <Box display="flex" alignItems="center" gap={1}>
       <Box
@@ -37,19 +38,20 @@ const CustomLegend = ({ total, data }) => (
       </Typography>
     </Box>
     {data.map((item, index) => (
-      <Box key={index} display="flex" alignItems="center" gap={1}>
+      <Box key={index} display="flex" alignItems="center" gap={1} onClick={() => onConditionClick(item)}>
         <Box
           sx={{
             width: 10,
             height: 10,
             borderRadius: "50%",
+
             backgroundColor: colorsMap[item.name] || "#ccc",
           }}
         />
-        <Typography variant="body2" sx={{ color: "#000" }}>
+        <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
           {item.value}
         </Typography>
-        <Typography variant="body2" sx={{ color: "#000" }}>
+        <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
           {item.name}
         </Typography>
       </Box>
@@ -66,6 +68,7 @@ const ConditionStatusChart = () => {
   const [conditionData, setConditionData] = useState([]);
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
+  const navigate = useNavigate();
   useEffect(() => {
     setSelectedBlock("");
   }, [packageNoDataReducer?.data]);
@@ -172,6 +175,24 @@ const ConditionStatusChart = () => {
   }, [packageNoDataReducer?.data]);
 
   const total = originalData.reduce((sum, item) => sum + item.value, 0);
+  console.log('selectedBlock', selectedBlock)
+  const handleConditionClick = (item) => {
+    navigate("/dashboards/hoto-survey-block-data", {
+      state: {
+        "equipment_details.block.name": selectedBlock,
+        condition: item.name?.toLowerCase(),
+      },
+    });
+  }
+
+  const handleNotFoundClick = () => {
+    navigate("/dashboards/hoto-survey-block-data", {
+      state: {
+         "equipment_details.block.name": selectedBlock,
+        "availability": true,
+      },
+    });
+  }
 
   return (
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
@@ -186,7 +207,7 @@ const ConditionStatusChart = () => {
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
               Block Total Assets
             </Typography>
-            <Typography sx={{ fontWeight: 400 }}>
+            <Typography sx={{ fontWeight: 400,cursor: "pointer" }} onNotFoundClick={handleNotFoundClick}>
               {notFoundCount || 0} Not Found
             </Typography>
           </Box>
@@ -241,7 +262,7 @@ const ConditionStatusChart = () => {
           </PieChart>
         </ResponsiveContainer>
 
-        <CustomLegend total={total} data={conditionData} />
+        <CustomLegend total={total} data={conditionData} onConditionClick={handleConditionClick} />
       </CardContent>
     </Card>
   );

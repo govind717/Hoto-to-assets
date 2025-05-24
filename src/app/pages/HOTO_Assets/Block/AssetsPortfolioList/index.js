@@ -38,7 +38,7 @@ const tableCellSx = {
   verticalAlign: "middle",
 };
 
-const tableCellSort = {
+const tableCellSort = { 
   color: "white",
   "&:hover": { color: "white" },
   "&.MuiTableSortLabel-root.Mui-active": {
