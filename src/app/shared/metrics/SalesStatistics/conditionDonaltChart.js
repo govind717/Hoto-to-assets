@@ -72,7 +72,7 @@ const ConditionStatusChart = () => {
   // Fetch initial blocks
   useEffect(() => {
     Axios.get(
-      `/hoto-to-assets/equipment/dropdown-block?package_name=${packageNoDataReducer?.data}`
+      `/hoto-to-assets/equipment/dropdown-block-for-block?package_name=${packageNoDataReducer?.data}`
     ).then((response) => {
       setBlocks(response?.data?.result);
     });
@@ -127,7 +127,7 @@ const ConditionStatusChart = () => {
       .catch((err) => console.log("Error : ", err));
 
     if (newValue) {
-      Axios.get(`/hoto-to-assets/equipment/dropdown-gp?block_name=${newValue}`)
+      Axios.get(`/hoto-to-assets/equipment/dropdown-gp-for-block?block_name=${newValue}`)
         .then((response) => {
           setGps(response.data?.result);
         })

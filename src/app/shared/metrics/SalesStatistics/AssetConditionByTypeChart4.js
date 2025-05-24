@@ -604,13 +604,21 @@ const AssetConditionByTypeChart4 = () => {
   }, [packageNoDataReducer?.data]);
 
   useEffect(() => {
-    setSelectedBlock("");
+    if (packageNoDataReducer?.data) {
+      setSelectedBlock("");
+    }
   }, [packageNoDataReducer?.data]);
 
   const handleEquipmentChange = (_, newValue) => {
-    if (newValue) {
+    if (newValue && selectedBlock && selectedGP) {
       setSelectedEquipment(newValue);
-      fetchData(newValue);
+      fetchData(newValue, selectedBlock, selectedGP?.location_name);
+    } else if (newValue && selectedBlock) {
+      setSelectedEquipment(newValue);
+      fetchData(newValue, selectedBlock);
+    } else if (newValue) {
+      setSelectedEquipment(newValue);
+      fetchData(newValue, selectedBlock);
     }
   };
 
@@ -618,7 +626,11 @@ const AssetConditionByTypeChart4 = () => {
     setSelectedBlock(newValue);
     setSelectedGP(null);
     setGps([]);
-    fetchData(selectedEquipment, newValue);
+    if (newValue){
+      fetchData(selectedEquipment, newValue);
+    } else{
+      fetchData(selectedEquipment);
+    }
     if (newValue) {
       Axios.get(
         `/hoto-to-assets/equipment/dropdown-gp?block_name=${newValue}`
@@ -634,21 +646,49 @@ const AssetConditionByTypeChart4 = () => {
   // Legend click handler
   const handleLegendClick = (conditionName) => {
     if (conditionName === "Not Found") {
+      let state = {};
+      if (selectedBlock) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
+          ...state,
           equipment_name: selectedEquipment,
-          "equipment_details.location_name": selectedGP?.location_name,
-          "equipment_details.block.name": selectedBlock,
+          // "equipment_details.location_name": selectedGP?.location_name,
+          // "equipment_details.block.name": selectedBlock,
           availability: false,
           // condition: conditionName?.toLowerCase(),
         },
       });
     } else {
+      let state = {};
+      if (selectedBlock) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
+          ...state,
           equipment_name: selectedEquipment,
-          "equipment_details.location_name": selectedGP?.location_name,
-          "equipment_details.block.name": selectedBlock,
+          // "equipment_details.location_name": selectedGP?.location_name,
+          // "equipment_details.block.name": selectedBlock,
           condition: conditionName?.toLowerCase(),
         },
       });
@@ -666,7 +706,7 @@ const AssetConditionByTypeChart4 = () => {
         >
           <Box>
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
-              GP POP Asset Condition
+              GP Asset Condition
             </Typography>
             <Typography
               sx={{ fontWeight: 400 ,cursor:'pointer' }}
