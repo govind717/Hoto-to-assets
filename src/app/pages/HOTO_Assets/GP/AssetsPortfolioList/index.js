@@ -1,15 +1,11 @@
 import Div from "@jumbo/shared/Div";
-import { LoadingButton } from "@mui/lab";
 import SearchIcon from "@mui/icons-material/Search";
+import { LoadingButton } from "@mui/lab";
 import {
   Autocomplete,
   Box,
-  Button,
-  Checkbox,
   FormControl,
-  FormControlLabel,
   InputAdornment,
-  Modal,
   Pagination,
   Paper,
   Table,
@@ -20,21 +16,21 @@ import {
   TableRow,
   TableSortLabel,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import ItemDetailsModal from "./ItemDetails/GpAssetsDetail";
-import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
-import Swal from "sweetalert2";
-import { debounce } from "lodash";
-import { Axios } from "index";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import { BorderColor } from "@mui/icons-material";
-import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
-import FullScreenLoader from "app/pages/Components/Loader";
 import FilterModel from "app/Components/FilterModel";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
+import { Axios } from "index";
+import { debounce } from "lodash";
 import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
+import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
+import StaticFilterModel from "app/Components/StaticFilterModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -314,57 +310,59 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Div  sx={{display:'flex', gap: "2%",flexDirection:'row' }}>
-        <TextField
-          id="search"
-          type="search"
-          label="Search"
-          value={searchTerm}
-          size="small"
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            if (e.target.value === "") {
-              dispatch(
-                hoto_gp_asset_partfolio_data_disptach(
-                  {
-                    sortBy: sortBy,
-                    search_value: "",
-                    sort: sort,
-                    page: page,
-                    filters: filters,
-                  },
-                  packageNoDataReducer?.data
-                )
-              );
-            }
-          }}
-          sx={{ width: 300, my: "2%" }}
-          InputProps={{
-            endAdornment: (
-              <Div sx={{ cursor: "pointer" }}>
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              </Div>
-            ),
-          }}
-        />
-         
-        <FormControl fullWidth size="small" sx={{ my: "2%" }}>
-          <Autocomplete
-            disablePortal
+        <Div sx={{ display: "flex", gap: "2%", flexDirection: "row" }}>
+          <TextField
+            id="search"
+            type="search"
+            label="Search"
+            value={searchTerm}
             size="small"
-            options={filterAvailabilityOptions}
-            getOptionLabel={(option) => option?.label || ""}
-            isOptionEqualToValue={(option, value) =>
-              option?.label === value?.label
-            }
-            sx={{ width: 200 }}
-            value={filterAvailabilityValue}
-            onChange={(_, newValue) => handleAvailabilityChange(newValue)}
-            renderInput={(params) => <TextField {...params} label="Select Availability" />}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              if (e.target.value === "") {
+                dispatch(
+                  hoto_gp_asset_partfolio_data_disptach(
+                    {
+                      sortBy: sortBy,
+                      search_value: "",
+                      sort: sort,
+                      page: page,
+                      filters: filters,
+                    },
+                    packageNoDataReducer?.data
+                  )
+                );
+              }
+            }}
+            sx={{ width: 300, my: "2%" }}
+            InputProps={{
+              endAdornment: (
+                <Div sx={{ cursor: "pointer" }}>
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                </Div>
+              ),
+            }}
           />
-        </FormControl>
+
+          <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={filterAvailabilityOptions}
+              getOptionLabel={(option) => option?.label || ""}
+              isOptionEqualToValue={(option, value) =>
+                option?.label === value?.label
+              }
+              sx={{ width: 200 }}
+              value={filterAvailabilityValue}
+              onChange={(_, newValue) => handleAvailabilityChange(newValue)}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Availability" />
+              )}
+            />
+          </FormControl>
         </Div>
         {selectedIds?.length > 0 && (
           <Div
@@ -671,6 +669,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Availability
                   </TableSortLabel>
+                  <StaticFilterModel
+                    label="Filter Availability"
+                    field="availability"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    filterOptions={["Yes", "No"]}
+                  />
                 </Box>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
@@ -726,7 +733,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoGpAssetPortfolioDataReducer?.data.result?.data &&
-              hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
+            hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
                   return (

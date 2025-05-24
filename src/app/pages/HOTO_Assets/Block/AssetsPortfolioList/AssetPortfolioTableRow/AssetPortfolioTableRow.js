@@ -183,7 +183,7 @@ const AssetPortfolioTableRow = ({
             />
           )}
         </TableCell> */}
-        <TableCell sx={{ ...tableBodyCell }}>{e?.availability || "-"}</TableCell>
+        <TableCell sx={{ ...tableBodyCell }}>{e?.availability ? "Yes" : "No"}</TableCell>
         <TableCell sx={{ ...tableBodyCell }}>{e?.issued_for || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip

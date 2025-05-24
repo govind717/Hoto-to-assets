@@ -31,6 +31,7 @@ import Swal from "sweetalert2";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
 import { useLocation } from "react-router-dom";
+import StaticFilterModel from "app/Components/StaticFilterModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -363,8 +364,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
 
   return (
     <>
-      <Div sx={{ display: "flex", justifyContent: "space-between", }}>
-        <Div sx={{ display: 'flex', gap: "2%", flexDirection: 'row' }}>
+      <Div sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Div sx={{ display: "flex", gap: "2%", flexDirection: "row" }}>
           <TextField
             id="search"
             type="search"
@@ -411,7 +412,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               sx={{ width: 200 }}
               value={filterAvailabilityValue}
               onChange={(_, newValue) => handleAvailabilityChange(newValue)}
-              renderInput={(params) => <TextField {...params} label="Select Availability" />}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Availability" />
+              )}
             />
           </FormControl>
         </Div>
@@ -726,6 +729,15 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Availability
                   </TableSortLabel>
+                  <StaticFilterModel
+                    label="Filter Availability"
+                    field="availability"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    filterOptions={["Yes" ,"No" ]}
+                  />
                 </Box>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
@@ -782,7 +794,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoBlockAssetPortfolioDataReducer?.data.result?.data &&
-              hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
+            hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
