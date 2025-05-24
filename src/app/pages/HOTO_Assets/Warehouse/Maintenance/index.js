@@ -117,7 +117,7 @@ const MaintainanceList = () => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page,packageNoDataReducer?.data, sortBy, dispatch]);
+  }, [sort, page, packageNoDataReducer?.data, sortBy, dispatch]);
 
   const Toast = Swal.mixin({
     toast: true,
@@ -415,7 +415,7 @@ const MaintainanceList = () => {
           </TableHead>
           <TableBody>
             {hotoWarehouseMaintenanceDataReducer?.data?.result?.data?.length >
-            0 ? (
+              0 ? (
               hotoWarehouseMaintenanceDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
@@ -547,18 +547,18 @@ const MaintainanceList = () => {
                           sx={{
                             backgroundColor:
                               ele?.assets_details?.condition?.toUpperCase() ===
-                              "DAMAGED"
+                                "DAMAGED"
                                 ? Red
                                 : ele?.assets_details?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
-                                ? Yellow
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "ROBUST"
-                                ? Green
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "MISSING"
-                                ? Orange
-                                : "",
+                                  ? Yellow
+                                  : ele?.assets_details?.condition?.toUpperCase() ===
+                                    "ROBUST"
+                                    ? Green
+                                    : ele?.assets_details?.condition?.toUpperCase() ===
+                                      "MISSING"
+                                      ? Orange
+                                      : "",
                             color: "#FFF",
                             fontWeight: "bold",
                             fontSize: "14",
@@ -575,7 +575,22 @@ const MaintainanceList = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.condition_status || "-"}
+                        {/* {ele?.assets_details?.condition_status || "-"} */}
+                        <Chip
+                          label={
+                            ele?.assets_details?.condition_status
+                              ? ele?.assets_details?.condition_status?.toUpperCase()
+                              : "-"
+                          }
+                          sx={{
+
+                            color: "#FFF",
+                            fontWeight: "bold",
+                            fontSize: "14",
+                            height: "25px",
+                            px: 2,
+                          }}
+                        />
                       </TableCell>
                       <TableCell
                         align="left"

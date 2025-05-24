@@ -3,7 +3,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import InfoIcon from "@mui/icons-material/Info";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Chip, TableCell, TableRow } from "@mui/material";
-import { Green, Orange, Red } from "app/pages/Constants/colors";
+import { Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -117,7 +117,7 @@ const AssetPortfolioTableRow = ({
         <TableCell sx={{ ...tableBodyCell  }}>
           {e?.warranty_status ? "Yes" : "No"}
         </TableCell>
-        {/* <TableCell sx={{ ...tableBodyCell }}>
+        <TableCell sx={{ ...tableBodyCell }}>
           <Chip
             label={e?.condition ? e?.condition?.toUpperCase() : "-"}
             sx={{
@@ -138,8 +138,8 @@ const AssetPortfolioTableRow = ({
               px: 2,
             }}
           />
-        </TableCell> */}
-        <TableCell sx={{ ...tableBodyCell }}>
+        </TableCell>
+        {/* <TableCell sx={{ ...tableBodyCell }}>
           {e?.condition !== null ? (
             <Chip
               label={
@@ -178,7 +178,7 @@ const AssetPortfolioTableRow = ({
               }}
             />
           )}
-        </TableCell>
+        </TableCell> */}
         <TableCell sx={{ ...tableBodyCell }}>{e?.availability || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell }}>{e?.issued_for || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
