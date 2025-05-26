@@ -435,6 +435,7 @@ const ConditionStatusChart2 = () => {
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
+          condition:{$ne:null},
           availability: true,
         },
       });
