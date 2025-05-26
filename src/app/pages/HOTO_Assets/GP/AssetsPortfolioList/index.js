@@ -65,6 +65,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { state } = useLocation();
+  console.log('state////////////////',state)
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");

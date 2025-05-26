@@ -37,7 +37,7 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
       </Typography>
       <Typography
         variant="body2"
-        sx={{ color: "#000",cursor:'pointer' }}
+        sx={{ color: "#000", cursor: 'pointer' }}
         onClick={() => onConditionClick("total")}
       >
         Total Assets
@@ -210,7 +210,8 @@ const ConditionStatusChart2 = () => {
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
-          condition:{$ne:null},
+          // condition: { $ne: null },
+          //  condition: { $eq: null  },
           availability: true,
         },
       });
@@ -228,15 +229,26 @@ const ConditionStatusChart2 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      navigate("/dashboards/hoto-survey-gp-data", {
-        state: {
-          ...state,
-          availability: true,
-          // "equipment_details.location_name": selectedGP?.location_name,
-          // "equipment_details.block.name": selectedBlock,
-          condition: item.name?.toLowerCase(),
-        },
-      });
+      if (item.name === "Not Defined") {
+        navigate("/dashboards/hoto-survey-gp-data", {
+          state: {
+            ...state,
+            condition: { $eq: null },
+            availability: true,
+          },
+        });
+        return;
+      } else {
+        navigate("/dashboards/hoto-survey-gp-data", {
+          state: {
+            ...state,
+            availability: true,
+            // "equipment_details.location_name": selectedGP?.location_name,
+            // "equipment_details.block.name": selectedBlock,
+            condition: item.name?.toLowerCase(),
+          },
+        });
+      };
     }
   };
 
