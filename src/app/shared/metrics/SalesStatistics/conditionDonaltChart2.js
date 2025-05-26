@@ -433,6 +433,7 @@ const ConditionStatusChart2 = () => {
     navigate("/dashboards/hoto-survey-gp-data", {
       state: {
         ...state,
+        availability:true,
         // "equipment_details.location_name": selectedGP?.location_name,
         // "equipment_details.block.name": selectedBlock,
         condition: item.name?.toLowerCase(),
@@ -456,9 +457,10 @@ const ConditionStatusChart2 = () => {
     }
     navigate("/dashboards/hoto-survey-gp-data", {
       state: {
+        ...state,
         // "equipment_details.location_name": selectedGP?.location_name,
         // "equipment_details.block.name": selectedBlock,
-        "availability": false,
+        availability: false,
       },
     });
   }

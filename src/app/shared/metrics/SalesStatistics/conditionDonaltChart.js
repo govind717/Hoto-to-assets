@@ -192,7 +192,8 @@ const ConditionStatusChart = () => {
       }
     navigate("/dashboards/hoto-survey-block-data", {
       state: {
-        
+        ...state,
+        availability:true,
         // "equipment_details.block.name": selectedBlock,
         condition: item.name?.toLowerCase(),
       },
@@ -217,7 +218,7 @@ const ConditionStatusChart = () => {
       state: {
         ...state,
         //  "equipment_details.block.name": selectedBlock,
-        "availability": false,
+        availability: false,
       },
     });
   }
