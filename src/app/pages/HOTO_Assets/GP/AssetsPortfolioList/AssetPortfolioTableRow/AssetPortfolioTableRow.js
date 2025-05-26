@@ -180,7 +180,7 @@ const AssetPortfolioTableRow = ({
           )}
         </TableCell> */}
         <TableCell sx={{ ...tableBodyCell }}>{e?.availability ? "Yes" : "No"}</TableCell>
-        <TableCell sx={{ ...tableBodyCell }}>{e?.issued_for || "-"}</TableCell>
+        <TableCell sx={{ ...tableBodyCell,textTransform:'capitalize' }}>{e?.issued_for || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
             label={e?.condition_status || "-"}
