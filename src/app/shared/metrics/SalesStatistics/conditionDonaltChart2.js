@@ -1,3 +1,4 @@
+
 // import {
 //   Autocomplete,
 //   Box,
@@ -9,6 +10,7 @@
 // import { Axios } from "index";
 // import { useEffect, useState } from "react";
 // import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 // import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 // const colorsMap = {
@@ -18,7 +20,7 @@
 //   // "Not Found": "#E78F5D",
 // };
 
-// const CustomLegend = ({ total, data }) => (
+// const CustomLegend = ({ total, data, onConditionClick }) => (
 //   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
 //     <Box display="flex" alignItems="center" gap={1}>
 //       <Box
@@ -32,24 +34,35 @@
 //       <Typography variant="body2" sx={{ color: "#000" }}>
 //         {total}
 //       </Typography>
-//       <Typography variant="body2" sx={{ color: "#000" }}>
+//       <Typography
+//         variant="body2"
+//         sx={{ color: "#000",cursor:'pointer' }}
+//         onClick={() => onConditionClick("total")}
+//       >
 //         Total Assets
 //       </Typography>
 //     </Box>
 //     {data.map((item, index) => (
-//       <Box key={index} display="flex" alignItems="center" gap={1}>
+//       <Box
+//         key={index}
+//         display="flex"
+//         alignItems="center"
+//         gap={1}
+//         onClick={() => onConditionClick(item)}
+//       >
 //         <Box
 //           sx={{
 //             width: 10,
 //             height: 10,
 //             borderRadius: "50%",
+
 //             backgroundColor: colorsMap[item.name] || "#ccc",
 //           }}
 //         />
-//         <Typography variant="body2" sx={{ color: "#000" }}>
+//         <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
 //           {item.value}
 //         </Typography>
-//         <Typography variant="body2" sx={{ color: "#000" }}>
+//         <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
 //           {item.name}
 //         </Typography>
 //       </Box>
@@ -64,10 +77,12 @@
 //   const [gps, setGps] = useState([]);
 //   const [originalData, setOriginalData] = useState([]);
 //   const [conditionData, setConditionData] = useState([]);
-//    const { packageNoDataReducer } = useSelector((state) => state);
-//  useEffect(() => {
-//   setSelectedBlock("")
-//  }, [packageNoDataReducer?.data]);
+//   const { packageNoDataReducer } = useSelector((state) => state);
+//   const [notFoundCount, setNotFoundCount] = useState(0);
+//   const navigate = useNavigate();
+//   useEffect(() => {
+//     setSelectedBlock("");
+//   }, [packageNoDataReducer?.data]);
 //   // Fetch initial blocks
 //   useEffect(() => {
 //     Axios.get(
@@ -79,28 +94,28 @@
 
 //   // Helper function to process and fill missing data
 //   const processFetchedData = (fetchedData) => {
-//     const conditionMap = fetchedData.reduce((acc, item) => {
-//       acc[item._id.condition] = item.count;
+//     const conditionMap = fetchedData?.reduce((acc, item) => {
+//       acc[item._id?.toLowerCase()] = item.count;
 //       return acc;
 //     }, {});
 
-//     // Create custom aggregations
 //     const finalData = [
 //       {
 //         name: "Robust",
-//         value: (conditionMap["Good"] || 0) + (conditionMap["OK"] || 0),
+//         value: conditionMap["robust"] || 0,
 //       },
 //       {
 //         name: "Damaged",
-//         value: (conditionMap["Damaged"] || 0) + (conditionMap["Bad"] || 0),
+//         value: conditionMap["damaged"] || 0,
 //       },
+//       // Uncomment if you want to show these as 0 always:
 //       // {
 //       //   name: "Semi-Damaged",
-//       //   value: 0, // Always show 0 as required
+//       //   value: 0,
 //       // },
 //       // {
-//       //   name: "Not Found",
-//       //   value: conditionMap[null] || 0, // Always show 0 as required
+//       //   name: "Missing",
+//       //   value: conditionMap["missing"] || 0,
 //       // },
 //     ];
 
@@ -119,7 +134,10 @@
 //       : `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`;
 
 //     Axios.get(endpoint)
-//       .then((result) => processFetchedData(result?.data?.result))
+//       .then((result) => {
+//         processFetchedData(result?.data?.result[0]?.available);
+//         setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+//       })
 //       .catch((err) => console.log("Error : ", err));
 
 //     if (newValue) {
@@ -138,13 +156,19 @@
 //       Axios.get(
 //         `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${packageNoDataReducer?.data}`
 //       )
-//         .then((result) => processFetchedData(result?.data?.result))
+//         .then((result) => {
+//           processFetchedData(result?.data?.result[0]?.available);
+//           setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+//         })
 //         .catch((err) => console.log("Error : ", err));
 //     } else {
 //       Axios.get(
 //         `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&package_name=${packageNoDataReducer?.data}`
 //       )
-//         .then((result) => processFetchedData(result?.data?.result))
+//         .then((result) => {
+//           processFetchedData(result?.data?.result[0]?.available);
+//           setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+//         })
 //         .catch((err) => console.log("Error : ", err));
 //     }
 //   };
@@ -154,11 +178,86 @@
 //     Axios.get(
 //       `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`
 //     )
-//       .then((result) => processFetchedData(result?.data?.result))
+//       .then((result) => {
+//         processFetchedData(result?.data?.result[0]?.available);
+//         setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+//       })
 //       .catch((err) => console.log("Error : ", err));
 //   }, [packageNoDataReducer?.data]);
 
 //   const total = originalData.reduce((sum, item) => sum + item.value, 0);
+
+//   const handleConditionClick = (item) => {
+//     if (item === "total") {
+//       let state = {};
+//       if (selectedBlock) {
+//         state = {
+//           ...state,
+//           "equipment_details.block.name": selectedBlock,
+//         };
+//       }
+//       if (selectedGP?.location_name) {
+//         state = {
+//           ...state,
+//           "equipment_details.location_name": selectedGP?.location_name,
+//         };
+//       }
+//       navigate("/dashboards/hoto-survey-gp-data", {
+//         state: {
+//           ...state,
+//           condition:{$ne:null},
+//           availability: true,
+//         },
+//       });
+//     } else {
+//       let state = {};
+//       if (selectedBlock) {
+//         state = {
+//           ...state,
+//           "equipment_details.block.name": selectedBlock,
+//         };
+//       }
+//       if (selectedGP?.location_name) {
+//         state = {
+//           ...state,
+//           "equipment_details.location_name": selectedGP?.location_name,
+//         };
+//       }
+//       navigate("/dashboards/hoto-survey-gp-data", {
+//         state: {
+//           ...state,
+//           availability: true,
+//           // "equipment_details.location_name": selectedGP?.location_name,
+//           // "equipment_details.block.name": selectedBlock,
+//           condition: item.name?.toLowerCase(),
+//         },
+//       });
+//     }
+//   };
+
+//   const handleNotFoundClick = () => {
+//     let state = {};
+//     if (selectedBlock) {
+//       state = {
+//         ...state,
+//         "equipment_details.block.name": selectedBlock,
+//       };
+//     }
+//     if (selectedGP?.location_name) {
+//       state = {
+//         ...state,
+//         "equipment_details.location_name": selectedGP?.location_name,
+//       };
+//     }
+//     navigate("/dashboards/hoto-survey-gp-data", {
+//       state: {
+//         ...state,
+//         // "equipment_details.location_name": selectedGP?.location_name,
+//         // "equipment_details.block.name": selectedBlock,
+//         availability: false,
+//       },
+//     });
+//   };
 
 //   return (
 //     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
@@ -169,7 +268,17 @@
 //           alignItems="center"
 //           mb={1}
 //         >
-//           <Typography variant="h6">GP Total Assets</Typography>
+//           <Box>
+//             <Typography variant="h6" sx={{ fontWeight: "500" }}>
+//               GP Total Assets
+//             </Typography>
+//             <Typography
+//               sx={{ fontWeight: 400, cursor: "pointer" }}
+//               onClick={handleNotFoundClick}
+//             >
+//               {notFoundCount || 0} Not Found
+//             </Typography>
+//           </Box>
 //           <Box display="flex" gap={2}>
 //             <Autocomplete
 //               sx={{ minWidth: "200px" }}
@@ -221,13 +330,19 @@
 //           </PieChart>
 //         </ResponsiveContainer>
 
-//         <CustomLegend total={total} data={conditionData} />
+//         <CustomLegend
+//           total={total}
+//           data={conditionData}
+//           onConditionClick={handleConditionClick}
+//         />
 //       </CardContent>
 //     </Card>
 //   );
 // };
 
 // export default ConditionStatusChart2;
+
+
 
 import {
   Autocomplete,
@@ -247,7 +362,7 @@ const colorsMap = {
   Robust: "#22CAAD",
   Damaged: "#F55757",
   "Semi-Damaged": "#FDCF2A",
-  // "Not Found": "#E78F5D",
+  "Not Defined": "#E78F5D", // New field using Missing color
 };
 
 const CustomLegend = ({ total, data, onConditionClick }) => (
@@ -266,7 +381,7 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
       </Typography>
       <Typography
         variant="body2"
-        sx={{ color: "#000",cursor:'pointer' }}
+        sx={{ color: "#000", cursor: "pointer" }}
         onClick={() => onConditionClick("total")}
       >
         Total Assets
@@ -285,7 +400,6 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
             width: 10,
             height: 10,
             borderRadius: "50%",
-
             backgroundColor: colorsMap[item.name] || "#ccc",
           }}
         />
@@ -310,10 +424,11 @@ const ConditionStatusChart2 = () => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
   const navigate = useNavigate();
+
   useEffect(() => {
     setSelectedBlock("");
   }, [packageNoDataReducer?.data]);
-  // Fetch initial blocks
+
   useEffect(() => {
     Axios.get(
       `/hoto-to-assets/equipment/dropdown-block?package_name=${packageNoDataReducer?.data}`
@@ -322,7 +437,6 @@ const ConditionStatusChart2 = () => {
     });
   }, [packageNoDataReducer?.data]);
 
-  // Helper function to process and fill missing data
   const processFetchedData = (fetchedData) => {
     const conditionMap = fetchedData?.reduce((acc, item) => {
       acc[item._id?.toLowerCase()] = item.count;
@@ -330,30 +444,15 @@ const ConditionStatusChart2 = () => {
     }, {});
 
     const finalData = [
-      {
-        name: "Robust",
-        value: conditionMap["robust"] || 0,
-      },
-      {
-        name: "Damaged",
-        value: conditionMap["damaged"] || 0,
-      },
-      // Uncomment if you want to show these as 0 always:
-      // {
-      //   name: "Semi-Damaged",
-      //   value: 0,
-      // },
-      // {
-      //   name: "Missing",
-      //   value: conditionMap["missing"] || 0,
-      // },
+      { name: "Robust", value: conditionMap["robust"] || 0 },
+      { name: "Damaged", value: conditionMap["damaged"] || 0 },
+      { name: "Not Defined", value: conditionMap["not_defined"] || 0 },
     ];
 
     setOriginalData(finalData);
     setConditionData(finalData);
   };
 
-  // Handle block change
   const handleBlockChange = (_, newValue) => {
     setSelectedBlock(newValue);
     setSelectedGP(null);
@@ -379,37 +478,26 @@ const ConditionStatusChart2 = () => {
     }
   };
 
-  // Handle GP change
   const handleGPChange = (_, newValue) => {
     setSelectedGP(newValue);
-    if (newValue) {
-      Axios.get(
-        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${packageNoDataReducer?.data}`
-      )
-        .then((result) => {
-          processFetchedData(result?.data?.result[0]?.available);
-          setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
-        })
-        .catch((err) => console.log("Error : ", err));
-    } else {
-      Axios.get(
-        `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&package_name=${packageNoDataReducer?.data}`
-      )
-        .then((result) => {
-          processFetchedData(result?.data?.result[0]?.available);
-          setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
-        })
-        .catch((err) => console.log("Error : ", err));
-    }
+    const endpoint = newValue
+      ? `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${packageNoDataReducer?.data}`
+      : `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?block_name=${selectedBlock}&package_name=${packageNoDataReducer?.data}`;
+
+    Axios.get(endpoint)
+      .then((result) => {
+        processFetchedData(result?.data?.result[0]?.available);
+        setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
+      })
+      .catch((err) => console.log("Error : ", err));
   };
 
-  // Initial load of all equipment
   useEffect(() => {
     Axios.get(
       `/hoto-to-assets/equipment/fetch-block-and-gp-equipments?package_name=${packageNoDataReducer?.data}`
     )
       .then((result) => {
-        processFetchedData(result?.data?.result[0]?.available);
+        processFetchedData(result?.data?.result[0]?.availability);
         setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
       })
       .catch((err) => console.log("Error : ", err));
@@ -418,47 +506,27 @@ const ConditionStatusChart2 = () => {
   const total = originalData.reduce((sum, item) => sum + item.value, 0);
 
   const handleConditionClick = (item) => {
+    const state = {};
+    if (selectedBlock) {
+      state["equipment_details.block.name"] = selectedBlock;
+    }
+    if (selectedGP?.location_name) {
+      state["equipment_details.location_name"] = selectedGP.location_name;
+    }
+
     if (item === "total") {
-      let state = {};
-      if (selectedBlock) {
-        state = {
-          ...state,
-          "equipment_details.block.name": selectedBlock,
-        };
-      }
-      if (selectedGP?.location_name) {
-        state = {
-          ...state,
-          "equipment_details.location_name": selectedGP?.location_name,
-        };
-      }
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
-          condition:{$ne:null},
+          condition: { $ne: null },
           availability: true,
         },
       });
     } else {
-      let state = {};
-      if (selectedBlock) {
-        state = {
-          ...state,
-          "equipment_details.block.name": selectedBlock,
-        };
-      }
-      if (selectedGP?.location_name) {
-        state = {
-          ...state,
-          "equipment_details.location_name": selectedGP?.location_name,
-        };
-      }
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
           availability: true,
-          // "equipment_details.location_name": selectedGP?.location_name,
-          // "equipment_details.block.name": selectedBlock,
           condition: item.name?.toLowerCase(),
         },
       });
@@ -466,24 +534,17 @@ const ConditionStatusChart2 = () => {
   };
 
   const handleNotFoundClick = () => {
-    let state = {};
+    const state = {};
     if (selectedBlock) {
-      state = {
-        ...state,
-        "equipment_details.block.name": selectedBlock,
-      };
+      state["equipment_details.block.name"] = selectedBlock;
     }
     if (selectedGP?.location_name) {
-      state = {
-        ...state,
-        "equipment_details.location_name": selectedGP?.location_name,
-      };
+      state["equipment_details.location_name"] = selectedGP.location_name;
     }
+
     navigate("/dashboards/hoto-survey-gp-data", {
       state: {
         ...state,
-        // "equipment_details.location_name": selectedGP?.location_name,
-        // "equipment_details.block.name": selectedBlock,
         availability: false,
       },
     });
