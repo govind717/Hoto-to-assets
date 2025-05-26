@@ -684,9 +684,10 @@ const AssetConditionByTypeChart4 = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedBlock,
+          "equipment_details.location_name": selectedGP?.location_name,
         };
       }
+      
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
@@ -708,9 +709,10 @@ const AssetConditionByTypeChart4 = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedBlock,
+          "equipment_details.location_name": selectedGP?.location_name,
         };
       }
+       console.log('state ',state)
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
