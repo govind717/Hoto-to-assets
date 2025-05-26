@@ -1,4 +1,3 @@
-
 import {
   Autocomplete,
   Box,
@@ -56,7 +55,11 @@ const CustomLegend = ({ data, onLegendClick }) => {
         <Typography variant="body2" sx={{ color: "#000" }}>
           {total}
         </Typography>
-        <Typography variant="body2" sx={{ color: "#000" }}>
+        <Typography
+          variant="body2"
+          sx={{ color: "#000", cursor: "pointer" }}
+          onClick={() => onLegendClick?.("total")}
+        >
           Total Assets
         </Typography>
       </Box>
@@ -96,7 +99,7 @@ const AssetConditionByTypeChart4 = () => {
   const [chartData, setChartData] = useState([]);
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const fetchData = (equipment, block = "", gp = "") => {
     Axios.get(
       `/hoto-to-assets/equipment/fetch-equipments-by-block-and-gp-for-block?equipment_name=${equipment}&package_name=${packageNoDataReducer?.data}&block_name=${block}&gp_name=${gp}`
@@ -140,9 +143,8 @@ const AssetConditionByTypeChart4 = () => {
   const handleEquipmentChange = (_, newValue) => {
     if (newValue && selectedBlock) {
       setSelectedEquipment(newValue);
-      fetchData(newValue,selectedBlock);
-    }
-    else if (newValue){
+      fetchData(newValue, selectedBlock);
+    } else if (newValue) {
       setSelectedEquipment(newValue);
       fetchData(newValue, selectedBlock);
     }
@@ -167,29 +169,7 @@ const AssetConditionByTypeChart4 = () => {
 
   // Legend click handler
   const handleLegendClick = (conditionName) => {
-    if (conditionName === "Not Found"){
-      let state={};
-      if (selectedBlock){
-        state = {
-          ...state,
-          "equipment_details.block.name": selectedBlock,
-        };
-      }
-      if (selectedGP?.location_name) {
-        state = {
-          ...state,
-          "equipment_details.block.name": selectedBlock,
-        };
-      }
-        navigate("/dashboards/hoto-survey-block-data", {
-          state: {
-            ...state,
-            equipment_name: selectedEquipment,
-            availability: false,
-            // condition: conditionName?.toLowerCase(),
-          },
-        }); 
-    }else{
+    if (conditionName === "Not Found") {
       let state = {};
       if (selectedBlock) {
         state = {
@@ -206,13 +186,56 @@ const AssetConditionByTypeChart4 = () => {
       navigate("/dashboards/hoto-survey-block-data", {
         state: {
           ...state,
-          availability:true,
+          equipment_name: selectedEquipment,
+          availability: false,
+          // condition: conditionName?.toLowerCase(),
+        },
+      });
+    } else if (conditionName === "total") {
+      let state = {};
+      if (selectedBlock) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      navigate("/dashboards/hoto-survey-block-data", {
+        state: {
+          ...state,
+          availability: true,
+          equipment_name: selectedEquipment,
+          // condition: conditionName?.toLowerCase(),
+        },
+      });
+    } else {
+      let state = {};
+      if (selectedBlock) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      navigate("/dashboards/hoto-survey-block-data", {
+        state: {
+          ...state,
+          availability: true,
           equipment_name: selectedEquipment,
           condition: conditionName?.toLowerCase(),
         },
-      }); 
+      });
     }
-    
   };
 
   return (
