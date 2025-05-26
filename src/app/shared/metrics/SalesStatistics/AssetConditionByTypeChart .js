@@ -206,6 +206,7 @@ const AssetConditionByTypeChart4 = () => {
       navigate("/dashboards/hoto-survey-block-data", {
         state: {
           ...state,
+          availability:true,
           equipment_name: selectedEquipment,
           condition: conditionName?.toLowerCase(),
         },

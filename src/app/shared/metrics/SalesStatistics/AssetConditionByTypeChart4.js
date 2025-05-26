@@ -686,6 +686,7 @@ const AssetConditionByTypeChart4 = () => {
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
+          availability:true,
           equipment_name: selectedEquipment,
           // "equipment_details.location_name": selectedGP?.location_name,
           // "equipment_details.block.name": selectedBlock,
