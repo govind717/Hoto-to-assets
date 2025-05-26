@@ -6,6 +6,7 @@ import AssetConditionByTypeChart4 from './AssetConditionByTypeChart4';
 import ConditionStatusChart2 from './conditionDonaltChart2';
 import ConditionStatusChart from "./conditionDonaltChart";
 import AssetConditionByTypeChart from "./AssetConditionByTypeChart ";
+import ConditionStatusChart3 from "./conditionDonaltChart3";
 
 const hotosurveyData = [
     {
@@ -50,6 +51,11 @@ const SalesStatistics = () => {
       <Grid item xs={12} md={12}>
         <Div sx={{ p: 2, pl: 0, pt: 0 }}>
           <ConditionStatusChart2 />
+        </Div>
+      </Grid>
+      <Grid item xs={12} md={12}>
+        <Div sx={{ p: 2, pl: 0, pt: 0 }}>
+          <ConditionStatusChart3 />
         </Div>
       </Grid>
 
