@@ -1,3 +1,4 @@
+
 import {
   Autocomplete,
   Box,
@@ -15,7 +16,8 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 const colorsMap = {
   Robust: "#22CAAD",
   Damaged: "#F55757",
-  "Semi-Damaged": "#FDCF2A",
+  // "Semi-Damaged": "#FDCF2A",
+  "Not Defined": "#E78F5D",
   // "Not Found": "#E78F5D",
 };
 
@@ -35,7 +37,7 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
       </Typography>
       <Typography
         variant="body2"
-        sx={{ color: "#000", cursor: "pointer" }}
+        sx={{ color: "#000",cursor:'pointer' }}
         onClick={() => onConditionClick("total")}
       >
         Total Assets
@@ -107,6 +109,10 @@ const ConditionStatusChart = () => {
         name: "Damaged",
         value: conditionMap["damaged"] || 0,
       },
+      {
+        name: "Not Defined",
+        value: conditionMap["not_defined"] || 0,
+      },
       // Uncomment if you want to show these as 0 always:
       // {
       //   name: "Semi-Damaged",
@@ -134,15 +140,13 @@ const ConditionStatusChart = () => {
 
     Axios.get(endpoint)
       .then((result) => {
-        processFetchedData(result?.data?.result[0]?.available);
+        processFetchedData(result?.data?.result[0]?.availability);
         setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
       })
       .catch((err) => console.log("Error : ", err));
 
     if (newValue) {
-      Axios.get(
-        `/hoto-to-assets/equipment/dropdown-gp-for-block?block_name=${newValue}`
-      )
+      Axios.get(`/hoto-to-assets/equipment/dropdown-gp-for-block?block_name=${newValue}`)
         .then((response) => {
           setGps(response.data?.result);
         })
@@ -158,7 +162,7 @@ const ConditionStatusChart = () => {
         `/hoto-to-assets/equipment/fetch-block-and-gp-equipments-for-block?block_name=${selectedBlock}&gp_name=${newValue?.location_name}&package_name=${packageNoDataReducer?.data}`
       )
         .then((result) => {
-          processFetchedData(result?.data?.result[0]?.available);
+          processFetchedData(result?.data?.result[0]?.availability);
           setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
         })
         .catch((err) => console.log("Error : ", err));
@@ -180,7 +184,7 @@ const ConditionStatusChart = () => {
       `/hoto-to-assets/equipment/fetch-block-and-gp-equipments-for-block?package_name=${packageNoDataReducer?.data}`
     )
       .then((result) => {
-        processFetchedData(result?.data?.result[0]?.available);
+        processFetchedData(result?.data?.result[0]?.availability);
         setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
       })
       .catch((err) => console.log("Error : ", err));
@@ -200,12 +204,13 @@ const ConditionStatusChart = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedBlock,
+          "equipment_details.location_name": selectedGP?.location_name,
         };
       }
       navigate("/dashboards/hoto-survey-block-data", {
         state: {
           ...state,
+          condition:{$ne:null},
           availability: true,
         },
       });
@@ -220,13 +225,14 @@ const ConditionStatusChart = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedBlock,
+          "equipment_details.location_name": selectedGP?.location_name,
         };
       }
       navigate("/dashboards/hoto-survey-block-data", {
         state: {
           ...state,
           availability: true,
+          // "equipment_details.location_name": selectedGP?.location_name,
           // "equipment_details.block.name": selectedBlock,
           condition: item.name?.toLowerCase(),
         },
@@ -245,13 +251,14 @@ const ConditionStatusChart = () => {
     if (selectedGP?.location_name) {
       state = {
         ...state,
-        "equipment_details.block.name": selectedGP?.location_name,
+        "equipment_details.location_name": selectedGP?.location_name,
       };
     }
     navigate("/dashboards/hoto-survey-block-data", {
       state: {
         ...state,
-        //  "equipment_details.block.name": selectedBlock,
+        // "equipment_details.location_name": selectedGP?.location_name,
+        // "equipment_details.block.name": selectedBlock,
         availability: false,
       },
     });
@@ -288,7 +295,7 @@ const ConditionStatusChart = () => {
                 <TextField {...params} label="Block" size="small" />
               )}
             />
-            {/* <Autocomplete
+            <Autocomplete
               sx={{ minWidth: "200px" }}
               options={gps}
               getOptionLabel={(option) => option?.location_name || ""}
@@ -298,7 +305,7 @@ const ConditionStatusChart = () => {
                 <TextField {...params} label="Gram Panchayat" size="small" />
               )}
               disabled={!selectedBlock}
-            /> */}
+            />
           </Box>
         </Box>
 
@@ -339,3 +346,4 @@ const ConditionStatusChart = () => {
 };
 
 export default ConditionStatusChart;
+
