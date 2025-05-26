@@ -499,6 +499,7 @@ const CustomLegend = ({ data, onLegendClick }) => {
   const legendItems = [
     { name: "Robust", color: "#22CAAD" },
     { name: "Damaged", color: "#F55757" },
+    { name: "Not Defined", color: "#E78F5D" },
     // Add more conditions here if needed
   ];
 
@@ -587,6 +588,9 @@ const AssetConditionByTypeChart4 = () => {
               responseData.find((item) => item._id === "robust")?.count || 0,
             Damaged:
               responseData.find((item) => item._id === "damaged")?.count || 0,
+            "Not Defined":
+              responseData.find((item) => item._id === "not_defined")?.count ||
+              0,
           },
         ];
         setChartData(transformedData);
@@ -622,7 +626,7 @@ const AssetConditionByTypeChart4 = () => {
       fetchData(newValue, selectedBlock);
     } else if (newValue) {
       setSelectedEquipment(newValue);
-      fetchData(newValue, selectedBlock);
+      fetchData(newValue);
     }
   };
 
@@ -740,7 +744,7 @@ const AssetConditionByTypeChart4 = () => {
               GP Asset Condition
             </Typography>
             <Typography
-              sx={{ fontWeight: 400 ,cursor:'pointer' }}
+              sx={{ fontWeight: 400, cursor: "pointer" }}
               onClick={() => handleLegendClick("Not Found")}
             >
               {notFoundCount || 0} Not Found
@@ -799,6 +803,7 @@ const AssetConditionByTypeChart4 = () => {
             />
             <Bar dataKey="Robust" fill="#22CAAD" barSize={30} />
             <Bar dataKey="Damaged" fill="#F55757" barSize={30} />
+            <Bar dataKey="Not Defined" fill="#E78F5D" barSize={30} />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
