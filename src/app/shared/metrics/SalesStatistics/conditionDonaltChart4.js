@@ -37,7 +37,7 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
       </Typography>
       <Typography
         variant="body2"
-        sx={{ color: "#000",cursor:'pointer' }}
+        sx={{ color: "#000", cursor: 'pointer' }}
         onClick={() => onConditionClick("total")}
       >
         Total Assets
@@ -210,8 +210,6 @@ const ConditionStatusChart4 = () => {
       navigate("/dashboards/hoto-survey-block-data", {
         state: {
           ...state,
-          condition:{$ne:null},
-          availability: true,
         },
       });
     } else {
@@ -228,15 +226,22 @@ const ConditionStatusChart4 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      navigate("/dashboards/hoto-survey-gp-data", {
-        state: {
-          ...state,
-          availability: true,
-          // "equipment_details.location_name": selectedGP?.location_name,
-          // "equipment_details.block.name": selectedBlock,
-          condition: item.name?.toLowerCase(),
-        },
-      });
+      if (item.name == 'Available') {
+        navigate("/dashboards/hoto-survey-block-data", {
+          state: {
+            ...state,
+            availability: true,
+          },
+        });
+      } else {
+        navigate("/dashboards/hoto-survey-block-data", {
+          state: {
+            ...state,
+            availability: false,
+          },
+        });
+      }
+
     }
   };
 
@@ -275,7 +280,7 @@ const ConditionStatusChart4 = () => {
         >
           <Box>
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
-              Block Total Assets
+              Block Total Assets Availability
             </Typography>
             {/* <Typography
               sx={{ fontWeight: 400, cursor: "pointer" }}

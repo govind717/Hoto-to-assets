@@ -15,7 +15,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const colorsMap = {
   Available: "#22CAAD",
-  'Not Available': "#F55757",
+  'Not Found': "#F55757",
   // "Semi-Damaged": "#FDCF2A",
   // "Not Defined": "#E78F5D",
   // "Not Found": "#E78F5D",
@@ -37,7 +37,7 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
       </Typography>
       <Typography
         variant="body2"
-        sx={{ color: "#000",cursor:'pointer' }}
+        sx={{ color: "#000", cursor: 'pointer' }}
         onClick={() => onConditionClick("total")}
       >
         Total Assets
@@ -106,7 +106,7 @@ const ConditionStatusChart3 = () => {
         value: conditionMap["available"] || 0,
       },
       {
-        name: "Not Available",
+        name: "Not Found",
         value: conditionMap["not_available"] || 0,
       },
       // {
@@ -210,8 +210,6 @@ const ConditionStatusChart3 = () => {
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
-          condition:{$ne:null},
-          availability: true,
         },
       });
     } else {
@@ -228,15 +226,23 @@ const ConditionStatusChart3 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      navigate("/dashboards/hoto-survey-gp-data", {
-        state: {
-          ...state,
-          availability: true,
-          // "equipment_details.location_name": selectedGP?.location_name,
-          // "equipment_details.block.name": selectedBlock,
-          condition: item.name?.toLowerCase(),
-        },
-      });
+      console.log('item||||||||||||||||', item)
+      if (item.name == 'Available') {
+        navigate("/dashboards/hoto-survey-gp-data", {
+          state: {
+            ...state,
+            availability: true,
+          },
+        });
+      } else {
+        navigate("/dashboards/hoto-survey-gp-data", {
+          state: {
+            ...state,
+            availability: false,
+          },
+        });
+      }
+
     }
   };
 
@@ -275,7 +281,7 @@ const ConditionStatusChart3 = () => {
         >
           <Box>
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
-              GP Total Assets
+              GP Total Assets Availability
             </Typography>
             {/* <Typography
               sx={{ fontWeight: 400, cursor: "pointer" }}
