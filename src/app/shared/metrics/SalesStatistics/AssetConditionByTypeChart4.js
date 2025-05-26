@@ -531,7 +531,7 @@ const CustomLegend = ({ data, onLegendClick }) => {
         </Typography>
         <Typography
           variant="body2"
-          sx={{ color: "#000",cursor:'pointer' }}
+          sx={{ color: "#000", cursor: 'pointer' }}
           onClick={() => onLegendClick?.('total')}
         >
           Total Assets
@@ -573,7 +573,7 @@ const AssetConditionByTypeChart4 = () => {
   const [chartData, setChartData] = useState([]);
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const fetchData = (equipment, block = "", gp = "") => {
     Axios.get(
       `/hoto-to-assets/equipment/fetch-equipments-by-block-and-gp?equipment_name=${equipment}&package_name=${packageNoDataReducer?.data}&block_name=${block}&gp_name=${gp}`
@@ -634,9 +634,9 @@ const AssetConditionByTypeChart4 = () => {
     setSelectedBlock(newValue);
     setSelectedGP(null);
     setGps([]);
-    if (newValue){
+    if (newValue) {
       fetchData(selectedEquipment, newValue);
-    } else{
+    } else {
       fetchData(selectedEquipment);
     }
     if (newValue) {
@@ -677,7 +677,7 @@ const AssetConditionByTypeChart4 = () => {
           // condition: conditionName?.toLowerCase(),
         },
       });
-    } else if (conditionName==='total') {
+    } else if (conditionName === 'total') {
       let state = {};
       if (selectedBlock) {
         state = {
@@ -691,7 +691,7 @@ const AssetConditionByTypeChart4 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      
+
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
@@ -716,17 +716,29 @@ const AssetConditionByTypeChart4 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-       console.log('state ',state)
-      navigate("/dashboards/hoto-survey-gp-data", {
-        state: {
-          ...state,
-          availability: true,
-          equipment_name: selectedEquipment,
-          // "equipment_details.location_name": selectedGP?.location_name,
-          // "equipment_details.block.name": selectedBlock,
-          condition: conditionName?.toLowerCase(),
-        },
-      });
+      if (conditionName=== "Not Defined") {
+        navigate("/dashboards/hoto-survey-gp-data", {
+          state: {
+            ...state,
+            condition: { $eq: null },
+            availability: true,
+             equipment_name: selectedEquipment,
+          },
+        });
+        return;
+      } else {
+
+        navigate("/dashboards/hoto-survey-gp-data", {
+          state: {
+            ...state,
+            availability: true,
+            equipment_name: selectedEquipment,
+            // "equipment_details.location_name": selectedGP?.location_name,
+            // "equipment_details.block.name": selectedBlock,
+            condition: conditionName?.toLowerCase(),
+          },
+        });
+      }
     }
   };
 

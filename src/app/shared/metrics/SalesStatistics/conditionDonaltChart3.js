@@ -226,7 +226,6 @@ const ConditionStatusChart3 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      console.log('item||||||||||||||||', item)
       if (item.name == 'Available') {
         navigate("/dashboards/hoto-survey-gp-data", {
           state: {

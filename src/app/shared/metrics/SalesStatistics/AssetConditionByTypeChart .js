@@ -235,14 +235,27 @@ const AssetConditionByTypeChart4 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      navigate("/dashboards/hoto-survey-block-data", {
-        state: {
-          ...state,
-          availability: true,
-          equipment_name: selectedEquipment,
-          condition: conditionName?.toLowerCase(),
-        },
-      });
+      if (conditionName === "Not Defined") {
+        navigate("/dashboards/hoto-survey-block-data", {
+          state: {
+            ...state,
+            condition: { $eq: null },
+            availability: true,
+            equipment_name: selectedEquipment,
+          },
+        });
+        return;
+      } else {
+
+        navigate("/dashboards/hoto-survey-block-data", {
+          state: {
+            ...state,
+            availability: true,
+            equipment_name: selectedEquipment,
+            condition: conditionName?.toLowerCase(),
+          },
+        });
+      }
     }
   };
 
