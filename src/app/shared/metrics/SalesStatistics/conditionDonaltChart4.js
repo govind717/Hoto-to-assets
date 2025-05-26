@@ -71,7 +71,7 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
   </Box>
 );
 
-const ConditionStatusChart3 = () => {
+const ConditionStatusChart4 = () => {
   const [selectedBlock, setSelectedBlock] = useState("");
   const [selectedGP, setSelectedGP] = useState(null);
   const [blocks, setBlocks] = useState([]);
@@ -87,7 +87,7 @@ const ConditionStatusChart3 = () => {
   // Fetch initial blocks
   useEffect(() => {
     Axios.get(
-      `/hoto-to-assets/equipment/dropdown-block?package_name=${packageNoDataReducer?.data}`
+      `/hoto-to-assets/equipment/dropdown-block-for-block?package_name=${packageNoDataReducer?.data}`
     ).then((response) => {
       setBlocks(response?.data?.result);
     });
@@ -135,8 +135,8 @@ const ConditionStatusChart3 = () => {
     setGps([]);
 
     const endpoint = newValue
-      ? `/hoto-to-assets/equipment/fetch-gp-availability-notavailability?block_name=${newValue}&package_name=${packageNoDataReducer?.data}`
-      : `/hoto-to-assets/equipment//fetch-gp-availability-notavailability?package_name=${packageNoDataReducer?.data}`;
+      ? `/hoto-to-assets/equipment/fetch-block-availability-notavailability?block_name=${newValue}&package_name=${packageNoDataReducer?.data}`
+      : `/hoto-to-assets/equipment//fetch-block-availability-notavailability?package_name=${packageNoDataReducer?.data}`;
 
     Axios.get(endpoint)
       .then((result) => {
@@ -146,7 +146,7 @@ const ConditionStatusChart3 = () => {
       .catch((err) => console.log("Error : ", err));
 
     if (newValue) {
-      Axios.get(`/hoto-to-assets/equipment/dropdown-gp?block_name=${newValue}`)
+      Axios.get(`/hoto-to-assets/equipment/dropdown-gp-for-block?block_name=${newValue}`)
         .then((response) => {
           setGps(response.data?.result);
         })
@@ -181,7 +181,7 @@ const ConditionStatusChart3 = () => {
   // Initial load of all equipment
   useEffect(() => {
     Axios.get(
-      `/hoto-to-assets/equipment/fetch-gp-availability-notavailability?package_name=${packageNoDataReducer?.data}`
+      `/hoto-to-assets/equipment/fetch-block-availability-notavailability?package_name=${packageNoDataReducer?.data}`
     )
       .then((result) => {
         processFetchedData(result?.data?.result);
@@ -207,7 +207,7 @@ const ConditionStatusChart3 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      navigate("/dashboards/hoto-survey-gp-data", {
+      navigate("/dashboards/hoto-survey-block-data", {
         state: {
           ...state,
           condition:{$ne:null},
@@ -275,7 +275,7 @@ const ConditionStatusChart3 = () => {
         >
           <Box>
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
-              GP Total Assets
+              Block Total Assets
             </Typography>
             {/* <Typography
               sx={{ fontWeight: 400, cursor: "pointer" }}
@@ -295,7 +295,7 @@ const ConditionStatusChart3 = () => {
                 <TextField {...params} label="Block" size="small" />
               )}
             />
-            <Autocomplete
+            {/* <Autocomplete
               sx={{ minWidth: "200px" }}
               options={gps}
               getOptionLabel={(option) => option?.location_name || ""}
@@ -305,7 +305,7 @@ const ConditionStatusChart3 = () => {
                 <TextField {...params} label="Gram Panchayat" size="small" />
               )}
               disabled={!selectedBlock}
-            />
+            /> */}
           </Box>
         </Box>
 
@@ -345,5 +345,5 @@ const ConditionStatusChart3 = () => {
   );
 };
 
-export default ConditionStatusChart3;
+export default ConditionStatusChart4;
 
