@@ -33,12 +33,22 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
       <Typography variant="body2" sx={{ color: "#000" }}>
         {total}
       </Typography>
-      <Typography variant="body2" sx={{ color: "#000" }}>
+      <Typography
+        variant="body2"
+        sx={{ color: "#000", cursor: "pointer" }}
+        onClick={() => onConditionClick("total")}
+      >
         Total Assets
       </Typography>
     </Box>
     {data.map((item, index) => (
-      <Box key={index} display="flex" alignItems="center" gap={1} onClick={() => onConditionClick(item)}>
+      <Box
+        key={index}
+        display="flex"
+        alignItems="center"
+        gap={1}
+        onClick={() => onConditionClick(item)}
+      >
         <Box
           sx={{
             width: 10,
@@ -130,7 +140,9 @@ const ConditionStatusChart = () => {
       .catch((err) => console.log("Error : ", err));
 
     if (newValue) {
-      Axios.get(`/hoto-to-assets/equipment/dropdown-gp-for-block?block_name=${newValue}`)
+      Axios.get(
+        `/hoto-to-assets/equipment/dropdown-gp-for-block?block_name=${newValue}`
+      )
         .then((response) => {
           setGps(response.data?.result);
         })
@@ -175,33 +187,10 @@ const ConditionStatusChart = () => {
   }, [packageNoDataReducer?.data]);
 
   const total = originalData.reduce((sum, item) => sum + item.value, 0);
-  console.log('selectedBlock', selectedBlock)
-  const handleConditionClick = (item) => {
-    let state={};
-      if (selectedBlock){
-        state = {
-          ...state,
-          "equipment_details.block.name": selectedBlock,
-        }; 
-      }
-      if (selectedGP?.location_name) {
-        state = {
-          ...state,
-          "equipment_details.block.name": selectedBlock,
-        };
-      }
-    navigate("/dashboards/hoto-survey-block-data", {
-      state: {
-        ...state,
-        availability:true,
-        // "equipment_details.block.name": selectedBlock,
-        condition: item.name?.toLowerCase(),
-      },
-    });
-  }
 
-  const handleNotFoundClick = () => {
-     let state = {};
+  const handleConditionClick = (item) => {
+    if (item === "total") {
+      let state = {};
       if (selectedBlock) {
         state = {
           ...state,
@@ -211,9 +200,54 @@ const ConditionStatusChart = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedGP?.location_name,
+          "equipment_details.block.name": selectedBlock,
         };
       }
+      navigate("/dashboards/hoto-survey-block-data", {
+        state: {
+          ...state,
+          availability: true,
+        },
+      });
+    } else {
+      let state = {};
+      if (selectedBlock) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      navigate("/dashboards/hoto-survey-block-data", {
+        state: {
+          ...state,
+          availability: true,
+          // "equipment_details.block.name": selectedBlock,
+          condition: item.name?.toLowerCase(),
+        },
+      });
+    }
+  };
+
+  const handleNotFoundClick = () => {
+    let state = {};
+    if (selectedBlock) {
+      state = {
+        ...state,
+        "equipment_details.block.name": selectedBlock,
+      };
+    }
+    if (selectedGP?.location_name) {
+      state = {
+        ...state,
+        "equipment_details.block.name": selectedGP?.location_name,
+      };
+    }
     navigate("/dashboards/hoto-survey-block-data", {
       state: {
         ...state,
@@ -221,7 +255,7 @@ const ConditionStatusChart = () => {
         availability: false,
       },
     });
-  }
+  };
 
   return (
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
@@ -236,7 +270,10 @@ const ConditionStatusChart = () => {
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
               Block Total Assets
             </Typography>
-            <Typography sx={{ fontWeight: 400,cursor: "pointer" }} onClick={handleNotFoundClick}>
+            <Typography
+              sx={{ fontWeight: 400, cursor: "pointer" }}
+              onClick={handleNotFoundClick}
+            >
               {notFoundCount || 0} Not Found
             </Typography>
           </Box>
@@ -291,7 +328,11 @@ const ConditionStatusChart = () => {
           </PieChart>
         </ResponsiveContainer>
 
-        <CustomLegend total={total} data={conditionData} onConditionClick={handleConditionClick} />
+        <CustomLegend
+          total={total}
+          data={conditionData}
+          onConditionClick={handleConditionClick}
+        />
       </CardContent>
     </Card>
   );

@@ -229,8 +229,6 @@
 
 // export default ConditionStatusChart2;
 
-
-
 import {
   Autocomplete,
   Box,
@@ -266,7 +264,11 @@ const CustomLegend = ({ total, data, onConditionClick }) => (
       <Typography variant="body2" sx={{ color: "#000" }}>
         {total}
       </Typography>
-      <Typography variant="body2" sx={{ color: "#000" }}>
+      <Typography
+        variant="body2"
+        sx={{ color: "#000",cursor:'pointer' }}
+        onClick={() => onConditionClick("total")}
+      >
         Total Assets
       </Typography>
     </Box>
@@ -351,7 +353,6 @@ const ConditionStatusChart2 = () => {
     setConditionData(finalData);
   };
 
-
   // Handle block change
   const handleBlockChange = (_, newValue) => {
     setSelectedBlock(newValue);
@@ -388,8 +389,7 @@ const ConditionStatusChart2 = () => {
         .then((result) => {
           processFetchedData(result?.data?.result[0]?.available);
           setNotFoundCount(result?.data?.result[0]?.not_available[0]?.count);
-        }
-        )
+        })
         .catch((err) => console.log("Error : ", err));
     } else {
       Axios.get(
@@ -416,30 +416,54 @@ const ConditionStatusChart2 = () => {
   }, [packageNoDataReducer?.data]);
 
   const total = originalData.reduce((sum, item) => sum + item.value, 0);
+
   const handleConditionClick = (item) => {
-    let state = {};
-    if (selectedBlock) {
-      state = {
-        ...state,
-        "equipment_details.block.name": selectedBlock,
-      };
+    if (item === "total") {
+      let state = {};
+      if (selectedBlock) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.location_name": selectedGP?.location_name,
+        };
+      }
+      navigate("/dashboards/hoto-survey-gp-data", {
+        state: {
+          ...state,
+          condition:{$ne:null},
+          availability: true,
+        },
+      });
+    } else {
+      let state = {};
+      if (selectedBlock) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.location_name": selectedGP?.location_name,
+        };
+      }
+      navigate("/dashboards/hoto-survey-gp-data", {
+        state: {
+          ...state,
+          availability: true,
+          // "equipment_details.location_name": selectedGP?.location_name,
+          // "equipment_details.block.name": selectedBlock,
+          condition: item.name?.toLowerCase(),
+        },
+      });
     }
-    if (selectedGP?.location_name) {
-      state = {
-        ...state,
-        "equipment_details.location_name": selectedGP?.location_name,
-      };
-    }
-    navigate("/dashboards/hoto-survey-gp-data", {
-      state: {
-        ...state,
-        availability:true,
-        // "equipment_details.location_name": selectedGP?.location_name,
-        // "equipment_details.block.name": selectedBlock,
-        condition: item.name?.toLowerCase(),
-      },
-    });
-  }
+  };
 
   const handleNotFoundClick = () => {
     let state = {};
@@ -450,7 +474,7 @@ const ConditionStatusChart2 = () => {
       };
     }
     if (selectedGP?.location_name) {
-      state = { 
+      state = {
         ...state,
         "equipment_details.location_name": selectedGP?.location_name,
       };
@@ -463,7 +487,7 @@ const ConditionStatusChart2 = () => {
         availability: false,
       },
     });
-  }
+  };
 
   return (
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
@@ -478,7 +502,10 @@ const ConditionStatusChart2 = () => {
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
               GP Total Assets
             </Typography>
-            <Typography sx={{ fontWeight: 400, cursor: "pointer" }} onClick={handleNotFoundClick}>
+            <Typography
+              sx={{ fontWeight: 400, cursor: "pointer" }}
+              onClick={handleNotFoundClick}
+            >
               {notFoundCount || 0} Not Found
             </Typography>
           </Box>

@@ -528,7 +528,11 @@ const CustomLegend = ({ data, onLegendClick }) => {
         <Typography variant="body2" sx={{ color: "#000" }}>
           {total}
         </Typography>
-        <Typography variant="body2" sx={{ color: "#000" }}>
+        <Typography
+          variant="body2"
+          sx={{ color: "#000",cursor:'pointer' }}
+          onClick={() => onLegendClick?.('total')}
+        >
           Total Assets
         </Typography>
       </Box>
@@ -669,6 +673,30 @@ const AssetConditionByTypeChart4 = () => {
           // condition: conditionName?.toLowerCase(),
         },
       });
+    } else if (conditionName==='total') {
+      let state = {};
+      if (selectedBlock) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      if (selectedGP?.location_name) {
+        state = {
+          ...state,
+          "equipment_details.block.name": selectedBlock,
+        };
+      }
+      navigate("/dashboards/hoto-survey-gp-data", {
+        state: {
+          ...state,
+          availability: true,
+          equipment_name: selectedEquipment,
+          // "equipment_details.location_name": selectedGP?.location_name,
+          // "equipment_details.block.name": selectedBlock,
+          // condition: conditionName?.toLowerCase(),
+        },
+      });
     } else {
       let state = {};
       if (selectedBlock) {
@@ -686,7 +714,7 @@ const AssetConditionByTypeChart4 = () => {
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
-          availability:true,
+          availability: true,
           equipment_name: selectedEquipment,
           // "equipment_details.location_name": selectedGP?.location_name,
           // "equipment_details.block.name": selectedBlock,
