@@ -75,11 +75,11 @@ const GpAssetsDetail = () => {
             </Typography>
             <Typography>
               <strong>Block Code :</strong>{" "}
-              {state?.equipment_details?.block_id || "-"}
+              {state?.equipment_details?.block?.code || "-"}
             </Typography>
             <Typography>
               <strong>District Code :</strong>{" "}
-              {state?.equipment_details?.district_id || "-"}
+              {state?.equipment_details?.district?.code || "-"}
             </Typography>
             <Typography>
               <strong>Landmark :</strong> -
