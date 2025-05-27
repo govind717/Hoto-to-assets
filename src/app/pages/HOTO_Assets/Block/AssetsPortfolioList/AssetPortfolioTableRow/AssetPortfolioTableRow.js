@@ -123,7 +123,7 @@ const AssetPortfolioTableRow = ({
         <TableCell sx={{ ...tableBodyCell }}>
           <Chip
             // label={e?.condition ? e.condition?.toUpperCase() : "-"}
-            label={e?.condition ? e?.condition?.toUpperCase() : e?.availability ? "Not Define" : "Not Found"}
+            label={e?.condition ? e?.condition?.toUpperCase() : e?.availability ? "NOT DEFINED" : "NOT FOUND"}
             sx={{
               backgroundColor:
                 e?.condition?.toUpperCase() === "DAMAGED"
