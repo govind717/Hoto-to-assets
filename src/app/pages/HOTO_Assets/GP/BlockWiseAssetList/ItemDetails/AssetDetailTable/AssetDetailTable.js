@@ -1,4 +1,5 @@
 import {
+  Chip,
   Pagination,
   Paper,
   Table,
@@ -17,6 +18,7 @@ import EditModal from "../Modal/EditModal";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
 import EquipmentModal from "./Equipment_details_models";
+import { Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -215,8 +217,48 @@ const AssetDetailTable = ({ data }) => {
                         textTransform: "capitalize",
                       }}
                     >
-                      {ele?.condition || "-"}
+                      <Chip
+                        // label={e?.condition ? e.condition?.toUpperCase() : "-"}
+                        label={
+                          ele?.condition
+                            ? ele?.condition?.toUpperCase()
+                            : ele?.availability
+                            ? "Not Define"
+                            : "Not Found"
+                        }
+                        sx={{
+                          backgroundColor:
+                            ele?.condition?.toUpperCase() === "DAMAGED"
+                              ? Red
+                              : ele?.condition?.toUpperCase() === "SEMI-DAMAGED"
+                              ? Yellow
+                              : ele?.condition?.toUpperCase() === "ROBUST"
+                              ? Green
+                              : ele?.condition === null &&
+                                ele?.availability === true
+                              ? Orange
+                              : ele?.condition === null &&
+                                ele?.availability === false
+                              ? Yellow
+                              : "",
+                          color: "#FFF",
+                          fontWeight: "bold",
+                          fontSize: "14",
+                          height: "25px",
+                          px: 2,
+                        }}
+                      />
                     </TableCell>
+                    {/* <TableCell
+                      align="left"
+                      sx={{
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {ele?.condition || "-"}
+                    </TableCell> */}
                     <TableCell
                       align="left"
                       sx={{

@@ -95,7 +95,7 @@ export const SmpsDetails = function ({ data }) {
             SMPS Condition
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.smps_condition || "-"}{" "}
+            {data?.condition || "-"}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={4}>
@@ -176,7 +176,7 @@ export const CcuDetails = function ({ data }) {
             CCU Condition
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.ccu_condition || "-"}{" "}
+            {data?.condition || "-"}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={4}>
@@ -273,7 +273,7 @@ export const SplitterDetails = function ({ data }) {
             Splitter Condition
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.splitter_condition || "-"}{" "}
+            {data?.condition || "-"}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={4}>
@@ -346,7 +346,7 @@ export const OntDetails = function ({ data }) {
             OLT Condition
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_condition || "-"}{" "}
+            {data?.condition || "-"}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={4}>
@@ -411,7 +411,7 @@ export const OltDetails = function ({ data }) {
             OLT Condition
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_condition || "-"}{" "}
+            {data?.condition || "-"}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={4}>
@@ -493,7 +493,7 @@ export const FdmsDetails = function ({ data }) {
             FDMD Condition
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.condition || "-"}{" "}
+            {data?.condition || "-"}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={4}>
