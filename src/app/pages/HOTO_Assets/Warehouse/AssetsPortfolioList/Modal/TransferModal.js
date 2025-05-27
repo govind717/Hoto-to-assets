@@ -184,7 +184,7 @@ function TransferModal({ open, handleClose, row, setToggle }) {
                                 {...params}
                                 fullWidth
                                 size="small"
-                                placeholder="Select Repair Type"
+                                placeholder="Select Transfer Type"
                                 name="transfer_type"
                                 error={
                                   touched.transfer_type &&
@@ -318,7 +318,7 @@ function TransferModal({ open, handleClose, row, setToggle }) {
                                 {...params}
                                 fullWidth
                                 size="small"
-                                placeholder="Select Repair Type"
+                                placeholder="Select Transfer To"
                                 name="transfer_to"
                                 error={
                                   touched.transfer_to &&
@@ -334,7 +334,7 @@ function TransferModal({ open, handleClose, row, setToggle }) {
 
                         <Grid item xs={6} md={3}>
                           <Typography variant="h6" fontSize="14px">
-                            remarks
+                            Remark
                           </Typography>
                           <TextField
                             sx={{ width: "100%" }}

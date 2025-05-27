@@ -220,7 +220,7 @@ function RequestMaintenanceModal({ open, handleClose, row, setToggle }) {
                         </Grid>
                         <Grid item xs={12} md={3}>
                           <Typography variant="h6" fontSize="14px" mb={0.5}>
-                            Allowcated To
+                            Allocated To
                           </Typography>
                           <Autocomplete
                             options={["amc", "o&m"]}
@@ -237,7 +237,7 @@ function RequestMaintenanceModal({ open, handleClose, row, setToggle }) {
                                 {...params}
                                 fullWidth
                                 size="small"
-                                placeholder="Select Repair Type"
+                                placeholder="Select Allocate"
                                 name="maintenance_type"
                                 error={
                                   touched.maintenance_type &&
