@@ -71,11 +71,11 @@ const BlockRackDetails = () => {
             </Typography>
             <Typography>
               <strong>Block Code :</strong>{" "}
-              {state?.block_details?.block_id || "-"}
+              {state?.block_details?.block?.code || "-"}
             </Typography>
             <Typography>
               <strong>District Code :</strong>{" "}
-              {state?.block_details?.district_id || "-"}
+              {state?.block_details?.district?.code || "-"}
             </Typography>
             <Typography>
               <strong>Landmark :</strong> -

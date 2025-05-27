@@ -122,18 +122,21 @@ const AssetPortfolioTableRow = ({
         </TableCell>
         <TableCell sx={{ ...tableBodyCell }}>
           <Chip
-            label={e?.condition ? e.condition?.toUpperCase() : "-"}
+            // label={e?.condition ? e.condition?.toUpperCase() : "-"}
+            label={e?.condition ? e?.condition?.toUpperCase() : e?.availability ? "Not Define" : "Not Found"}
             sx={{
               backgroundColor:
                 e?.condition?.toUpperCase() === "DAMAGED"
                   ? Red
                   : e?.condition?.toUpperCase() === "SEMI-DAMAGED"
-                  ? Yellow
-                  : e?.condition?.toUpperCase() === "ROBUST"
-                  ? Green
-                  : e?.condition?.toUpperCase() === "MISSING"
-                  ? Orange
-                  : "",
+                    ? Yellow
+                    : e?.condition?.toUpperCase() === "ROBUST"
+                      ? Green
+                      : e?.condition === null && e?.availability === true
+                        ? Orange
+                        : e?.condition === null && e?.availability === false
+                          ? Yellow
+                          : "",
               color: "#FFF",
               fontWeight: "bold",
               fontSize: "14",
@@ -184,7 +187,7 @@ const AssetPortfolioTableRow = ({
           )}
         </TableCell> */}
         <TableCell sx={{ ...tableBodyCell }}>{e?.availability ? "Yes" : "No"}</TableCell>
-        <TableCell sx={{ ...tableBodyCell }}>{e?.issued_for || "-"}</TableCell>
+        <TableCell sx={{ ...tableBodyCell, textTransform: 'capitalize' }}>{e?.issued_for || "-"}</TableCell>
         <TableCell sx={{ ...tableBodyCell, minWidth: "150px" }}>
           <Chip
             label={e?.condition_status || "-"}

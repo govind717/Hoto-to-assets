@@ -6,6 +6,8 @@ import AssetConditionByTypeChart4 from './AssetConditionByTypeChart4';
 import ConditionStatusChart2 from './conditionDonaltChart2';
 import ConditionStatusChart from "./conditionDonaltChart";
 import AssetConditionByTypeChart from "./AssetConditionByTypeChart ";
+import ConditionStatusChart3 from "./conditionDonaltChart3";
+import ConditionStatusChart4 from "./conditionDonaltChart4";
 
 const hotosurveyData = [
     {
@@ -52,21 +54,31 @@ const SalesStatistics = () => {
           <ConditionStatusChart2 />
         </Div>
       </Grid>
+      <Grid item xs={12} md={12}>
+        <Div sx={{ p: 2, pl: 0, pt: 0 }}>
+          <ConditionStatusChart3 />
+        </Div>
+      </Grid>
 
       <Grid item xs={12} md={12}>
-        <Div sx={{ p: 2, px: 0 ,mb:2 }}>
+        <Div sx={{ p: 2, px: 0, mb: 2 }}>
           <AssetConditionByTypeChart4 />
         </Div>
       </Grid>
       <Grid item xs={12} md={12}>
         <Div sx={{ p: 2, pl: 0, pt: 0 }}>
-          <ConditionStatusChart/>
+          <ConditionStatusChart />
+        </Div>
+      </Grid>
+      <Grid item xs={12} md={12}>
+        <Div sx={{ p: 2, pl: 0, pt: 0 }}>
+          <ConditionStatusChart4/>
         </Div>
       </Grid>
 
       <Grid item xs={12} md={12}>
         <Div sx={{ p: 2, px: 0 }}>
-          <AssetConditionByTypeChart/>
+          <AssetConditionByTypeChart />
         </Div>
       </Grid>
 

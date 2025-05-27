@@ -26,6 +26,7 @@ const CustomLegend = ({ data, onLegendClick }) => {
   const legendItems = [
     { name: "Robust", color: "#22CAAD" },
     { name: "Damaged", color: "#F55757" },
+    { name: "Not Defined", color: "#E78F5D" },
     // Add more conditions here if needed
   ];
 
@@ -114,6 +115,9 @@ const AssetConditionByTypeChart4 = () => {
               responseData.find((item) => item._id === "robust")?.count || 0,
             Damaged:
               responseData.find((item) => item._id === "damaged")?.count || 0,
+            "Not Defined":
+              responseData.find((item) => item._id === "not_defined")?.count ||
+              0,
           },
         ];
         setChartData(transformedData);
@@ -154,7 +158,11 @@ const AssetConditionByTypeChart4 = () => {
     setSelectedBlock(newValue);
     setSelectedGP(null);
     setGps([]);
-    fetchData(selectedEquipment, newValue);
+    if (newValue) {
+      fetchData(selectedEquipment, newValue);
+    } else {
+      fetchData(selectedEquipment);
+    }
     if (newValue) {
       Axios.get(
         `/hoto-to-assets/equipment/dropdown-gp-for-block?block_name=${newValue}`
@@ -180,7 +188,7 @@ const AssetConditionByTypeChart4 = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedBlock,
+          "equipment_details.location_name": selectedGP?.location_name,
         };
       }
       navigate("/dashboards/hoto-survey-block-data", {
@@ -202,7 +210,7 @@ const AssetConditionByTypeChart4 = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedBlock,
+          "equipment_details.location_name": selectedGP?.location_name,
         };
       }
       navigate("/dashboards/hoto-survey-block-data", {
@@ -224,17 +232,30 @@ const AssetConditionByTypeChart4 = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedBlock,
+          "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      navigate("/dashboards/hoto-survey-block-data", {
-        state: {
-          ...state,
-          availability: true,
-          equipment_name: selectedEquipment,
-          condition: conditionName?.toLowerCase(),
-        },
-      });
+      if (conditionName === "Not Defined") {
+        navigate("/dashboards/hoto-survey-block-data", {
+          state: {
+            ...state,
+            condition: { $eq: null },
+            availability: true,
+            equipment_name: selectedEquipment,
+          },
+        });
+        return;
+      } else {
+
+        navigate("/dashboards/hoto-survey-block-data", {
+          state: {
+            ...state,
+            availability: true,
+            equipment_name: selectedEquipment,
+            condition: conditionName?.toLowerCase(),
+          },
+        });
+      }
     }
   };
 
@@ -311,6 +332,7 @@ const AssetConditionByTypeChart4 = () => {
             />
             <Bar dataKey="Robust" fill="#22CAAD" barSize={30} />
             <Bar dataKey="Damaged" fill="#F55757" barSize={30} />
+            <Bar dataKey="Not Defined" fill="#E78F5D" barSize={30} />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

@@ -114,7 +114,7 @@ const AssetDetailTable = ({ data }) => {
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
+                  onClick={() => handleSort(`serial_no`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -163,8 +163,8 @@ const AssetDetailTable = ({ data }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.length > 0 ? (
-              data.map((ele, index) => {
+            {data?.length > 0 ? (
+              data?.map((ele, index) => {
                 return (
                   <TableRow>
                     <TableCell

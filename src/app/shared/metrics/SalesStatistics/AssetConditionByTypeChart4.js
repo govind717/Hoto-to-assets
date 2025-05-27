@@ -499,6 +499,7 @@ const CustomLegend = ({ data, onLegendClick }) => {
   const legendItems = [
     { name: "Robust", color: "#22CAAD" },
     { name: "Damaged", color: "#F55757" },
+    { name: "Not Defined", color: "#E78F5D" },
     // Add more conditions here if needed
   ];
 
@@ -530,7 +531,7 @@ const CustomLegend = ({ data, onLegendClick }) => {
         </Typography>
         <Typography
           variant="body2"
-          sx={{ color: "#000",cursor:'pointer' }}
+          sx={{ color: "#000", cursor: 'pointer' }}
           onClick={() => onLegendClick?.('total')}
         >
           Total Assets
@@ -572,7 +573,7 @@ const AssetConditionByTypeChart4 = () => {
   const [chartData, setChartData] = useState([]);
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const fetchData = (equipment, block = "", gp = "") => {
     Axios.get(
       `/hoto-to-assets/equipment/fetch-equipments-by-block-and-gp?equipment_name=${equipment}&package_name=${packageNoDataReducer?.data}&block_name=${block}&gp_name=${gp}`
@@ -587,6 +588,9 @@ const AssetConditionByTypeChart4 = () => {
               responseData.find((item) => item._id === "robust")?.count || 0,
             Damaged:
               responseData.find((item) => item._id === "damaged")?.count || 0,
+            "Not Defined":
+              responseData.find((item) => item._id === "not_defined")?.count ||
+              0,
           },
         ];
         setChartData(transformedData);
@@ -622,7 +626,7 @@ const AssetConditionByTypeChart4 = () => {
       fetchData(newValue, selectedBlock);
     } else if (newValue) {
       setSelectedEquipment(newValue);
-      fetchData(newValue, selectedBlock);
+      fetchData(newValue);
     }
   };
 
@@ -630,9 +634,9 @@ const AssetConditionByTypeChart4 = () => {
     setSelectedBlock(newValue);
     setSelectedGP(null);
     setGps([]);
-    if (newValue){
+    if (newValue) {
       fetchData(selectedEquipment, newValue);
-    } else{
+    } else {
       fetchData(selectedEquipment);
     }
     if (newValue) {
@@ -673,7 +677,7 @@ const AssetConditionByTypeChart4 = () => {
           // condition: conditionName?.toLowerCase(),
         },
       });
-    } else if (conditionName==='total') {
+    } else if (conditionName === 'total') {
       let state = {};
       if (selectedBlock) {
         state = {
@@ -684,9 +688,10 @@ const AssetConditionByTypeChart4 = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedBlock,
+          "equipment_details.location_name": selectedGP?.location_name,
         };
       }
+
       navigate("/dashboards/hoto-survey-gp-data", {
         state: {
           ...state,
@@ -708,19 +713,32 @@ const AssetConditionByTypeChart4 = () => {
       if (selectedGP?.location_name) {
         state = {
           ...state,
-          "equipment_details.block.name": selectedBlock,
+          "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      navigate("/dashboards/hoto-survey-gp-data", {
-        state: {
-          ...state,
-          availability: true,
-          equipment_name: selectedEquipment,
-          // "equipment_details.location_name": selectedGP?.location_name,
-          // "equipment_details.block.name": selectedBlock,
-          condition: conditionName?.toLowerCase(),
-        },
-      });
+      if (conditionName=== "Not Defined") {
+        navigate("/dashboards/hoto-survey-gp-data", {
+          state: {
+            ...state,
+            condition: { $eq: null },
+            availability: true,
+             equipment_name: selectedEquipment,
+          },
+        });
+        return;
+      } else {
+
+        navigate("/dashboards/hoto-survey-gp-data", {
+          state: {
+            ...state,
+            availability: true,
+            equipment_name: selectedEquipment,
+            // "equipment_details.location_name": selectedGP?.location_name,
+            // "equipment_details.block.name": selectedBlock,
+            condition: conditionName?.toLowerCase(),
+          },
+        });
+      }
     }
   };
 
@@ -738,7 +756,7 @@ const AssetConditionByTypeChart4 = () => {
               GP Asset Condition
             </Typography>
             <Typography
-              sx={{ fontWeight: 400 ,cursor:'pointer' }}
+              sx={{ fontWeight: 400, cursor: "pointer" }}
               onClick={() => handleLegendClick("Not Found")}
             >
               {notFoundCount || 0} Not Found
@@ -797,6 +815,7 @@ const AssetConditionByTypeChart4 = () => {
             />
             <Bar dataKey="Robust" fill="#22CAAD" barSize={30} />
             <Bar dataKey="Damaged" fill="#F55757" barSize={30} />
+            <Bar dataKey="Not Defined" fill="#E78F5D" barSize={30} />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

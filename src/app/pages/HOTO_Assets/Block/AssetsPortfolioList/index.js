@@ -570,7 +570,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
               {/* <Modal
                 open={open}
                 onClose={handleClose}
-                aria-labelledby="modal-modal-title"
+                aria-labelledby="modal-modal-title"  
                 aria-describedby="modal-modal-description"
 
               >
