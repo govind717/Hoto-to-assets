@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -16,11 +16,17 @@ import WarehouseList from './Warehouse';
 
 const HotoBlock = () => {
    
-    const [value, setValue] = React.useState('1');
+    const [value, setValue] = React.useState(sessionStorage.getItem('blockTabNo') || '1');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        sessionStorage.setItem("blockTabNo", newValue);
     };
+    useEffect(()=>{
+      return ()=>{
+        sessionStorage.removeItem("blockTabNo");
+      }
+    },[]);
     return (
       <Box>
         <HotoHeader/>

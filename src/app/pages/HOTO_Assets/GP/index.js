@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -15,11 +15,18 @@ import WarehouseList from './Warehouse';
 
 
 const HotoGP = () => { 
-    const [value, setValue] = React.useState('1');
+    const [value, setValue] = React.useState(sessionStorage.getItem('gpTabNo') || '1');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        sessionStorage.setItem("gpTabNo", newValue);
     };
+
+     useEffect(()=>{
+          return ()=>{
+            sessionStorage.removeItem("gpTabNo");
+          }
+        },[]);
 
     return (
       <Box>

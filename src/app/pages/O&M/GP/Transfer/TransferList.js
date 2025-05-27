@@ -7,8 +7,13 @@ import TransferAssignRequest from "./TransferAssignRequest";
 import TransferRequest from "./TransferRequest";
 
 const TransferList = () => {
-  const [tabIndex, setTabIndex] = useState(0);
-  const handleTabChange = (_, newValue) => setTabIndex(newValue);
+  const [tabIndex, setTabIndex] = useState(
+    Number(sessionStorage.getItem("oandmGpTransferTab")) || 0
+  );
+  const handleTabChange = (_, newValue) => {
+    setTabIndex(newValue);
+    sessionStorage.setItem("oandmGpTransferTab", newValue);
+  };
 
   return (
     <>
