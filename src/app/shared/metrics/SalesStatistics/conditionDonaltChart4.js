@@ -15,7 +15,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const colorsMap = {
   Available: "#22CAAD",
-  'Not Available': "#F55757",
+  "Not Found": "#F55757",
   // "Semi-Damaged": "#FDCF2A",
   // "Not Defined": "#E78F5D",
   // "Not Found": "#E78F5D",
@@ -106,7 +106,7 @@ const ConditionStatusChart4 = () => {
         value: conditionMap["available"] || 0,
       },
       {
-        name: "Not Available",
+        name: "Not Found",
         value: conditionMap["not_available"] || 0,
       },
       // {
