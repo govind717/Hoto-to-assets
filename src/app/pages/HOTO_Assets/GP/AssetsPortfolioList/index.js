@@ -125,8 +125,10 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     return { label: "Yes", value: true };
   } else if (state?.availability === false) {
     return { label: "No", value: false };
+  }else if (!state?.availability){
+    return { label: "All", value: 'all' };
   } else {
-     return { label: "Yes", value: true };
+    return { label: "Yes", value: true };
   }
 });
   const filterAvailabilityOptions = [

@@ -223,8 +223,8 @@ const AssetDetailTable = ({ data }) => {
                           ele?.condition
                             ? ele?.condition?.toUpperCase()
                             : ele?.availability
-                            ? "Not Define"
-                            : "Not Found"
+                            ? "NOT DEFINED"
+                            : "NOT FOUND"
                         }
                         sx={{
                           backgroundColor:
