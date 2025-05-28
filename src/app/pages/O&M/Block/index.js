@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Box,
@@ -6,24 +6,32 @@ import {
   MenuItem,
   Select
 } from "@mui/material";
+import HotoHeader from "app/Components/HotoHeader";
 import MaintenanceList from "./Maintenance/MaintenanceList";
 import ReplacementList from "./Replacement/ReplacementList";
 import ScrapList from "./Scrap/ScrapList";
 import TransferList from "./Transfer/TransferList";
-import HotoHeader from "app/Components/HotoHeader";
 
-const conditionColors = {
-  "Semi-Damaged": "warning",
-  Damaged: "error",
-};
 
 const BlockOandM = () => {
-  const [pageType, setPageType] = useState("Maintenance");
-  const [tabIndex, setTabIndex] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const handleDropdownChange = (e) => setPageType(e.target.value);
-  const handleTabChange = (_, newValue) => setTabIndex(newValue);
+  
+  const [pageType, setPageType] = useState(
+    sessionStorage.getItem("blockPageType") || "Maintenance"
+  ); 
+  
+  const handleDropdownChange = (e) => {
+    setPageType(e.target.value);
+    sessionStorage.setItem("blockPageType", e.target.value);
+  };
 
+  useEffect(()=>{
+    return ()=>{
+      sessionStorage.removeItem("blockPageType");
+      sessionStorage.removeItem('oandmBlockMaintenanceTab');
+      sessionStorage.removeItem("oandmBlockReplacementTab");
+      sessionStorage.removeItem("oandmBlockTransferTab");
+    };
+  },[])
   return (
     <>
       <HotoHeader/>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Box,
@@ -12,17 +12,22 @@ import ReplacementList from "./Replacement/ReplacementList";
 import ScrapList from "./Scrap/ScrapList";
 import TransferList from "./Transfer/TransferList";
 
-const conditionColors = {
-  "Semi-Damaged": "warning",
-  Damaged: "error",
-};
 
 const GPOandM = () => {
-  const [pageType, setPageType] = useState("Maintenance");
-  const [tabIndex, setTabIndex] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const handleDropdownChange = (e) => setPageType(e.target.value);
-  const handleTabChange = (_, newValue) => setTabIndex(newValue);
+  const [pageType, setPageType] = useState(sessionStorage.getItem('gpPageType') || "Maintenance");
+  const handleDropdownChange = (e) => {
+    setPageType(e.target.value);
+    sessionStorage.setItem("gpPageType", e.target.value);
+  };
+  
+useEffect(()=>{
+return ()=>{
+ sessionStorage.removeItem("gpPageType");
+ sessionStorage.removeItem("oandmGpMaintenanceTab");
+ sessionStorage.removeItem("oandmGpReplacementTab");
+ sessionStorage.removeItem("oandmGpTransferTab");
+};
+},[]);
 
   return (
     <>

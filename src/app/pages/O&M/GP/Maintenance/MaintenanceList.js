@@ -8,8 +8,13 @@ import { useState } from "react";
 
 
 const MaintenanceList = () => {
-  const [tabIndex, setTabIndex] = useState(0);
-  const handleTabChange = (_, newValue) => setTabIndex(newValue);
+  const [tabIndex, setTabIndex] = useState(
+    sessionStorage.getItem("oandmGpMaintenanceTab") || 0
+  );
+  const handleTabChange = (_, newValue) => {
+    setTabIndex(newValue);
+    sessionStorage.setItem("oandmGpMaintenanceTab", newValue);
+  };
 
   return (
     <>
