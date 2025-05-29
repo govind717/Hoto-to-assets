@@ -40,7 +40,7 @@ const ReplacementRequest = () => {
   const { oandmGpReplacementRequestDataReducer } = useSelector(
     (state) => state
   );
- 
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -62,6 +62,7 @@ const ReplacementRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
       })
     );
   };
@@ -84,9 +85,10 @@ const ReplacementRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
 
   const closeModal=()=>{
     setOpen(false);
@@ -122,6 +124,7 @@ const ReplacementRequest = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  package_name: packageNoDataReducer?.data,
                 })
               );
             }

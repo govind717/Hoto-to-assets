@@ -143,7 +143,6 @@ const MaintainanceList = () => {
       const res = await Axios.post(
         "/hoto-to-assets/block/maintenance/download-excel"
       );
-      console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
@@ -239,13 +238,7 @@ const MaintainanceList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
                   Sr No.
-                </TableSortLabel>
               </TableCell>
               <TableCell
                 align={"left"}
@@ -333,6 +326,60 @@ const MaintainanceList = () => {
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
                     apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `assets_details.location_details.location_name`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location"
+                    field="assets_details.location_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.location_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `assets_details.location_details.location_code`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort, minWidth:'130px' }}
+                  >
+                    Location Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location Code"
+                    field="assets_details.location_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.location_details.location_code&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -461,7 +508,6 @@ const MaintainanceList = () => {
                   >
                     ETA
                   </TableSortLabel>
-                  
                 </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -602,6 +648,28 @@ const MaintainanceList = () => {
                           textTransform: "capitalize",
                         }}
                       >
+                        {ele?.assets_details?.location_details?.location_name ||
+                          "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.location_details.location_code ||
+                          "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
                         {ele?.repair_type || "-"}
                       </TableCell>
                       <TableCell
@@ -698,7 +766,6 @@ const MaintainanceList = () => {
                           verticalAlign: "middle",
                           textTransform: "capitalize",
                         }}
-                         
                       >
                         {/* {ele?.assets_details?.condition_status || "-"} */}
                         <Chip
@@ -708,7 +775,6 @@ const MaintainanceList = () => {
                               : "-"
                           }
                           sx={{
-                           
                             color: "#FFF",
                             fontWeight: "bold",
                             fontSize: "14",

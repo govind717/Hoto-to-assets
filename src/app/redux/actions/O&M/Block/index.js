@@ -1,6 +1,6 @@
 import { Axios } from "index";
 
-import { hoto_apis } from "app/Apis/hoto_assest";
+import { oandmApis } from "app/Apis/O&M";
 import {
   OANDM_BLOCK_MAINTENANCE_REQUEST_ASSIGN_DATA_FAILED,
   OANDM_BLOCK_MAINTENANCE_REQUEST_ASSIGN_DATA_REQUEST,
@@ -27,7 +27,6 @@ import {
   OANDM_BLOCK_TRANSFER_REQUEST_DATA_REQUEST,
   OANDM_BLOCK_TRANSFER_REQUEST_DATA_SUCCESS,
 } from "../constants";
-import { oandmApis } from "app/Apis/O&M";
 
 //Maintainance
 //===========Maintenance request
@@ -36,11 +35,16 @@ export const oandm_block_maintenace_request_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-} = {}) { 
+  filters={},
+  package_name = "",
+} = {}) {
   return async (dispatch) => {
     try {
       const body = {
-        filters: {},
+        filters: {
+          ...filters,
+          "assets_details.location_details.package.name": package_name,
+        },
         searchFields: {
           string: [
             "maintenance_id",
@@ -59,7 +63,8 @@ export const oandm_block_maintenace_request_data_disptach = function ({
       dispatch({ type: OANDM_BLOCK_MAINTENANCE_REQUEST_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${oandmApis?.block?.maintenace?.maintenace_request_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,body
+        `${oandmApis?.block?.maintenace?.maintenace_request_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}`,
+        body
       );
       dispatch({
         type: OANDM_BLOCK_MAINTENANCE_REQUEST_DATA_SUCCESS,
@@ -81,18 +86,21 @@ export const oandm_block_maintenace_request_assign_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name=''
 } = {}) {
   return async (dispatch) => {
     try {
       const body = {
-        filters: {},
+        filters: {
+          "assets_details.location_details.package.name":package_name,
+        },
         searchFields: {
           string: [
             "maintenance_id",
             "assets_details.equipment_name",
             "assets_details.serial_no",
-            "assets_details.location_details?.location_name",
-            "assets_details.location_details?.location_code",
+            "assets_details.location_details.location_name",
+            "assets_details.location_details.location_code",
             "assets_details.condition",
             "repair_type",
             "issue_reported",
@@ -132,10 +140,13 @@ export const oandm_block_replacement_request_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name=''
 } = {}) {
   return async (dispatch) => {
     const body = {
-      filters: {},
+      filters: {
+        "block_asset_details.block_details.package.name":package_name,
+      },
       searchFields: {
         string: [
           "replacementId",
@@ -181,10 +192,13 @@ export const oandm_block_replacement_request_assign_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name=''
 } = {}) {
   return async (dispatch) => {
     const body = {
-      filters: {},
+      filters: {
+        "requested_item.requested_item_details.block_asset_details.equipment_details.package.name":package_name,
+      },
       searchFields: {
         string: [
           "requested_item.requested_item_details.replacementId",
@@ -235,10 +249,13 @@ export const oandm_block_transfer_request_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name=''
 } = {}) {
   return async (dispatch) => {
     const body = {
-      filters: {},
+      filters: {
+        "assets_details.location_details.package.name":package_name,
+      },
       searchFields: {
         string: [
           "transfer_id",
@@ -285,11 +302,14 @@ export const oandm_block_transfer_request_assign_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name=''
 } = {}) {
   return async (dispatch) => {
     try {
       const body = {
-        filters: {},
+        filters: {
+          "assets_details.location_details.package.name": package_name,
+        },
         searchFields: {
           string: [
             "transfer_id",
@@ -298,6 +318,8 @@ export const oandm_block_transfer_request_assign_data_disptach = function ({
             "assets_details.serial_no",
             "transfer_type",
             "transfer_from.location_name",
+            'assets_details.location_details.location_name',
+            'assets_details.location_details.location_code',
             "transfer_to.location_name",
             "assets_details.condition",
             "transfer_status",

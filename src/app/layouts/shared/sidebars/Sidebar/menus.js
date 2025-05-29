@@ -172,7 +172,7 @@ const menus = [
     ],
   },
   {
-    label: "Hoto - Assets",
+    label: "Assets",
     type: "collapsible",
     icon: <CellTowerOutlinedIcon sx={{ fontSize: 20 }} />,
     permission: ["hotoBlock", "hotoGp", "hotoRkm", "hotoWarehouse"],

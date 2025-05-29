@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   InputAdornment,
   Pagination,
@@ -27,6 +28,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InfoIcon from "@mui/icons-material/Info";
 import MaintenanaceRequestView from "./Modal/MaintenanaceRequestView";
 import Div from "@jumbo/shared/Div";
+import FilterModel from "app/Components/FilterModel";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -51,9 +53,12 @@ const MaintenanceRequest = () => {
   const [open, setOpen] = useState(false);
   const [openRequestManagement, setOpenRequestManagement] = useState(false);
   const [row, setRow] = useState(null);
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
   const { oandmBlockMaintenaceRequestDataReducer } = useSelector(
     (state) => state
   );
+  const { packageNoDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,6 +81,8 @@ const MaintenanceRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
+        filters: filters,
       })
     );
   };
@@ -98,9 +105,11 @@ const MaintenanceRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
+        package_name: packageNoDataReducer?.data,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
 
   const closeModal = () => {
     setOpenRequestManagement(false);
@@ -133,6 +142,8 @@ const MaintenanceRequest = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
+                  package_name: packageNoDataReducer?.data,
                 })
               );
             }
@@ -175,6 +186,29 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`maintenance_id`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Maintenance ID
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Maintenance ID "
+                    field="maintenance_id"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=maintenance_id&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              {/* <TableCell
+                align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
@@ -184,7 +218,7 @@ const MaintenanceRequest = () => {
                 >
                   Maintenance ID
                 </TableSortLabel>
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
@@ -197,7 +231,10 @@ const MaintenanceRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`assets_details.equipment_name`)}
                   direction={sort}
