@@ -282,9 +282,15 @@ function AdduserManagement() {
             )
           : await Axios.post(AllApis?.Auth?.addUser, payload);
       if (pathname === USER_MANAGEMENT_EDIT) {
+        console.log("this is permission")
         dispatch(
-          single_user_data_disptach(state?._id)
+          single_user_data_disptach(
+            JSON.parse(localStorage.getItem("dbomUserAndToken"))?.user?._id
+          )
         );
+        // dispatch(
+        //   single_user_data_disptach(state?._id)
+        // );
       }
       const statusCode = res?.data?.statusCode;
 
@@ -2136,7 +2142,7 @@ function AdduserManagement() {
                       fontWeight={500}
                       mb={1}
                     >
-                      Hoto-Assets Block
+                      Assets - Block
                     </Typography>
                     <Div sx={{ pl: 2, mb: 2 }}>
                       <Typography
@@ -2227,7 +2233,7 @@ function AdduserManagement() {
                       fontWeight={500}
                       mb={1}
                     >
-                      Hoto-Assets GP
+                      Assets - GP
                     </Typography>
                     <Div sx={{ pl: 2, mb: 2 }}>
                       <Typography
@@ -2314,7 +2320,7 @@ function AdduserManagement() {
                       fontWeight={500}
                       mb={1}
                     >
-                      Hoto-Assets RKM
+                      Assets - RKM
                     </Typography>
                     <Div sx={{ pl: 2, mb: 2 }}>
                       <Typography
@@ -2401,7 +2407,7 @@ function AdduserManagement() {
                       fontWeight={500}
                       mb={1}
                     >
-                      Hoto-Assets Warehouse
+                      Assets - Warehouse
                     </Typography>
                     <Div sx={{ pl: 2, mb: 2 }}>
                       <Typography

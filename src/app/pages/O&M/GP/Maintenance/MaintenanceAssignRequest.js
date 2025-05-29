@@ -1,5 +1,7 @@
+import Div from "@jumbo/shared/Div";
+import InfoIcon from "@mui/icons-material/Info";
+import SearchIcon from "@mui/icons-material/Search";
 import {
-  Button,
   InputAdornment,
   MenuItem,
   Pagination,
@@ -12,23 +14,19 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField,
+  TextField
 } from "@mui/material";
 import FullScreenLoader from "app/pages/Components/Loader";
-import SearchIcon from "@mui/icons-material/Search";
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
+import { Blue, Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
+import { oandm_gp_maintenace_request_assign_data_disptach } from "app/redux/actions/O&M/GP";
+import { Axios } from "index";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import AssignViewModal from "./Modal/AssignViewModal";
-import InfoIcon from "@mui/icons-material/Info";
-import moment from "moment";
-import Div from "@jumbo/shared/Div";
 import Swal from "sweetalert2";
-import { Axios } from "index";
-import { Blue, Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
-import { oandm_gp_maintenace_request_assign_data_disptach } from "app/redux/actions/O&M/GP";
+import AssignViewModal from "./Modal/AssignViewModal";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -55,7 +53,7 @@ const MaintenanceAssignRequest = () => {
   const { oandmGpMaintenaceRequestAssignDataReducer } = useSelector(
     (state) => state
   );
-
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -77,6 +75,7 @@ const MaintenanceAssignRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
       })
     );
   };
@@ -99,9 +98,10 @@ const MaintenanceAssignRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
   const closeModal = () => {
     setOpen(false);
   };
@@ -133,6 +133,7 @@ const MaintenanceAssignRequest = () => {
               search_value: searchTerm.trim(),
               sort: sort,
               page: page,
+              package_name: packageNoDataReducer?.data,
             })
           );
         }
@@ -166,6 +167,7 @@ const MaintenanceAssignRequest = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  package_name: packageNoDataReducer?.data,
                 })
               );
             }

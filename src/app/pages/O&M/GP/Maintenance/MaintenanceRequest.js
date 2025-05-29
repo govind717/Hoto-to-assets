@@ -1,3 +1,6 @@
+import Div from "@jumbo/shared/Div";
+import InfoIcon from "@mui/icons-material/Info";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
   InputAdornment,
@@ -12,20 +15,16 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FullScreenLoader from "app/pages/Components/Loader";
+import { orangeSecondary } from "app/pages/Constants/colors";
 import { oandm_gp_maintenace_request_data_disptach } from "app/redux/actions/O&M/GP";
 import { debounce } from "lodash";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
-import InfoIcon from "@mui/icons-material/Info";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import MaintenanceRequestModal from "./Modal/MaintenanceRequestModal";
 import MaintenanaceRequestView from "./Modal/MaintenanaceRequestView";
-import FullScreenLoader from "app/pages/Components/Loader";
-import Div from "@jumbo/shared/Div";
+import MaintenanceRequestModal from "./Modal/MaintenanceRequestModal";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -51,7 +50,7 @@ const MaintenanceRequest = () => {
   const [openRequestManagement, setOpenRequestManagement] = useState(false);
   const [row, setRow] = useState(null);
   const { oandmGpMaintenaceRequestDataReducer } = useSelector((state) => state);
-
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -73,6 +72,7 @@ const MaintenanceRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
       })
     );
   };
@@ -95,9 +95,10 @@ const MaintenanceRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
 
   const closeModal = () => {
     setOpenRequestManagement(false);
@@ -130,6 +131,7 @@ const MaintenanceRequest = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  package_name: packageNoDataReducer?.data,
                 })
               );
             }

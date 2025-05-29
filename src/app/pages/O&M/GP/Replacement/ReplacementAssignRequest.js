@@ -1,5 +1,7 @@
+import Div from "@jumbo/shared/Div";
+import InfoIcon from "@mui/icons-material/Info";
+import SearchIcon from "@mui/icons-material/Search";
 import {
-  Button,
   InputAdornment,
   MenuItem,
   Pagination,
@@ -12,28 +14,23 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField,
+  TextField
 } from "@mui/material";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import AssignViewModal from "./Modal/AssignViewModal";
-import moment from "moment";
-import InfoIcon from "@mui/icons-material/Info";
+import FullScreenLoader from "app/pages/Components/Loader";
 import {
   Blue,
   Green,
-  orangeSecondary,
-  Yellow,
+  Yellow
 } from "app/pages/Constants/colors";
-import Div from "@jumbo/shared/Div";
-import SearchIcon from "@mui/icons-material/Search";
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
-import FullScreenLoader from "app/pages/Components/Loader";
-import Swal from "sweetalert2";
-import { Axios } from "index";
 import { oandm_gp_replacement_request_assign_data_disptach } from "app/redux/actions/O&M/GP";
+import { Axios } from "index";
+import { debounce } from "lodash";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import AssignViewModal from "./Modal/AssignViewModal";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -60,6 +57,7 @@ const ReplacementAssignRequest = () => {
   const { oandmGpReplacementRequestAssignDataReducer } = useSelector(
     (state) => state
   );
+  const { packageNoDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -82,6 +80,7 @@ const ReplacementAssignRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
       })
     );
   };
@@ -104,9 +103,10 @@ const ReplacementAssignRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
 
   const closeModal = () => {
     setOpen(false);
@@ -132,6 +132,7 @@ const ReplacementAssignRequest = () => {
               search_value: searchTerm.trim(),
               sort: sort,
               page: page,
+              package_name: packageNoDataReducer?.data,
             })
           );
         }
@@ -166,6 +167,7 @@ const ReplacementAssignRequest = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  package_name: packageNoDataReducer?.data,
                 })
               );
             }

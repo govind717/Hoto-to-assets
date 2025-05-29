@@ -34,10 +34,13 @@ export const oandm_gp_maintenace_request_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name='',
 } = {}) {
   return async (dispatch) => {
     const body = {
-      filters: {},
+      filters: {
+        'assets_details.location_details.package.name':package_name
+      },
       searchFields: {
         string: [
           "maintenance_id",
@@ -79,11 +82,14 @@ export const oandm_gp_maintenace_request_assign_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name='',
 } = {}) {
   return async (dispatch) => {
     try {
       const body = {
-        filters: {},
+        filters: {
+          "assets_details.location_details?.package.name":package_name,
+        },
         searchFields: {
           string: [
             "maintenance_id",
@@ -127,11 +133,14 @@ export const oandm_gp_replacement_request_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name=''
 } = {}) {
   return async (dispatch) => {
     try {
       const body = {
-        filters: {},
+        filters: {
+          "gp_asset_details.equipment_details.package.name":package_name,
+        },
         searchFields: {
           string: [
             "replacementId",
@@ -178,11 +187,14 @@ export const oandm_gp_replacement_request_assign_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name=""
 } = {}) {
   return async (dispatch) => {
     try {
       const body = {
-        filters: {},
+        filters: {
+          "requested_item.requested_item_details.gp_asset_details.equipment_details.package.name":package_name,
+        },
         searchFields: {
           string: [
             "requested_item.requested_item_details.replacementId",
@@ -232,11 +244,14 @@ export const oandm_gp_transfer_request_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name=''
 } = {}) {
   return async (dispatch) => {
     try {
       const body = {
-        filters: {},
+        filters: {
+          "assets_details.location_details.package.name":package_name,
+        },
         searchFields: {
           string: [
             "transfer_id",
@@ -280,11 +295,14 @@ export const oandm_gp_transfer_request_assign_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  package_name=''
 } = {}) {
   return async (dispatch) => {
     try {
       const body = {
-        filters: {},
+        filters: {
+          "assets_details.location_details.package.name":package_name,
+        },
         searchFields: {
           string: [
             "transfer_id",
@@ -292,6 +310,7 @@ export const oandm_gp_transfer_request_assign_data_disptach = function ({
             "assets_details.equipment_name",
             "assets_details.serial_no",
             "transfer_type",
+            // "assets_details.location_details.location_name",
             "transfer_from.location_name",
             "transfer_to.location_name",
             "createdAt",
