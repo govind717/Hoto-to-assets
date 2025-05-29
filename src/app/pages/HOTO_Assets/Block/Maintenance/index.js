@@ -5,7 +5,7 @@ import {
   Box,
   Button,
   Chip,
-  IconButton,  
+  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -119,9 +119,8 @@ const MaintainanceList = () => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,  packageNoDataReducer?.data, applyFilter, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
 
-  
   const Toast = Swal.mixin({
     toast: true,
     position: "top",
@@ -238,7 +237,7 @@ const MaintainanceList = () => {
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Sr No.
+                Sr No.
               </TableCell>
               <TableCell
                 align={"left"}
@@ -368,7 +367,7 @@ const MaintainanceList = () => {
                       )
                     }
                     direction={sort}
-                    sx={{ ...tableCellSort, minWidth:'130px' }}
+                    sx={{ ...tableCellSort, minWidth: "130px" }}
                   >
                     Location Code
                   </TableSortLabel>
@@ -731,25 +730,29 @@ const MaintainanceList = () => {
                         }}
                       >
                         <Chip
+                          // label={e?.condition ? e.condition?.toUpperCase() : "-"}
                           label={
-                            ele?.assets_details?.condition
-                              ? ele?.assets_details?.condition?.toUpperCase()
-                              : "-"
+                            ele?.condition
+                              ? ele?.condition?.toUpperCase()
+                              : ele?.availability
+                              ? "NOT DEFINED"
+                              : "NOT FOUND"
                           }
                           sx={{
                             backgroundColor:
-                              ele?.assets_details?.condition?.toUpperCase() ===
-                              "DAMAGED"
+                              ele?.condition?.toUpperCase() === "DAMAGED"
                                 ? Red
-                                : ele?.assets_details?.condition?.toUpperCase() ===
+                                : ele?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
                                 ? Yellow
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "ROBUST"
+                                : ele?.condition?.toUpperCase() === "ROBUST"
                                 ? Green
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "MISSING"
+                                : ele?.condition === null &&
+                                  ele?.availability === true
                                 ? Orange
+                                : ele?.condition === null &&
+                                  ele?.availability === false
+                                ? Yellow
                                 : "",
                             color: "#FFF",
                             fontWeight: "bold",
