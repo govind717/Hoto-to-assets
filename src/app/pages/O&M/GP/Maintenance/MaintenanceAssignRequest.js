@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   InputAdornment,
   MenuItem,
@@ -20,7 +21,7 @@ import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AssignViewModal from "./Modal/AssignViewModal";
 import InfoIcon from "@mui/icons-material/Info";
 import moment from "moment";
@@ -29,6 +30,7 @@ import Swal from "sweetalert2";
 import { Axios } from "index";
 import { Blue, Green, Orange, Red, Yellow } from "app/pages/Constants/colors";
 import { oandm_gp_maintenace_request_assign_data_disptach } from "app/redux/actions/O&M/GP";
+import FilterModel from "app/Components/FilterModel";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -58,6 +60,12 @@ const MaintenanceAssignRequest = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { state } = useLocation();
+  const { packageNoDataReducer } = useSelector((state) => state);
+
+  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
@@ -101,7 +109,8 @@ const MaintenanceAssignRequest = () => {
         page: page,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, applyFilter, dispatch]);
+
   const closeModal = () => {
     setOpen(false);
   };
@@ -208,121 +217,242 @@ const MaintenanceAssignRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`maintenance_id`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Maintenance Id
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`maintenance_id`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Maintenance Id
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Maintenance ID"
+                    field="maintenance_id"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=maintenance_id&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`maintenance_request_details.createdAt`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Request Date
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(`maintenance_request_details.createdAt`)
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Request Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Request Date"
+                    field="maintenance_request_details.createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=maintenance_request_details.createdAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.equipment_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Equipment
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.equipment_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Equipment
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="assets_details.equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.serial_no`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Serial No.
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.serial_no`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Serial No.
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Serial No"
+                    field="assets_details.serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`assets_details.location_details.location_name`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(`assets_details.location_details.location_name`)
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location"
+                    field="assets_details.location_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.location_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`assets_details.location_details.location_code`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location Code
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(`assets_details.location_details.location_code`)
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location Code"
+                    field="assets_details.location_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.location_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.condition`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Condition
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.condition`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Condition
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Condition"
+                    field="assets_details.condition"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.condition&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, }}
+                sx={{ ...tableCellSx,minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`repair_type`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Repair Type
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`repair_type`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Repair Type
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Repair Type"
+                    field="repair_type"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=repair_type&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
 
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`assign_to`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Assigned To
-                </TableSortLabel>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth: "220px"}}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assign_to`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Assigned To
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Assigned To"
+                    field="assign_to"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assign_to&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"180px" }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`issue_reported`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Issue Reported
-                </TableSortLabel>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth: "220px"}}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`issue_reported`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Issue Reported
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Issue Reported"
+                    field="issue_reported"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=issue_reported&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`createdAt`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Issue Date
-                </TableSortLabel>
+              <TableCell align={"left"} sx={{ ...tableCellSx ,minWidth: "220px"}}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`createdAt`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Issue Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Issue Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=issue_reported&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -339,13 +469,24 @@ const MaintenanceAssignRequest = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`repair_status`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Repair Status
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`repair_status`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Repair Status
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Repair Status"
+                    field="repair_status"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=repair_status&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
 
               <TableCell
@@ -534,12 +675,12 @@ const MaintenanceAssignRequest = () => {
                               ele?.repair_status === "repaired"
                                 ? Blue
                                 : ele?.repair_status === "under_repair"
-                                ? Yellow
-                                : ele?.repair_status === "installed"
-                                ? Green
-                                : ele?.repair_status === "assigned"
-                                ? Orange
-                                : Red,
+                                  ? Yellow
+                                  : ele?.repair_status === "installed"
+                                    ? Green
+                                    : ele?.repair_status === "assigned"
+                                      ? Orange
+                                      : Red,
                             color: "#fff",
                             borderRadius: "6px",
                             paddingTop: "0",

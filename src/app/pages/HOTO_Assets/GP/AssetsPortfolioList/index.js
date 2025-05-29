@@ -65,17 +65,16 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { state } = useLocation();
-  console.log('state////////////////',state)
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [toggle, setToggle] = useState(false);
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-  
+
   const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
   const [applyFilter, setApplyFilter] = useState(false);
 
@@ -118,19 +117,18 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     };
   }, [searchTerm]);
 
-  
-  console.log('state?.availability',state?.availability)
- const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
-  if (state?.availability === true) {
-    return { label: "Yes", value: true };
-  } else if (state?.availability === false) {
-    return { label: "No", value: false };
-  }else if (!state?.availability){
-    return { label: "All", value: 'all' };
-  } else {
-    return { label: "Yes", value: true };
-  }
-});
+
+  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+    if (state?.availability === true) {
+      return { label: "Yes", value: true };
+    } else if (state?.availability === false) {
+      return { label: "No", value: false };
+    } else if (!state?.availability) {
+      return { label: "All", value: 'all' };
+    } else {
+      return { label: "Yes", value: true };
+    }
+  });
   const filterAvailabilityOptions = [
     { label: "Yes", value: true },
     { label: "No", value: false },
@@ -435,20 +433,20 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             />
           </FormControl>
         </Div>
-         <Div sx={{ my: "2%" }}>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      borderColor: "#B0BAC9",
-                      padding: "6px 20px",
-                      color: "#000",
-                      borderRadius: "5px",
-                    }}
-                    onClick={handleExportCSV}
-                  >
-                    <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
-                  </Button>
-                </Div>
+        <Div sx={{ my: "2%" }}>
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: "#B0BAC9",
+              padding: "6px 20px",
+              color: "#000",
+              borderRadius: "5px",
+            }}
+            onClick={handleExportCSV}
+          >
+            <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
+          </Button>
+        </Div>
         {selectedIds?.length > 0 && (
           <Div
             sx={{
@@ -677,7 +675,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Name
                   </TableSortLabel>
-                   <FilterModel
+                  <FilterModel
                     label="Filter Block Name"
                     field="equipment_details.block.name"
                     filters={filters}
@@ -700,7 +698,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Code
                   </TableSortLabel>
-                   <FilterModel
+                  <FilterModel
                     label="Filter Block Code"
                     field="equipment_details.block.code"
                     filters={filters}
@@ -837,7 +835,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoGpAssetPortfolioDataReducer?.data.result?.data &&
-            hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
+              hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
                   return (
