@@ -326,9 +326,9 @@ const MaintenanceAssignRequest = () => {
                   />
                 </Box>
               </TableCell>
-              <TableCell
+              <TableCell 
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel

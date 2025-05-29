@@ -292,7 +292,7 @@ const MaintenanceRequest = () => {
                     }
                     direction={sort}
                     sx={{ ...tableCellSort }}
-                  >
+                  > 
                     Location Code
                   </TableSortLabel>
                   <FilterModel
