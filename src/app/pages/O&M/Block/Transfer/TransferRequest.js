@@ -9,7 +9,7 @@ import {
   Paper,
   Table,
   TableBody,
-  TableCell,
+  TableCell, 
   TableContainer,
   TableHead,
   TableRow,
@@ -239,7 +239,7 @@ const TransferRequest = () => {
                     apiUrl={`/o&m/block/filter-dropdown/transfer-request?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
-              </TableCell>
+              </TableCell> 
 
               <TableCell
                 align={"left"}

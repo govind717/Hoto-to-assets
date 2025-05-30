@@ -70,7 +70,7 @@ const MaintenanceRequest = () => {
       return { label: "Yes", value: true };
     } else if (state.availability === false) {
       return { label: "No", value: false };
-    } else if (state.availability === undefined) {
+    } else if (state.availability === undefined) {  
       return { label: "All", value: 'all' };
     } else {
       return { label: "Yes", value: true };
@@ -253,10 +253,10 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=maintenance_id&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=maintenance_id&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
-              </TableCell>
+              </TableCell> 
               <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "180px" }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
@@ -273,7 +273,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -293,7 +293,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -313,7 +313,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -335,7 +335,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.location_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=assets_details.location_details.location_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -360,7 +360,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.location_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=assets_details.location_details.location_code&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -380,7 +380,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.condition&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=assets_details.condition&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -400,7 +400,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=repair_type&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=repair_type&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -420,7 +420,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=issue_reported&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=issue_reported&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -444,7 +444,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -468,7 +468,7 @@ const MaintenanceRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/maintenance-request?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>

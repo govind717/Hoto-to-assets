@@ -211,7 +211,7 @@ const MaintenanceRequest = () => {
                     package_name={packageNoDataReducer?.data}
                     apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=maintenance_id&package_name=${packageNoDataReducer?.data}`}
                   />
-                </Box>
+                </Box> 
               </TableCell>
               <TableCell
                 align={"left"}

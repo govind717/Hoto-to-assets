@@ -190,7 +190,7 @@ const ReplacementRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=replacementId&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=replacementId&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -207,13 +207,13 @@ const ReplacementRequest = () => {
                     Request Date
                   </TableSortLabel>
                   <FilterModel
-                    label="Filter Request Date"
+                    label="Filter Request Date" 
                     field="issueDate"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=issueDate&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=issueDate&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -233,7 +233,7 @@ const ReplacementRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=gp_asset_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -253,7 +253,7 @@ const ReplacementRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=gp_asset_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.serial_no&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -273,7 +273,7 @@ const ReplacementRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=dueDate&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=dueDate&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -297,7 +297,7 @@ const ReplacementRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=gp_asset_details.equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -324,7 +324,7 @@ const ReplacementRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=gp_asset_details.equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -347,7 +347,7 @@ const ReplacementRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=replacementReason&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=replacementReason&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -367,7 +367,7 @@ const ReplacementRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=initiatedBy&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=initiatedBy&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -387,7 +387,7 @@ const ReplacementRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=gp_asset_details.condition&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.condition&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>

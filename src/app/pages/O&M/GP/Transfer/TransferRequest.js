@@ -189,14 +189,14 @@ const TransferRequest = () => {
                   >
                     Transfer ID
                   </TableSortLabel>
-                  <FilterModel
+                  <FilterModel 
                     label="Filter Transfer ID"
                     field="transfer_id"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=transfer_id&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request?filter_field=transfer_id&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -219,7 +219,7 @@ const TransferRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -242,7 +242,7 @@ const TransferRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -262,7 +262,7 @@ const TransferRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -285,7 +285,7 @@ const TransferRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=transfer_type&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request?filter_field=transfer_type&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -308,7 +308,7 @@ const TransferRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=transfer_from.location_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request?filter_field=transfer_from.location_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -328,7 +328,7 @@ const TransferRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=transfer_to.location_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request?filter_field=transfer_to.location_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -350,7 +350,7 @@ const TransferRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.location_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request?filter_field=assets_details.location_details.location_name&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -375,7 +375,7 @@ const TransferRequest = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=assets_details.location_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request?filter_field=assets_details.location_details.location_code&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
