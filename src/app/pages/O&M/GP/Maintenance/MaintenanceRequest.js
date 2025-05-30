@@ -64,16 +64,19 @@ const MaintenanceRequest = () => {
   const navigate = useNavigate();
 
   const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
-    if (state?.availability === true) {
+    if (!state) {
       return { label: "Yes", value: true };
-    } else if (state?.availability === false) {
+    } else if (state.availability === true) {
+      return { label: "Yes", value: true };
+    } else if (state.availability === false) {
       return { label: "No", value: false };
-    } else if (!state?.availability) {
+    } else if (state.availability === undefined) {
       return { label: "All", value: 'all' };
     } else {
       return { label: "Yes", value: true };
     }
   });
+  
   const filterAvailabilityOptions = [
     { label: "Yes", value: true },
     { label: "No", value: false },

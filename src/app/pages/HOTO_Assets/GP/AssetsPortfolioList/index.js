@@ -28,7 +28,7 @@ import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
 import { Axios } from "index";
-import { debounce } from "lodash";
+import { debounce, uniqueId } from "lodash";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
@@ -118,17 +118,48 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   }, [searchTerm]);
 
 
+  console.log('state?.availability',state?.availability)
+  
+  // const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+  //   if (state?.availability === true) {
+  //     return { label: "Yes", value: true };
+  //   } else if (state?.availability === false) {
+  //     return { label: "No", value: false };
+  //   }
+  //    else if (state?.availability==undefined) {
+  //     return { label: "All", value: 'all' };
+  //   } 
+  //   else {
+  //     return { label: "Yes", value: true };
+  //   }
+  // });
+
   const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
-    if (state?.availability === true) {
-      return { label: "Yes", value: true };
-    } else if (state?.availability === false) {
-      return { label: "No", value: false };
-    } else if (!state?.availability) {
-      return { label: "All", value: 'all' };
-    } else {
-      return { label: "Yes", value: true };
-    }
-  });
+  if (!state) {
+    return { label: "Yes", value: true };
+  } else if (state.availability === true) {
+    return { label: "Yes", value: true };
+  } else if (state.availability === false) {
+    return { label: "No", value: false };
+  } else if (state.availability === undefined) {
+    return { label: "All", value: 'all' };
+  } else {
+    return { label: "Yes", value: true };
+  }
+});
+
+
+//  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+//   if (state?.availability === true) {
+//     return { label: "Yes", value: true };
+//   } else if (state?.availability === false) {
+//     return { label: "No", value: false };
+//   } else {
+//     // Default to "Yes" if undefined or anything else
+//     return { label: "Yes", value: true };
+//   }
+// });
+
   const filterAvailabilityOptions = [
     { label: "Yes", value: true },
     { label: "No", value: false },
