@@ -1,0 +1,25 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Copy source code to /home/ubuntu
+        run: |
+          rsync -av --delete ./ /home/ubuntu/
+
+      - name: Install dependencies with Yarn
+        working-directory: /home/ubuntu
+        run: yarn install
+
+      - name: Restart PM2 process
+        run: pm2 restart 0
