@@ -140,11 +140,13 @@ export const oandm_block_replacement_request_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  filters={},
   package_name=''
 } = {}) {
   return async (dispatch) => {
     const body = {
       filters: {
+        ...filters,
         "block_asset_details.block_details.package.name":package_name,
       },
       searchFields: {
@@ -192,11 +194,13 @@ export const oandm_block_replacement_request_assign_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  filters={},
   package_name=''
 } = {}) {
   return async (dispatch) => {
     const body = {
       filters: {
+        ...filters,
         "requested_item.requested_item_details.block_asset_details.equipment_details.package.name":package_name,
       },
       searchFields: {
@@ -249,11 +253,13 @@ export const oandm_block_transfer_request_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
-  package_name=''
+  filters={},
+  package_name='',
 } = {}) {
   return async (dispatch) => {
     const body = {
       filters: {
+        ...filters,
         "assets_details.location_details.package.name":package_name,
       },
       searchFields: {
@@ -302,12 +308,14 @@ export const oandm_block_transfer_request_assign_data_disptach = function ({
   search_value = "",
   sort = "",
   sortBy = "",
+  filters={},
   package_name=''
 } = {}) {
   return async (dispatch) => {
     try {
       const body = {
         filters: {
+          ...filters,
           "assets_details.location_details.package.name": package_name,
         },
         searchFields: {
