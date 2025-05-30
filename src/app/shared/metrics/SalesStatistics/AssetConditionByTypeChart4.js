@@ -631,14 +631,14 @@ const CustomLegend = ({ data, onLegendClick, selectedChart }) => {
       })}
     </Box>
   );
-};  
+};
 
 
 
 const AssetConditionByTypeChart4 = () => {
   const [selectedBlock, setSelectedBlock] = useState("");
   const [selectedGP, setSelectedGP] = useState(null);
-  const [selectedEquipment, setSelectedEquipment] = useState("CCU");
+  const [selectedEquipment, setSelectedEquipment] = useState("");
   const [blocks, setBlocks] = useState([]);
   const [gps, setGps] = useState([]);
   const [equipmentTypes, setEquipmentTypes] = useState([]);
