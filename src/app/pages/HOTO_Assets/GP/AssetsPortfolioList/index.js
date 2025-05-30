@@ -709,6 +709,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   />
                 </Box>
               </TableCell>
+
+
+
               {/* 
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
@@ -802,6 +805,54 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Status
                   </TableSortLabel>
+                </Box>
+              </TableCell>
+
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("createdAt")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Created Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("updatedAt")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Updated Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 

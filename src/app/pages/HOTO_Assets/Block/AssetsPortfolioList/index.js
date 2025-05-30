@@ -41,7 +41,7 @@ const tableCellSx = {
   verticalAlign: "middle",
 };
 
-const tableCellSort = { 
+const tableCellSort = {
   color: "white",
   "&:hover": { color: "white" },
   "&.MuiTableSortLabel-root.Mui-active": {
@@ -62,7 +62,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const hotoBlockAssetPortfolioDataReducer = useSelector(
     (state) => state?.hotoBlockAssetPortfolioDataReducer
   );
-  const { state }=useLocation();
+  const { state } = useLocation();
   console.log("this is State : ", state);
   const dispatch = useDispatch();
   const [selectedIds, setSelectedIds] = useState([]);
@@ -71,10 +71,10 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [toggle,setToggle]=useState(false);
+  const [toggle, setToggle] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-  const [filters, setFilters] = useState(state ? { ...state } : {availability:true});
+  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
   const [applyFilter, setApplyFilter] = useState(false);
   const handleOpenDetailModal = (rowDetails) => {
     setOpenDetailModal(true);
@@ -120,7 +120,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   //     value: true,
   //   }
   // );
-   const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
     if (state?.availability === true) {
       return { label: "Yes", value: true };
     } else if (state?.availability === false) {
@@ -728,8 +728,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
                     // apiUrl={`/hoto-to-assets/block/assets-portfolio/filter-dropdown?filter_field=condition&package_name=${packageNoDataReducer?.data}`}
-                   staticOptions={["robust", "damaged"]}
-                 />
+                    staticOptions={["robust", "damaged"]}
+                  />
                 </Box>
               </TableCell>
               <TableCell align="left" sx={{ ...tableCellSx }}>
@@ -748,7 +748,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    filterOptions={["Yes" ,"No" ]}
+                    filterOptions={["Yes", "No"]}
                   />
                 </Box>
               </TableCell>
@@ -773,6 +773,54 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Status
                   </TableSortLabel>
+                </Box>
+              </TableCell>
+
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("createdAt")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Created Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("updatedAt")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Updated Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                  />
                 </Box>
               </TableCell>
 
@@ -806,7 +854,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoBlockAssetPortfolioDataReducer?.data.result?.data &&
-            hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
+              hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {

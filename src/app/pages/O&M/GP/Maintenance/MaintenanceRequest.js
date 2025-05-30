@@ -2,8 +2,10 @@ import Div from "@jumbo/shared/Div";
 import InfoIcon from "@mui/icons-material/Info";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Box,
   Button,
+  FormControl,
   InputAdornment,
   Pagination,
   Paper,
@@ -61,6 +63,38 @@ const MaintenanceRequest = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+    if (state?.availability === true) {
+      return { label: "Yes", value: true };
+    } else if (state?.availability === false) {
+      return { label: "No", value: false };
+    } else if (!state?.availability) {
+      return { label: "All", value: 'all' };
+    } else {
+      return { label: "Yes", value: true };
+    }
+  });
+  const filterAvailabilityOptions = [
+    { label: "Yes", value: true },
+    { label: "No", value: false },
+    { label: "All", value: 'all' },
+  ];
+
+  const handleAvailabilityChange = (selectedOption) => {
+    setFilterAvailabilityValue(selectedOption);
+    const val = selectedOption?.value;
+    if (val === true) {
+      setFilters((prev) => ({ ...prev, availability: true }))
+    } else if (val === false) {
+      setFilters((prev) => ({ ...prev, availability: false }))
+    } else {
+      const newObj = { ...filters };
+      delete newObj.availability
+      setFilters(newObj);
+    }
+  }
+
+
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -80,6 +114,7 @@ const MaintenanceRequest = () => {
         sort: sort,
         page: page,
         package_name: packageNoDataReducer?.data,
+        filters: filters,
       })
     );
   };
@@ -103,9 +138,10 @@ const MaintenanceRequest = () => {
         sort: sort,
         page: page,
         package_name: packageNoDataReducer?.data,
+        filters: filters,
       })
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, filterAvailabilityValue, dispatch]);
 
   const closeModal = () => {
     setOpenRequestManagement(false);
@@ -123,37 +159,56 @@ const MaintenanceRequest = () => {
     <>
       {oandmGpMaintenaceRequestDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
-        <TextField
-          id="search"
-          type="search"
-          label="Search"
-          value={searchTerm}
-          size="small"
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            if (e.target.value === "") {
-              dispatch(
-                oandm_gp_maintenace_request_data_disptach({
-                  sortBy: sortBy,
-                  search_value: "",
-                  sort: sort,
-                  page: page,
-                  package_name: packageNoDataReducer?.data,
-                })
-              );
-            }
-          }}
-          sx={{ width: 300, my: "2%" }}
-          InputProps={{
-            endAdornment: (
-              <Div sx={{ cursor: "pointer" }}>
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              </Div>
-            ),
-          }}
-        />
+        <Div sx={{ display: "flex", gap: "2%", flexDirection: "row" }}>
+          <TextField
+            id="search"
+            type="search"
+            label="Search"
+            value={searchTerm}
+            size="small"
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              if (e.target.value === "") {
+                dispatch(
+                  oandm_gp_maintenace_request_data_disptach({
+                    sortBy: sortBy,
+                    search_value: "",
+                    sort: sort,
+                    page: page,
+                    package_name: packageNoDataReducer?.data,
+                  })
+                );
+              }
+            }}
+            sx={{ width: 300, my: "2%" }}
+            InputProps={{
+              endAdornment: (
+                <Div sx={{ cursor: "pointer" }}>
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                </Div>
+              ),
+            }}
+          />
+          <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={filterAvailabilityOptions}
+              getOptionLabel={(option) => option?.label || ""}
+              isOptionEqualToValue={(option, value) =>
+                option?.label === value?.label
+              }
+              sx={{ width: 200 }}
+              value={filterAvailabilityValue}
+              onChange={(_, newValue) => handleAvailabilityChange(newValue)}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Availability" />
+              )}
+            />
+          </FormControl>
+        </Div>
         {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
@@ -292,7 +347,7 @@ const MaintenanceRequest = () => {
                     }
                     direction={sort}
                     sx={{ ...tableCellSort }}
-                  > 
+                  >
                     Location Code
                   </TableSortLabel>
                   <FilterModel
@@ -366,6 +421,56 @@ const MaintenanceRequest = () => {
                   />
                 </Box>
               </TableCell>
+
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("createdAt")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Created Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("updatedAt")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Updated Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Initiated By
               </TableCell>
@@ -502,6 +607,16 @@ const MaintenanceRequest = () => {
                       >
                         {ele?.issue_reported || "-"}
                       </TableCell>
+
+                      <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+                        {moment(ele?.
+                          createdAt).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+                        {moment(ele?.updatedAt)
+                          .format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+
                       <TableCell
                         align="left"
                         sx={{
