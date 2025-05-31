@@ -415,14 +415,7 @@ export const CcuDetails = function ({ data }) {
             {data?.other_details?.ccu_make_controller || "-"}{" "}
           </Box>
         </Grid>
-        <Grid item xs={6} md={3}>
-          <Typography variant="h6" fontSize="14px">
-            CCU Image
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.ccu_image || "-"}{" "}
-          </Box>
-        </Grid>
+        
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
             CCU Capacity
@@ -439,14 +432,7 @@ export const CcuDetails = function ({ data }) {
             {data?.other_details?.ccu_warranty || "-"}{" "}
           </Box>
         </Grid>
-        <Grid item xs={6} md={3}>
-          <Typography variant="h6" fontSize="14px">
-            CCU Serial No. Image
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.ccuSerialNo_img?.length || "-"}{" "}
-          </Box>
-        </Grid>
+        
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
             Battery Availablity
@@ -1102,19 +1088,19 @@ export const FdmsDetails = function ({ data }) {
       <Grid container spacing={2} mt={2}>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            Has FDMD
+            Has FDMS
           </Typography>
           <Box sx={patternBoxStyle}>{data?.has_fdms ? "Yes" : "No"} </Box>
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            FDMD Condition
+            FDMS Condition
           </Typography>
           <Box sx={patternBoxStyle}>{data?.condition || "-"} </Box>
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            FDMD Make
+            FDMS Make
           </Typography>
           <Box sx={patternBoxStyle}>
             {data?.other_details?.make_controller || "-"}{" "}
