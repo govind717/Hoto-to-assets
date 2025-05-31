@@ -104,7 +104,6 @@ const HotoHeader2 = () => {
             >
               {packageList?.length > 0 &&
                 packageList?.map((item, index) => {
-                  console.log(item);
                   return (
                     <MenuItem key={index} value={item?.packageName}>
                       {item?.packageName}

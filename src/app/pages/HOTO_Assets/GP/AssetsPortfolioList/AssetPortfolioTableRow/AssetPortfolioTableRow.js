@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import ReplacementModal from "../Modal/ReplacementModal";
 import RequestMaintenanceModal from "../Modal/RequestMaintenanceModal";
 import TransferModal from "../Modal/TransferModal";
+import moment from "moment";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -123,22 +124,22 @@ const AssetPortfolioTableRow = ({
               e?.condition
                 ? e?.condition?.toUpperCase()
                 : e?.availability
-                ? "NOT DEFINED"
-                : "NOT FOUND"
+                  ? "NOT DEFINED"
+                  : "NOT FOUND"
             }
             sx={{
               backgroundColor:
                 e?.condition?.toUpperCase() === "DAMAGED"
                   ? Red
                   : e?.condition?.toUpperCase() === "SEMI-DAMAGED"
-                  ? Yellow
-                  : e?.condition?.toUpperCase() === "ROBUST"
-                  ? Green
-                  : e?.condition === null && e?.availability === true
-                  ? Orange
-                  : e?.condition === null && e?.availability === false
-                  ? Yellow
-                  : "",
+                    ? Yellow
+                    : e?.condition?.toUpperCase() === "ROBUST"
+                      ? Green
+                      : e?.condition === null && e?.availability === true
+                        ? Orange
+                        : e?.condition === null && e?.availability === false
+                          ? Yellow
+                          : "",
               color: "#FFF",
               fontWeight: "bold",
               fontSize: "14",
@@ -204,6 +205,15 @@ const AssetPortfolioTableRow = ({
               px: 2,
             }}
           />
+        </TableCell>
+       
+        <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+          {moment(e?.
+            createdAt).format("DD-MM-YYYY") || "-"}
+        </TableCell>
+        <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+          {moment(e?.updatedAt)
+            .format("DD-MM-YYYY") || "-"}
         </TableCell>
 
         <TableCell

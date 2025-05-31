@@ -4,8 +4,10 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Box,
   Button,
+  FormControl,
   IconButton,
   InputAdornment,
   Pagination,
@@ -20,7 +22,7 @@ import {
   TextField,
 } from "@mui/material";
 
-import { debounce } from "lodash";
+import { debounce, filter } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -60,7 +62,7 @@ const BlockWiseAssetList = () => {
 
   const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
-
+  const [filterAvailabilityValue,setFilterAvailabilityValue]=useState('All')
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -122,7 +124,6 @@ const BlockWiseAssetList = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    console.log("THis is useEffect blockwoise ");
     dispatch(
       hoto_block_wise_asset_data_disptach(
         {
@@ -135,13 +136,28 @@ const BlockWiseAssetList = () => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data,filterAvailabilityValue, applyFilter, dispatch]);
 
   const showDetails = (data) => {
     navigate("/dashboards/hoto-survey-block-data/block-wise-details", {
       state: data,
     });
   };
+
+  const handleAvailabilityChange=(val)=>{
+    if (val === "Yes") {
+      setFilters((prev) => ({ ...prev, availability: true }));
+      setFilterAvailabilityValue("Yes");
+    } else if (val === "No") {
+      setFilters((prev) => ({ ...prev, availability: false }));
+      setFilterAvailabilityValue("No");
+    }else if(val === "All") {
+      const newFilter={...filters};
+      delete newFilter?.availability;
+      setFilters(newFilter);
+      setFilterAvailabilityValue("All");
+    }
+  }
   return (
     <>
       {hotoBlockWiseAssetDataReducer?.loading && <FullScreenLoader />}
@@ -180,6 +196,7 @@ const BlockWiseAssetList = () => {
             ),
           }}
         />
+      
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">

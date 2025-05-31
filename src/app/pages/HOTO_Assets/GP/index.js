@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -22,11 +22,11 @@ const HotoGP = () => {
         sessionStorage.setItem("gpTabNo", newValue);
     };
 
-     useEffect(()=>{
-          return ()=>{
-            sessionStorage.removeItem("gpTabNo");
-          }
-        },[]);
+    //  useEffect(()=>{
+    //       return ()=>{
+    //         sessionStorage.removeItem("gpTabNo");
+    //       }
+    //     },[]);
 
     return (
       <Box>

@@ -495,12 +495,79 @@ import {
 } from "recharts";
 
 // CustomLegend component with click handler
-const CustomLegend = ({ data, onLegendClick }) => {
+// const CustomLegend = ({ data, onLegendClick }) => {
+//   const legendItems = [
+//     { name: "Robust", color: "#22CAAD" },
+//     { name: "Damaged", color: "#F55757" },
+//     { name: "Not Defined", color: "#E78F5D" },
+//     // Add more conditions here if needed
+//   ];
+
+//   const latestData = data[0] || {};
+//   let total = 0;
+//   legendItems.forEach((item) => {
+//     total += latestData[item.name] || 0;
+//   });
+
+//   return (
+//     <Box
+//       display="flex"
+//       justifyContent="center"
+//       gap={3}
+//       mt={1.5}
+//       flexWrap="wrap"
+//     >
+//       <Box display="flex" alignItems="center" gap={1}>
+//         <Box
+//           sx={{
+//             width: 12,
+//             height: 12,
+//             borderRadius: "50%",
+//             backgroundColor: "#53B8CA",
+//           }}
+//         />
+//         <Typography variant="body2" sx={{ color: "#000" }}>
+//           {total}
+//         </Typography>
+//         <Typography
+//           variant="body2"
+//           sx={{ color: "#000", cursor: 'pointer' }}
+//           onClick={() => onLegendClick?.('total')}
+//         >
+//           Total Assets
+//         </Typography>
+//       </Box>
+//       {legendItems.map((item, index) => (
+//         <Box
+//           key={index}
+//           display="flex"
+//           alignItems="center"
+//           gap={1}
+//           sx={{ cursor: "pointer" }}
+//           onClick={() => onLegendClick?.(item.name)}
+//         >
+//           <Box
+//             sx={{
+//               width: 12,
+//               height: 12,
+//               borderRadius: "50%",
+//               backgroundColor: item.color,
+//             }}
+//           />
+//           <Typography variant="body2">
+//             {latestData[item.name] ?? 0} {item.name}
+//           </Typography>
+//         </Box>
+//       ))}
+//     </Box>
+//   );
+// };
+
+const CustomLegend = ({ data, onLegendClick, selectedChart }) => {
   const legendItems = [
     { name: "Robust", color: "#22CAAD" },
     { name: "Damaged", color: "#F55757" },
     { name: "Not Defined", color: "#E78F5D" },
-    // Add more conditions here if needed
   ];
 
   const latestData = data[0] || {};
@@ -510,13 +577,7 @@ const CustomLegend = ({ data, onLegendClick }) => {
   });
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      gap={3}
-      mt={1.5}
-      flexWrap="wrap"
-    >
+    <Box display="flex" justifyContent="center" gap={3} mt={1.5} flexWrap="wrap">
       <Box display="flex" alignItems="center" gap={1}>
         <Box
           sx={{
@@ -531,42 +592,53 @@ const CustomLegend = ({ data, onLegendClick }) => {
         </Typography>
         <Typography
           variant="body2"
-          sx={{ color: "#000", cursor: 'pointer' }}
-          onClick={() => onLegendClick?.('total')}
+          sx={{ color: "#000", cursor: "pointer" }}
+          onClick={() => onLegendClick?.("total")}
         >
           Total Assets
         </Typography>
       </Box>
-      {legendItems.map((item, index) => (
-        <Box
-          key={index}
-          display="flex"
-          alignItems="center"
-          gap={1}
-          sx={{ cursor: "pointer" }}
-          onClick={() => onLegendClick?.(item.name)}
-        >
+
+      {legendItems.map((item, index) => {
+        const rawValue = latestData[item.name] ?? 0;
+        const valueDisplay =
+          selectedChart === "percentage"
+            ? `${total > 0 ? ((rawValue / total) * 100).toFixed(2) : 0}%`
+            : rawValue;
+
+        return (
           <Box
-            sx={{
-              width: 12,
-              height: 12,
-              borderRadius: "50%",
-              backgroundColor: item.color,
-            }}
-          />
-          <Typography variant="body2">
-            {latestData[item.name] ?? 0} {item.name}
-          </Typography>
-        </Box>
-      ))}
+            key={index}
+            display="flex"
+            alignItems="center"
+            gap={1}
+            sx={{ cursor: "pointer" }}
+            onClick={() => onLegendClick?.(item.name)}
+          >
+            <Box
+              sx={{
+                width: 12,
+                height: 12,
+                borderRadius: "50%",
+                backgroundColor: item.color,
+              }}
+            />
+            <Typography variant="body2">
+              {valueDisplay} {item.name}
+            </Typography>
+          </Box>
+        );
+      })}
     </Box>
   );
 };
 
+
+
 const AssetConditionByTypeChart4 = () => {
   const [selectedBlock, setSelectedBlock] = useState("");
   const [selectedGP, setSelectedGP] = useState(null);
-  const [selectedEquipment, setSelectedEquipment] = useState("CCU");
+  const [selectedEquipment, setSelectedEquipment] = useState("");
   const [blocks, setBlocks] = useState([]);
   const [gps, setGps] = useState([]);
   const [equipmentTypes, setEquipmentTypes] = useState([]);
@@ -574,6 +646,16 @@ const AssetConditionByTypeChart4 = () => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
   const navigate = useNavigate();
+
+  const [selectedChart, setSelectedChart] = useState("number");
+
+  const chartModes = [
+    { label: "Number", value: "number" },
+    { label: "Percentage", value: "percentage" },
+  ];
+
+
+
   const fetchData = (equipment, block = "", gp = "") => {
     Axios.get(
       `/hoto-to-assets/equipment/fetch-equipments-by-block-and-gp?equipment_name=${equipment}&package_name=${packageNoDataReducer?.data}&block_name=${block}&gp_name=${gp}`
@@ -716,13 +798,13 @@ const AssetConditionByTypeChart4 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      if (conditionName=== "Not Defined") {
+      if (conditionName === "Not Defined") {
         navigate("/dashboards/hoto-survey-gp-data", {
           state: {
             ...state,
             condition: { $eq: null },
             availability: true,
-             equipment_name: selectedEquipment,
+            equipment_name: selectedEquipment,
           },
         });
         return;
@@ -765,6 +847,20 @@ const AssetConditionByTypeChart4 = () => {
           <Box display="flex" gap={2}>
             <Autocomplete
               sx={{ minWidth: "200px" }}
+              options={chartModes}
+              getOptionLabel={(option) => option.label}
+              value={chartModes.find((mode) => mode.value === selectedChart)}
+              onChange={(_, newValue) => {
+                if (newValue) {
+                  setSelectedChart(newValue.value);
+                }
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Type" size="small" />
+              )}
+            />
+            <Autocomplete
+              sx={{ minWidth: "200px" }}
               options={equipmentTypes}
               getOptionLabel={(option) => option || ""}
               value={selectedEquipment}
@@ -804,12 +900,30 @@ const AssetConditionByTypeChart4 = () => {
             <XAxis dataKey="type" />
             <YAxis />
             <CartesianGrid stroke="#ccc" vertical={false} />
-            <Tooltip cursor={{ fill: "transparent" }} />
+            {/* <Tooltip cursor={{ fill: "transparent" }} /> */}
+            <Tooltip
+              formatter={(value, name) => {
+                const total = Object.values(chartData?.[0] || {}).reduce((acc, val) =>
+                  typeof val === "number" ? acc + val : acc, 0);
+                if (selectedChart === "percentage") {
+                  const percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                  return [`${percent}%`, name];
+                }
+                return [value, name];
+              }}
+              cursor={{ fill: "transparent" }}
+            />
+
             <Legend
               content={
+                // <CustomLegend
+                //   data={chartData}
+                //   onLegendClick={handleLegendClick}
+                // />
                 <CustomLegend
                   data={chartData}
                   onLegendClick={handleLegendClick}
+                  selectedChart={selectedChart}
                 />
               }
             />

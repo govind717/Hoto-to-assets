@@ -28,7 +28,7 @@ import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { hoto_gp_asset_partfolio_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
 import { Axios } from "index";
-import { debounce } from "lodash";
+import { debounce, uniqueId } from "lodash";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
@@ -65,17 +65,16 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { state } = useLocation();
-  console.log('state////////////////',state)
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
   const [toggle, setToggle] = useState(false);
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-  
+
   const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
   const [applyFilter, setApplyFilter] = useState(false);
 
@@ -118,19 +117,54 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     };
   }, [searchTerm]);
 
-  
-  console.log('state?.availability',state?.availability)
- const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
-  if (state?.availability === true) {
-    return { label: "Yes", value: true };
-  } else if (state?.availability === false) {
-    return { label: "No", value: false };
-  }else if (!state?.availability){
-    return { label: "All", value: 'all' };
-  } else {
-    return { label: "Yes", value: true };
-  }
-});
+
+
+  // const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+  //   if (state?.availability === true) {
+  //     return { label: "Yes", value: true };
+  //   } else if (state?.availability === false) {
+  //     return { label: "No", value: false };
+  //   }
+  //    else if (state?.availability==undefined) {
+  //     return { label: "All", value: 'all' };
+  //   } 
+  //   else {
+  //     return { label: "Yes", value: true };
+  //   }
+  // });
+
+  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+    if (!state) {
+      return { label: "Yes", value: true };
+    } else if (state.availability === true) {
+      return { label: "Yes", value: true };
+    } else if (state.availability === false) {
+      return { label: "No", value: false };
+    } else if (state.availability === undefined) {
+      return { label: "All", value: 'all' };
+    } else {
+      return { label: "Yes", value: true };
+    }
+  });
+
+  const [downloadExcelValue, setDownloadExcelValue] = useState('');
+
+  const downloadExcelValueOptions = [ 
+    { label: "Download All Data", value: true },
+    { label: "Download  Data", value: false },
+  ];
+
+  //  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+  //   if (state?.availability === true) {
+  //     return { label: "Yes", value: true };
+  //   } else if (state?.availability === false) {
+  //     return { label: "No", value: false };
+  //   } else {
+  //     // Default to "Yes" if undefined or anything else
+  //     return { label: "Yes", value: true };
+  //   }
+  // });
+
   const filterAvailabilityOptions = [
     { label: "Yes", value: true },
     { label: "No", value: false },
@@ -151,6 +185,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       setFilters(newObj);
     }
   }
+
 
   useEffect(() => {
     dispatch(
@@ -331,6 +366,62 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       toast.addEventListener("mouseleave", Swal.resumeTimer);
     },
   });
+
+  const handleDownloadExcelChange = (selectedOption) => {
+    setDownloadExcelValue(selectedOption);
+    if (selectedOption?.value === true) {
+      handleAllExportCSV();
+    } else if (selectedOption?.value === false) {
+      handleExportCSV();
+    }
+  }
+
+  const handleAllExportCSV = async () => {
+    try {
+      setLoading(true);
+      // setSnackbarOpen(true);
+      const res = await Axios.post(
+        `/hoto-to-assets/gp/assets-portfolio/downloadall-excel?package_name=${packageNoDataReducer?.data}`,
+      );
+      
+      if (res.data.success) {
+        window.open(res?.data?.result);
+
+        Toast.fire({
+          timer: 3000,
+          icon: "success",
+          title: "CSV  Downloaded Successfully...",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      } else {
+        Toast.fire({
+          timer: 3000,
+          icon: "error",
+          title: "CSV  Downloading failed..",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      // setSnackbarOpen(false);
+      Toast.fire({
+        timer: 3000,
+        icon: "error",
+        title:
+          error.response?.data.message ||
+          "An error occured while downloading csv",
+        position: "top-right",
+        // background: theme.palette.background.paper,
+      });
+    }
+  };
+
   const handleExportCSV = async () => {
     try {
       setLoading(true);
@@ -338,7 +429,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       const res = await Axios.post(
         `/hoto-to-assets/gp/assets-portfolio/download-excel?package_name=${packageNoDataReducer?.data}`,
       );
-      console.log("Res : ", res);
+      // console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
@@ -435,20 +526,37 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             />
           </FormControl>
         </Div>
-         <Div sx={{ my: "2%" }}>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      borderColor: "#B0BAC9",
-                      padding: "6px 20px",
-                      color: "#000",
-                      borderRadius: "5px",
-                    }}
-                    onClick={handleExportCSV}
-                  >
-                    <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
-                  </Button>
-                </Div>
+        {/* <Div sx={{ my: "2%" }}>
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: "#B0BAC9",
+              padding: "6px 20px",
+              color: "#000",
+              borderRadius: "5px",
+            }}
+            onClick={handleExportCSV}
+          >
+            <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
+          </Button>
+        </Div> */}
+        <Div sx={{ my: "1%" }}>
+          <Autocomplete
+            disablePortal
+            size="small"
+            options={downloadExcelValueOptions}
+            getOptionLabel={(option) => option?.label || ""}
+            isOptionEqualToValue={(option, value) =>
+              option?.label === value?.label
+            }
+            sx={{ width: 200 }}
+            value={downloadExcelValue}
+            onChange={(_, newValue) => handleDownloadExcelChange(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} label="Export Excel" />
+            )}
+          />
+        </Div>
         {selectedIds?.length > 0 && (
           <Div
             sx={{
@@ -677,7 +785,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Name
                   </TableSortLabel>
-                   <FilterModel
+                  <FilterModel
                     label="Filter Block Name"
                     field="equipment_details.block.name"
                     filters={filters}
@@ -700,7 +808,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Block Code
                   </TableSortLabel>
-                   <FilterModel
+                  <FilterModel
                     label="Filter Block Code"
                     field="equipment_details.block.code"
                     filters={filters}
@@ -711,6 +819,9 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   />
                 </Box>
               </TableCell>
+
+
+
               {/* 
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
@@ -807,6 +918,54 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("createdAt")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Created Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
+              <TableCell
+                align="left"
+                sx={{ ...tableCellSx, minWidth: "220px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort("updatedAt")}
+                    direction={sort}
+                    sx={{ ...tableCellSx }}
+                  >
+                    Updated Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box
                   sx={{
@@ -837,7 +996,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoGpAssetPortfolioDataReducer?.data.result?.data &&
-            hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
+              hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
                   return (

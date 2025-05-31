@@ -48,7 +48,6 @@ const tableCellSx = {
 function GeneratePickupRequestModel({ open, closeModal, row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
-  console.log("row : ",row);
   const initialValues = {
     issueDate: "",
     pickupLocation: "",

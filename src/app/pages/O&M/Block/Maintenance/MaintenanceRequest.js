@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Chip,
   InputAdornment,
   Pagination,
   Paper,
@@ -13,20 +15,26 @@ import {
   TextField,
 } from "@mui/material";
 
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
+import Div from "@jumbo/shared/Div";
+import InfoIcon from "@mui/icons-material/Info";
+import SearchIcon from "@mui/icons-material/Search";
+import FilterModel from "app/Components/FilterModel";
 import FullScreenLoader from "app/pages/Components/Loader";
+import {
+  Green,
+  Orange,
+  orangeSecondary,
+  Red,
+  Yellow,
+} from "app/pages/Constants/colors";
 import { oandm_block_maintenace_request_data_disptach } from "app/redux/actions/O&M/Block";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import MaintenanceRequestModal from "./Modal/MaintenanceRequestModal";
-import moment from "moment";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import SearchIcon from "@mui/icons-material/Search";
-import InfoIcon from "@mui/icons-material/Info";
 import MaintenanaceRequestView from "./Modal/MaintenanaceRequestView";
-import Div from "@jumbo/shared/Div";
+import MaintenanceRequestModal from "./Modal/MaintenanceRequestModal";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -51,9 +59,12 @@ const MaintenanceRequest = () => {
   const [open, setOpen] = useState(false);
   const [openRequestManagement, setOpenRequestManagement] = useState(false);
   const [row, setRow] = useState(null);
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
   const { oandmBlockMaintenaceRequestDataReducer } = useSelector(
     (state) => state
   );
+  const { packageNoDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,6 +87,8 @@ const MaintenanceRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        package_name: packageNoDataReducer?.data,
+        filters: filters,
       })
     );
   };
@@ -98,9 +111,11 @@ const MaintenanceRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
+        package_name: packageNoDataReducer?.data,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
 
   const closeModal = () => {
     setOpenRequestManagement(false);
@@ -133,6 +148,8 @@ const MaintenanceRequest = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
+                  package_name: packageNoDataReducer?.data,
                 })
               );
             }
@@ -175,88 +192,191 @@ const MaintenanceRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`maintenance_id`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Maintenance ID
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`maintenance_id`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Maintenance ID
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Maintenance ID "
+                    field="maintenance_id"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=maintenance_id&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box> 
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`createdAt`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Request Date
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.equipment_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Equipment
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.serial_no`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Serial No.
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`assets_details.location_details.location_name`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`createdAt`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Requested Date
+                  </TableSortLabel>
+                  {/* <FilterModel
+                    label="Filter Requested Date "
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  /> */}
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`assets_details.location_details.location_code`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location Code
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.equipment_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Equipment
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment "
+                    field="assets_details.equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.serial_no`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Serial No.
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Serial No. "
+                    field="assets_details.serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `assets_details.location_details.location_name`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location"
+                    field="assets_details.location_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=assets_details.location_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `assets_details.location_details.location_code`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort, minWidth: "130px" }}
+                  >
+                    Location Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location Code"
+                    field="assets_details.location_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=assets_details.location_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
-                  onClick={() => handleSort(`assets_details.condition `)}
+                  onClick={() => handleSort(`assets_details.condition`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
                   Condition
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter Condition"
+                  field="assets_details.condition"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  package_name={packageNoDataReducer?.data}
+                  apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=assets_details.condition&package_name=${packageNoDataReducer?.data}`}
+                />
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`repair_type`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Repair Type
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`repair_type`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Repair Type
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Repair Type"
+                    field="repair_type"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=repair_type&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
@@ -270,6 +390,55 @@ const MaintenanceRequest = () => {
                   Issue Reported
                 </TableSortLabel>
               </TableCell>
+
+               <TableCell
+                  align="left"
+                  sx={{ ...tableCellSx, minWidth: "180px" }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <TableSortLabel
+                      onClick={() => handleSort("createdAt")}
+                      direction={sort}
+                      sx={{ ...tableCellSx }}
+                    >
+                      Created Date
+                    </TableSortLabel>
+                    <FilterModel
+                      label="Filter Created Date"
+                      field="createdAt"
+                      filters={filters}
+                      setFilters={setFilters}
+                      setApplyFilter={setApplyFilter}
+                      package_name={packageNoDataReducer?.data}
+                      apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    />
+                  </Box>
+                </TableCell>
+
+                <TableCell
+                  align="left"
+                  sx={{ ...tableCellSx, minWidth: "220px" }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <TableSortLabel
+                      onClick={() => handleSort("updatedAt")}
+                      direction={sort}
+                      sx={{ ...tableCellSx }}
+                    >
+                      Updated Date
+                    </TableSortLabel>
+                    <FilterModel
+                      label="Filter Updated Date"
+                      field="updatedAt"
+                      filters={filters}
+                      setFilters={setFilters}
+                      setApplyFilter={setApplyFilter}
+                      package_name={packageNoDataReducer?.data}
+                      apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    />
+                  </Box>
+                </TableCell>
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
@@ -300,15 +469,7 @@ const MaintenanceRequest = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`current_data.commissionPercentage`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Details
-                </TableSortLabel>
+                Details
               </TableCell>
               <TableCell
                 align={"left"}
@@ -413,7 +574,39 @@ const MaintenanceRequest = () => {
                           textTransform: "capitalize",
                         }}
                       >
-                        {ele?.assets_details?.condition || "-"}
+                        <Chip
+                          label={
+                            ele?.assets_details?.condition
+                              ? ele?.assets_details?.condition?.toUpperCase()
+                              : ele?.availability
+                                ? "NOT DEFINED"
+                                : "NOT FOUND"
+                          }
+                          sx={{
+                            backgroundColor:
+                              ele?.assets_details?.condition?.toUpperCase() ===
+                                "DAMAGED"
+                                ? Red
+                                : ele?.assets_details?.condition?.toUpperCase() ===
+                                  "SEMI-DAMAGED"
+                                  ? Yellow
+                                  : ele?.assets_details?.condition?.toUpperCase() ===
+                                    "ROBUST"
+                                    ? Green
+                                    : ele?.assets_details?.condition === null &&
+                                      ele?.availability === true
+                                      ? Orange
+                                      : ele?.assets_details?.condition === null &&
+                                        ele?.availability === false
+                                        ? Yellow
+                                        : "",
+                            color: "#FFF",
+                            fontWeight: "bold",
+                            fontSize: "14",
+                            height: "25px",
+                            px: 2,
+                          }}
+                        />
                       </TableCell>
                       <TableCell
                         align="left"
@@ -444,6 +637,14 @@ const MaintenanceRequest = () => {
                         }}
                       >
                         {ele?.created_user_details.firstName || "-"}
+                      </TableCell>
+                      <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+                        {moment(ele?.
+                          createdAt).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+                        {moment(ele?.updatedAt)
+                          .format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

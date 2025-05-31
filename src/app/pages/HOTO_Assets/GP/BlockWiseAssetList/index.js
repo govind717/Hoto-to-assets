@@ -2,8 +2,10 @@ import Div from "@jumbo/shared/Div";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Box,
   Button,
+  FormControl,
   InputAdornment,
   Pagination,
   Paper,
@@ -54,8 +56,11 @@ const BlockWiseAssetList = () => {
   const navigate = useNavigate();
 
   const [filters, setFilters] = useState({});
+  const [availabilityConditionFilters, setAvailabilityConditionFilters] =
+    useState("");
   const [applyFilter, setApplyFilter] = useState(false);
-
+  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState("All");
+  const [filterConditionValue, setFilterConditionValue] = useState("All");
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -90,6 +95,7 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          availabilityConditionFilters: availabilityConditionFilters,
           filters: filters,
         },
         packageNoDataReducer?.data
@@ -116,17 +122,59 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          availabilityConditionFilters: availabilityConditionFilters,
           filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data,filterAvailabilityValue,filterConditionValue, applyFilter, dispatch]);
 
   const showDetails = (data) => {
     navigate("/dashboards/hoto-survey-gp-data/gp-wise-details", {
       state: data,
     });
+  };
+
+  const handleAvailabilityChange = (val) => {
+    if (val === "Yes") {
+      setAvailabilityConditionFilters((prev)=>({
+        ...prev,
+        availability:true
+      }))
+      setFilterAvailabilityValue("Yes");
+    } else if (val === "No") {
+      setAvailabilityConditionFilters((prev) => ({
+        ...prev,
+        availability: false,
+      }));
+      setFilterAvailabilityValue("No");
+    } else if (val === "All") {
+      const newFilter = { ...availabilityConditionFilters };
+      delete newFilter?.availability
+      setAvailabilityConditionFilters(newFilter);
+      setFilterAvailabilityValue("All");
+    }
+  };
+  const handleConditionChange = (val) => {
+    if (val === "Robust") {
+      setAvailabilityConditionFilters((prev) => ({
+        ...prev,
+        condition: 'robust',
+      }));
+      setFilterConditionValue("Robust");
+    } else if (val === "Damaged") {
+      setAvailabilityConditionFilters((prev) => ({
+        ...prev,
+        condition: "damaged",
+      }));
+      setFilterConditionValue("Damaged");
+    } else if (val === "All") {
+      const newFilter = { ...availabilityConditionFilters };
+      delete newFilter?.condition;
+      setAvailabilityConditionFilters(newFilter);
+      setFilterConditionValue("All");
+    }
   };
   return (
     <>
@@ -148,6 +196,7 @@ const BlockWiseAssetList = () => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    availabilityConditionFilters: availabilityConditionFilters,
                     filters: filters,
                   },
                   packageNoDataReducer?.data
@@ -166,6 +215,42 @@ const BlockWiseAssetList = () => {
             ),
           }}
         />
+        <Div sx={{display:'flex',gap:'20px'}}>
+          <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={["All", "Yes", "No"]}
+              getOptionLabel={(option) => option}
+              isOptionEqualToValue={(option, value) =>
+                option?.label === value?.label
+              }
+              sx={{ width: 200 }}
+              value={filterAvailabilityValue}
+              onChange={(_, newValue) => handleAvailabilityChange(newValue)}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Availability" />
+              )}
+            />
+          </FormControl>
+          <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={["All", "Damaged", "Robust"]}
+              getOptionLabel={(option) => option}
+              isOptionEqualToValue={(option, value) =>
+                option?.label === value?.label
+              }
+              sx={{ width: 200 }}
+              value={filterConditionValue}
+              onChange={(_, newValue) => handleConditionChange(newValue)}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Condition" />
+              )}
+            />
+          </FormControl>
+        </Div>
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">

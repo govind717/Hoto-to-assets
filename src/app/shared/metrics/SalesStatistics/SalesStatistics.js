@@ -38,17 +38,7 @@ const SalesStatistics = () => {
 
   return (
     <Grid container spacing={0}>
-      {/* <Grid item xs={12} md={6}>
-                        <Div sx={{ p: 2  ,pl:0 ,pt:0}}>
-                            <StylishAssetHealthChart />
-                        </Div>
-                    </Grid> */}
-
-      {/* <Grid item xs={12} md={6}>
-                        <Div sx={{ p: 2, pr:0 ,pt:0}}>
-                            <ConditionStatusChart />
-                        </Div>
-                    </Grid> */}
+     
       <Grid item xs={12} md={12}>
         <Div sx={{ p: 2, pl: 0, pt: 0 }}>
           <ConditionStatusChart2 />
@@ -82,22 +72,6 @@ const SalesStatistics = () => {
         </Div>
       </Grid>
 
-      {/* <Grid item xs={12} md={12}>
-                        <Div sx={{ p: 2, px:0 }}>
-                            <AssetConditionByTypeChart2 />
-                        </Div>
-                    </Grid> */}
-      {/* <Grid item xs={12} md={12}>
-                        <Div sx={{ p: 2, px:0 }}>
-                            <AssetConditionByTypeChart3 />
-                        </Div>
-                    </Grid> */}
-      {/* Right: Pie Chart */}
-      {/* <Grid item xs={12} md={6}>
-                        <Div sx={{ p: 2, pr:0 }}>
-                            <ChartOrderRevenue data={hotosurveyData}/>
-                        </Div>
-                    </Grid> */}
     </Grid>
   );
 };

@@ -57,7 +57,7 @@ function AddPackage() {
           navigate(PACKAGE_MASTER);
           Swal.fire({
             icon: "success",
-            text: "Organization Updated Successfully",
+            text: "Package Updated Successfully",
             // text: "",
             timer: 1000,
             showConfirmButton: false,

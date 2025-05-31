@@ -47,7 +47,7 @@ const tableCellSx = {
 };
 function MaterialInward({ open, closeModal, row }) {
   const [isSubmitting, setSubmitting] = useState(false);
-  console.log("Row5 : ", row);
+  
   const initialValues = {
     received_date: "",
     delivery_challan_no: "",
@@ -79,7 +79,7 @@ function MaterialInward({ open, closeModal, row }) {
        qc_status: values?.qc_status,
      },
    };
-   console.log("body : ",body );
+  
     setSubmitting(true);
     try {
     let res;

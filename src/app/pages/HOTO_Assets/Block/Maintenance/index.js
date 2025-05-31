@@ -2,10 +2,11 @@ import Div from "@jumbo/shared/Div";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Box,
   Button,
   Chip,
-  IconButton,  
+  IconButton,
   InputAdornment,
   Pagination,
   Paper,
@@ -69,6 +70,13 @@ const MaintainanceList = () => {
   const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
+  // const [downloadExcelValue, setDownloadExcelValue] = useState('');
+
+  // const downloadExcelValueOptions = [
+  //   { label: "Download All Data", value: true },
+  //   { label: "Download  Data", value: false },
+  // ];
+
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -119,9 +127,8 @@ const MaintainanceList = () => {
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy,  packageNoDataReducer?.data, applyFilter, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data, applyFilter, dispatch]);
 
-  
   const Toast = Swal.mixin({
     toast: true,
     position: "top",
@@ -136,6 +143,62 @@ const MaintainanceList = () => {
       toast.addEventListener("mouseleave", Swal.resumeTimer);
     },
   });
+
+
+  // const handleDownloadExcelChange = (selectedOption) => {
+  //   setDownloadExcelValue(selectedOption);
+  //   if (selectedOption?.value === true) {
+  //     handleAllExportCSV();
+  //   } else if (selectedOption?.value === false) {
+  //     handleExportCSV();
+  //   }
+  // }
+
+  // const handleAllExportCSV = async () => {
+  //   try {
+  //     setLoading(true);
+  //     // setSnackbarOpen(true);
+  //     const res = await Axios.post(
+  //       "/hoto-to-assets/block/maintenance/downloadall-excel"
+  //     );
+  //     if (res.data.success) {
+  //       window.open(res?.data?.result);
+
+  //       Toast.fire({
+  //         timer: 3000,
+  //         icon: "success",
+  //         title: "CSV  Downloaded Successfully...",
+  //         position: "top-right",
+  //         // background: theme.palette.background.paper,
+  //       });
+  //       setLoading(false);
+  //       // setSnackbarOpen(false);
+  //     } else {
+  //       Toast.fire({
+  //         timer: 3000,
+  //         icon: "error",
+  //         title: "CSV  Downloading failed..",
+  //         position: "top-right",
+  //         // background: theme.palette.background.paper,
+  //       });
+  //       setLoading(false);
+  //       // setSnackbarOpen(false);
+  //     }
+  //   } catch (error) {
+  //     setLoading(false);
+  //     // setSnackbarOpen(false);
+  //     Toast.fire({
+  //       timer: 3000,
+  //       icon: "error",
+  //       title:
+  //         error.response?.data.message ||
+  //         "An error occured while downloading csv",
+  //       position: "top-right",
+  //       // background: theme.palette.background.paper,
+  //     });
+  //   }
+  // };
+
   const handleExportCSV = async () => {
     try {
       setLoading(true);
@@ -143,7 +206,6 @@ const MaintainanceList = () => {
       const res = await Axios.post(
         "/hoto-to-assets/block/maintenance/download-excel"
       );
-      console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
@@ -181,6 +243,7 @@ const MaintainanceList = () => {
       });
     }
   };
+
   return (
     <>
       {hotoBlockMaintenanceDataReducer?.loading && <FullScreenLoader />}
@@ -233,19 +296,32 @@ const MaintainanceList = () => {
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
         </Div>
+
+        {/* <Div sx={{ my: "2%" }}>
+          <Autocomplete
+            disablePortal
+            size="small"
+            options={downloadExcelValueOptions}
+            getOptionLabel={(option) => option?.label || ""}
+            isOptionEqualToValue={(option, value) =>
+              option?.label === value?.label
+            }
+            sx={{ width: 200 }}
+            value={downloadExcelValue}
+            onChange={(_, newValue) => handleDownloadExcelChange(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} label="Export Excel" />
+            )}
+          />
+        </Div> */}
+
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`current_data.companyType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Sr No.
-                </TableSortLabel>
+                Sr No.
               </TableCell>
               <TableCell
                 align={"left"}
@@ -333,6 +409,60 @@ const MaintainanceList = () => {
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
                     apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `assets_details.location_details.location_name`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location"
+                    field="assets_details.location_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.location_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `assets_details.location_details.location_code`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort, minWidth: "130px" }}
+                  >
+                    Location Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location Code"
+                    field="assets_details.location_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/block/maintenance/filter-dropdown?filter_field=assets_details.location_details.location_code&package_name=${packageNoDataReducer?.data}`}
                   />
                 </Box>
               </TableCell>
@@ -461,7 +591,6 @@ const MaintainanceList = () => {
                   >
                     ETA
                   </TableSortLabel>
-                  
                 </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -602,6 +731,28 @@ const MaintainanceList = () => {
                           textTransform: "capitalize",
                         }}
                       >
+                        {ele?.assets_details?.location_details?.location_name ||
+                          "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {ele?.assets_details?.location_details.location_code ||
+                          "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
                         {ele?.repair_type || "-"}
                       </TableCell>
                       <TableCell
@@ -663,26 +814,30 @@ const MaintainanceList = () => {
                         }}
                       >
                         <Chip
+                          // label={e?.condition ? e.condition?.toUpperCase() : "-"}
                           label={
-                            ele?.assets_details?.condition
-                              ? ele?.assets_details?.condition?.toUpperCase()
-                              : "-"
+                            ele?.condition
+                              ? ele?.condition?.toUpperCase()
+                              : ele?.availability
+                                ? "NOT DEFINED"
+                                : "NOT FOUND"
                           }
                           sx={{
                             backgroundColor:
-                              ele?.assets_details?.condition?.toUpperCase() ===
-                              "DAMAGED"
+                              ele?.condition?.toUpperCase() === "DAMAGED"
                                 ? Red
-                                : ele?.assets_details?.condition?.toUpperCase() ===
+                                : ele?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
-                                ? Yellow
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "ROBUST"
-                                ? Green
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "MISSING"
-                                ? Orange
-                                : "",
+                                  ? Yellow
+                                  : ele?.condition?.toUpperCase() === "ROBUST"
+                                    ? Green
+                                    : ele?.condition === null &&
+                                      ele?.availability === true
+                                      ? Orange
+                                      : ele?.condition === null &&
+                                        ele?.availability === false
+                                        ? Yellow
+                                        : "",
                             color: "#FFF",
                             fontWeight: "bold",
                             fontSize: "14",
@@ -698,7 +853,6 @@ const MaintainanceList = () => {
                           verticalAlign: "middle",
                           textTransform: "capitalize",
                         }}
-                         
                       >
                         {/* {ele?.assets_details?.condition_status || "-"} */}
                         <Chip
@@ -708,7 +862,6 @@ const MaintainanceList = () => {
                               : "-"
                           }
                           sx={{
-                           
                             color: "#FFF",
                             fontWeight: "bold",
                             fontSize: "14",

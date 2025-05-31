@@ -1,11 +1,15 @@
+import Div from "@jumbo/shared/Div";
+import InfoIcon from "@mui/icons-material/Info";
+import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
   InputAdornment,
   Pagination,
   Paper,
   Table,
   TableBody,
-  TableCell,
+  TableCell, 
   TableContainer,
   TableHead,
   TableRow,
@@ -13,19 +17,16 @@ import {
   TextField,
 } from "@mui/material";
 import FullScreenLoader from "app/pages/Components/Loader";
-import {  oandm_block_transfer_request_data_disptach } from "app/redux/actions/O&M/Block";
+import { orangeSecondary } from "app/pages/Constants/colors";
+import { oandm_block_transfer_request_data_disptach } from "app/redux/actions/O&M/Block";
 import { debounce } from "lodash";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CreateTransferModal from "./Modal/CreateTransferModal";
 import TransferRequestViewModel from "./Modal/TransferRequestViewModel";
-import SearchIcon from "@mui/icons-material/Search";
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
-import Div from "@jumbo/shared/Div";
-import moment from "moment";
-import { orangeSecondary } from "app/pages/Constants/colors";
-import InfoIcon from "@mui/icons-material/Info";
+import FilterModel from "app/Components/FilterModel";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -53,10 +54,11 @@ const TransferRequest = () => {
   const { oandmBlockTransferRequestDataReducer } = useSelector(
     (state) => state
   );
-
+  const { packageNoDataReducer } = useSelector((state) => state);
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
     setSortBy(property);
@@ -75,6 +77,8 @@ const TransferRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
+        package_name: packageNoDataReducer?.data,
       })
     );
   };
@@ -97,9 +101,11 @@ const TransferRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
+        package_name: packageNoDataReducer?.data,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data,applyFilter, dispatch]);
   const closeCreateTransefer=()=>{
     setOpenCreateTransefer(false)
   }
@@ -133,6 +139,8 @@ const TransferRequest = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
+                  package_name: packageNoDataReducer?.data,
                 })
               );
             }
@@ -173,15 +181,30 @@ const TransferRequest = () => {
               >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`transfer_id`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Transfer ID
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`transfer_id`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Transfer ID
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer ID"
+                    field="transfer_id"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/transfer-request?filter_field=transfer_id&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
@@ -198,86 +221,176 @@ const TransferRequest = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.equipment_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Equipment
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.equipment_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Equipment
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="assets_details.equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/transfer-request?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell> 
+
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.serial_no`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Serial No.
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter  Serial No."
+                    field="assets_details.serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/transfer-request?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`transfer_type`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Transfer Type
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer Type"
+                    field="transfer_type"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/transfer-request?filter_field=transfer_type&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`transfer_from.location_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Transfer From
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer From"
+                    field="transfer_from.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/transfer-request?filter_field=transfer_from.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`transfer_to.location_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Transfer To
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer To"
+                    field="transfer_to.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/transfer-request?filter_field=transfer_to.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `assets_details.location_details.location_name`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location"
+                    field="assets_details.location_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/transfer-request?filter_field=assets_details.location_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `assets_details.location_details.location_code`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location Code"
+                    field="assets_details.location_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/transfer-request?filter_field=assets_details.location_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.serial_no`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Serial No.
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
-              >
-                <TableSortLabel
-                  onClick={() => handleSort(`transfer_type`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Transfer Type
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
-              >
-                <TableSortLabel
-                  onClick={() => handleSort(`transfer_from.location_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Transfer From
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
-              >
-                <TableSortLabel
-                  onClick={() => handleSort(`transfer_to.location_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Transfer To
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`assets_details.location_details.gp_name`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`assets_details.location_details.gp_code`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location Code
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                  Initiated By
+                Initiated By
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Remark

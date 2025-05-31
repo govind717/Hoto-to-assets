@@ -96,7 +96,7 @@ return ()=>{
       {pageType === "Replacement" && <ReplacementList />}
       {pageType === "Transfer" && <TransferList />}
       {pageType === "Scrap" && <ScrapList />}
-    </>
+    </> 
   );
 };
 

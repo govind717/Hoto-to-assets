@@ -146,7 +146,6 @@ const AssetPortfolioTableRow = ({
           />
         </TableCell>
         {/* <TableCell sx={{ ...tableBodyCell }}>
-             {console.log('e?.condition', e?.condition)}
           {e?.condition !== null ? (
             <Chip
               label={
@@ -199,6 +198,15 @@ const AssetPortfolioTableRow = ({
               px: 2,
             }}
           />
+        </TableCell>
+
+        <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+          {moment(e?.
+            createdAt).format("DD-MM-YYYY") || "-"}
+        </TableCell>
+        <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+          {moment(e?.updatedAt)
+            .format("DD-MM-YYYY") || "-"}
         </TableCell>
 
         <TableCell

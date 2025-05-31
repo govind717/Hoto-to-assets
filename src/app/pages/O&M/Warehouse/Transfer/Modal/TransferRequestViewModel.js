@@ -64,7 +64,6 @@ function TransferRequestViewModel({ open, closeModal,row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const { state } = useLocation();
-  console.log("Row4 : ",row);
   return (
     <div>
       <Modal

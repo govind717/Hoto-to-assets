@@ -22,11 +22,11 @@ const HotoBlock = () => {
         setValue(newValue);
         sessionStorage.setItem("blockTabNo", newValue);
     };
-    useEffect(()=>{
-      return ()=>{
-        sessionStorage.removeItem("blockTabNo");
-      }
-    },[]);
+    // useEffect(()=>{
+    //   return ()=>{
+    //     // sessionStorage.removeItem("blockTabNo");
+    //   }
+    // },[]);
     return (
       <Box>
         <HotoHeader/>

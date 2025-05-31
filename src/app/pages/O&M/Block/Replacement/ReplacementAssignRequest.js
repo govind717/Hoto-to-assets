@@ -1,5 +1,8 @@
+import Div from "@jumbo/shared/Div";
+import InfoIcon from "@mui/icons-material/Info";
+import SearchIcon from "@mui/icons-material/Search";
 import {
-  Button,
+  Box,
   InputAdornment,
   MenuItem,
   Pagination,
@@ -12,33 +15,26 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField,
+  TextField
 } from "@mui/material";
-import {
-  oandm_block_maintenace_request_assign_data_disptach,
-  oandm_block_replacement_request_assign_data_disptach,
-} from "app/redux/actions/O&M/Block";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import AssignViewModal from "./Modal/AssignViewModal";
-import moment from "moment";
-import InfoIcon from "@mui/icons-material/Info";
+import FullScreenLoader from "app/pages/Components/Loader";
 import {
   Blue,
   Green,
-  Orange,
-  orangeSecondary,
-  Red,
-  Yellow,
+  Yellow
 } from "app/pages/Constants/colors";
-import SearchIcon from "@mui/icons-material/Search";
-import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
-import FullScreenLoader from "app/pages/Components/Loader";
-import Div from "@jumbo/shared/Div";
-import Swal from "sweetalert2";
+import {
+  oandm_block_replacement_request_assign_data_disptach
+} from "app/redux/actions/O&M/Block";
 import { Axios } from "index";
+import { debounce } from "lodash";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import AssignViewModal from "./Modal/AssignViewModal";
+import FilterModel from "app/Components/FilterModel";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -65,7 +61,9 @@ const ReplacementAssignRequest = () => {
   const { oandmBlockReplacementRequestAssignDataReducer } = useSelector(
     (state) => state
   );
-
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
+  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -87,6 +85,8 @@ const ReplacementAssignRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
+        package_name: packageNoDataReducer?.data,
       })
     );
   };
@@ -109,9 +109,11 @@ const ReplacementAssignRequest = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
+        package_name: packageNoDataReducer?.data,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data,applyFilter, dispatch]);
 
   const closeModal = () => {
     setOpen(false);
@@ -137,6 +139,8 @@ const ReplacementAssignRequest = () => {
               search_value: searchTerm.trim(),
               sort: sort,
               page: page,
+              filters:filters,
+              package_name: packageNoDataReducer?.data,
             })
           );
         }
@@ -171,6 +175,8 @@ const ReplacementAssignRequest = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters:filters,
+                  package_name: packageNoDataReducer?.data,
                 })
               );
             }
@@ -212,21 +218,33 @@ const ReplacementAssignRequest = () => {
                 Sr No.
               </TableCell>
               <TableCell
-                align="left"
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      "requested_item.requested_item_details.replacementId"
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Replacement ID
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `requested_item.requested_item_details.replacementId`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Replacement ID
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Replacement ID"
+                    field="requested_item.requested_item_details.replacementId"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/replacement-request-assign?filter_field=requested_item.requested_item_details.replacementId&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
+
               <TableCell
                 align="left"
                 sx={{ ...tableCellSx, minWidth: "180px" }}
@@ -243,32 +261,62 @@ const ReplacementAssignRequest = () => {
                   Request Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="left" sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      "requested_item.requested_item_details.block_asset_details.equipment_name"
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Equipment
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `requested_item.requested_item_details.block_asset_details.equipment_name`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Equipment
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="requested_item.requested_item_details.block_asset_details.equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/replacement-request-assign?filter_field=requested_item.requested_item_details.block_asset_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align="left" sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      "requested_item.requested_item_details.block_asset_details.serial_no"
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Serial No.
-                </TableSortLabel>
+
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `requested_item.requested_item_details.block_asset_details.serial_no`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Serial No.
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Serial No."
+                    field="requested_item.requested_item_details.block_asset_details.serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/replacement-request-assign?filter_field=requested_item.requested_item_details.block_asset_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
+
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
@@ -280,35 +328,61 @@ const ReplacementAssignRequest = () => {
                   Due Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="left" sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      "requested_item.requested_item_details.block_asset_details.equipment_details.location_name"
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `requested_item.requested_item_details.block_asset_details.equipment_details.location_name`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location"
+                    field="requested_item.requested_item_details.block_asset_details.equipment_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/replacement-request-assign?filter_field=requested_item.requested_item_details.block_asset_details.equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
-                align="left"
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      "requested_item.requested_item_details.block_asset_details.equipment_details.location_code"
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location Code
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `requested_item.requested_item_details.block_asset_details.equipment_details.location_code`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location Code"
+                    field="requested_item.requested_item_details.block_asset_details.equipment_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/replacement-request-assign?filter_field=requested_item.requested_item_details.block_asset_details.equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
+
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() => handleSort("initiatedBy")}
@@ -318,31 +392,59 @@ const ReplacementAssignRequest = () => {
                   Initiated By
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="left" sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      "requested_item.requested_item_details.block_asset_details.condition"
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Condition
-                </TableSortLabel>
-              </TableCell>
+
               <TableCell
-                align="left"
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort("pickupLocation")}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Pickup Location
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `requested_item.requested_item_details.block_asset_details.condition`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Condition
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Condition"
+                    field="requested_item.requested_item_details.block_asset_details.condition"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/replacement-request-assign?filter_field=requested_item.requested_item_details.block_asset_details.condition&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
+
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`pickupLocation`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Pickup Location
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Pickup Location"
+                    field="pickupLocation"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/replacement-request-assign?filter_field=pickupLocation&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() => handleSort("issueDate")}
@@ -352,15 +454,31 @@ const ReplacementAssignRequest = () => {
                   Issue Date
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="left" sx={{ ...tableCellSx , minWidth:"180px"}}>
-                <TableSortLabel
-                  onClick={() => handleSort("replacementStatus")}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Replace Status
-                </TableSortLabel>
+
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`replacementStatus`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Replace Status
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Replace Status"
+                    field="replacementStatus"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/block/filter-dropdown/replacement-request-assign?filter_field=replacementStatus&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
+
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 Document
               </TableCell>
