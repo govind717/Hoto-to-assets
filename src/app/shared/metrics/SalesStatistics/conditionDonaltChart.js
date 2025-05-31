@@ -71,7 +71,7 @@ const colorsMap = {
 //   </Box>
 // );
 
-const CustomLegend = ({ total, data, onConditionClick,selectedChart }) => (
+const CustomLegend = ({ total, data, onConditionClick, selectedChart }) => (
   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
     <Box display="flex" alignItems="center" gap={1}>
       <Box
@@ -94,35 +94,37 @@ const CustomLegend = ({ total, data, onConditionClick,selectedChart }) => (
       </Typography>
     </Box>
     {data.map((item, index) => {
-      const valueDisplay =
-        selectedChart === "percentage"
-          ? `${((item.value / total) * 100).toFixed(2)}%`
+     const valueDisplay =
+         selectedChart === "percentage"
+          ? total > 0
+            ? `${((item.value / total) * 100).toFixed(2)}%`
+            : "0%"
           : item.value;
       return (
-      <Box
-        key={index}
-        display="flex"
-        alignItems="center"
-        gap={1}
-        onClick={() => onConditionClick(item)}
-      >
         <Box
-          sx={{
-            width: 10,
-            height: 10,
-            borderRadius: "50%",
+          key={index}
+          display="flex"
+          alignItems="center"
+          gap={1}
+          onClick={() => onConditionClick(item)}
+        >
+          <Box
+            sx={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
 
-            backgroundColor: colorsMap[item.name] || "#ccc",
-          }}
-        />
-        <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
-          {valueDisplay}
-        </Typography>
-        <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
-          {item.name}
-        </Typography>
-      </Box>
-     );
+              backgroundColor: colorsMap[item.name] || "#ccc",
+            }}
+          />
+          <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
+            {valueDisplay}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
+            {item.name}
+          </Typography>
+        </Box>
+      );
     })}
   </Box>
 );
@@ -422,7 +424,7 @@ const ConditionStatusChart = () => {
               formatter={(value, name) => [`${value}`, `${name}`]}
               cursor={{ fill: "rgba(0, 0, 0, 0.1)" }}
             /> */}
-             <Tooltip
+            <Tooltip
               formatter={(value, name) => {
                 if (selectedChart === "percentage") {
                   const percent = total ? ((value / total) * 100).toFixed(1) : 0;

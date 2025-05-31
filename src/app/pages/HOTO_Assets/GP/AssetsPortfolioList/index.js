@@ -429,6 +429,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       const res = await Axios.post(
         `/hoto-to-assets/gp/assets-portfolio/download-excel?package_name=${packageNoDataReducer?.data}`,
       );
+      // console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
