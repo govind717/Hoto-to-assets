@@ -51,7 +51,7 @@ function CreateTransferModal({ open, closeModal, row }) {
   const [blockTransferOptions, setBlockTransferOptions] = useState([]);
   const [gpTransferOptions, setGpTransferOptions] = useState([]);
   const [warehouseTransferOptions, setWarehouseTransferOptions] = useState([]);
-  console.log("Row5 : ", row);
+
   const initialValues = {
     issueDate: row?.createdAt || "",
     transfer_type: row?.transfer_type || "",
@@ -137,7 +137,6 @@ function CreateTransferModal({ open, closeModal, row }) {
         awb_no: values?.air?.awb_no,
       };
     }
-    console.log("Body1 : ",body);
     setSubmitting(true);
     try {
       const res = await Axios.post(

@@ -61,7 +61,7 @@ function ReplacementModal({ open, handleClose, row, setToggle }) {
       initiatedBy: values?.initiatedBy,
       remarks: values?.remarks,
     };
-    console.log("Body : ", body);
+  
     setSubmitting(true);
     try {
       const res = await Axios.post(

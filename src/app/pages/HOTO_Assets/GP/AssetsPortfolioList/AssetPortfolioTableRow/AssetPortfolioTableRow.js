@@ -206,7 +206,7 @@ const AssetPortfolioTableRow = ({
             }}
           />
         </TableCell>
-        {/* {console.log('e................', e)} */}
+       
         <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
           {moment(e?.
             createdAt).format("DD-MM-YYYY") || "-"}

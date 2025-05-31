@@ -27,7 +27,6 @@ const BlockWiseItemDetail = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log("state : ",state);
   return (
     <>
       <HotoHeader/>

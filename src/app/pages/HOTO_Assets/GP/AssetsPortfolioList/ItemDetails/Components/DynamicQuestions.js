@@ -58,24 +58,30 @@ export const RackDetails = ({ data }) => {
   };
 
   const renderImages = (images = []) =>
-    images.map((item, index) => (
-      <Grid item xs={6} sm={4} md={3} key={index}>
-        <Box
-          sx={imageBoxStyle}
-          onClick={() =>
-            handleImageClick(
-              `https://survey.lumacorp.in/storage/survey_images/${item}`
-            )
-          }
-        >
-          <img
-            style={imageStyle}
-            src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
-            alt="Rack"
-          />
-        </Box>
+    images?.length > 0 ? (
+      images.map((item, index) => (
+        <Grid item xs={6} sm={4} md={3} key={index}>
+          <Box
+            sx={imageBoxStyle}
+            onClick={() =>
+              handleImageClick(
+                `https://survey.lumacorp.in/storage/survey_images/${item}`
+              )
+            }
+          >
+            <img
+              style={imageStyle}
+              src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
+              alt="RACK image URL ERROR"
+            />
+          </Box>
+        </Grid>
+      ))
+    ) : (
+      <Grid item xs={6} sm={4} md={3}>
+        <Box sx={imageBoxStyle}>-</Box>
       </Grid>
-    ));
+    );
 
   return (
     <>
@@ -90,28 +96,61 @@ export const RackDetails = ({ data }) => {
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            Number Of Racks
+            Racks Make Controller
           </Typography>
-          <Box sx={patternBoxStyle}>{"-"}</Box>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.rack_make_controller ? "Yes" : "No"}
+          </Box>
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            Unit Size
+            Rack Positioning
           </Typography>
-          <Box sx={patternBoxStyle}>{"-"}</Box>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.rack_positioning
+              ? data?.other_details?.rack_positioning
+              : "-"}
+          </Box>
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            Racks Connectivity
+            Has Rack OFC Connectivity
           </Typography>
-          <Box sx={patternBoxStyle}>{"-"}</Box>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.has_rack_ofc_connectivity ? "Yes" : "No"}
+          </Box>
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            Socket Availability
+            OFC Entry Rack Count
           </Typography>
-          <Box sx={patternBoxStyle}>{"-"}</Box>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.ofc_entry_rack_count
+              ? data?.other_details?.ofc_entry_rack_count
+              : "-"}
+          </Box>
         </Grid>
+        <Grid item xs={6} md={3}>
+          <Typography variant="h6" fontSize="14px">
+            Rack Slot Type
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.rack_slot_type
+              ? data?.other_details?.rack_slot_type
+              : "-"}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={3}>
+          <Typography variant="h6" fontSize="14px">
+            Rack Unutilised Sockets
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.rack_unutilised_sockets
+              ? data?.other_details?.rack_unutilised_sockets
+              : "-"}
+          </Box>
+        </Grid>
+
       </Grid>
 
       {/* Rack Make Images */}
@@ -180,24 +219,30 @@ export const SmpsDetails = function ({ data }) {
   };
 
   const renderImages = (images = []) =>
-    images.map((item, index) => (
-      <Grid item xs={6} sm={4} md={3} key={index}>
-        <Box
-          sx={imageBoxStyle}
-          onClick={() =>
-            handleImageClick(
-              `https://survey.lumacorp.in/storage/survey_images/${item}`
-            )
-          }
-        >
-          <img
-            style={imageStyle}
-            src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
-            alt="Rack"
-          />
-        </Box>
+    images?.length > 0 ? (
+      images.map((item, index) => (
+        <Grid item xs={6} sm={4} md={3} key={index}>
+          <Box
+            sx={imageBoxStyle}
+            onClick={() =>
+              handleImageClick(
+                `https://survey.lumacorp.in/storage/survey_images/${item}`
+              )
+            }
+          >
+            <img
+              style={imageStyle}
+              src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
+              alt="SMPS image URL ERROR"
+            />
+          </Box>
+        </Grid>
+      ))
+    ) : (
+      <Grid item xs={6} sm={4} md={3}>
+        <Box sx={imageBoxStyle}>-</Box>
       </Grid>
-    ));
+    );
   return (
     <>
       <Grid container spacing={2} mt={2}>
@@ -237,14 +282,6 @@ export const SmpsDetails = function ({ data }) {
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            SMPS Image
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.smps_img?.length || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Typography variant="h6" fontSize="14px">
             SMPS Capacity
           </Typography>
           <Box sx={patternBoxStyle}>
@@ -260,16 +297,6 @@ export const SmpsDetails = function ({ data }) {
               ? data?.other_details?.smps_warranty === true
                 ? "Yes"
                 : "No"
-              : "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Typography variant="h6" fontSize="14px">
-            Serial No Image
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.smpsSerialNo_img
-              ? data?.other_details?.smpsSerialNo_img?.length
               : "-"}{" "}
           </Box>
         </Grid>
@@ -360,24 +387,30 @@ export const CcuDetails = function ({ data }) {
   };
 
   const renderImages = (images = []) =>
-    images.map((item, index) => (
-      <Grid item xs={6} sm={4} md={3} key={index}>
-        <Box
-          sx={imageBoxStyle}
-          onClick={() =>
-            handleImageClick(
-              `https://survey.lumacorp.in/storage/survey_images/${item}`
-            )
-          }
-        >
-          <img
-            style={imageStyle}
-            src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
-            alt="Rack"
-          />
-        </Box>
+    images?.length > 0 ? (
+      images.map((item, index) => (
+        <Grid item xs={6} sm={4} md={3} key={index}>
+          <Box
+            sx={imageBoxStyle}
+            onClick={() =>
+              handleImageClick(
+                `https://survey.lumacorp.in/storage/survey_images/${item}`
+              )
+            }
+          >
+            <img
+              style={imageStyle}
+              src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
+              alt="CCU image URL ERROR"
+            />
+          </Box>
+        </Grid>
+      ))
+    ) : (
+      <Grid item xs={6} sm={4} md={3}>
+        <Box sx={imageBoxStyle}>-</Box>
       </Grid>
-    ));
+    );
   return (
     <>
       <Grid container spacing={2} mt={2}>
@@ -555,24 +588,30 @@ export const SplitterDetails = function ({ data }) {
   };
 
   const renderImages = (images = []) =>
-    images.map((item, index) => (
-      <Grid item xs={6} sm={4} md={3} key={index}>
-        <Box
-          sx={imageBoxStyle}
-          onClick={() =>
-            handleImageClick(
-              `https://survey.lumacorp.in/storage/survey_images/${item}`
-            )
-          }
-        >
-          <img
-            style={imageStyle}
-            src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
-            alt="Rack"
-          />
-        </Box>
+    images?.length > 0 ? (
+      images.map((item, index) => (
+        <Grid item xs={6} sm={4} md={3} key={index}>
+          <Box
+            sx={imageBoxStyle}
+            onClick={() =>
+              handleImageClick(
+                `https://survey.lumacorp.in/storage/survey_images/${item}`
+              )
+            }
+          >
+            <img
+              style={imageStyle}
+              src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
+              alt="ONT image URL ERROR"
+            />
+          </Box>
+        </Grid>
+      ))
+    ) : (
+      <Grid item xs={6} sm={4} md={3}>
+        <Box sx={imageBoxStyle}>-</Box>
       </Grid>
-    ));
+    );
   return (
     <>
       <Grid container spacing={2} mt={2}>
@@ -682,81 +721,64 @@ export const OntDetails = function ({ data }) {
   };
 
   const renderImages = (images = []) =>
-    images.map((item, index) => (
-      <Grid item xs={6} sm={4} md={3} key={index}>
-        <Box
-          sx={imageBoxStyle}
-          onClick={() =>
-            handleImageClick(
-              `https://survey.lumacorp.in/storage/survey_images/${item}`
-            )
-          }
-        >
-          <img
-            style={imageStyle}
-            src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
-            alt="Rack"
-          />
-        </Box>
+    images?.length > 0 ? (
+      images.map((item, index) => (
+        <Grid item xs={6} sm={4} md={3} key={index}>
+          <Box
+            sx={imageBoxStyle}
+            onClick={() =>
+              handleImageClick(
+                `https://survey.lumacorp.in/storage/survey_images/${item}`
+              )
+            }
+          >
+            <img
+              style={imageStyle}
+              src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
+              alt="ONT image URL ERROR"
+            />
+          </Box>
+        </Grid>
+      ))
+    ) : (
+      <Grid item xs={6} sm={4} md={3}>
+        <Box sx={imageBoxStyle}>-</Box>
       </Grid>
-    ));
+    );
   return (
     <>
       <Grid container spacing={2} mt={2}>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            Has ONT
+            ONT Availablity
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.has_olt ? "Yes" : "No"}{" "}
+            {data?.other_details?.ont_availablity ? "Yes" : "No"}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            OLT Condition
+            ONT Condition
           </Typography>
           <Box sx={patternBoxStyle}>{data?.condition || "-"} </Box>
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            OLT Connector Type
+            ONT Status
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_connector_type || "-"}{" "}
+            {data?.other_details?.ont_status || "-"}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            OLT Pon Port
+            ONT Make
           </Typography>
           <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_pon_port || "-"}{" "}
+            {data?.other_details?.ont_make_controller || "-"}{" "}
           </Box>
         </Grid>
-        <Grid item xs={6} md={3}>
-          <Typography variant="h6" fontSize="14px">
-            Serial No.
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_serial_no_controller || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Typography variant="h6" fontSize="14px">
-            Status
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_status || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Typography variant="h6" fontSize="14px">
-            Used Port
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_used_port_controller || "-"}{" "}
-          </Box>
-        </Grid>
+      
       </Grid>
       <Typography
         variant="h6"
@@ -781,7 +803,6 @@ export const OntDetails = function ({ data }) {
       <Grid container spacing={2} mt={1}>
         {renderImages(data?.other_details?.ontSerialNo_img)}
       </Grid>
-      
 
       {/* Zoom Image Dialog */}
       <Dialog
@@ -810,24 +831,30 @@ export const OltDetails = function ({ data }) {
   };
 
   const renderImages = (images = []) =>
-    images.map((item, index) => (
-      <Grid item xs={6} sm={4} md={3} key={index}>
-        <Box
-          sx={imageBoxStyle}
-          onClick={() =>
-            handleImageClick(
-              `https://survey.lumacorp.in/storage/survey_images/${item}`
-            )
-          }
-        >
-          <img
-            style={imageStyle}
-            src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
-            alt="Rack"
-          />
-        </Box>
+    images?.length > 0 ? (
+      images.map((item, index) => (
+        <Grid item xs={6} sm={4} md={3} key={index}>
+          <Box
+            sx={imageBoxStyle}
+            onClick={() =>
+              handleImageClick(
+                `https://survey.lumacorp.in/storage/survey_images/${item}`
+              )
+            }
+          >
+            <img
+              style={imageStyle}
+              src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
+              alt="ONT image URL ERROR"
+            />
+          </Box>
+        </Grid>
+      ))
+    ) : (
+      <Grid item xs={6} sm={4} md={3}>
+        <Box sx={imageBoxStyle}>-</Box>
       </Grid>
-    ));
+    );
   return (
     <>
       <Grid container spacing={2} mt={2}>
@@ -853,6 +880,15 @@ export const OltDetails = function ({ data }) {
             {data?.other_details?.olt_connector_type || "-"}{" "}
           </Box>
         </Grid>
+
+        <Grid item xs={6} md={3}>
+          <Typography variant="h6" fontSize="14px">
+            OLT Status
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.olt_status || "-"}{" "}
+          </Box>
+        </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
             OLT Pon Port
@@ -863,23 +899,7 @@ export const OltDetails = function ({ data }) {
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
-            Serial No.
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_serial_no_controller || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Typography variant="h6" fontSize="14px">
-            Status
-          </Typography>
-          <Box sx={patternBoxStyle}>
-            {data?.other_details?.olt_status || "-"}{" "}
-          </Box>
-        </Grid>
-        <Grid item xs={6} md={3}>
-          <Typography variant="h6" fontSize="14px">
-            Used Port
+            OLT Used Port Controller
           </Typography>
           <Box sx={patternBoxStyle}>
             {data?.other_details?.olt_used_port_controller || "-"}{" "}
@@ -898,7 +918,6 @@ export const OltDetails = function ({ data }) {
         {renderImages(data?.other_details?.olt_img)}
       </Grid>
 
-
       <Typography
         variant="h6"
         sx={{ fontWeight: "500" }}
@@ -910,7 +929,6 @@ export const OltDetails = function ({ data }) {
       <Grid container spacing={2} mt={1}>
         {renderImages(data?.other_details?.oltSerialNo_img)}
       </Grid>
-      
 
       {/* Zoom Image Dialog */}
       <Dialog
@@ -931,7 +949,6 @@ export const OltDetails = function ({ data }) {
 };
 
 export const SfpDetails = function ({ data }) {
-  console.log("SfpDetails : ", data);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const handleImageClick = (img) => {
@@ -940,24 +957,30 @@ export const SfpDetails = function ({ data }) {
   };
 
   const renderImages = (images = []) =>
-    images.map((item, index) => (
-      <Grid item xs={6} sm={4} md={3} key={index}>
-        <Box
-          sx={imageBoxStyle}
-          onClick={() =>
-            handleImageClick(
-              `https://survey.lumacorp.in/storage/survey_images/${item}`
-            )
-          }
-        >
-          <img
-            style={imageStyle}
-            src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
-            alt="Rack"
-          />
-        </Box>
+    images?.length > 0 ? (
+      images.map((item, index) => (
+        <Grid item xs={6} sm={4} md={3} key={index}>
+          <Box
+            sx={imageBoxStyle}
+            onClick={() =>
+              handleImageClick(
+                `https://survey.lumacorp.in/storage/survey_images/${item}`
+              )
+            }
+          >
+            <img
+              style={imageStyle}
+              src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
+              alt="ONT image URL ERROR"
+            />
+          </Box>
+        </Grid>
+      ))
+    ) : (
+      <Grid item xs={6} sm={4} md={3}>
+        <Box sx={imageBoxStyle}>-</Box>
       </Grid>
-    ));
+    );
   return (
     <>
       <Grid container spacing={2} mt={2}>
@@ -975,6 +998,14 @@ export const SfpDetails = function ({ data }) {
           </Typography>
           <Box sx={patternBoxStyle}>
             {data?.other_details?.sfp_count || "-"}{" "}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={3}>
+          <Typography variant="h6" fontSize="14px">
+            SFP Count Controller
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.other_details?.sfp_count_controller || "-"}{" "}
           </Box>
         </Grid>
       </Grid>
@@ -1058,31 +1089,36 @@ export const SfpDetails = function ({ data }) {
 export const FdmsDetails = function ({ data }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-  console.log("FdmsDetails : ", data);
   const handleImageClick = (img) => {
     setSelectedImage(img);
     setOpenDialog(true);
   };
 
   const renderImages = (images = []) =>
-    images.map((item, index) => (
-      <Grid item xs={6} sm={4} md={3} key={index}>
-        <Box
-          sx={imageBoxStyle}
-          onClick={() =>
-            handleImageClick(
-              `https://survey.lumacorp.in/storage/survey_images/${item}`
-            )
-          }
-        >
-          <img
-            style={imageStyle}
-            src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
-            alt="FDMS Img Not Found"
-          />
-        </Box>
+    images?.length > 0 ? (
+      images.map((item, index) => (
+        <Grid item xs={6} sm={4} md={3} key={index}>
+          <Box
+            sx={imageBoxStyle}
+            onClick={() =>
+              handleImageClick(
+                `https://survey.lumacorp.in/storage/survey_images/${item}`
+              )
+            }
+          >
+            <img
+              style={imageStyle}
+              src={`https://survey.lumacorp.in/storage/survey_images/${item}`}
+              alt="ONT image URL ERROR"
+            />
+          </Box>
+        </Grid>
+      ))
+    ) : (
+      <Grid item xs={6} sm={4} md={3}>
+        <Box sx={imageBoxStyle}>-</Box>
       </Grid>
-    ));
+    );
   return (
     <>
       <Grid container spacing={2} mt={2}>

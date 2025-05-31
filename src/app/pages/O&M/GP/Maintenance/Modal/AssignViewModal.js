@@ -61,7 +61,6 @@ const patternBoxStyle = {
   wordBreak: "break-word",
 };
 function AssignViewModal({ open, closeModal, row }) {
-  console.log("Maintainance assign : ", row);
   return (
     <div>
       <Modal

@@ -196,25 +196,7 @@ const BlockWiseAssetList = () => {
             ),
           }}
         />
-        {/* <Div>
-          <FormControl fullWidth size="small" sx={{ my: "2%" }}>
-            <Autocomplete
-              disablePortal
-              size="small"
-              options={["All", "Yes", "No"]}
-              getOptionLabel={(option) => option}
-              isOptionEqualToValue={(option, value) =>
-                option?.label === value?.label
-              }
-              sx={{ width: 200 }}
-              value={filterAvailabilityValue}
-              onChange={(_, newValue) => handleAvailabilityChange(newValue)}
-              renderInput={(params) => (
-                <TextField {...params} label="Select Availability" />
-              )}
-            />
-          </FormControl>
-        </Div> */}
+      
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
