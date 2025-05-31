@@ -2,6 +2,7 @@ import Div from "@jumbo/shared/Div";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Autocomplete,
   Box,
   Button,
   Chip,
@@ -64,7 +65,7 @@ const MaintainanceList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
   const { hotoGpMaintenanceDataReducer } = useSelector((state) => state);
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -72,6 +73,13 @@ const MaintainanceList = () => {
 
   const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
+
+  const [downloadExcelValue, setDownloadExcelValue] = useState('');
+  
+    const downloadExcelValueOptions = [
+      { label: "Download All Data", value: true },
+      { label: "Download  Data", value: false },
+    ];
 
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
@@ -124,7 +132,7 @@ const MaintainanceList = () => {
       )
     );
   }, [sort, page, packageNoDataReducer?.data, sortBy, applyFilter, dispatch]);
-    
+
   const Toast = Swal.mixin({
     toast: true,
     position: "top",
@@ -139,6 +147,62 @@ const MaintainanceList = () => {
       toast.addEventListener("mouseleave", Swal.resumeTimer);
     },
   });
+
+  const handleDownloadExcelChange = (selectedOption) => {
+    setDownloadExcelValue(selectedOption);
+    if (selectedOption?.value === true) {
+      handleAllExportCSV();
+    } else if (selectedOption?.value === false) {
+      handleExportCSV();
+    }
+  }
+
+  const handleAllExportCSV = async () => {
+    try {
+      setLoading(true);
+      // setSnackbarOpen(true);
+      const res = await Axios.post(
+        "/hoto-to-assets/gp/maintenance/downloadall-excel"
+      );
+      console.log("Res : ", res);
+      if (res.data.success) {
+        window.open(res?.data?.result);
+
+        Toast.fire({
+          timer: 3000,
+          icon: "success",
+          title: "CSV  Downloaded Successfully...",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      } else {
+        Toast.fire({
+          timer: 3000,
+          icon: "error",
+          title: "CSV  Downloading failed..",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      // setSnackbarOpen(false);
+      Toast.fire({
+        timer: 3000,
+        icon: "error",
+        title:
+          error.response?.data.message ||
+          "An error occured while downloading csv",
+        position: "top-right",
+        // background: theme.palette.background.paper,
+      });
+    }
+  };
+
   const handleExportCSV = async () => {
     try {
       setLoading(true);
@@ -184,6 +248,8 @@ const MaintainanceList = () => {
       });
     }
   };
+
+
   return (
     <>
       {hotoGpMaintenanceDataReducer?.loading && <FullScreenLoader />}
@@ -222,7 +288,7 @@ const MaintainanceList = () => {
             ),
           }}
         />
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -235,6 +301,24 @@ const MaintainanceList = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
+        </Div> */}
+
+        <Div sx={{ my: "2%" }}>
+          <Autocomplete
+            disablePortal
+            size="small"
+            options={downloadExcelValueOptions}
+            getOptionLabel={(option) => option?.label || ""}
+            isOptionEqualToValue={(option, value) =>
+              option?.label === value?.label
+            }
+            sx={{ width: 200 }}
+            value={downloadExcelValue}
+            onChange={(_, newValue) => handleDownloadExcelChange(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} label="Export Excel" />
+            )}
+          />
         </Div>
       </Div>
       <TableContainer component={Paper}>
@@ -684,7 +768,7 @@ const MaintainanceList = () => {
                           verticalAlign: "middle",
                           textTransform: "capitalize",
                         }}
-                      > 
+                      >
                         {/* {ele?.assets_details?.condition_status || "-"} */}
                         <Chip
                           label={

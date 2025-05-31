@@ -118,8 +118,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   }, [searchTerm]);
 
 
-  console.log('state?.availability',state?.availability)
-  
+
   // const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
   //   if (state?.availability === true) {
   //     return { label: "Yes", value: true };
@@ -135,30 +134,36 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   // });
 
   const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
-  if (!state) {
-    return { label: "Yes", value: true };
-  } else if (state.availability === true) {
-    return { label: "Yes", value: true };
-  } else if (state.availability === false) {
-    return { label: "No", value: false };
-  } else if (state.availability === undefined) {
-    return { label: "All", value: 'all' };
-  } else {
-    return { label: "Yes", value: true };
-  }
-});
+    if (!state) {
+      return { label: "Yes", value: true };
+    } else if (state.availability === true) {
+      return { label: "Yes", value: true };
+    } else if (state.availability === false) {
+      return { label: "No", value: false };
+    } else if (state.availability === undefined) {
+      return { label: "All", value: 'all' };
+    } else {
+      return { label: "Yes", value: true };
+    }
+  });
 
+  const [downloadExcelValue, setDownloadExcelValue] = useState('');
 
-//  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
-//   if (state?.availability === true) {
-//     return { label: "Yes", value: true };
-//   } else if (state?.availability === false) {
-//     return { label: "No", value: false };
-//   } else {
-//     // Default to "Yes" if undefined or anything else
-//     return { label: "Yes", value: true };
-//   }
-// });
+  const downloadExcelValueOptions = [ 
+    { label: "Download All Data", value: true },
+    { label: "Download  Data", value: false },
+  ];
+
+  //  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
+  //   if (state?.availability === true) {
+  //     return { label: "Yes", value: true };
+  //   } else if (state?.availability === false) {
+  //     return { label: "No", value: false };
+  //   } else {
+  //     // Default to "Yes" if undefined or anything else
+  //     return { label: "Yes", value: true };
+  //   }
+  // });
 
   const filterAvailabilityOptions = [
     { label: "Yes", value: true },
@@ -180,6 +185,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       setFilters(newObj);
     }
   }
+
 
   useEffect(() => {
     dispatch(
@@ -360,6 +366,62 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       toast.addEventListener("mouseleave", Swal.resumeTimer);
     },
   });
+
+  const handleDownloadExcelChange = (selectedOption) => {
+    setDownloadExcelValue(selectedOption);
+    if (selectedOption?.value === true) {
+      handleAllExportCSV();
+    } else if (selectedOption?.value === false) {
+      handleExportCSV();
+    }
+  }
+
+  const handleAllExportCSV = async () => {
+    try {
+      setLoading(true);
+      // setSnackbarOpen(true);
+      const res = await Axios.post(
+        `/hoto-to-assets/gp/assets-portfolio/downloadall-excel?package_name=${packageNoDataReducer?.data}`,
+      );
+      // console.log("Res : ", res);
+      if (res.data.success) {
+        window.open(res?.data?.result);
+
+        Toast.fire({
+          timer: 3000,
+          icon: "success",
+          title: "CSV  Downloaded Successfully...",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      } else {
+        Toast.fire({
+          timer: 3000,
+          icon: "error",
+          title: "CSV  Downloading failed..",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        // setSnackbarOpen(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      // setSnackbarOpen(false);
+      Toast.fire({
+        timer: 3000,
+        icon: "error",
+        title:
+          error.response?.data.message ||
+          "An error occured while downloading csv",
+        position: "top-right",
+        // background: theme.palette.background.paper,
+      });
+    }
+  };
+
   const handleExportCSV = async () => {
     try {
       setLoading(true);
@@ -367,7 +429,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       const res = await Axios.post(
         `/hoto-to-assets/gp/assets-portfolio/download-excel?package_name=${packageNoDataReducer?.data}`,
       );
-      console.log("Res : ", res);
+      // console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
@@ -464,7 +526,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             />
           </FormControl>
         </Div>
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -477,6 +539,23 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
+        </Div> */}
+        <Div sx={{ my: "1%" }}>
+          <Autocomplete
+            disablePortal
+            size="small"
+            options={downloadExcelValueOptions}
+            getOptionLabel={(option) => option?.label || ""}
+            isOptionEqualToValue={(option, value) =>
+              option?.label === value?.label
+            }
+            sx={{ width: 200 }}
+            value={downloadExcelValue}
+            onChange={(_, newValue) => handleDownloadExcelChange(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} label="Export Excel" />
+            )}
+          />
         </Div>
         {selectedIds?.length > 0 && (
           <Div
