@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Grid} from "@mui/material";
 import SalesReport from "../../../shared/metrics/SalesReport";
 import OrdersReport from "../../../shared/metrics/OrdersReport";
@@ -19,6 +19,10 @@ import ServeyStatus from 'app/shared/metrics/serveyStatus/serveyStatus';
 import Piecharts from 'app/shared/metrics/SalesStatistics/Piecharts';
 
 const EcommerceDashboard = () => {
+    useEffect(()=>{
+        sessionStorage.removeItem("gpTabNo");
+        sessionStorage.removeItem("blockTabNo");
+    })
   return (
     <Grid container spacing={3.75}>
       {/* <Grid item xs={12}>
