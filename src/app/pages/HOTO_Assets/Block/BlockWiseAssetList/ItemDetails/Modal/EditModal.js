@@ -30,7 +30,6 @@ const style = {
 function EditModal({ open, handleClose,row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
-  console.log("Edit : ",row);
   const initialValues = {
     equipment_name: row?.equipment_name || "",
     make: row?.make || "",
@@ -71,7 +70,6 @@ const validationSchema = Yup.object().shape({
           warranty_date:values?.warranty_date,
           remarks:values?.remarks
         };
-        console.log("body : ",body);
         setSubmitting(true);
         try {
           const res = await Axios.patch(
@@ -134,7 +132,6 @@ const validationSchema = Yup.object().shape({
                 setValues,
               }) => (
                 <Form noValidate autoComplete="off">
-                  {console.log("Values => ", values)}
                   <Div sx={{ mt: 0 }}>
                     <Div
                       sx={{

@@ -64,7 +64,7 @@ function DetailModal({ open, closeModal, row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const { state } = useLocation();
-  console.log("Row6 : ", row);
+ 
   return (
     <div>
       <Modal

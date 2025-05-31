@@ -45,8 +45,6 @@ const tableCellSx = {
   verticalAlign: "middle",
 };
 function AssignViewModal({ open, closeModal, row }) {
-  console.log("Row12 : ", row);
-
   return (
     <div>
       <Modal

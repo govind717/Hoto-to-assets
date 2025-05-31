@@ -282,7 +282,6 @@ function AdduserManagement() {
             )
           : await Axios.post(AllApis?.Auth?.addUser, payload);
       if (pathname === USER_MANAGEMENT_EDIT) {
-        console.log("this is permission")
         dispatch(
           single_user_data_disptach(
             JSON.parse(localStorage.getItem("dbomUserAndToken"))?.user?._id

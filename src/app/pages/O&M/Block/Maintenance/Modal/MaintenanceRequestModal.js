@@ -37,7 +37,6 @@ const tableCellSx = {
 function MaintenanceRequestModal({ open, closeModal,row }) {
   const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
-  console.log("row1: ",row);
   const initialValues = {
     issue_date: row?.createdAt || "",
     estimate_arrival_date: "",

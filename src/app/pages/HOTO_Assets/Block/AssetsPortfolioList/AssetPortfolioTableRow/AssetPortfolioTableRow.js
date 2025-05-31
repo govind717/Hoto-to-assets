@@ -146,7 +146,6 @@ const AssetPortfolioTableRow = ({
           />
         </TableCell>
         {/* <TableCell sx={{ ...tableBodyCell }}>
-             {console.log('e?.condition', e?.condition)}
           {e?.condition !== null ? (
             <Chip
               label={

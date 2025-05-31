@@ -29,7 +29,6 @@ function AddMaterial() {
   const [HSNCodeOptions, setHSNCodeOptions] = useState([]);
   const [isSubmitting, setSubmitting] = useState(false);
 
-  console.log(state)
   const initialValues = {
     materialName: state?.materialName || "",
     materialCode: state?.materialCode || "",
@@ -92,7 +91,7 @@ function AddMaterial() {
       uomId: values?.uom?._id,
       hsnCodeId: values?.HSNCode?._id,
     };
-    console.log("Body : ", body);
+  
     setSubmitting(true);
     try {
       if (pathname === MATERIAL_MASTER_EDIT) {

@@ -57,7 +57,6 @@ export const hoto_block_asset_partfolio_data_disptach = function (
           boolean: [],
         },
       };
-      console.log("body : ", body);
       dispatch({ type: HOTO_BLOCK_ASSET_PORTFOLIO_DATA_REQUEST });
 
       const response = await Axios.post(
