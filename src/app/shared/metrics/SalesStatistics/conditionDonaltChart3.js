@@ -96,7 +96,9 @@ const CustomLegend = ({ total, data, onConditionClick, selectedChart }) => (
     {data.map((item, index) => {
       const valueDisplay =
         selectedChart === "percentage"
-          ? `${((item.value / total) * 100).toFixed(2)}%`
+          ? total > 0
+            ? `${((item.value / total) * 100).toFixed(2)}%`
+            : "0%"
           : item.value;
       return (
         <Box

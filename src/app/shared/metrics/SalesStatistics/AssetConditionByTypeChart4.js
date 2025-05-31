@@ -603,7 +603,7 @@ const CustomLegend = ({ data, onLegendClick, selectedChart }) => {
         const rawValue = latestData[item.name] ?? 0;
         const valueDisplay =
           selectedChart === "percentage"
-            ? `${total ? ((rawValue / total) * 100).toFixed(2) : 0}%`
+            ? `${total > 0 ? ((rawValue / total) * 100).toFixed(2) : 0}%`
             : rawValue;
 
         return (
