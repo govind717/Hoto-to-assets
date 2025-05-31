@@ -1,5 +1,5 @@
-import { Axios } from "index";
 import { hoto_apis } from "app/Apis/hoto_assest";
+import { Axios } from "index";
 import {
   HOTO_GP_ASSET_PORTFOLIO_DATA_FAILED,
   HOTO_GP_ASSET_PORTFOLIO_DATA_REQUEST,
@@ -29,7 +29,6 @@ import {
   HOTO_GP_WISE_ASSET_DATA_REQUEST,
   HOTO_GP_WISE_ASSET_DATA_SUCCESS,
 } from "../constants";
-import { oandmApis } from "app/Apis/O&M";
 
 export const hoto_gp_asset_partfolio_data_disptach = function (
   { page = 1, search_value = "", sort = "", sortBy = "", filters = {} } = {},
@@ -39,6 +38,7 @@ export const hoto_gp_asset_partfolio_data_disptach = function (
     try {
       const body = {
         filters: {
+          equipment_name: { $ne: "OLT" },
           "equipment_details.location_type": "old gp",
           ...filters,
         },
@@ -48,8 +48,8 @@ export const hoto_gp_asset_partfolio_data_disptach = function (
             "serial_no",
             "equipment_details.location_name",
             "equipment_details.location_code",
-             "equipment_details.block.name",
-             "equipment_details.block.code",
+            "equipment_details.block.name",
+            "equipment_details.block.code",
             "warranty_status",
             "condition",
           ],
@@ -202,7 +202,14 @@ export const hoto_gp_asset_partfolio_transfer_data_disptach = function (
 };
 // ------------------------
 export const hoto_gp_wise_asset_data_disptach = function (
-  { page = 1, search_value = "", sort = "", sortBy = "", filters = {} } = {},
+  {
+    page = 1,
+    search_value = "",
+    sort = "",
+    sortBy = "",
+    filters = {},
+    availabilityConditionFilters = {},
+  } = {},
   package_name
 ) {
   return async (dispatch) => {
@@ -212,6 +219,7 @@ export const hoto_gp_wise_asset_data_disptach = function (
           location_type: "old gp",
           ...filters,
         },
+        availabilityConditionFilters,
         searchFields: {
           string: [
             "block.name",

@@ -65,7 +65,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { state } = useLocation();
-  console.log('state////////////////',state)
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
@@ -119,7 +118,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   }, [searchTerm]);
 
   
-  console.log('state?.availability',state?.availability)
  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
   if (state?.availability === true) {
     return { label: "Yes", value: true };
@@ -338,7 +336,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       const res = await Axios.post(
         `/hoto-to-assets/gp/assets-portfolio/download-excel?package_name=${packageNoDataReducer?.data}`,
       );
-      console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
