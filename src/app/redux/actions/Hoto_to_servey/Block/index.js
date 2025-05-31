@@ -1,3 +1,4 @@
+import { hoto_apis } from "app/Apis/hoto_assest";
 import { Axios } from "index";
 import {
   HOTO_BLOCK_ASSET_PORTFOLIO_DATA_FAILED,
@@ -28,8 +29,6 @@ import {
   HOTO_BLOCK_WISE_ASSET_DATA_REQUEST,
   HOTO_BLOCK_WISE_ASSET_DATA_SUCCESS,
 } from "../constants";
-import { hoto_apis } from "app/Apis/hoto_assest";
-import { oandmApis } from "app/Apis/O&M";
 
 export const hoto_block_asset_partfolio_data_disptach = function (
   { page = 1, search_value = "", sort = "", sortBy = "", filters = {} } = {},
@@ -39,6 +38,7 @@ export const hoto_block_asset_partfolio_data_disptach = function (
     try {
       const body = {
         filters: {
+          equipment_name:{$ne:'ONT'},
           "equipment_details.location_type": "block",
           ...filters,
         },
