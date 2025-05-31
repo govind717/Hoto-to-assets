@@ -74,12 +74,12 @@ const MaintainanceList = () => {
   const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
-  const [downloadExcelValue, setDownloadExcelValue] = useState('');
+  // const [downloadExcelValue, setDownloadExcelValue] = useState('');
   
-    const downloadExcelValueOptions = [
-      { label: "Download All Data", value: true },
-      { label: "Download  Data", value: false },
-    ];
+  //   const downloadExcelValueOptions = [
+  //     { label: "Download All Data", value: true },
+  //     { label: "Download  Data", value: false },
+  //   ];
 
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
@@ -148,60 +148,60 @@ const MaintainanceList = () => {
     },
   });
 
-  const handleDownloadExcelChange = (selectedOption) => {
-    setDownloadExcelValue(selectedOption);
-    if (selectedOption?.value === true) {
-      handleAllExportCSV();
-    } else if (selectedOption?.value === false) {
-      handleExportCSV();
-    }
-  }
+  // const handleDownloadExcelChange = (selectedOption) => {
+  //   setDownloadExcelValue(selectedOption);
+  //   if (selectedOption?.value === true) {
+  //     handleAllExportCSV();
+  //   } else if (selectedOption?.value === false) {
+  //     handleExportCSV();
+  //   }
+  // }
 
-  const handleAllExportCSV = async () => {
-    try {
-      setLoading(true);
-      // setSnackbarOpen(true);
-      const res = await Axios.post(
-        "/hoto-to-assets/gp/maintenance/downloadall-excel"
-      );
-      console.log("Res : ", res);
-      if (res.data.success) {
-        window.open(res?.data?.result);
+  // const handleAllExportCSV = async () => {
+  //   try {
+  //     setLoading(true);
+  //     // setSnackbarOpen(true);
+  //     const res = await Axios.post(
+  //       "/hoto-to-assets/gp/maintenance/downloadall-excel"
+  //     );
+  //     console.log("Res : ", res);
+  //     if (res.data.success) {
+  //       window.open(res?.data?.result);
 
-        Toast.fire({
-          timer: 3000,
-          icon: "success",
-          title: "CSV  Downloaded Successfully...",
-          position: "top-right",
-          // background: theme.palette.background.paper,
-        });
-        setLoading(false);
-        // setSnackbarOpen(false);
-      } else {
-        Toast.fire({
-          timer: 3000,
-          icon: "error",
-          title: "CSV  Downloading failed..",
-          position: "top-right",
-          // background: theme.palette.background.paper,
-        });
-        setLoading(false);
-        // setSnackbarOpen(false);
-      }
-    } catch (error) {
-      setLoading(false);
-      // setSnackbarOpen(false);
-      Toast.fire({
-        timer: 3000,
-        icon: "error",
-        title:
-          error.response?.data.message ||
-          "An error occured while downloading csv",
-        position: "top-right",
-        // background: theme.palette.background.paper,
-      });
-    }
-  };
+  //       Toast.fire({
+  //         timer: 3000,
+  //         icon: "success",
+  //         title: "CSV  Downloaded Successfully...",
+  //         position: "top-right",
+  //         // background: theme.palette.background.paper,
+  //       });
+  //       setLoading(false);
+  //       // setSnackbarOpen(false);
+  //     } else {
+  //       Toast.fire({
+  //         timer: 3000,
+  //         icon: "error",
+  //         title: "CSV  Downloading failed..",
+  //         position: "top-right",
+  //         // background: theme.palette.background.paper,
+  //       });
+  //       setLoading(false);
+  //       // setSnackbarOpen(false);
+  //     }
+  //   } catch (error) {
+  //     setLoading(false);
+  //     // setSnackbarOpen(false);
+  //     Toast.fire({
+  //       timer: 3000,
+  //       icon: "error",
+  //       title:
+  //         error.response?.data.message ||
+  //         "An error occured while downloading csv",
+  //       position: "top-right",
+  //       // background: theme.palette.background.paper,
+  //     });
+  //   }
+  // };
 
   const handleExportCSV = async () => {
     try {
@@ -288,7 +288,7 @@ const MaintainanceList = () => {
             ),
           }}
         />
-        {/* <Div sx={{ my: "2%" }}>
+        <Div sx={{ my: "2%" }}>
           <Button
             variant="outlined"
             sx={{
@@ -301,9 +301,9 @@ const MaintainanceList = () => {
           >
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
-        </Div> */}
+        </Div>
 
-        <Div sx={{ my: "2%" }}>
+        {/* <Div sx={{ my: "2%" }}>
           <Autocomplete
             disablePortal
             size="small"
@@ -319,7 +319,7 @@ const MaintainanceList = () => {
               <TextField {...params} label="Export Excel" />
             )}
           />
-        </Div>
+        </Div> */}
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
