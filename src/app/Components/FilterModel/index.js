@@ -101,6 +101,9 @@ const FilterModel = ({
       <FilterListIcon
         onClick={handleOpen}
         fontSize="small"
+        style={{
+           cursor: "pointer",
+        }}
         sx={{ color: isFilterApplied ? "#33eaff" : "inherit" }}
       />
 

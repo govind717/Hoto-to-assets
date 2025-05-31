@@ -1,8 +1,8 @@
-import { Button, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField } from "@mui/material";
+import { Box, Button, InputAdornment, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField } from "@mui/material";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ReplacementRequestModal from "./Modal/ReplacementRequestModal";
 import GeneratePickupRequestModel from "./Modal/GeneratePickupRequestModel";
 import moment from "moment";
@@ -13,6 +13,7 @@ import Div from "@jumbo/shared/Div";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import FullScreenLoader from "app/pages/Components/Loader";
+import FilterModel from "app/Components/FilterModel";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -34,15 +35,20 @@ const ReplacementRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
- const [open,setOpen]=useState(false);
- const [row,setRow]=useState(null);
- const [openGeneratePickupRequest,setOpenGeneratePickupRequest]=useState(false);
+  const [open, setOpen] = useState(false);
+  const [row, setRow] = useState(null);
+  const [openGeneratePickupRequest, setOpenGeneratePickupRequest] = useState(false);
   const { oandmGpReplacementRequestDataReducer } = useSelector(
     (state) => state
   );
-  const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { state } = useLocation();
+  const { packageNoDataReducer } = useSelector((state) => state);
+
+  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
@@ -90,21 +96,21 @@ const ReplacementRequest = () => {
     );
   }, [sort, page, sortBy, packageNoDataReducer?.data, dispatch]);
 
-  const closeModal=()=>{
+  const closeModal = () => {
     setOpen(false);
   }
-  const closeGeneratePickupRequest=()=>{
+  const closeGeneratePickupRequest = () => {
     setOpenGeneratePickupRequest(false);
   }
-  const handleAssign=(data)=>{
+  const handleAssign = (data) => {
     setRow(data);
     setOpenGeneratePickupRequest(true);
   }
-  const showDetails=(data)=>{
-     setRow(data);
+  const showDetails = (data) => {
+    setRow(data);
     setOpen(true);
   }
- 
+
   return (
     <>
       {oandmGpReplacementRequestDataReducer?.loading && <FullScreenLoader />}
@@ -167,113 +173,223 @@ const ReplacementRequest = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`replacementId`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Replacement ID
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`replacementId`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Replacement ID
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Replacement ID"
+                    field="replacementId"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=replacementId&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`issueDate`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Request Date
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`issueDate`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Request Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Request Date" 
+                    field="issueDate"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=issueDate&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:"220px" }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`gp_asset_details.equipment_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Equipment
-                </TableSortLabel>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px" }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`gp_asset_details.equipment_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Equipment
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="gp_asset_details.equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`gp_asset_details.serial_no`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Serial No.
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`gp_asset_details.serial_no`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Serial No.
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Serial No"
+                    field="gp_asset_details.serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`dueDate`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Due Date
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`dueDate`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Due Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Due Date"
+                    field="dueDate"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=dueDate&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      `gp_asset_details.equipment_details	.location_name`
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `gp_asset_details.equipment_details.location_name`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location"
+                    field="gp_asset_details.equipment_details.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.equipment_details.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(
-                      `gp_asset_details.equipment_details.location_code`
-                    )
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Location Code
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(
+                        `gp_asset_details.equipment_details.location_code`
+                      )
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Location Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Location Code"
+                    field="gp_asset_details.equipment_details.location_code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.equipment_details.location_code&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "220px" }}
+                sx={{ ...tableCellSx, minWidth: "250px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`replacementReason`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Replacement Reason
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`replacementReason`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Replacement Reason
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Replacement Reason"
+                    field="replacementReason"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=replacementReason&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth: "220px" }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`initiatedBy`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Initiated By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Initiated By"
+                    field="initiatedBy"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=initiatedBy&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`initiatedBy`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Initiated By
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`gp_asset_details.condition`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Condition
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`gp_asset_details.condition`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Condition
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Condition"
+                    field="gp_asset_details.condition"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/o&m/gp/filter-dropdown/replacement-request?filter_field=gp_asset_details.condition&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Details
@@ -289,7 +405,7 @@ const ReplacementRequest = () => {
           </TableHead>
           <TableBody>
             {oandmGpReplacementRequestDataReducer?.data?.result?.data?.length >
-            0 ? (
+              0 ? (
               oandmGpReplacementRequestDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (

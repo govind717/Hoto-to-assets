@@ -10,7 +10,7 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
+  TableContainer, 
   TableHead,
   TableRow,
   TableSortLabel,
@@ -238,7 +238,7 @@ const MaintenanceAssignRequest = () => {
                     package_name={packageNoDataReducer?.data}
                     apiUrl={`/o&m/block/filter-dropdown/maintenance-request-assign?filter_field=maintenance_id&package_name=${packageNoDataReducer?.data}`}
                   />
-                </Box>
+                </Box> 
               </TableCell>
               <TableCell
                 align={"left"}

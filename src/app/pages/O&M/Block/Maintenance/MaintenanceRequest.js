@@ -211,7 +211,7 @@ const MaintenanceRequest = () => {
                     package_name={packageNoDataReducer?.data}
                     apiUrl={`/o&m/block/filter-dropdown/maintenance-request?filter_field=maintenance_id&package_name=${packageNoDataReducer?.data}`}
                   />
-                </Box>
+                </Box> 
               </TableCell>
               <TableCell
                 align={"left"}
@@ -390,6 +390,55 @@ const MaintenanceRequest = () => {
                   Issue Reported
                 </TableSortLabel>
               </TableCell>
+
+               <TableCell
+                  align="left"
+                  sx={{ ...tableCellSx, minWidth: "180px" }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <TableSortLabel
+                      onClick={() => handleSort("createdAt")}
+                      direction={sort}
+                      sx={{ ...tableCellSx }}
+                    >
+                      Created Date
+                    </TableSortLabel>
+                    <FilterModel
+                      label="Filter Created Date"
+                      field="createdAt"
+                      filters={filters}
+                      setFilters={setFilters}
+                      setApplyFilter={setApplyFilter}
+                      package_name={packageNoDataReducer?.data}
+                      apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    />
+                  </Box>
+                </TableCell>
+
+                <TableCell
+                  align="left"
+                  sx={{ ...tableCellSx, minWidth: "220px" }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <TableSortLabel
+                      onClick={() => handleSort("updatedAt")}
+                      direction={sort}
+                      sx={{ ...tableCellSx }}
+                    >
+                      Updated Date
+                    </TableSortLabel>
+                    <FilterModel
+                      label="Filter Updated Date"
+                      field="updatedAt"
+                      filters={filters}
+                      setFilters={setFilters}
+                      setApplyFilter={setApplyFilter}
+                      package_name={packageNoDataReducer?.data}
+                      apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    />
+                  </Box>
+                </TableCell>
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
                   onClick={() =>
@@ -530,27 +579,27 @@ const MaintenanceRequest = () => {
                             ele?.assets_details?.condition
                               ? ele?.assets_details?.condition?.toUpperCase()
                               : ele?.availability
-                              ? "NOT DEFINED"
-                              : "NOT FOUND"
+                                ? "NOT DEFINED"
+                                : "NOT FOUND"
                           }
                           sx={{
                             backgroundColor:
                               ele?.assets_details?.condition?.toUpperCase() ===
-                              "DAMAGED"
+                                "DAMAGED"
                                 ? Red
                                 : ele?.assets_details?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
-                                ? Yellow
-                                : ele?.assets_details?.condition?.toUpperCase() ===
-                                  "ROBUST"
-                                ? Green
-                                : ele?.assets_details?.condition === null &&
-                                  ele?.availability === true
-                                ? Orange
-                                : ele?.assets_details?.condition === null &&
-                                  ele?.availability === false
-                                ? Yellow
-                                : "",
+                                  ? Yellow
+                                  : ele?.assets_details?.condition?.toUpperCase() ===
+                                    "ROBUST"
+                                    ? Green
+                                    : ele?.assets_details?.condition === null &&
+                                      ele?.availability === true
+                                      ? Orange
+                                      : ele?.assets_details?.condition === null &&
+                                        ele?.availability === false
+                                        ? Yellow
+                                        : "",
                             color: "#FFF",
                             fontWeight: "bold",
                             fontSize: "14",
@@ -588,6 +637,14 @@ const MaintenanceRequest = () => {
                         }}
                       >
                         {ele?.created_user_details.firstName || "-"}
+                      </TableCell>
+                      <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+                        {moment(ele?.
+                          createdAt).format("DD-MM-YYYY") || "-"}
+                      </TableCell>
+                      <TableCell sx={{ ...tableBodyCell, textTransform: "capitalize" }}>
+                        {moment(ele?.updatedAt)
+                          .format("DD-MM-YYYY") || "-"}
                       </TableCell>
                       <TableCell
                         align="left"

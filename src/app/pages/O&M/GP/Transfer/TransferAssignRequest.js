@@ -2,6 +2,7 @@ import Div from "@jumbo/shared/Div";
 import InfoIcon from "@mui/icons-material/Info";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   InputAdornment,
   Pagination,
   Paper,
@@ -20,8 +21,9 @@ import { debounce } from "lodash";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AssignViewModal from "./Modal/AssignViewModal";
+import FilterModel from "app/Components/FilterModel";
 const tableBodyCell = { textAlign: "left", px: 1 };
 const tableCellSx = {
   textTransform: "capitalize",
@@ -51,6 +53,11 @@ const TransferAssignRequest = () => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { state } = useLocation();
+
+  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
     setSort(sort === "asc" ? "desc" : "asc");
@@ -168,112 +175,222 @@ const TransferAssignRequest = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`transfer_id`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Transfer Id
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`transfer_id`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Transfer Id
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer Id"
+                    field="transfer_id"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=transfer_id&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "160px" }}
+                sx={{ ...tableCellSx,  minWidth: "220px"  }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`createdAt`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Request Date
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`createdAt`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Request Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Request Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.equipment_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Equipment
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.equipment_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Equipment
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Equipment"
+                    field="assets_details.equipment_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=assets_details.equipment_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`assets_details.serial_no`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Serial No.
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`assets_details.serial_no`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Serial No.
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Serial No"
+                    field="assets_details.serial_no"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=assets_details.serial_no&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`transfer_type`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Transfer Type
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`transfer_type`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Transfer Type
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer Type"
+                    field="transfer_type"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=transfer_type&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`transfer_from.location_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Transfer From
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`transfer_from.location_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Transfer From
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer From"
+                    field="transfer_from.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=transfer_from.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`transfer_to.location_name`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Transfer To
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`transfer_to.location_name`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Transfer To
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer To"
+                    field="transfer_to.location_name"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=transfer_to.location_name&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`initiatedBy`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Initiated By
-                </TableSortLabel>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px"  }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`initiatedBy`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Initiated By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer To"
+                    field="initiatedBy"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=initiatedBy&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`createdAt`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Issue Date
-                </TableSortLabel>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "220px"  }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`createdAt`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Issue Date
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Issue Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`transfer_status`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Transfer Status
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`transfer_status`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Transfer Status
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Transfer Status"
+                    field="transfer_status"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`o&m/gp/filter-dropdown/transfer-request-assign?filter_field=transfer_status&package_name=${packageNoDataReducer?.data}`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 Remark
