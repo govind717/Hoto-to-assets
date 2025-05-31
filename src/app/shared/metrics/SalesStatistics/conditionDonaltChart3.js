@@ -1,4 +1,3 @@
-
 import {
   Autocomplete,
   Box,
@@ -15,7 +14,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const colorsMap = {
   Available: "#22CAAD",
-  'Not Found': "#F55757",
+  "Not Found": "#F55757",
   // "Semi-Damaged": "#FDCF2A",
   // "Not Defined": "#E78F5D",
   // "Not Found": "#E78F5D",
@@ -87,7 +86,7 @@ const CustomLegend = ({ total, data, onConditionClick, selectedChart }) => (
       </Typography>
       <Typography
         variant="body2"
-        sx={{ color: "#000", cursor: 'pointer' }}
+        sx={{ color: "#000", cursor: "pointer" }}
         onClick={() => onConditionClick("total")}
       >
         Total Assets
@@ -124,7 +123,7 @@ const CustomLegend = ({ total, data, onConditionClick, selectedChart }) => (
             {item.name}
           </Typography>
         </Box>
-      )
+      );
     })}
   </Box>
 );
@@ -257,6 +256,8 @@ const ConditionStatusChart3 = () => {
   }, [packageNoDataReducer?.data]);
 
   const total = originalData.reduce((sum, item) => sum + item.value, 0);
+  console.log("total => ", total);
+  console.log("og data => ", originalData);
 
   const handleConditionClick = (item) => {
     if (item === "total") {
@@ -292,7 +293,7 @@ const ConditionStatusChart3 = () => {
           "equipment_details.location_name": selectedGP?.location_name,
         };
       }
-      if (item.name == 'Available') {
+      if (item.name == "Available") {
         navigate("/dashboards/hoto-survey-gp-data", {
           state: {
             ...state,
@@ -307,7 +308,6 @@ const ConditionStatusChart3 = () => {
           },
         });
       }
-
     }
   };
 
@@ -417,10 +417,12 @@ const ConditionStatusChart3 = () => {
               formatter={(value, name) => [`${value}`, `${name}`]}
               cursor={{ fill: "rgba(0, 0, 0, 0.1)" }}
             /> */}
-             <Tooltip
+            <Tooltip
               formatter={(value, name) => {
                 if (selectedChart === "percentage") {
-                  const percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                  const percent = total
+                    ? ((value / total) * 100).toFixed(1)
+                    : 0;
                   return [`${percent}%`, name];
                 }
                 return [`${value}`, name];
@@ -447,4 +449,3 @@ const ConditionStatusChart3 = () => {
 };
 
 export default ConditionStatusChart3;
-
