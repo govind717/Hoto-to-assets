@@ -31,7 +31,6 @@ const patternBoxStyle = {
   wordBreak: "break-word",
 };
 
-
 const imageBoxStyle = {
   width: "100%",
   minHeight: "36px",
@@ -96,6 +95,14 @@ export const RackDetails = ({ data }) => {
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
+            Racks Condition
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.condition ? data?.condition : "-"}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={3}>
+          <Typography variant="h6" fontSize="14px">
             Racks Make Controller
           </Typography>
           <Box sx={patternBoxStyle}>
@@ -150,7 +157,6 @@ export const RackDetails = ({ data }) => {
               : "-"}
           </Box>
         </Grid>
-
       </Grid>
 
       {/* Rack Make Images */}
@@ -255,7 +261,7 @@ export const SmpsDetails = function ({ data }) {
               ? data?.other_details?.smps_availablity === true
                 ? "Yes"
                 : "No"
-              : "-"}{" "}
+              : " "}{" "}
           </Box>
         </Grid>
         <Grid item xs={6} md={3}>
@@ -297,7 +303,7 @@ export const SmpsDetails = function ({ data }) {
               ? data?.other_details?.smps_warranty === true
                 ? "Yes"
                 : "No"
-              : "-"}{" "}
+              : " "}{" "}
           </Box>
         </Grid>
       </Grid>
@@ -448,7 +454,7 @@ export const CcuDetails = function ({ data }) {
             {data?.other_details?.ccu_make_controller || "-"}{" "}
           </Box>
         </Grid>
-        
+
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
             CCU Capacity
@@ -465,7 +471,7 @@ export const CcuDetails = function ({ data }) {
             {data?.other_details?.ccu_warranty || "-"}{" "}
           </Box>
         </Grid>
-        
+
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
             Battery Availablity
@@ -778,7 +784,6 @@ export const OntDetails = function ({ data }) {
             {data?.other_details?.ont_make_controller || "-"}{" "}
           </Box>
         </Grid>
-      
       </Grid>
       <Typography
         variant="h6"
@@ -1314,7 +1319,7 @@ export const UPSDetails = ({ equipment_data }) => {
   );
 };
 
-const DynamicQuestions= ({ data }) => {
+const DynamicQuestions = ({ data }) => {
   return (
     <>
       <Typography variant="h5" fontSize="16px" fontWeight="600" mb={-2} mt={2}>

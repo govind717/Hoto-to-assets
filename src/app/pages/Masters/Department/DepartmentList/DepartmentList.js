@@ -2,6 +2,7 @@ import Div from "@jumbo/shared/Div";
 import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
   InputAdornment,
   Pagination,
@@ -16,6 +17,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FilterModel from "app/Components/FilterModel";
 import HotoHeader from "app/Components/HotoHeader";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
@@ -59,7 +61,8 @@ const DepartmentList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
 
   const { departmentDataReducer } = useSelector((state) => state);
 
@@ -89,6 +92,7 @@ const DepartmentList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
   };
@@ -111,9 +115,10 @@ const DepartmentList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,applyFilter, dispatch]);
 
   const addMasterItem = () => {
     navigate(DEPARTMENT_MASTER_ADD);
@@ -136,6 +141,7 @@ const DepartmentList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         })
       );
     } else {
@@ -167,6 +173,7 @@ const DepartmentList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
                 })
               );
             }
@@ -196,65 +203,110 @@ const DepartmentList = () => {
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
             <TableRow sx={{ bgcolor: "#53B8CA" }}>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "80px" }}
+              >
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`organisarion_details.organisationName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Organisation
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(`organisation_details?.organisationName`)
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Organisation
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Organisation"
+                    field="organisation_details.organisationName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/department/filter-dropdown?filter_field=organisation_details.organisationName`}
+                  />
+                </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`departmentName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Department
-                </TableSortLabel>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`departmentName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Department
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Department"
+                    field="departmentName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/department/filter-dropdown?filter_field=departmentName`}
+                  />
+                </Box>
               </TableCell>
 
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`created_user_details.firstName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Created By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Created By"
+                    field="created_user_details.firstName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/department/filter-dropdown?filter_field=created_user_details.firstName`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`updated_user_details.firstName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Updated By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Updated By"
+                    field="updated_user_details.firstName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/department/filter-dropdown?filter_field=updated_user_details.firstName`}
+                  />
+                </Box>
+              </TableCell>
 
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`created_user_details.firstName`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Created By
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updated_user_details.firstName`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Updated By
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
-              >
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdAt`)
-                  }
+                  onClick={() => handleSort(`createdAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -266,9 +318,7 @@ const DepartmentList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedAt`)
-                  }
+                  onClick={() => handleSort(`updatedAt`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -280,9 +330,7 @@ const DepartmentList = () => {
                 sx={{ ...tableCellSx, minWidth: "80px" }}
               >
                 <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
+                  onClick={() => handleSort(`status`)}
                   direction={sort}
                   sx={{ ...tableCellSort }}
                 >
@@ -438,7 +486,6 @@ const DepartmentList = () => {
           }}
         />
       </TableContainer>
-
     </>
   );
 };

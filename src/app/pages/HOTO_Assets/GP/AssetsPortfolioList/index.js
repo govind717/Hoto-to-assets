@@ -150,8 +150,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [downloadExcelValue, setDownloadExcelValue] = useState('');
 
   const downloadExcelValueOptions = [ 
-    { label: "Download All Data", value: true },
-    { label: "Download  Data", value: false },
+    { label: "Export All Data", value: true },
+    { label: "Export Data", value: false },
   ];
 
   //  const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {

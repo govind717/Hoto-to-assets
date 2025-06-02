@@ -2,6 +2,7 @@ import Div from "@jumbo/shared/Div";
 import Edit from "@mui/icons-material/Edit";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
   InputAdornment,
   Pagination,
@@ -16,6 +17,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FilterModel from "app/Components/FilterModel";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { package_data_dispatch } from "app/redux/actions/Master";
@@ -61,7 +63,8 @@ const PackageList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [filters,setFilters]=useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
   const { packageDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -89,6 +92,7 @@ const PackageList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
   };
@@ -111,9 +115,10 @@ const PackageList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,applyFilter, dispatch]);
 
   const addMasterItem = () => {
     navigate(PACKAGE_MASTER_ADD);
@@ -136,6 +141,7 @@ const PackageList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         })
       );
     } else {
@@ -167,6 +173,7 @@ const PackageList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
                 })
               );
             }
@@ -204,60 +211,110 @@ const PackageList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`packageName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Package Name
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`packageName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Package Name
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Package Name"
+                    field="packageName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/package/filter-dropdown?filter_field=packageName`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`code`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Code
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`code`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Code"
+                    field="code"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/package/filter-dropdown?filter_field=code`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`state`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  State
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`state`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    State
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter State"
+                    field="state"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/package/filter-dropdown?filter_field=state`}
+                  />
+                </Box>
               </TableCell>
-
 
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`created_user_details.firstName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Created By
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`created_user_details.firstName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Created By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Created By"
+                    field="created_user_details.firstName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/package/filter-dropdown?filter_field=created_user_details.firstName`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`updated_user_details.firstName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Updated By
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`updated_user_details.firstName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Updated By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Updated By"
+                    field="updated_user_details.firstName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/package/filter-dropdown?filter_field=updated_user_details.firstName`}
+                  />
+                </Box>
               </TableCell>
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}

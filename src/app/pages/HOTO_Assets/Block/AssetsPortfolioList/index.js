@@ -81,8 +81,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [downloadExcelValue, setDownloadExcelValue] = useState('');
 
   const downloadExcelValueOptions = [
-    { label: "Download All Data", value: true },
-    { label: "Download  Data", value: false },
+    { label: "Export All Data", value: true },
+    { label: "Export Data", value: false },
   ];
 
   const handleOpenDetailModal = (rowDetails) => {
@@ -367,7 +367,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       const res = await Axios.post(
         `/hoto-to-assets/block/assets-portfolio/downloadall-excel?package_name=${packageNoDataReducer?.data}`
       );
-      console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
@@ -413,7 +412,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       const res = await Axios.post(
         `/hoto-to-assets/block/assets-portfolio/download-excel?package_name=${packageNoDataReducer?.data}`
       );
-      console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
