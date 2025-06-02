@@ -4,11 +4,14 @@ import {
   Autocomplete,
   Box,
   Button,
+  CircularProgress,
   FormControl,
   InputAdornment,
   Modal,
   Pagination,
   Paper,
+  Slide,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -76,7 +79,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [openDetailModal, setOpenDetailModal] = useState(false);
   const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
   const [applyFilter, setApplyFilter] = useState(false);
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const [downloadExcelValue, setDownloadExcelValue] = useState('');
 
@@ -363,11 +366,10 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const handleAllExportCSV = async () => {
     try {
       setLoading(true);
-      // setSnackbarOpen(true);
+      setSnackbarOpen(true);
       const res = await Axios.post(
         `/hoto-to-assets/block/assets-portfolio/downloadall-excel?package_name=${packageNoDataReducer?.data}`
       );
-      console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
@@ -379,7 +381,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       } else {
         Toast.fire({
           timer: 3000,
@@ -389,11 +391,11 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       }
     } catch (error) {
       setLoading(false);
-      // setSnackbarOpen(false);
+      setSnackbarOpen(false);
       Toast.fire({
         timer: 3000,
         icon: "error",
@@ -409,11 +411,10 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const handleExportCSV = async () => {
     try {
       setLoading(true);
-      // setSnackbarOpen(true);
+      setSnackbarOpen(true);
       const res = await Axios.post(
         `/hoto-to-assets/block/assets-portfolio/download-excel?package_name=${packageNoDataReducer?.data}`
       );
-      console.log("Res : ", res);
       if (res.data.success) {
         window.open(res?.data?.result);
 
@@ -425,7 +426,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       } else {
         Toast.fire({
           timer: 3000,
@@ -435,11 +436,11 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       }
     } catch (error) {
       setLoading(false);
-      // setSnackbarOpen(false);
+      setSnackbarOpen(false);
       Toast.fire({
         timer: 3000,
         icon: "error",
@@ -543,7 +544,13 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             )}
           />
         </Div>
-
+        <Snackbar
+          TransitionComponent={Slide}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={snackbarOpen}
+          message=" CSV Downloading in progress..."
+          action={loading && <CircularProgress color="info" size={24} />}
+        />
         {/* {selectedIds?.length > 0 && (
           <Div
             sx={{
@@ -955,7 +962,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoBlockAssetPortfolioDataReducer?.data.result?.data &&
-              hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
+            hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {

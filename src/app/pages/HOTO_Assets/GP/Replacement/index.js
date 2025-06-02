@@ -1,13 +1,15 @@
 import Div from "@jumbo/shared/Div";
-import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
+import SearchIcon from "@mui/icons-material/Search";
 import {
-  Autocomplete,
   Box,
   Button,
+  CircularProgress,
   InputAdornment,
   Pagination,
   Paper,
+  Slide,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -15,7 +17,7 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField,
+  TextField
 } from "@mui/material";
 import FilterModel from "app/Components/FilterModel";
 import { hoto_gp_replacement_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
@@ -53,7 +55,7 @@ const ReplacementList = () => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
@@ -132,65 +134,12 @@ const ReplacementList = () => {
     },
   });
 
-  // const handleDownloadExcelChange = (selectedOption) => {
-  //   setDownloadExcelValue(selectedOption);
-  //   if (selectedOption?.value === true) {
-  //     handleAllExportCSV();
-  //   } else if (selectedOption?.value === false) {
-  //     handleExportCSV();
-  //   }
-  // }
 
-  // const handleAllExportCSV = async () => {
-  //   try {
-  //     setLoading(true);
-  //     // setSnackbarOpen(true);
-  //     const res = await Axios.post(
-  //       "/hoto-to-assets/gp/replacement/downloadall-excel"
-  //     );
-  //     console.log("Res : ", res);
-  //     if (res.data.success) {
-  //       window.open(res?.data?.result);
-
-  //       Toast.fire({
-  //         timer: 3000,
-  //         icon: "success",
-  //         title: "CSV  Downloaded Successfully...",
-  //         position: "top-right",
-  //         // background: theme.palette.background.paper,
-  //       });
-  //       setLoading(false);
-  //       // setSnackbarOpen(false);
-  //     } else {
-  //       Toast.fire({
-  //         timer: 3000,
-  //         icon: "error",
-  //         title: "CSV  Downloading failed..",
-  //         position: "top-right",
-  //         // background: theme.palette.background.paper,
-  //       });
-  //       setLoading(false);
-  //       // setSnackbarOpen(false);
-  //     }
-  //   } catch (error) {
-  //     setLoading(false);
-  //     // setSnackbarOpen(false);
-  //     Toast.fire({
-  //       timer: 3000,
-  //       icon: "error",
-  //       title:
-  //         error.response?.data.message ||
-  //         "An error occured while downloading csv",
-  //       position: "top-right",
-  //       // background: theme.palette.background.paper,
-  //     });
-  //   }
-  // };
 
   const handleExportCSV = async () => {
     try {
       setLoading(true);
-      // setSnackbarOpen(true);
+      setSnackbarOpen(true);
       const res = await Axios.post(
         "/hoto-to-assets/gp/replacement/download-excel"
       );
@@ -206,7 +155,7 @@ const ReplacementList = () => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       } else {
         Toast.fire({
           timer: 3000,
@@ -216,11 +165,11 @@ const ReplacementList = () => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       }
     } catch (error) {
       setLoading(false);
-      // setSnackbarOpen(false);
+      setSnackbarOpen(false);
       Toast.fire({
         timer: 3000,
         icon: "error",
@@ -283,25 +232,14 @@ const ReplacementList = () => {
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
         </Div>
-
-        {/* <Div sx={{ my: "2%" }}>
-          <Autocomplete
-            disablePortal
-            size="small"
-            options={downloadExcelValueOptions}
-            getOptionLabel={(option) => option?.label || ""}
-            isOptionEqualToValue={(option, value) =>
-              option?.label === value?.label
-            }
-            sx={{ width: 200 }}
-            value={downloadExcelValue}
-            onChange={(_, newValue) => handleDownloadExcelChange(newValue)}
-            renderInput={(params) => (
-              <TextField {...params} label="Export Excel" />
-            )}
-          />
-        </Div> */}
-
+        <Snackbar
+          TransitionComponent={Slide}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={snackbarOpen}
+          message=" CSV Downloading in progress..."
+          action={loading && <CircularProgress color="info" size={24} />}
+        />
+      
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
