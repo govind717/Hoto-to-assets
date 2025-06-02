@@ -5,10 +5,13 @@ import {
   Autocomplete,
   Box,
   Button,
+  CircularProgress,
   FormControl,
   InputAdornment,
   Pagination,
   Paper,
+  Slide,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -74,7 +77,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [loading, setLoading] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
   const [applyFilter, setApplyFilter] = useState(false);
 
@@ -379,7 +382,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const handleAllExportCSV = async () => {
     try {
       setLoading(true);
-      // setSnackbarOpen(true);
+      setSnackbarOpen(true);
       const res = await Axios.post(
         `/hoto-to-assets/gp/assets-portfolio/downloadall-excel?package_name=${packageNoDataReducer?.data}`,
       );
@@ -395,7 +398,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       } else {
         Toast.fire({
           timer: 3000,
@@ -405,11 +408,11 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       }
     } catch (error) {
       setLoading(false);
-      // setSnackbarOpen(false);
+      setSnackbarOpen(false);
       Toast.fire({
         timer: 3000,
         icon: "error",
@@ -425,7 +428,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const handleExportCSV = async () => {
     try {
       setLoading(true);
-      // setSnackbarOpen(true);
+      setSnackbarOpen(true);
       const res = await Axios.post(
         `/hoto-to-assets/gp/assets-portfolio/download-excel?package_name=${packageNoDataReducer?.data}`,
       );
@@ -441,7 +444,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       } else {
         Toast.fire({
           timer: 3000,
@@ -451,11 +454,11 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       }
     } catch (error) {
       setLoading(false);
-      // setSnackbarOpen(false);
+      setSnackbarOpen(false);
       Toast.fire({
         timer: 3000,
         icon: "error",
@@ -557,6 +560,13 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             )}
           />
         </Div>
+        <Snackbar
+          TransitionComponent={Slide}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={snackbarOpen}
+          message=" CSV Downloading in progress..."
+          action={loading && <CircularProgress color="info" size={24} />}
+        />
         {selectedIds?.length > 0 && (
           <Div
             sx={{
@@ -820,8 +830,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                 </Box>
               </TableCell>
 
-
-
               {/* 
               <TableCell align="left" sx={{ ...tableCellSx }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
@@ -996,7 +1004,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </TableHead>
           <TableBody>
             {hotoGpAssetPortfolioDataReducer?.data.result?.data &&
-              hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
+            hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
                   return (
