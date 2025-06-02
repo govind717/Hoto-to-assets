@@ -6,10 +6,13 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   IconButton,
   InputAdornment,
   Pagination,
   Paper,
+  Slide,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -69,7 +72,7 @@ const MaintainanceList = () => {
 
   const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   // const [downloadExcelValue, setDownloadExcelValue] = useState('');
 
   // const downloadExcelValueOptions = [
@@ -145,64 +148,12 @@ const MaintainanceList = () => {
   });
 
 
-  // const handleDownloadExcelChange = (selectedOption) => {
-  //   setDownloadExcelValue(selectedOption);
-  //   if (selectedOption?.value === true) {
-  //     handleAllExportCSV();
-  //   } else if (selectedOption?.value === false) {
-  //     handleExportCSV();
-  //   }
-  // }
 
-  // const handleAllExportCSV = async () => {
-  //   try {
-  //     setLoading(true);
-  //     // setSnackbarOpen(true);
-  //     const res = await Axios.post(
-  //       "/hoto-to-assets/block/maintenance/downloadall-excel"
-  //     );
-  //     if (res.data.success) {
-  //       window.open(res?.data?.result);
-
-  //       Toast.fire({
-  //         timer: 3000,
-  //         icon: "success",
-  //         title: "CSV  Downloaded Successfully...",
-  //         position: "top-right",
-  //         // background: theme.palette.background.paper,
-  //       });
-  //       setLoading(false);
-  //       // setSnackbarOpen(false);
-  //     } else {
-  //       Toast.fire({
-  //         timer: 3000,
-  //         icon: "error",
-  //         title: "CSV  Downloading failed..",
-  //         position: "top-right",
-  //         // background: theme.palette.background.paper,
-  //       });
-  //       setLoading(false);
-  //       // setSnackbarOpen(false);
-  //     }
-  //   } catch (error) {
-  //     setLoading(false);
-  //     // setSnackbarOpen(false);
-  //     Toast.fire({
-  //       timer: 3000,
-  //       icon: "error",
-  //       title:
-  //         error.response?.data.message ||
-  //         "An error occured while downloading csv",
-  //       position: "top-right",
-  //       // background: theme.palette.background.paper,
-  //     });
-  //   }
-  // };
 
   const handleExportCSV = async () => {
     try {
       setLoading(true);
-      // setSnackbarOpen(true);
+      setSnackbarOpen(true);
       const res = await Axios.post(
         "/hoto-to-assets/block/maintenance/download-excel"
       );
@@ -217,7 +168,7 @@ const MaintainanceList = () => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       } else {
         Toast.fire({
           timer: 3000,
@@ -227,11 +178,11 @@ const MaintainanceList = () => {
           // background: theme.palette.background.paper,
         });
         setLoading(false);
-        // setSnackbarOpen(false);
+        setSnackbarOpen(false);
       }
     } catch (error) {
       setLoading(false);
-      // setSnackbarOpen(false);
+      setSnackbarOpen(false);
       Toast.fire({
         timer: 3000,
         icon: "error",
@@ -296,7 +247,13 @@ const MaintainanceList = () => {
             <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
           </Button>
         </Div>
-
+        <Snackbar
+          TransitionComponent={Slide}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={snackbarOpen}
+          message=" CSV Downloading in progress..."
+          action={loading && <CircularProgress color="info" size={24} />}
+        />
         {/* <Div sx={{ my: "2%" }}>
           <Autocomplete
             disablePortal
@@ -314,7 +271,6 @@ const MaintainanceList = () => {
             )}
           />
         </Div> */}
-
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -819,8 +775,8 @@ const MaintainanceList = () => {
                             ele?.condition
                               ? ele?.condition?.toUpperCase()
                               : ele?.availability
-                                ? "NOT DEFINED"
-                                : "NOT FOUND"
+                              ? "NOT DEFINED"
+                              : "NOT FOUND"
                           }
                           sx={{
                             backgroundColor:
@@ -828,16 +784,16 @@ const MaintainanceList = () => {
                                 ? Red
                                 : ele?.condition?.toUpperCase() ===
                                   "SEMI-DAMAGED"
-                                  ? Yellow
-                                  : ele?.condition?.toUpperCase() === "ROBUST"
-                                    ? Green
-                                    : ele?.condition === null &&
-                                      ele?.availability === true
-                                      ? Orange
-                                      : ele?.condition === null &&
-                                        ele?.availability === false
-                                        ? Yellow
-                                        : "",
+                                ? Yellow
+                                : ele?.condition?.toUpperCase() === "ROBUST"
+                                ? Green
+                                : ele?.condition === null &&
+                                  ele?.availability === true
+                                ? Orange
+                                : ele?.condition === null &&
+                                  ele?.availability === false
+                                ? Yellow
+                                : "",
                             color: "#FFF",
                             fontWeight: "bold",
                             fontSize: "14",
