@@ -89,7 +89,7 @@ const WarehouseList = () => {
 
   const { state } = useLocation();
   const { packageNoDataReducer } = useSelector((state) => state);
-  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
   const dispatch = useDispatch();
@@ -126,6 +126,7 @@ const WarehouseList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
   };
@@ -148,9 +149,10 @@ const WarehouseList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, applyFilter, sortBy, dispatch]);
 
   const addMasterItem = () => {
     navigate(WAREHOUSE_MASTER_ADD);
@@ -172,6 +174,7 @@ const WarehouseList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         })
       );
     } else {
@@ -202,6 +205,7 @@ const WarehouseList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
                 })
               );
             }
@@ -253,7 +257,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=warehouse_name&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=warehouse_name`}
                   />
                 </Box>
               </TableCell>
@@ -273,7 +277,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=code&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=code`}
                   />
                 </Box>
               </TableCell>
@@ -293,7 +297,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=warehouse_type&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=warehouse_type`}
                   />
                 </Box>
               </TableCell>
@@ -316,7 +320,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=address&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=address`}
                   />
                 </Box>
               </TableCell>
@@ -339,7 +343,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=city&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=city`}
                   />
                 </Box>
               </TableCell>
@@ -362,7 +366,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=district&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=district`}
                   />
                 </Box>
               </TableCell>
@@ -382,7 +386,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=state&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=state`}
                   />
                 </Box>
               </TableCell>
@@ -403,7 +407,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=pincode&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=pincode`}
                   />
                 </Box>
               </TableCell>
@@ -423,7 +427,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=capacity&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=capacity`}
                   />
                 </Box>
               </TableCell>
@@ -443,7 +447,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=longitude&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=longitude`}
                   />
                 </Box>
               </TableCell>
@@ -463,7 +467,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=latitude&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=latitude`}
                   />
                 </Box>
               </TableCell>
@@ -487,7 +491,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=status&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=status`}
                   />
                 </Box>
               </TableCell>
@@ -511,7 +515,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=created_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=created_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -534,7 +538,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updated_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=updated_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -557,7 +561,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=createdAt`}
                   />
                 </Box>
               </TableCell>
@@ -580,7 +584,7 @@ const WarehouseList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=updatedAt`}
                   />
                 </Box>
               </TableCell>

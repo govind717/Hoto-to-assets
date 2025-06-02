@@ -68,7 +68,7 @@ const SubCategoryList = () => {
 
   const { state } = useLocation();
   const { packageNoDataReducer } = useSelector((state) => state);
-  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
@@ -96,6 +96,7 @@ const SubCategoryList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
       })
     );
   };
@@ -118,9 +119,10 @@ const SubCategoryList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,applyFilter, dispatch]);
 
   const addMasterItem = () => {
     navigate(SUB_CATEGORY_MASTER_ADD);
@@ -143,6 +145,7 @@ const SubCategoryList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters:filters,
         })
       );
     } else {
@@ -173,6 +176,7 @@ const SubCategoryList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters:filters,
                 })
               );
             }
@@ -221,7 +225,7 @@ const SubCategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=category_details.category&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/sub-category/filter-dropdown?filter_field=category_details.category`}
                   />
                 </Box>
               </TableCell>
@@ -241,7 +245,7 @@ const SubCategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=subcategory&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/sub-category/filter-dropdown?filter_field=subcategory`}
                   />
                 </Box>
               </TableCell>
@@ -267,7 +271,7 @@ const SubCategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=created_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/sub-category/filter-dropdown?filter_field=created_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -292,7 +296,7 @@ const SubCategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updated_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/sub-category/filter-dropdown?filter_field=updated_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -317,7 +321,7 @@ const SubCategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/sub-category/filter-dropdown?filter_field=createdAt`}
                   />
                 </Box>
               </TableCell>
@@ -342,7 +346,7 @@ const SubCategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/sub-category/filter-dropdown?filter_field=updatedAt`}
                   />
                 </Box>
               </TableCell>
@@ -367,7 +371,7 @@ const SubCategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=status&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/sub-category/filter-dropdown?filter_field=status`}
                   />
                 </Box>
               </TableCell>

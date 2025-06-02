@@ -88,11 +88,11 @@ const SupplierList = () => {
   const { supplierDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+ 
 
   const { state } = useLocation();
   const { packageNoDataReducer } = useSelector((state) => state);
-  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
@@ -126,6 +126,7 @@ const SupplierList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
   };
@@ -148,9 +149,10 @@ const SupplierList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, applyFilter, sortBy, dispatch]);
 
   const addMasterItem = () => {
     navigate(SUPPLIER_MASTER_ADD);
@@ -178,6 +180,8 @@ const SupplierList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
+
         })
       );
     } else {
@@ -208,6 +212,8 @@ const SupplierList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
+
                 })
               );
             }
@@ -263,7 +269,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=supplierName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=supplierName`}
                   />
                 </Box>
               </TableCell>
@@ -286,7 +292,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=phoneNumber&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=phoneNumber`}
                   />
                 </Box>
               </TableCell>
@@ -309,7 +315,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=email&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=email`}
                   />
                 </Box>
               </TableCell>
@@ -332,7 +338,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=email&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=onBoardingDate`}
                   />
                 </Box>
               </TableCell>
@@ -340,13 +346,25 @@ const SupplierList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`address`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Address
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+
+                  <TableSortLabel
+                    onClick={() => handleSort(`address`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Address
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter City"
+                    field="city"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=city`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
@@ -367,7 +385,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=city&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=city`}
                   />
                 </Box>
               </TableCell>
@@ -387,7 +405,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=state&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=state`}
                   />
                 </Box>
               </TableCell>
@@ -412,7 +430,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=status&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=status`}
                   />
                 </Box>
               </TableCell>
@@ -436,7 +454,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=created_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=created_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -459,7 +477,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updated_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=updated_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -482,7 +500,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=createdAt`}
                   />
                 </Box>
               </TableCell>
@@ -505,7 +523,7 @@ const SupplierList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/supplier/filter-dropdown?filter_field=updatedAt`}
                   />
                 </Box>
               </TableCell>

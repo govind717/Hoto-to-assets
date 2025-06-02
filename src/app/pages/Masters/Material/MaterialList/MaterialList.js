@@ -71,7 +71,7 @@ const MaterialList = () => {
 
   const { state } = useLocation();
   const { packageNoDataReducer } = useSelector((state) => state);
-  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
@@ -96,6 +96,7 @@ const MaterialList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
   };
@@ -118,9 +119,10 @@ const MaterialList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,applyFilter, dispatch]);
 
   const addMasterItem = () => {
     navigate(MATERIAL_MASTER_ADD);
@@ -143,6 +145,7 @@ const MaterialList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         })
       );
     } else {
@@ -173,6 +176,7 @@ const MaterialList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters:filters,
                 })
               );
             }
@@ -227,7 +231,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=materialName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=materialName`}
                   />
                 </Box>
               </TableCell>
@@ -251,7 +255,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=materialCode&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=materialCode`}
                   />
                 </Box>
               </TableCell>
@@ -271,7 +275,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=category_details.category&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=ategory_details.category`}
                   />
                 </Box>
               </TableCell>
@@ -294,7 +298,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=subcategory&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=subcategory`}
                   />
                 </Box>
               </TableCell>
@@ -314,7 +318,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=uom&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=uom`}
                   />
                 </Box>
               </TableCell>
@@ -334,7 +338,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=hsn_code&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=hsn_code`}
                   />
                 </Box>
               </TableCell>
@@ -354,7 +358,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=gst&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=gst`}
                   />
                 </Box>
               </TableCell>
@@ -378,7 +382,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=created_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=created_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -401,7 +405,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=created_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=created_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -424,7 +428,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=createdAt`}
                   />
                 </Box>
               </TableCell>
@@ -447,7 +451,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=updatedAt`}
                   />
                 </Box>
               </TableCell>
@@ -470,7 +474,7 @@ const MaterialList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=status&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/material/filter-dropdown?filter_field=status`}
                   />
                 </Box>
               </TableCell>
