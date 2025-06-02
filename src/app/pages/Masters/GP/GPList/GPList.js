@@ -2,6 +2,7 @@ import Div from "@jumbo/shared/Div";
 import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
   InputAdornment,
   Pagination,
@@ -209,151 +210,173 @@ const GPList = () => {
               </TableCell>
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`gpName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  GP Name
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter GP Name"
-                  field="gpName"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/gp/filter-dropdown?filter_field=gpName`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`gpName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    GP Name
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter GP Name"
+                    field="gpName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=gpName`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "220px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`package_details.packageName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Package Name
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Package Name"
-                  field="package_details.packageName"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/gp/filter-dropdown?filter_field=package_details.packageName`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`package_details.packageName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Package Name
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Package Name"
+                    field="package_details.packageName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=package_details.packageName`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`district_details.district`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  District Name
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter District Name"
-                  field="district_details.district"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/gp/filter-dropdown?filter_field=district_details.district`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`district_details.district`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    District Name
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter District Name"
+                    field="district_details.district"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=district_details.district`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`block_details.blockName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Block Name
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Block Name"
-                  field="block_details.blockName"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/gp/filter-dropdown?filter_field=block_details.blockName`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`block_details.blockName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Block Name
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Block Name"
+                    field="block_details.blockName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=block_details.blockName`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`LGDCode`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    LGD Code
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter LGD Code"
+                    field="LGDCode"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=LGDCode`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`LGDCode`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  LGD Code
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter LGD Code"
-                  field="LGDCode"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/gp/filter-dropdown?filter_field=LGDCode`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`phase`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Phase
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Phase"
+                    field="phase"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=phase`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`phase`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Phase
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Phase"
-                  field="phase"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/gp/filter-dropdown?filter_field=phase`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`latitude`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Latitude
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Latitude"
+                    field="latitude"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=latitude`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`latitude`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Latitude
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Latitude"
-                  field="latitude"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/gp/filter-dropdown?filter_field=latitude`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`longitude`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Longitude
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Longitude"
+                    field="longitude"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=longitude`}
+                  />
+                </Box>
               </TableCell>
+
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`longitude`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Longitude
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Longitude"
-                  field="longitude"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/gp/filter-dropdown?filter_field=longitude`}
-                />
-              </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+
                 <TableSortLabel
                   onClick={() => handleSort(`gpStatus`)}
                   direction={sort}
@@ -361,50 +384,100 @@ const GPList = () => {
                 >
                   GP Status
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter GP Status"
+                  field="gpStatus"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  apiUrl={`/master/gp/filter-dropdown?filter_field=gpStatus`}
+                />
+                </Box>
               </TableCell>
 
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`covered`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Covered
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`covered`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Covered
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Covered"
+                    field="covered"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=covered`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`SRStatus`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  SR Status
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`SRStatus`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    SR Status
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter SR Status"
+                    field="SRStatus"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=SRStatus`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`created_user_details.firstName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Created By
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`created_user_details.firstName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Created By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Created By"
+                    field="created_user_details.firstName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=created_user_details.firstName`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`updated_user_details.firstName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Updated By
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`updated_user_details.firstName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Updated By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Updated By"
+                    field="updated_user_details.firstName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/gp/filter-dropdown?filter_field=updated_user_details.firstName`}
+                  />
+                </Box>
               </TableCell>
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}

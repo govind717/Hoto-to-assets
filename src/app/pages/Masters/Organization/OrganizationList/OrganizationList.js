@@ -2,6 +2,7 @@ import Div from "@jumbo/shared/Div";
 import { Edit } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
   InputAdornment,
   Pagination,
@@ -211,161 +212,195 @@ const OrganizationList = () => {
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`organisationName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Organization
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Organization"
-                  field="organisationName"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/organisation/filter-dropdown?filter_field=organisationName`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`organisationName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Organization
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Organization"
+                    field="organisationName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/organisation/filter-dropdown?filter_field=organisationName`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`address`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Address
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Address"
-                  field="address"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/organisation/filter-dropdown?filter_field=address`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`address`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Address
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Address"
+                    field="address"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/organisation/filter-dropdown?filter_field=address`}
+                  />
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() => handleSort(`landmark`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Landmark
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Landmark"
-                  field="landmark"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/organisation/filter-dropdown?filter_field=landmark`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`landmark`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Landmark
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Landmark"
+                    field="landmark"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/organisation/filter-dropdown?filter_field=landmark`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "120px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`city`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  City
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter City"
-                  field="city"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/organisation/filter-dropdown?filter_field=city`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`city`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    City
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter City"
+                    field="city"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/organisation/filter-dropdown?filter_field=city`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "120px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`state`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  State
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter State"
-                  field="state"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/organisation/filter-dropdown?filter_field=state`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`state`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    State
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter State"
+                    field="state"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/organisation/filter-dropdown?filter_field=state`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "150px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`pincode`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Pincode
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Pincode"
-                  field="pincode"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/organisation/filter-dropdown?filter_field=pincode`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`pincode`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Pincode
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Pincode"
+                    field="pincode"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/organisation/filter-dropdown?filter_field=pincode`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "200px" }}
               >
-                <TableSortLabel
-                  onClick={() => handleSort(`industryType`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Industry Type
-                </TableSortLabel>
-                <FilterModel
-                  label="Filter Industry Type"
-                  field="industryType"
-                  filters={filters}
-                  setFilters={setFilters}
-                  setApplyFilter={setApplyFilter}
-                  apiUrl={`/master/organisation/filter-dropdown?filter_field=industryType`}
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`industryType`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Industry Type
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Industry Type"
+                    field="industryType"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/organisation/filter-dropdown?filter_field=industryType`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`created_user_details.firstName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Created By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Created By"
+                    field="created_user_details.firstName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/organisation/filter-dropdown?filter_field=created_user_details.firstName`}
+                  />
+                </Box>
+              </TableCell>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`updated_user_details.firstName`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Updated By
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Updated By"
+                    field="updated_user_details.firstName"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/organisation/filter-dropdown?filter_field=updated_user_details.firstName`}
+                  />
+                </Box>
               </TableCell>
 
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
-              >
-                <TableSortLabel
-                  onClick={() => handleSort(`created_user_details.firstName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Created By
-                </TableSortLabel>
-              </TableCell>
-              <TableCell
-                align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
-              >
-                <TableSortLabel
-                  onClick={() => handleSort(`updated_user_details.firstName`)}
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Updated By
-                </TableSortLabel>
-              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
