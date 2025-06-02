@@ -7,7 +7,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
-  Switch,
+  Switch, 
   Table,
   TableBody,
   TableCell,
@@ -17,6 +17,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import DateModel from "app/Components/DateModel";
 import FilterModel from "app/Components/FilterModel";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
@@ -289,7 +290,16 @@ const CategoryList = () => {
                   >
                     Created Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=createdAt`}
+                  /> */}
+                  <DateModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
@@ -312,7 +322,16 @@ const CategoryList = () => {
                   >
                     Updated Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=updatedAt`}
+                  /> */}
+                  <DateModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}

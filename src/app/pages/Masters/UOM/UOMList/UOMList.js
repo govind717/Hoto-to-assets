@@ -17,6 +17,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import DateModel from "app/Components/DateModel";
 import FilterModel from "app/Components/FilterModel";
 import HotoHeader from "app/Components/HotoHeader";
 import FullScreenLoader from "app/pages/Components/Loader";
@@ -295,7 +296,16 @@ const UOMList = () => {
                   >
                     Created Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=createdAt`}
+                  /> */}
+                   <DateModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
@@ -320,7 +330,16 @@ const UOMList = () => {
                   >
                     Updated Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=updatedAt`}
+                  /> */}
+                  <DateModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}

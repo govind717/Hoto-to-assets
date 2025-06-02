@@ -47,6 +47,7 @@ import { Edit } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { updateWarehouse } from "app/services/apis/master";
 import FilterModel from "app/Components/FilterModel";
+import DateModel from "app/Components/DateModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -554,7 +555,16 @@ const WarehouseList = () => {
                   >
                     Created Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=createdAt`}
+                  /> */}
+                  <DateModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
@@ -577,7 +587,16 @@ const WarehouseList = () => {
                   >
                     Updated Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/warehouse/filter-dropdown?filter_field=updatedAt`}
+                  /> */}
+                   <DateModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}

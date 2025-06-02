@@ -35,6 +35,7 @@ import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTable
 import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
 import { useLocation } from "react-router-dom";
 import StaticFilterModel from "app/Components/StaticFilterModel";
+import DateModel from "app/Components/DateModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -896,7 +897,16 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Created Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  /> */}
+                   <DateModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
@@ -920,7 +930,16 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Updated Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                  /> */}
+                   <DateModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}
