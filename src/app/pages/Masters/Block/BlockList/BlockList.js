@@ -16,6 +16,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FilterModel from "app/Components/FilterModel";
 import HotoHeader from "app/Components/HotoHeader";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
@@ -61,9 +62,10 @@ const BlockList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [filters, setFilters] = useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
+ 
   const { blockDataReducer } = useSelector((state) => state);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -113,7 +115,7 @@ const BlockList = () => {
         page: page,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,applyFilter, dispatch]);
 
   const addMasterItem = () => {
     navigate(BLOCK_MASTER_ADD);
@@ -149,7 +151,7 @@ const BlockList = () => {
   };
   return (
     <>
-    <HotoHeader />
+      <HotoHeader />
       {blockDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
@@ -204,7 +206,7 @@ const BlockList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
                   onClick={() => handleSort(`package_details.packageName`)}
@@ -213,6 +215,14 @@ const BlockList = () => {
                 >
                   Package Name
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter Package Name"
+                  field="package_details.packageName"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  apiUrl={`/master/block/filter-dropdown?filter_field=package_details.packageName`}
+                />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -222,8 +232,19 @@ const BlockList = () => {
                 >
                   District
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter District"
+                  field="district_details.district"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  apiUrl={`/master/block/filter-dropdown?filter_field=district_details.district`}
+                />
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
                 <TableSortLabel
                   onClick={() => handleSort(`blockName`)}
                   direction={sort}
@@ -231,8 +252,16 @@ const BlockList = () => {
                 >
                   Block Name
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter Block Name"
+                  field="blockName"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  apiUrl={`/master/block/filter-dropdown?filter_field=blockName`}
+                />
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx,minWidth:'180px' }}>
                 <TableSortLabel
                   onClick={() => handleSort(`blockCode`)}
                   direction={sort}
@@ -240,8 +269,15 @@ const BlockList = () => {
                 >
                   Block Code
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter Block Code"
+                  field="blockCode"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  apiUrl={`/master/block/filter-dropdown?filter_field=blockCode`}
+                />
               </TableCell>
-
 
               <TableCell
                 align={"left"}

@@ -179,11 +179,12 @@ const createMasterDataDispatcher = (type, apiKey, searchFields) => {
     search_value = "",
     sort = "",
     sortBy = "",
+    filters= {},
   } = {}) {
     return async (dispatch) => {
       try {
         const body = {
-          filters: {},
+          filters: { ...filters },
           searchFields: searchFields,
         };
         dispatch({ type: REQUEST });

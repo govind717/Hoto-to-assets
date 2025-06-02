@@ -16,6 +16,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import FilterModel from "app/Components/FilterModel";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { package_data_dispatch } from "app/redux/actions/Master";
@@ -61,7 +62,8 @@ const PackageList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const [filters,setFilters]=useState({});
+  const [applyFilter, setApplyFilter] = useState(false);
   const { packageDataReducer } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -89,6 +91,7 @@ const PackageList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
   };
@@ -111,9 +114,10 @@ const PackageList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,applyFilter, dispatch]);
 
   const addMasterItem = () => {
     navigate(PACKAGE_MASTER_ADD);
@@ -136,6 +140,7 @@ const PackageList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         })
       );
     } else {
@@ -167,6 +172,7 @@ const PackageList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
                 })
               );
             }
@@ -204,7 +210,7 @@ const PackageList = () => {
               </TableCell>
               <TableCell
                 align={"left"}
-                sx={{ ...tableCellSx, minWidth: "180px" }}
+                sx={{ ...tableCellSx, minWidth: "220px" }}
               >
                 <TableSortLabel
                   onClick={() => handleSort(`packageName`)}
@@ -213,6 +219,14 @@ const PackageList = () => {
                 >
                   Package Name
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter Package Name"
+                  field="packageName"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  apiUrl={`/master/package/filter-dropdown?filter_field=packageName`}
+                />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -222,6 +236,14 @@ const PackageList = () => {
                 >
                   Code
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter Code"
+                  field="code"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  apiUrl={`/master/package/filter-dropdown?filter_field=code`}
+                />
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
                 <TableSortLabel
@@ -231,8 +253,15 @@ const PackageList = () => {
                 >
                   State
                 </TableSortLabel>
+                <FilterModel
+                  label="Filter State"
+                  field="state"
+                  filters={filters}
+                  setFilters={setFilters}
+                  setApplyFilter={setApplyFilter}
+                  apiUrl={`/master/package/filter-dropdown?filter_field=state`}
+                />
               </TableCell>
-
 
               <TableCell
                 align={"left"}

@@ -104,6 +104,14 @@ export const RackDetails = ({ data }) => {
         </Grid>
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontSize="14px">
+            Racks Condition
+          </Typography>
+          <Box sx={patternBoxStyle}>
+            {data?.condition ? data?.condition : "-"}
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={3}>
+          <Typography variant="h6" fontSize="14px">
             Rack Positioning
           </Typography>
           <Box sx={patternBoxStyle}>
@@ -150,7 +158,6 @@ export const RackDetails = ({ data }) => {
               : "-"}
           </Box>
         </Grid>
-
       </Grid>
 
       {/* Rack Make Images */}
@@ -1205,114 +1212,114 @@ export const FdmsDetails = function ({ data }) {
   );
 };
 
-export const CableDetails = function ({ equipment_data }) {
-  return (
-    <Grid container justifyContent={"start"} gap={5}>
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>OFC Type</Typography>
-        <Typography>{equipment_data?.cable_ofc_type || "-"}</Typography>
-      </Grid>
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>Cable Fibre</Typography>
-        <Typography>{equipment_data?.cable_fibre_no || "-"}</Typography>
-      </Grid>
-    </Grid>
-  );
-};
-export const SolarDetails = ({ equipment_data }) => {
-  return (
-    <Grid container spacing={3}>
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>Solar Panel Availability</Typography>
-        <Typography>{equipment_data?.solar_panel_avail || "-"}</Typography>
-      </Grid>
+// export const CableDetails = function ({ equipment_data }) {
+//   return (
+//     <Grid container justifyContent={"start"} gap={5}>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>OFC Type</Typography>
+//         <Typography>{equipment_data?.cable_ofc_type || "-"}</Typography>
+//       </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>Cable Fibre</Typography>
+//         <Typography>{equipment_data?.cable_fibre_no || "-"}</Typography>
+//       </Grid>
+//     </Grid>
+//   );
+// };
+// export const SolarDetails = ({ equipment_data }) => {
+//   return (
+//     <Grid container spacing={3}>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>Solar Panel Availability</Typography>
+//         <Typography>{equipment_data?.solar_panel_avail || "-"}</Typography>
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>Solar Panel Count</Typography>
-        <Typography>{equipment_data?.solar_panel_count || "-"}</Typography>
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>Solar Panel Count</Typography>
+//         <Typography>{equipment_data?.solar_panel_count || "-"}</Typography>
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>Access to the terrace</Typography>
-        <Typography>{equipment_data?.terrace_access || "-"}</Typography>
-        {/* {renderIcon(<MapIcon />, equipment_data?.terrace_img)}
-          {renderIcon(<ImageIcon />, equipment_data?.terrace_img1)} */}
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>Access to the terrace</Typography>
+//         <Typography>{equipment_data?.terrace_access || "-"}</Typography>
+//         {/* {renderIcon(<MapIcon />, equipment_data?.terrace_img)}
+//           {renderIcon(<ImageIcon />, equipment_data?.terrace_img1)} */}
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>Solar Panel Condition</Typography>
-        <Typography>{equipment_data?.solar_panel_condition || "-"}</Typography>
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>Solar Panel Condition</Typography>
+//         <Typography>{equipment_data?.solar_panel_condition || "-"}</Typography>
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>Solar Panel Make</Typography>
-        <Typography>{equipment_data?.solar_panel_make || "-"}</Typography>
-        {/* {renderIcon(<MapIcon />, null)}
-          {renderIcon(<ImageIcon />, equipment_data?.solar_panel_img)}
-          {renderIcon(<PlayArrowIcon />, equipment_data?.solar_panel_img1)} */}
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>Solar Panel Make</Typography>
+//         <Typography>{equipment_data?.solar_panel_make || "-"}</Typography>
+//         {/* {renderIcon(<MapIcon />, null)}
+//           {renderIcon(<ImageIcon />, equipment_data?.solar_panel_img)}
+//           {renderIcon(<PlayArrowIcon />, equipment_data?.solar_panel_img1)} */}
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>Solar Panel Serial No</Typography>
-        <Typography>{equipment_data?.solar_panel_serial_no || "-"}</Typography>
-        {/* {renderIcon(<ImageIcon />, equipment_data?.solar_panel_serial_img)} */}
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>Solar Panel Serial No</Typography>
+//         <Typography>{equipment_data?.solar_panel_serial_no || "-"}</Typography>
+//         {/* {renderIcon(<ImageIcon />, equipment_data?.solar_panel_serial_img)} */}
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>Solar Panel Capacity</Typography>
-        <Typography>{equipment_data?.solar_panel_capacity || "-"}</Typography>
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>Solar Panel Capacity</Typography>
+//         <Typography>{equipment_data?.solar_panel_capacity || "-"}</Typography>
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>Solar Panel Warranty</Typography>
-        <Typography>{equipment_data?.solar_panel_warranty || "-"}</Typography>
-        {/* {renderIcon(<ImageIcon />, equipment_data?.solar_panel_warranty_img)} */}
-      </Grid>
-    </Grid>
-  );
-};
-export const UPSDetails = ({ equipment_data }) => {
-  return (
-    <Grid container spacing={2}>
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>UPS Availability</Typography>
-        <Typography>{equipment_data?.ups_avail || "-"}</Typography>
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>Solar Panel Warranty</Typography>
+//         <Typography>{equipment_data?.solar_panel_warranty || "-"}</Typography>
+//         {/* {renderIcon(<ImageIcon />, equipment_data?.solar_panel_warranty_img)} */}
+//       </Grid>
+//     </Grid>
+//   );
+// };
+// export const UPSDetails = ({ equipment_data }) => {
+//   return (
+//     <Grid container spacing={2}>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>UPS Availability</Typography>
+//         <Typography>{equipment_data?.ups_avail || "-"}</Typography>
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>UPS Condition</Typography>
-        <Typography>{equipment_data?.ups_condition || "-"}</Typography>
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>UPS Condition</Typography>
+//         <Typography>{equipment_data?.ups_condition || "-"}</Typography>
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>UPS Make</Typography>
-        <Typography>{equipment_data?.ups_make || "-"}</Typography>
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>UPS Make</Typography>
+//         <Typography>{equipment_data?.ups_make || "-"}</Typography>
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>UPS Serial Number</Typography>
-        <Typography>{equipment_data?.ups_serial_no || "-"}</Typography>
-        {/* {renderIcon(<ImageIcon />, equipment_data?.ups_serial_img)} */}
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>UPS Serial Number</Typography>
+//         <Typography>{equipment_data?.ups_serial_no || "-"}</Typography>
+//         {/* {renderIcon(<ImageIcon />, equipment_data?.ups_serial_img)} */}
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>UPS Capacity</Typography>
-        <Typography>{equipment_data?.ups_capacity || "-"}</Typography>
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>UPS Capacity</Typography>
+//         <Typography>{equipment_data?.ups_capacity || "-"}</Typography>
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>UPS Warranty</Typography>
-        <Typography>{equipment_data?.ups_warranty || "-"}</Typography>
-        {/* {renderIcon(<ImageIcon />, equipment_data?.ups_warranty_img)} */}
-      </Grid>
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>UPS Warranty</Typography>
+//         <Typography>{equipment_data?.ups_warranty || "-"}</Typography>
+//         {/* {renderIcon(<ImageIcon />, equipment_data?.ups_warranty_img)} */}
+//       </Grid>
 
-      <Grid item xl={3} md={4} sm={6}>
-        <Typography sx={labelSxTypography}>UPS Battery No</Typography>
-        <Typography>{equipment_data?.ups_battery_no || "-"}</Typography>
-      </Grid>
-    </Grid>
-  );
-};
+//       <Grid item xl={3} md={4} sm={6}>
+//         <Typography sx={labelSxTypography}>UPS Battery No</Typography>
+//         <Typography>{equipment_data?.ups_battery_no || "-"}</Typography>
+//       </Grid>
+//     </Grid>
+//   );
+// };
 
 const DynamicQuestions= ({ data }) => {
   return (
