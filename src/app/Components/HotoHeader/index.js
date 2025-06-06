@@ -13,8 +13,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const HotoHeader = () => {
-  const dispatch=useDispatch();
-  const {packageNoDataReducer}=useSelector((state)=>state);
+  const dispatch = useDispatch();
+  const { packageNoDataReducer } = useSelector((state) => state);
   // const [selectedValue, setSelectedValue] = useState("Package 1");
   const [packageList, setPackageList] = useState("");
   const handleChange = (event) => {
@@ -78,9 +78,9 @@ const HotoHeader = () => {
                   borderColor: "#ccc", // on focus
                 },
                 "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#ccc", // on dropdown open (click)
-                  },
+                {
+                  borderColor: "#ccc", // on dropdown open (click)
+                },
               },
             }}
           >
