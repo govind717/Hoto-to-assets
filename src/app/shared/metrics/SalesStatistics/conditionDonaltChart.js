@@ -2,8 +2,12 @@
 import {
   Autocomplete,
   Box,
+  Button,
   Card,
   CardContent,
+  CircularProgress,
+  Slide,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -12,7 +16,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
+import Swal from "sweetalert2";
 const colorsMap = {
   Robust: "#22CAAD",
   Damaged: "#F55757",
@@ -139,6 +144,8 @@ const ConditionStatusChart = () => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const [selectedChart, setSelectedChart] = useState("number");
 
@@ -342,6 +349,66 @@ const ConditionStatusChart = () => {
     });
   };
 
+  
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    timer: 3000,
+    customClass: {
+      container: "popupImportant",
+    },
+    timerProgressBar: true,
+    onOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+  const handleExportCSV = async () => {
+    try {
+      setLoading(true);
+      setSnackbarOpen(true);
+      const res = await Axios.post(
+        `/overview/block/gp-wise-equipment-condition/download-excel?package_name=${packageNoDataReducer?.data}`
+      );
+
+      if (res.data.success) {
+        window.open(res?.data?.result);
+
+        Toast.fire({
+          timer: 3000,
+          icon: "success",
+          title: "CSV  Downloaded Successfully...",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        setSnackbarOpen(false);
+      } else {
+        Toast.fire({
+          timer: 3000,
+          icon: "error",
+          title: "CSV  Downloading failed..",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        setSnackbarOpen(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      setSnackbarOpen(false);
+      Toast.fire({
+        timer: 3000,
+        icon: "error",
+        title:
+          error.response?.data.message ||
+          "An error occured while downloading csv",
+        position: "top-right",
+        // background: theme.palette.background.paper,
+      });
+    }
+  };
   return (
     <Card sx={{ boxShadow: 4, borderRadius: 2 }}>
       <CardContent>
@@ -398,6 +465,25 @@ const ConditionStatusChart = () => {
               )}
               disabled={!selectedBlock}
             />
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: "#B0BAC9",
+                padding: "6px 20px",
+                color: "#000",
+                borderRadius: "5px",
+              }}
+              onClick={handleExportCSV}
+            >
+              <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
+            </Button>
+            <Snackbar
+              TransitionComponent={Slide}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              open={snackbarOpen}
+              message=" CSV Downloading in progress..."
+              action={loading && <CircularProgress  color="info" size={24} />}
+            />
           </Box>
         </Box>
 
@@ -427,7 +513,9 @@ const ConditionStatusChart = () => {
             <Tooltip
               formatter={(value, name) => {
                 if (selectedChart === "percentage") {
-                  const percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                  const percent = total
+                    ? ((value / total) * 100).toFixed(1)
+                    : 0;
                   return [`${percent}%`, name];
                 }
                 return [`${value}`, name];

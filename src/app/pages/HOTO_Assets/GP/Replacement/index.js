@@ -20,6 +20,7 @@ import {
   TextField
 } from "@mui/material";
 import FilterModel from "app/Components/FilterModel";
+import TableLoader from "app/pages/Components/TableLoader";
 import { hoto_gp_replacement_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
 import { Axios } from "index";
 import { debounce } from "lodash";
@@ -239,7 +240,6 @@ const ReplacementList = () => {
           message=" CSV Downloading in progress..."
           action={loading && <CircularProgress color="info" size={24} />}
         />
-      
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -526,7 +526,9 @@ const ReplacementList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoGpReplacementDataReducer?.data?.result?.data?.length > 0 ? (
+            {hotoGpReplacementDataReducer?.loading ? (
+              <TableLoader />
+            ) : hotoGpReplacementDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpReplacementDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (

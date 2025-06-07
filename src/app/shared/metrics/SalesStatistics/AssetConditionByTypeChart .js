@@ -1,8 +1,12 @@
 import {
   Autocomplete,
   Box,
+  Button,
   Card,
   CardContent,
+  CircularProgress,
+  Slide,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -20,7 +24,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
+import Swal from "sweetalert2";
 // CustomLegend component with click handler
 // const CustomLegend = ({ data, onLegendClick }) => {
 //   const legendItems = [
@@ -175,6 +180,8 @@ const AssetConditionByTypeChart4 = () => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const [selectedChart, setSelectedChart] = useState("number");
 
@@ -341,6 +348,66 @@ const AssetConditionByTypeChart4 = () => {
     }
   };
 
+  
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    timer: 3000,
+    customClass: {
+      container: "popupImportant",
+    },
+    timerProgressBar: true,
+    onOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+  const handleExportCSV = async () => {
+    try {
+      setLoading(true);
+      setSnackbarOpen(true);
+      const res = await Axios.post(
+        `/overview/block/gp-equipment-wise-condition/download-excel?package_name=${packageNoDataReducer?.data}`
+      );
+
+      if (res.data.success) {
+        window.open(res?.data?.result);
+
+        Toast.fire({
+          timer: 3000,
+          icon: "success",
+          title: "CSV  Downloaded Successfully...",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        setSnackbarOpen(false);
+      } else {
+        Toast.fire({
+          timer: 3000,
+          icon: "error",
+          title: "CSV  Downloading failed..",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        setSnackbarOpen(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      setSnackbarOpen(false);
+      Toast.fire({
+        timer: 3000,
+        icon: "error",
+        title:
+          error.response?.data.message ||
+          "An error occured while downloading csv",
+        position: "top-right",
+        // background: theme.palette.background.paper,
+      });
+    }
+  };
   return (
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
@@ -396,6 +463,25 @@ const AssetConditionByTypeChart4 = () => {
                 <TextField {...params} label="Block" size="small" />
               )}
             />
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: "#B0BAC9",
+                padding: "6px 20px",
+                color: "#000",
+                borderRadius: "5px",
+              }}
+              onClick={handleExportCSV}
+            >
+              <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
+            </Button>
+            <Snackbar
+              TransitionComponent={Slide}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              open={snackbarOpen}
+              message=" CSV Downloading in progress..."
+              action={loading && <CircularProgress color="info" size={24} />}
+            />
             {/* <Autocomplete
               sx={{ minWidth: "200px" }}
               options={gps}
@@ -420,10 +506,14 @@ const AssetConditionByTypeChart4 = () => {
             {/* <Tooltip cursor={{ fill: "transparent" }} /> */}
             <Tooltip
               formatter={(value, name) => {
-                const total = Object.values(chartData?.[0] || {}).reduce((acc, val) =>
-                  typeof val === "number" ? acc + val : acc, 0);
+                const total = Object.values(chartData?.[0] || {}).reduce(
+                  (acc, val) => (typeof val === "number" ? acc + val : acc),
+                  0
+                );
                 if (selectedChart === "percentage") {
-                  const percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                  const percent = total
+                    ? ((value / total) * 100).toFixed(1)
+                    : 0;
                   return [`${percent}%`, name];
                 }
                 return [value, name];
