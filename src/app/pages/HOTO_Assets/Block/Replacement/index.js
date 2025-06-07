@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Axios } from "index";
+import TableLoader from "app/pages/Components/TableLoader";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -515,7 +516,10 @@ const ReplacementList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoBlockReplacementDataReducer?.data?.result?.data?.length > 0 ? (
+            {hotoBlockReplacementDataReducer?.loading ? (
+              <TableLoader />
+            ) : hotoBlockReplacementDataReducer?.data?.result?.data?.length >
+              0 ? (
               hotoBlockReplacementDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (

@@ -32,6 +32,7 @@ import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { hoto_block_wise_asset_data_disptach } from "app/redux/actions/Hoto_to_servey/Block";
 import FilterModel from "app/Components/FilterModel";
+import TableLoader from "app/pages/Components/TableLoader";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -160,7 +161,7 @@ const BlockWiseAssetList = () => {
   }
   return (
     <>
-      {hotoBlockWiseAssetDataReducer?.loading && <FullScreenLoader />}
+     
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -196,7 +197,6 @@ const BlockWiseAssetList = () => {
             ),
           }}
         />
-      
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -243,7 +243,6 @@ const BlockWiseAssetList = () => {
                     package_name={packageNoDataReducer?.data}
                     apiUrl={`/hoto-to-assets/block/block-wise/filter-dropdown?filter_field=block.code&package_name=${packageNoDataReducer?.data}`}
                   />
-                  {console.log("filters ", filters)}
                 </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
@@ -296,7 +295,10 @@ const BlockWiseAssetList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoBlockWiseAssetDataReducer?.data?.result?.data?.length > 0 ? (
+            {hotoBlockWiseAssetDataReducer?.loading ? (
+              <TableLoader />
+            ) : hotoBlockWiseAssetDataReducer?.data?.result?.data?.length >
+              0 ? (
               hotoBlockWiseAssetDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (

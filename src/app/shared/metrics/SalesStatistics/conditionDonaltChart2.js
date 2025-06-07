@@ -1,18 +1,23 @@
-
+import Div from "@jumbo/shared/Div";
 import {
   Autocomplete,
   Box,
+  Button,
   Card,
   CardContent,
+  CircularProgress,
+  Slide,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
 import { Axios } from "index";
+import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 const colorsMap = {
   Robust: "#22CAAD",
   Damaged: "#F55757",
@@ -95,7 +100,7 @@ const CustomLegend = ({ total, data, onConditionClick, selectedChart }) => (
     </Box>
     {data.map((item, index) => {
       const valueDisplay =
-         selectedChart === "percentage"
+        selectedChart === "percentage"
           ? total > 0
             ? `${((item.value / total) * 100).toFixed(2)}%`
             : "0%"
@@ -126,8 +131,7 @@ const CustomLegend = ({ total, data, onConditionClick, selectedChart }) => (
       );
     })}
   </Box>
-); 
-
+);
 
 const ConditionStatusChart2 = () => {
   const [selectedBlock, setSelectedBlock] = useState("");
@@ -139,6 +143,8 @@ const ConditionStatusChart2 = () => {
   const { packageNoDataReducer } = useSelector((state) => state);
   const [notFoundCount, setNotFoundCount] = useState(0);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const [selectedChart, setSelectedChart] = useState("number");
 
@@ -314,7 +320,7 @@ const ConditionStatusChart2 = () => {
             condition: item.name?.toLowerCase(),
           },
         });
-      };
+      }
     }
   };
 
@@ -340,6 +346,66 @@ const ConditionStatusChart2 = () => {
         availability: false,
       },
     });
+  };
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top",
+      showConfirmButton: false,
+      timer: 3000,
+      customClass: {
+        container: "popupImportant",
+      },
+      timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+  const handleExportCSV = async () => {
+    try {
+      setLoading(true);
+      setSnackbarOpen(true);
+      const res = await Axios.post(
+        `/overview/gp/gp-wise-equipment-condition/download-excel?package_name=${packageNoDataReducer?.data}`
+      );
+
+      if (res.data.success) {
+        window.open(res?.data?.result);
+
+        Toast.fire({
+          timer: 3000,
+          icon: "success",
+          title: "CSV  Downloaded Successfully...",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        setSnackbarOpen(false);
+      } else {
+        Toast.fire({
+          timer: 3000,
+          icon: "error",
+          title: "CSV  Downloading failed..",
+          position: "top-right",
+          // background: theme.palette.background.paper,
+        });
+        setLoading(false);
+        setSnackbarOpen(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      setSnackbarOpen(false);
+      Toast.fire({
+        timer: 3000,
+        icon: "error",
+        title:
+          error.response?.data.message ||
+          "An error occured while downloading csv",
+        position: "top-right",
+        // background: theme.palette.background.paper,
+      });
+    }
   };
 
   return (
@@ -398,6 +464,26 @@ const ConditionStatusChart2 = () => {
               )}
               disabled={!selectedBlock}
             />
+           
+              <Button
+                variant="outlined"
+                sx={{
+                  borderColor: "#B0BAC9",
+                  padding: "6px 20px",
+                  color: "#000",
+                  borderRadius: "5px",
+                }}
+                onClick={handleExportCSV}
+              >
+                <CloudDownloadOutlinedIcon sx={{ mr: "10px" }} /> Export
+              </Button>
+            <Snackbar
+              TransitionComponent={Slide}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              open={snackbarOpen}
+              message=" CSV Downloading in progress..."
+              action={loading && <CircularProgress color="info" size={24} />}
+            />
           </Box>
         </Box>
 
@@ -427,7 +513,9 @@ const ConditionStatusChart2 = () => {
             <Tooltip
               formatter={(value, name) => {
                 if (selectedChart === "percentage") {
-                  const percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                  const percent = total
+                    ? ((value / total) * 100).toFixed(1)
+                    : 0;
                   return [`${percent}%`, name];
                 }
                 return [`${value}`, name];
@@ -449,11 +537,9 @@ const ConditionStatusChart2 = () => {
           onConditionClick={handleConditionClick}
           selectedChart={selectedChart}
         />
-
       </CardContent>
     </Card>
   );
 };
 
 export default ConditionStatusChart2;
-

@@ -30,6 +30,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import { Axios } from "index";
+import TableLoader from "app/pages/Components/TableLoader";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -242,10 +243,7 @@ const Transferlist = () => {
           message=" CSV Downloading in progress..."
           action={loading && <CircularProgress color="info" size={24} />}
         />
-
-       
       </Div>
-      {hotoGpTransferDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
@@ -478,7 +476,9 @@ const Transferlist = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoGpTransferDataReducer?.data?.result?.data?.length > 0 ? (
+            {hotoGpTransferDataReducer?.loading ? (
+              <TableLoader />
+            ) : hotoGpTransferDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpTransferDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (

@@ -36,6 +36,7 @@ import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import StaticFilterModel from "app/Components/StaticFilterModel";
+import TableLoader from "app/pages/Components/TableLoader";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -657,7 +658,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </Div>
         )}
       </Div>
-      {hotoGpAssetPortfolioDataReducer?.loading && <FullScreenLoader />}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -1003,8 +1003,10 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoGpAssetPortfolioDataReducer?.data.result?.data &&
-            hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length > 0 ? (
+            {hotoGpAssetPortfolioDataReducer?.loading ? (
+              <TableLoader />
+            ) : hotoGpAssetPortfolioDataReducer?.data?.result?.data?.length >
+              0 ? (
               hotoGpAssetPortfolioDataReducer?.data?.result?.data?.map(
                 (e, i) => {
                   return (

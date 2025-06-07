@@ -21,6 +21,7 @@ import {
 import FilterModel from "app/Components/FilterModel";
 
 import FullScreenLoader from "app/pages/Components/Loader";
+import TableLoader from "app/pages/Components/TableLoader";
 import { orangeSecondary } from "app/pages/Constants/colors";
 import { hoto_gp_wise_asset_data_disptach } from "app/redux/actions/Hoto_to_servey/GP";
 import { debounce } from "lodash";
@@ -178,7 +179,7 @@ const BlockWiseAssetList = () => {
   };
   return (
     <>
-      {hotoGpWiseAssetDataReducer?.loading && <FullScreenLoader />}
+      
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -215,7 +216,7 @@ const BlockWiseAssetList = () => {
             ),
           }}
         />
-        <Div sx={{display:'flex',gap:'20px'}}>
+        <Div sx={{ display: "flex", gap: "20px" }}>
           <FormControl fullWidth size="small" sx={{ my: "2%" }}>
             <Autocomplete
               disablePortal
@@ -401,7 +402,9 @@ const BlockWiseAssetList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoGpWiseAssetDataReducer?.data?.result?.data?.length > 0 ? (
+            {hotoGpWiseAssetDataReducer?.loading ? (
+              <TableLoader />
+            ) : hotoGpWiseAssetDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpWiseAssetDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (

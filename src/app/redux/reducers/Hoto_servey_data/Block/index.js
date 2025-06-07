@@ -19,6 +19,7 @@ export const hotoBlockAssetPortfolioDataReducer = (state = INTI_STATE, action) =
                 data: action.payload.data,
                 loading: false
             }
+            
         case HOTO_BLOCK_ASSET_PORTFOLIO_DATA_FAILED:
             return {
                 data: {},
