@@ -35,6 +35,7 @@ import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTable
 import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
 import { useLocation } from "react-router-dom";
 import StaticFilterModel from "app/Components/StaticFilterModel";
+import DateModel from "app/Components/DateModel";
 import TableLoader from "app/pages/Components/TableLoader";
 
 const tableCellSx = {
@@ -894,7 +895,16 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Created Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  /> */}
+                  <DateModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
@@ -918,7 +928,16 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Updated Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                  /> */}
+                  <DateModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}
@@ -961,32 +980,32 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           <TableBody>
             {
               hotoBlockAssetPortfolioDataReducer?.loading ? <TableLoader /> :
-            hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
-              0 ? (
-              hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
-                (e, i) => {
-                  return (
-                    <AssetPortfolioTableRow
-                      key={e?.id}
-                      e={e}
-                      index={i}
-                      allFilterState={allFilterState}
-                      selectedIds={selectedIds}
-                      setSelectedIds={setSelectedIds}
-                      setItemDetailsForModal={setItemDetailsForModal}
-                      handleOpenDetailModal={handleOpenDetailModal}
-                      setToggle={setToggle}
-                    />
-                  );
-                }
-              )
-            ) : (
-              <TableRow>
-                <TableCell colSpan={14} sx={{ textAlign: "center" }}>
-                  No Data Found
-                </TableCell>
-              </TableRow>
-            )
+                hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
+                  0 ? (
+                  hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
+                    (e, i) => {
+                      return (
+                        <AssetPortfolioTableRow
+                          key={e?.id}
+                          e={e}
+                          index={i}
+                          allFilterState={allFilterState}
+                          selectedIds={selectedIds}
+                          setSelectedIds={setSelectedIds}
+                          setItemDetailsForModal={setItemDetailsForModal}
+                          handleOpenDetailModal={handleOpenDetailModal}
+                          setToggle={setToggle}
+                        />
+                      );
+                    }
+                  )
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={14} sx={{ textAlign: "center" }}>
+                      No Data Found
+                    </TableCell>
+                  </TableRow>
+                )
             }
           </TableBody>
         </Table>

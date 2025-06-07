@@ -499,76 +499,8 @@ import {
 } from "recharts";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import Swal from "sweetalert2";
-// CustomLegend component with click handler
-// const CustomLegend = ({ data, onLegendClick }) => {
-//   const legendItems = [
-//     { name: "Robust", color: "#22CAAD" },
-//     { name: "Damaged", color: "#F55757" },
-//     { name: "Not Defined", color: "#E78F5D" },
-//     // Add more conditions here if needed
-//   ];
 
-//   const latestData = data[0] || {};
-//   let total = 0;
-//   legendItems.forEach((item) => {
-//     total += latestData[item.name] || 0;
-//   });
-
-//   return (
-//     <Box
-//       display="flex"
-//       justifyContent="center"
-//       gap={3}
-//       mt={1.5}
-//       flexWrap="wrap"
-//     >
-//       <Box display="flex" alignItems="center" gap={1}>
-//         <Box
-//           sx={{
-//             width: 12,
-//             height: 12,
-//             borderRadius: "50%",
-//             backgroundColor: "#53B8CA",
-//           }}
-//         />
-//         <Typography variant="body2" sx={{ color: "#000" }}>
-//           {total}
-//         </Typography>
-//         <Typography
-//           variant="body2"
-//           sx={{ color: "#000", cursor: 'pointer' }}
-//           onClick={() => onLegendClick?.('total')}
-//         >
-//           Total Assets
-//         </Typography>
-//       </Box>
-//       {legendItems.map((item, index) => (
-//         <Box
-//           key={index}
-//           display="flex"
-//           alignItems="center"
-//           gap={1}
-//           sx={{ cursor: "pointer" }}
-//           onClick={() => onLegendClick?.(item.name)}
-//         >
-//           <Box
-//             sx={{
-//               width: 12,
-//               height: 12,
-//               borderRadius: "50%",
-//               backgroundColor: item.color,
-//             }}
-//           />
-//           <Typography variant="body2">
-//             {latestData[item.name] ?? 0} {item.name}
-//           </Typography>
-//         </Box>
-//       ))}
-//     </Box>
-//   );
-// };
-
-const CustomLegend = ({ data, onLegendClick, selectedChart }) => {
+const CustomLegend = ({ data, onLegendClick }) => {
   const legendItems = [
     { name: "Robust", color: "#22CAAD" },
     { name: "Damaged", color: "#F55757" },
@@ -607,9 +539,9 @@ const CustomLegend = ({ data, onLegendClick, selectedChart }) => {
       {legendItems.map((item, index) => {
         const rawValue = latestData[item.name] ?? 0;
         const valueDisplay =
-          selectedChart === "percentage"
-            ? `${total > 0 ? ((rawValue / total) * 100).toFixed(2) : 0}%`
-            : rawValue;
+          total > 0
+            ? `${rawValue} (${((rawValue / total) * 100).toFixed(2)}%)`
+            : `${rawValue} (0%)`;
 
         return (
           <Box
@@ -654,12 +586,7 @@ const AssetConditionByTypeChart4 = () => {
   const [loading, setLoading] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const [selectedChart, setSelectedChart] = useState("number");
 
-  const chartModes = [
-    { label: "Number", value: "number" },
-    { label: "Percentage", value: "percentage" },
-  ];
 
 
 
@@ -831,7 +758,7 @@ const AssetConditionByTypeChart4 = () => {
     }
   };
 
-  
+
   const Toast = Swal.mixin({
     toast: true,
     position: "top",
@@ -912,20 +839,7 @@ const AssetConditionByTypeChart4 = () => {
             </Typography>
           </Box>
           <Box display="flex" gap={2}>
-            <Autocomplete
-              sx={{ minWidth: "200px" }}
-              options={chartModes}
-              getOptionLabel={(option) => option.label}
-              value={chartModes.find((mode) => mode.value === selectedChart)}
-              onChange={(_, newValue) => {
-                if (newValue) {
-                  setSelectedChart(newValue.value);
-                }
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="Select Type" size="small" />
-              )}
-            />
+
             <Autocomplete
               sx={{ minWidth: "200px" }}
               options={equipmentTypes}
@@ -993,28 +907,19 @@ const AssetConditionByTypeChart4 = () => {
                   (acc, val) => (typeof val === "number" ? acc + val : acc),
                   0
                 );
-                if (selectedChart === "percentage") {
-                  const percent = total
-                    ? ((value / total) * 100).toFixed(1)
-                    : 0;
-                  return [`${percent}%`, name];
-                }
-                return [value, name];
+                const percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                return [`${percent}%`, name];
               }}
               cursor={{ fill: "transparent" }}
             />
 
             <Legend
               content={
-                // <CustomLegend
-                //   data={chartData}
-                //   onLegendClick={handleLegendClick}
-                // />
                 <CustomLegend
                   data={chartData}
                   onLegendClick={handleLegendClick}
-                  selectedChart={selectedChart}
                 />
+
               }
             />
             <Bar dataKey="Robust" fill="#22CAAD" barSize={30} />

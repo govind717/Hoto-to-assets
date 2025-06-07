@@ -36,6 +36,7 @@ import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTableRow";
 import StaticFilterModel from "app/Components/StaticFilterModel";
+import DateModel from "app/Components/DateModel";
 import TableLoader from "app/pages/Components/TableLoader";
 
 const tableCellSx = {
@@ -153,7 +154,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
 
   const [downloadExcelValue, setDownloadExcelValue] = useState('');
 
-  const downloadExcelValueOptions = [ 
+  const downloadExcelValueOptions = [
     { label: "Export All Data", value: true },
     { label: "Export Data", value: false },
   ];
@@ -387,7 +388,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       const res = await Axios.post(
         `/hoto-to-assets/gp/assets-portfolio/downloadall-excel?package_name=${packageNoDataReducer?.data}`,
       );
-      
+
       if (res.data.success) {
         window.open(res?.data?.result);
 
@@ -938,7 +939,16 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Created Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                  /> */}
+                  <DateModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
@@ -962,7 +972,16 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   >
                     Updated Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                  /> */}
+                  <DateModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}

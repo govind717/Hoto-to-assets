@@ -26,57 +26,8 @@ const colorsMap = {
   // "Not Found": "#E78F5D",
 };
 
-// const CustomLegend = ({ total, data, onConditionClick }) => (
-//   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
-//     <Box display="flex" alignItems="center" gap={1}>
-//       <Box
-//         sx={{
-//           width: 10,
-//           height: 10,
-//           borderRadius: "50%",
-//           backgroundColor: "#53B8CA",
-//         }}
-//       />
-//       <Typography variant="body2" sx={{ color: "#000" }}>
-//         {total}
-//       </Typography>
-//       <Typography
-//         variant="body2"
-//         sx={{ color: "#000", cursor: 'pointer' }}
-//         onClick={() => onConditionClick("total")}
-//       >
-//         Total Assets
-//       </Typography>
-//     </Box>
-//     {data.map((item, index) => (
-//       <Box
-//         key={index}
-//         display="flex"
-//         alignItems="center"
-//         gap={1}
-//         onClick={() => onConditionClick(item)}
-//       >
-//         <Box
-//           sx={{
-//             width: 10,
-//             height: 10,
-//             borderRadius: "50%",
 
-//             backgroundColor: colorsMap[item.name] || "#ccc",
-//           }}
-//         />
-//         <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
-//           {item.value}
-//         </Typography>
-//         <Typography variant="body2" sx={{ color: "#000", cursor: "pointer" }}>
-//           {item.name}
-//         </Typography>
-//       </Box>
-//     ))}
-//   </Box>
-// );
-
-const CustomLegend = ({ total, data, onConditionClick, selectedChart }) => (
+const CustomLegend = ({ total, data, onConditionClick }) => (
   <Box display="flex" justifyContent="center" gap={3} mt={1} flexWrap="wrap">
     <Box display="flex" alignItems="center" gap={1}>
       <Box
@@ -99,12 +50,8 @@ const CustomLegend = ({ total, data, onConditionClick, selectedChart }) => (
       </Typography>
     </Box>
     {data.map((item, index) => {
-     const valueDisplay =
-         selectedChart === "percentage"
-          ? total > 0
-            ? `${((item.value / total) * 100).toFixed(2)}%`
-            : "0%"
-          : item.value;
+      const percentage = total > 0 ? ((item.value / total) * 100).toFixed(2) : "0.00";
+      const valueDisplay = `${item.value} (${percentage}%)`;
       return (
         <Box
           key={index}
@@ -147,12 +94,7 @@ const ConditionStatusChart = () => {
   const [loading, setLoading] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const [selectedChart, setSelectedChart] = useState("number");
 
-  const chartModes = [
-    { label: "Number", value: "number" },
-    { label: "Percentage", value: "percentage" },
-  ];
 
   useEffect(() => {
     setSelectedBlock("");
@@ -349,7 +291,7 @@ const ConditionStatusChart = () => {
     });
   };
 
-  
+
   const Toast = Swal.mixin({
     toast: true,
     position: "top",
@@ -430,20 +372,7 @@ const ConditionStatusChart = () => {
             </Typography>
           </Box>
           <Box display="flex" gap={2}>
-            <Autocomplete
-              sx={{ minWidth: "200px" }}
-              options={chartModes}
-              getOptionLabel={(option) => option.label}
-              value={chartModes.find((mode) => mode.value === selectedChart)}
-              onChange={(_, newValue) => {
-                if (newValue) {
-                  setSelectedChart(newValue.value);
-                }
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="Select Type" size="small" />
-              )}
-            />
+
             <Autocomplete
               sx={{ minWidth: "200px" }}
               options={blocks}
@@ -482,7 +411,7 @@ const ConditionStatusChart = () => {
               anchorOrigin={{ vertical: "top", horizontal: "right" }}
               open={snackbarOpen}
               message=" CSV Downloading in progress..."
-              action={loading && <CircularProgress  color="info" size={24} />}
+              action={loading && <CircularProgress color="info" size={24} />}
             />
           </Box>
         </Box>
@@ -506,36 +435,23 @@ const ConditionStatusChart = () => {
                 />
               ))}
             </Pie>
-            {/* <Tooltip
-              formatter={(value, name) => [`${value}`, `${name}`]}
-              cursor={{ fill: "rgba(0, 0, 0, 0.1)" }}
-            /> */}
+
             <Tooltip
               formatter={(value, name) => {
-                if (selectedChart === "percentage") {
-                  const percent = total
-                    ? ((value / total) * 100).toFixed(1)
-                    : 0;
-                  return [`${percent}%`, name];
-                }
-                return [`${value}`, name];
+                const percent = total ? ((value / total) * 100).toFixed(2) : "0.00";
+                return [`${value} (${percent}%)`, name];
               }}
               cursor={{ fill: "rgba(0, 0, 0, 0.1)" }}
             />
           </PieChart>
         </ResponsiveContainer>
 
-        {/* <CustomLegend
-          total={total}
-          data={conditionData}
-          onConditionClick={handleConditionClick}
-        /> */}
         <CustomLegend
           total={total}
           data={conditionData}
           onConditionClick={handleConditionClick}
-          selectedChart={selectedChart}
         />
+
       </CardContent>
     </Card>
   );

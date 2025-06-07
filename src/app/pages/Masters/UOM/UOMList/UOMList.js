@@ -17,6 +17,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import DateModel from "app/Components/DateModel";
 import FilterModel from "app/Components/FilterModel";
 import HotoHeader from "app/Components/HotoHeader";
 import FullScreenLoader from "app/pages/Components/Loader";
@@ -70,7 +71,7 @@ const UOMList = () => {
 
   const { state } = useLocation();
   const { packageNoDataReducer } = useSelector((state) => state);
-  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
@@ -96,6 +97,7 @@ const UOMList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
       })
     );
   };
@@ -118,9 +120,10 @@ const UOMList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters:filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy,applyFilter, dispatch]);
 
   const addMasterItem = () => {
     navigate(UOM_MASTER_ADD);
@@ -143,6 +146,7 @@ const UOMList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters:filters,
         })
       );
     } else {
@@ -174,6 +178,7 @@ const UOMList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters:filters,
                 })
               );
             }
@@ -222,7 +227,7 @@ const UOMList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=uom&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=uom`}
                   />
                 </Box>
               </TableCell>
@@ -248,7 +253,7 @@ const UOMList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=created_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=created_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -273,7 +278,7 @@ const UOMList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updated_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=updated_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -291,14 +296,23 @@ const UOMList = () => {
                   >
                     Created Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=createdAt`}
+                  /> */}
+                   <DateModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=createdAt`}
                   />
                 </Box>
               </TableCell>
@@ -316,14 +330,23 @@ const UOMList = () => {
                   >
                     Updated Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=updatedAt`}
+                  /> */}
+                  <DateModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=updatedAt`}
                   />
                 </Box>
               </TableCell>
@@ -343,7 +366,7 @@ const UOMList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=status&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/uom/filter-dropdown?filter_field=status`}
                   />
                 </Box>
               </TableCell>

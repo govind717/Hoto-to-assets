@@ -9,7 +9,7 @@ import {
   Paper,
   Switch,
   Table,
-  TableBody,
+  TableBody, 
   TableCell,
   TableContainer,
   TableHead,
@@ -33,6 +33,7 @@ import { Edit } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { updateGST } from "app/services/apis/master";
 import FilterModel from "app/Components/FilterModel";
+import DateModel from "app/Components/DateModel";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -73,7 +74,7 @@ const GSTList = () => {
 
   const { state } = useLocation();
   const { packageNoDataReducer } = useSelector((state) => state);
-  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
 
@@ -99,6 +100,7 @@ const GSTList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
   };
@@ -121,10 +123,11 @@ const GSTList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
-
+  }, [sort, page, sortBy, applyFilter,dispatch]);
+   
   const addMasterItem = () => {
     navigate(GST_MASTER_ADD);
   };
@@ -145,6 +148,7 @@ const GSTList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         })
       );
     } else {
@@ -175,6 +179,7 @@ const GSTList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
                 })
               );
             }
@@ -223,7 +228,7 @@ const GSTList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=gst&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/gst/filter-dropdown?filter_field=gst`}
                   />
                 </Box>
               </TableCell>
@@ -250,7 +255,7 @@ const GSTList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=created_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/gst/filter-dropdown?filter_field=created_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -275,7 +280,7 @@ const GSTList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updated_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/gst/filter-dropdown?filter_field=updated_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -293,14 +298,23 @@ const GSTList = () => {
                   >
                     Created Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/gst/filter-dropdown?filter_field=createdAt`}
+                  /> */}
+                  <DateModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/gst/filter-dropdown?filter_field=createdAt`}
                   />
                 </Box>
               </TableCell>
@@ -318,14 +332,23 @@ const GSTList = () => {
                   >
                     Updated Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/gst/filter-dropdown?filter_field=updatedAt`}
+                  /> */}
+                  <DateModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/gst/filter-dropdown?filter_field=updatedAt`}
                   />
                 </Box>
               </TableCell>
@@ -347,7 +370,7 @@ const GSTList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=status&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/gst/filter-dropdown?filter_field=status`}
                   />
                 </Box>
               </TableCell>

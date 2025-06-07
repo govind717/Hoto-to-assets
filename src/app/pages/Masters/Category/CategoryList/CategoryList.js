@@ -7,7 +7,7 @@ import {
   InputAdornment,
   Pagination,
   Paper,
-  Switch,
+  Switch, 
   Table,
   TableBody,
   TableCell,
@@ -17,6 +17,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import DateModel from "app/Components/DateModel";
 import FilterModel from "app/Components/FilterModel";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
@@ -65,13 +66,13 @@ const CategoryList = () => {
   const [page, setPage] = useState(1);
 
   const { categoryDataReducer } = useSelector((state) => state);
-
+  console.log("this is catlist")
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { state } = useLocation();
   const { packageNoDataReducer } = useSelector((state) => state);
-  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
@@ -96,6 +97,7 @@ const CategoryList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
   };
@@ -118,9 +120,10 @@ const CategoryList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, applyFilter, dispatch]);
 
   const addMasterItem = () => {
     navigate(CATEGORY_MASTER_ADD);
@@ -143,6 +146,7 @@ const CategoryList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         })
       );
     } else {
@@ -173,6 +177,7 @@ const CategoryList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
                 })
               );
             }
@@ -221,7 +226,7 @@ const CategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=category&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=category`}
                   />
                 </Box>
               </TableCell>
@@ -246,7 +251,7 @@ const CategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=created_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=created_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -269,7 +274,7 @@ const CategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updated_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=updated_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -285,14 +290,23 @@ const CategoryList = () => {
                   >
                     Created Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=createdAt`}
+                  /> */}
+                  <DateModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=createdAt`}
                   />
                 </Box>
               </TableCell>
@@ -308,14 +322,23 @@ const CategoryList = () => {
                   >
                     Updated Date
                   </TableSortLabel>
-                  <FilterModel
+                  {/* <FilterModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=updatedAt`}
+                  /> */}
+                  <DateModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=updatedAt`}
                   />
                 </Box>
               </TableCell>
@@ -338,7 +361,7 @@ const CategoryList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=status&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/category/filter-dropdown?filter_field=status`}
                   />
                 </Box>
               </TableCell>

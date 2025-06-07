@@ -17,6 +17,7 @@ import {
   TableSortLabel,
   TextField,
 } from "@mui/material";
+import DateModel from "app/Components/DateModel";
 import FilterModel from "app/Components/FilterModel";
 import FullScreenLoader from "app/pages/Components/Loader";
 import { orangeSecondary } from "app/pages/Constants/colors";
@@ -71,7 +72,7 @@ const HSNCodeList = () => {
 
   const { state } = useLocation();
   const { packageNoDataReducer } = useSelector((state) => state);
-  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
 
   const handleSort = (property) => {
@@ -96,6 +97,7 @@ const HSNCodeList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
   };
@@ -118,9 +120,10 @@ const HSNCodeList = () => {
         search_value: searchTerm.trim(),
         sort: sort,
         page: page,
+        filters: filters,
       })
     );
-  }, [sort, page, sortBy, dispatch]);
+  }, [sort, page, sortBy, applyFilter, dispatch]);
 
   const addMasterItem = () => {
     navigate(HSN_CODE_MASTER_ADD);
@@ -142,6 +145,7 @@ const HSNCodeList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          filters: filters,
         })
       );
     } else {
@@ -172,6 +176,7 @@ const HSNCodeList = () => {
                   search_value: "",
                   sort: sort,
                   page: page,
+                  filters: filters,
                 })
               );
             }
@@ -204,7 +209,7 @@ const HSNCodeList = () => {
               <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "100px" }}>
                 Sr No.
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx , minWidth: "180px" }}>
+              <TableCell align={"left"} sx={{ ...tableCellSx, minWidth: "180px" }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   <TableSortLabel
                     onClick={() => handleSort(`hsn_code`)}
@@ -220,7 +225,7 @@ const HSNCodeList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=hsn_code&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/hsn-code/filter-dropdown?filter_field=hsn_code`}
                   />
                 </Box>
               </TableCell>
@@ -240,7 +245,7 @@ const HSNCodeList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=gst_details.gst&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/hsn-code/filter-dropdown?filter_field=gst_details.gst`}
                   />
                 </Box>
               </TableCell>
@@ -267,7 +272,7 @@ const HSNCodeList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=created_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/hsn-code/filter-dropdown?filter_field=created_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -292,7 +297,7 @@ const HSNCodeList = () => {
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updated_user_details.firstName&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/hsn-code/filter-dropdown?filter_field=updated_user_details.firstName`}
                   />
                 </Box>
               </TableCell>
@@ -301,61 +306,89 @@ const HSNCodeList = () => {
                 sx={{ ...tableCellSx, minWidth: "180px" }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`createdAt`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Created Date
-                </TableSortLabel>
-                 <FilterModel
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(`createdAt`)
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Created Date
+                  </TableSortLabel>
+                  {/* <FilterModel
                     label="Filter Created Date"
                     field="createdAt"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=createdAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/hsn-code/filter-dropdown?filter_field=createdAt`}
+                  /> */}
+                  <DateModel
+                    label="Filter Created Date"
+                    field="createdAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/hsn-code/filter-dropdown?filter_field=createdAt`}
                   />
-                  </Box>
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "200px" }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`updatedAt`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Updated Date
-                </TableSortLabel>
-                 <FilterModel
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(`updatedAt`)
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Updated Date
+                  </TableSortLabel>
+                  {/* <FilterModel
                     label="Filter Updated Date"
                     field="updatedAt"
                     filters={filters}
                     setFilters={setFilters}
                     setApplyFilter={setApplyFilter}
                     package_name={packageNoDataReducer?.data}
-                    apiUrl={`/hoto-to-assets/gp/assets-portfolio/filter-dropdown?filter_field=updatedAt&package_name=${packageNoDataReducer?.data}`}
+                    apiUrl={`/master/hsn-code/filter-dropdown?filter_field=updatedAt`}
+                  /> */}
+                  <DateModel
+                    label="Filter Updated Date"
+                    field="updatedAt"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    package_name={packageNoDataReducer?.data}
+                    apiUrl={`/master/hsn-code/filter-dropdown?filter_field=updatedAt`}
                   />
-                  </Box>
+                </Box>
               </TableCell>
               <TableCell align={"left"} sx={{ ...tableCellSx }}>
-                <TableSortLabel
-                  onClick={() =>
-                    handleSort(`status`)
-                  }
-                  direction={sort}
-                  sx={{ ...tableCellSort }}
-                >
-                  Status
-                </TableSortLabel>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  <TableSortLabel
+                    onClick={() =>
+                      handleSort(`status`)
+                    }
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Status
+                  </TableSortLabel>
+                  <FilterModel
+                    label="Filter Status"
+                    field="status"
+                    filters={filters}
+                    setFilters={setFilters}
+                    setApplyFilter={setApplyFilter}
+                    apiUrl={`/master/hsn-code/filter-dropdown?filter_field=package_details.packageName`}
+                  />
+                </Box>
               </TableCell>
               <TableCell
                 align={"left"}

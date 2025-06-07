@@ -9,7 +9,7 @@ import {
   Paper,
   Switch,
   Table,
-  TableBody,
+  TableBody,  
   TableCell,
   TableContainer,
   TableHead,
@@ -91,7 +91,7 @@ const DistrictList = () => {
       district_data_dispatch({
         sortBy: sortBy,
         search_value: searchTerm.trim(),
-        sort: sort,
+        sort: sort,  
         page: page,
         filters:filters,
       })
