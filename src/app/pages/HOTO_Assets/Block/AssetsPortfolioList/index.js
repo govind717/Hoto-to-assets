@@ -19,7 +19,7 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TextField
+  TextField,
 } from "@mui/material";
 import FilterModel from "app/Components/FilterModel";
 import FullScreenLoader from "app/pages/Components/Loader";
@@ -35,6 +35,7 @@ import AssetPortfolioTableRow from "./AssetPortfolioTableRow/AssetPortfolioTable
 import ItemDetailsModal from "./ItemDetails/AssetsPortFolioItemDetail";
 import { useLocation } from "react-router-dom";
 import StaticFilterModel from "app/Components/StaticFilterModel";
+import TableLoader from "app/pages/Components/TableLoader";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -66,7 +67,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     (state) => state?.hotoBlockAssetPortfolioDataReducer
   );
   const { state } = useLocation();
-  console.log("this is State : ", state);
+
   const dispatch = useDispatch();
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
@@ -77,11 +78,13 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const [toggle, setToggle] = useState(false);
   const [itemDetailsForModal, setItemDetailsForModal] = useState(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
-  const [filters, setFilters] = useState(state ? { ...state } : { availability: true });
+  const [filters, setFilters] = useState(
+    state ? { ...state } : { availability: true }
+  );
   const [applyFilter, setApplyFilter] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const [downloadExcelValue, setDownloadExcelValue] = useState('');
+  const [downloadExcelValue, setDownloadExcelValue] = useState("");
 
   const downloadExcelValueOptions = [
     { label: "Export All Data", value: true },
@@ -145,7 +148,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   //   }
   // });
 
-
   const [filterAvailabilityValue, setFilterAvailabilityValue] = useState(() => {
     if (!state) {
       return { label: "Yes", value: true };
@@ -154,7 +156,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     } else if (state.availability === false) {
       return { label: "No", value: false };
     } else if (state.availability === undefined) {
-      return { label: "All", value: 'all' };
+      return { label: "All", value: "all" };
     } else {
       return { label: "Yes", value: true };
     }
@@ -163,23 +165,22 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
   const filterAvailabilityOptions = [
     { label: "Yes", value: true },
     { label: "No", value: false },
-    { label: "All", value: 'all' },
+    { label: "All", value: "all" },
   ];
-
 
   const handleAvailabilityChange = (selectedOption) => {
     setFilterAvailabilityValue(selectedOption);
     const val = selectedOption?.value;
     if (val === true) {
-      setFilters((prev) => ({ ...prev, availability: true }))
+      setFilters((prev) => ({ ...prev, availability: true }));
     } else if (val === false) {
-      setFilters((prev) => ({ ...prev, availability: false }))
+      setFilters((prev) => ({ ...prev, availability: false }));
     } else {
       const newObj = { ...filters };
-      delete newObj.availability
+      delete newObj.availability;
       setFilters(newObj);
     }
-  }
+  };
 
   useEffect(() => {
     dispatch(
@@ -361,7 +362,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
     } else if (selectedOption?.value === false) {
       handleExportCSV();
     }
-  }
+  };
 
   const handleAllExportCSV = async () => {
     try {
@@ -452,9 +453,6 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
       });
     }
   };
-
-
-
 
   return (
     <>
@@ -641,7 +639,7 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
           </Div>
         )} */}
       </Div>
-      {hotoBlockAssetPortfolioDataReducer?.loading && <FullScreenLoader />}
+      {/* {hotoBlockAssetPortfolioDataReducer?.loading && <FullScreenLoader />} */}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -961,7 +959,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoBlockAssetPortfolioDataReducer?.data.result?.data &&
+            {
+              hotoBlockAssetPortfolioDataReducer?.loading ? <TableLoader /> :
             hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.length >
               0 ? (
               hotoBlockAssetPortfolioDataReducer?.data?.result?.data?.map(
@@ -987,7 +986,8 @@ const AssetsPortfolioList = ({ allFilterState, setAllFilterState }) => {
                   No Data Found
                 </TableCell>
               </TableRow>
-            )}
+            )
+            }
           </TableBody>
         </Table>
         <Pagination

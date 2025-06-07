@@ -37,6 +37,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import FilterModel from "app/Components/FilterModel";
+import TableLoader from "app/pages/Components/TableLoader";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -202,7 +203,6 @@ const MaintainanceList = () => {
 
   return (
     <>
-      {hotoGpMaintenanceDataReducer?.loading && <FullScreenLoader />}
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -564,7 +564,9 @@ const MaintainanceList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoGpMaintenanceDataReducer?.data?.result?.data?.length > 0 ? (
+            {hotoGpMaintenanceDataReducer?.loading ? (
+              <TableLoader />
+            ) : hotoGpMaintenanceDataReducer?.data?.result?.data?.length > 0 ? (
               hotoGpMaintenanceDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (

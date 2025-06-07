@@ -30,6 +30,7 @@ import { useNavigate } from "react-router-dom";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import Swal from "sweetalert2";
 import { Axios } from "index";
+import TableLoader from "app/pages/Components/TableLoader";
 const tableCellSx = {
   textTransform: "capitalize",
   color: "white",
@@ -268,7 +269,7 @@ const Transferlist = () => {
           />
         </Div> */}
       </Div>
-      {hotoBlockTransferDataReducer?.loading && <FullScreenLoader />}
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
           <TableHead>
@@ -512,7 +513,9 @@ const Transferlist = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hotoBlockTransferDataReducer?.data?.result?.data?.length > 0 ? (
+            {hotoBlockTransferDataReducer?.loading ? (
+              <TableLoader />
+            ) : hotoBlockTransferDataReducer?.data?.result?.data?.length > 0 ? (
               hotoBlockTransferDataReducer?.data?.result?.data?.map(
                 (ele, index) => {
                   return (
