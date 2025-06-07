@@ -37,7 +37,7 @@ const CustomLegend = ({ totalGP, data, selectedChart }) => (
         sx={{ color: "#000", cursor: "pointer" }}
 
       >
-        Total Assets
+        Total GP
       </Typography>
     </Box>
     {data.map((item, index) => {
