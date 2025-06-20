@@ -208,11 +208,13 @@ export const hoto_gp_wise_asset_data_disptach = function (
     sort = "",
     sortBy = "",
     filters = {},
+    robustper='',
     availabilityConditionFilters = {},
   } = {},
   package_name
 ) {
   return async (dispatch) => {
+    console.log("robustper api : ", robustper);
     try {
       const body = {
         filters: {
@@ -237,7 +239,7 @@ export const hoto_gp_wise_asset_data_disptach = function (
       dispatch({ type: HOTO_GP_WISE_ASSET_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.gp?.gp_wise_assets_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
+        `${hoto_apis?.gp?.gp_wise_assets_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}&robustper=${robustper}`,
         body
       );
       dispatch({

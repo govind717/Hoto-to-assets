@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -12,16 +12,24 @@ import MaintainanceList from './Maintenance';
 import ReplacementList from './Replacement';
 import Transferlist from './Transfer';
 import WarehouseList from './Warehouse';
+import { useLocation } from 'react-router-dom';
 
 
 const HotoGP = () => { 
-    const [value, setValue] = React.useState(sessionStorage.getItem('gpTabNo') || '1');
-
+  const {state}=useLocation();
+    const [value, setValue] = React.useState(state?.robustper !== "" ? '2' : sessionStorage.getItem('gpTabNo') || '1');
     const handleChange = (event, newValue) => {
         setValue(newValue);
         sessionStorage.setItem("gpTabNo", newValue);
     };
 
+
+    console.log("this is index state : ",state);
+     useEffect(()=>{
+          if (state?.robustper !== "") {
+            sessionStorage.setItem("gpTabNo", 2);
+          }
+      },[]);
     //  useEffect(()=>{
     //       return ()=>{
     //         sessionStorage.removeItem("gpTabNo");
