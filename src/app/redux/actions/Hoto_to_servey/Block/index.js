@@ -36,11 +36,13 @@ export const hoto_block_asset_partfolio_data_disptach = function (
 ) {
   return async (dispatch) => {
     try {
+      const cleanedFilters = { ...filters };
+      delete cleanedFilters.robustper;
       const body = {
         filters: {
-          equipment_name:{$ne:'ONT'},
+          equipment_name: { $ne: "ONT" },
           "equipment_details.location_type": "block",
-          ...filters,
+          ...cleanedFilters,
         },
         searchFields: {
           string: [
@@ -258,7 +260,14 @@ export const hoto_block_asset_partfolio_transfer_data_disptach = function (
 };
 
 export const hoto_block_wise_asset_data_disptach = function (
-  { page = 1, search_value = "", sort = "", sortBy = "", filters = {} } = {},
+  {
+    page = 1,
+    search_value = "",
+    sort = "",
+    sortBy = "",
+    robustper = "",
+    filters = {},
+  } = {},
   package_name
 ) {
   return async (dispatch) => {
@@ -278,7 +287,7 @@ export const hoto_block_wise_asset_data_disptach = function (
       dispatch({ type: HOTO_BLOCK_WISE_ASSET_DATA_REQUEST });
 
       const response = await Axios.post(
-        `${hoto_apis?.block?.block_wise_assets_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}`,
+        `${hoto_apis?.block?.block_wise_assets_list}?page=${page}&search=${search_value}&sort=${sort}&sort_field=${sortBy}&package_name=${package_name}&robustper=${robustper}`,
         body
       );
       dispatch({

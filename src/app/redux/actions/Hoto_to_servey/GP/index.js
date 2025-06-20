@@ -36,11 +36,13 @@ export const hoto_gp_asset_partfolio_data_disptach = function (
 ) {
   return async (dispatch) => {
     try {
+      const cleanedFilters = { ...filters };
+      delete cleanedFilters.robustper;
       const body = {
         filters: {
           equipment_name: { $ne: "OLT" },
           "equipment_details.location_type": "old gp",
-          ...filters,
+          ...cleanedFilters,
         },
         searchFields: {
           string: [
