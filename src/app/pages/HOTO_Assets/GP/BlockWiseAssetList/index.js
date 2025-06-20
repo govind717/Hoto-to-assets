@@ -27,7 +27,7 @@ import { hoto_gp_wise_asset_data_disptach } from "app/redux/actions/Hoto_to_serv
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const tableCellSx = {
   textTransform: "capitalize",
@@ -50,7 +50,9 @@ const BlockWiseAssetList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
+  const {state}=useLocation();
 
+  console.log("state : ", state?.robustper);
   const { hotoGpWiseAssetDataReducer } = useSelector((state) => state);
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -96,6 +98,7 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          robustper: state?.robustper,
           availabilityConditionFilters: availabilityConditionFilters,
           filters: filters,
         },
@@ -123,6 +126,7 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          robustper: state?.robustper,
           availabilityConditionFilters: availabilityConditionFilters,
           filters: filters,
         },
@@ -177,9 +181,15 @@ const BlockWiseAssetList = () => {
       setFilterConditionValue("All");
     }
   };
+  const getRobustLabel = (percentage) => {
+    if (percentage === 100) return "100% Robust";
+    if (percentage > 50) return "Greater than 50";
+    if (percentage < 50) return "Less than 50";
+    return "N/A";
+  };
+  
   return (
     <>
-      
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -197,6 +207,7 @@ const BlockWiseAssetList = () => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    robustper: state?.robustper,
                     availabilityConditionFilters: availabilityConditionFilters,
                     filters: filters,
                   },
@@ -369,6 +380,7 @@ const BlockWiseAssetList = () => {
                   />
                 </Box>
               </TableCell>
+
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "180px" }}
@@ -392,7 +404,20 @@ const BlockWiseAssetList = () => {
                   />
                 </Box>
               </TableCell>
-
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`robustPercentage`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Robust %
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
@@ -478,6 +503,16 @@ const BlockWiseAssetList = () => {
                         }}
                       >
                         {ele?.district?.code || "-"}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {getRobustLabel(ele?.robustPercentage)}
                       </TableCell>
 
                       <TableCell
