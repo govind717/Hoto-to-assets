@@ -49,6 +49,8 @@ const BlockWiseAssetList = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
+  const [robustFilterValue, setRobustFilterValue] = useState(null);
+  const [robustFilterKey, setRobustFilterKey] = useState("");
   const [page, setPage] = useState(1);
   const {state}=useLocation();
 
@@ -98,7 +100,7 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
-          robustper: state?.robustper,
+          robustper: state?.robustper || robustFilterKey,
           availabilityConditionFilters: availabilityConditionFilters,
           filters: filters,
         },
@@ -126,14 +128,23 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
-          robustper: state?.robustper,
+          robustper: state?.robustper || robustFilterKey,
           availabilityConditionFilters: availabilityConditionFilters,
           filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data,filterAvailabilityValue,filterConditionValue, applyFilter, dispatch]);
+  }, [
+    sort,
+    page,
+    sortBy,
+    packageNoDataReducer?.data,
+    filterAvailabilityValue,
+    robustFilterKey,filterConditionValue,
+    applyFilter,
+    dispatch,
+  ]);
 
   const showDetails = (data) => {
     navigate("/dashboards/hoto-survey-gp-data/gp-wise-details", {
@@ -187,7 +198,19 @@ const BlockWiseAssetList = () => {
     if (percentage < 50) return "Less than 50";
     return "N/A";
   };
-  
+  const handleRobustChange = (_, newValue) => {
+    setRobustFilterValue(newValue);
+
+    if (newValue === "100% Robust") {
+      setRobustFilterKey("equal100");
+    } else if (newValue === "greater than 50%") {
+      setRobustFilterKey("greater50");
+    } else if (newValue === "less than 50%") {
+      setRobustFilterKey("lesser50");
+    } else {
+      setRobustFilterKey("");
+    }
+  };
   return (
     <>
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -207,7 +230,7 @@ const BlockWiseAssetList = () => {
                     search_value: "",
                     sort: sort,
                     page: page,
-                    robustper: state?.robustper,
+                    robustper: state?.robustper || robustFilterKey,
                     availabilityConditionFilters: availabilityConditionFilters,
                     filters: filters,
                   },
@@ -232,12 +255,27 @@ const BlockWiseAssetList = () => {
             <Autocomplete
               disablePortal
               size="small"
+              options={["100% Robust", "greater than 50%", "less than 50%"]}
+              getOptionLabel={(option) => option}
+              isOptionEqualToValue={(option, value) => option === value}
+              sx={{ minWidth: 150 }}
+              value={robustFilterValue}
+              onChange={handleRobustChange}
+              renderInput={(params) => (
+                <TextField {...params} label="Robust Filter" />
+              )}
+            />
+          </FormControl>
+          <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+            <Autocomplete
+              disablePortal
+              size="small"
               options={["All", "Yes", "No"]}
               getOptionLabel={(option) => option}
               isOptionEqualToValue={(option, value) =>
                 option?.label === value?.label
               }
-              sx={{ width: 200 }}
+              sx={{ minWidth: 150 }}
               value={filterAvailabilityValue}
               onChange={(_, newValue) => handleAvailabilityChange(newValue)}
               renderInput={(params) => (
@@ -254,7 +292,7 @@ const BlockWiseAssetList = () => {
               isOptionEqualToValue={(option, value) =>
                 option?.label === value?.label
               }
-              sx={{ width: 200 }}
+              sx={{ minWidth: 150 }}
               value={filterConditionValue}
               onChange={(_, newValue) => handleConditionChange(newValue)}
               renderInput={(params) => (
