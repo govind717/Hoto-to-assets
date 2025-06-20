@@ -12,16 +12,22 @@ import MaintainanceList from './Maintenance';
 import ReplacementList from './Replacement';
 import Transferlist from './Transfer';
 import WarehouseList from './Warehouse';
+import { useLocation } from 'react-router-dom';
 
 
 const HotoBlock = () => {
-   
-    const [value, setValue] = React.useState(sessionStorage.getItem('blockTabNo') || '1');
+    const {state}=useLocation();
+    const [value, setValue] = React.useState(state?.robustper !== "" ? '2' : sessionStorage.getItem('blockTabNo') || '1');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
         sessionStorage.setItem("blockTabNo", newValue);
     };
+    useEffect(() => {
+      if (state?.robustper !== "") {
+        sessionStorage.setItem("blockTabNo", 2);
+      }
+    }, []);
     // useEffect(()=>{
     //   return ()=>{
     //     // sessionStorage.removeItem("blockTabNo");

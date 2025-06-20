@@ -25,7 +25,7 @@ import {
 import { debounce, filter } from "lodash";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import MapIcon from "@mui/icons-material/Map";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
 import FullScreenLoader from "app/pages/Components/Loader";
@@ -55,12 +55,13 @@ const BlockWiseAssetList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
-
+  const {state}=useLocation();
   const { hotoBlockWiseAssetDataReducer } = useSelector((state) => state);
   const { packageNoDataReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [robustFilterValue, setRobustFilterValue] = useState(null);
+  const [robustFilterKey, setRobustFilterKey] = useState("");
   const [filters, setFilters] = useState({});
   const [applyFilter, setApplyFilter] = useState(false);
   const [filterAvailabilityValue,setFilterAvailabilityValue]=useState('All')
@@ -106,6 +107,7 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          robustper: state?.robustper || robustFilterKey,
           filters: filters,
         },
         packageNoDataReducer?.data
@@ -132,12 +134,13 @@ const BlockWiseAssetList = () => {
           search_value: searchTerm.trim(),
           sort: sort,
           page: page,
+          robustper: state?.robustper || robustFilterKey,
           filters: filters,
         },
         packageNoDataReducer?.data
       )
     );
-  }, [sort, page, sortBy, packageNoDataReducer?.data,filterAvailabilityValue, applyFilter, dispatch]);
+  }, [sort, page, sortBy, packageNoDataReducer?.data,filterAvailabilityValue,robustFilterKey, applyFilter, dispatch]);
 
   const showDetails = (data) => {
     navigate("/dashboards/hoto-survey-block-data/block-wise-details", {
@@ -159,9 +162,27 @@ const BlockWiseAssetList = () => {
       setFilterAvailabilityValue("All");
     }
   }
+  const getRobustLabel = (percentage) => {
+    if (percentage === 100) return "100% Robust";
+    if (percentage > 50) return "Greater than 50";
+    if (percentage < 50) return "Less than 50";
+    return "N/A";
+  };
+  const handleRobustChange = (_, newValue) => {
+    setRobustFilterValue(newValue);
+
+    if (newValue === "100% Robust") {
+      setRobustFilterKey("equal100");
+    } else if (newValue === "greater than 50%") {
+      setRobustFilterKey("greater50");
+    } else if (newValue === "less than 50%") {
+      setRobustFilterKey("lesser50");
+    } else {
+      setRobustFilterKey("");
+    }
+  };
   return (
     <>
-     
       <Div sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="search"
@@ -179,6 +200,7 @@ const BlockWiseAssetList = () => {
                     search_value: "",
                     sort: sort,
                     page: page,
+                    robustper: state?.robustper || robustFilterKey,
                     filters: filters,
                   },
                   packageNoDataReducer?.data
@@ -197,6 +219,23 @@ const BlockWiseAssetList = () => {
             ),
           }}
         />
+          <Div sx={{ display: "flex", gap: "20px" }}>
+                  <FormControl fullWidth size="small" sx={{ my: "2%" }}>
+                    <Autocomplete
+                      disablePortal
+                      size="small"
+                      options={["100% Robust", "greater than 50%", "less than 50%"]}
+                      getOptionLabel={(option) => option}
+                      isOptionEqualToValue={(option, value) => option === value}
+                      sx={{ minWidth: 150 }}
+                      value={robustFilterValue}
+                      onChange={handleRobustChange}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Robust Filter" />
+                      )}
+                    />
+                  </FormControl>
+                </Div>
       </Div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small">
@@ -225,7 +264,10 @@ const BlockWiseAssetList = () => {
                   />
                 </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <TableSortLabel
                     onClick={() => handleSort(`block.code`)}
@@ -265,7 +307,10 @@ const BlockWiseAssetList = () => {
                   />
                 </Box>
               </TableCell>
-              <TableCell align={"left"} sx={{ ...tableCellSx }}>
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "200px" }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <TableSortLabel
                     onClick={() => handleSort(`district.code`)}
@@ -285,7 +330,20 @@ const BlockWiseAssetList = () => {
                   />
                 </Box>
               </TableCell>
-
+              <TableCell
+                align={"left"}
+                sx={{ ...tableCellSx, minWidth: "180px" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <TableSortLabel
+                    onClick={() => handleSort(`robustPercentage`)}
+                    direction={sort}
+                    sx={{ ...tableCellSort }}
+                  >
+                    Robust %
+                  </TableSortLabel>
+                </Box>
+              </TableCell>
               <TableCell
                 align={"left"}
                 sx={{ ...tableCellSx, minWidth: "80px" }}
@@ -353,7 +411,16 @@ const BlockWiseAssetList = () => {
                       >
                         {ele?.district?.code || "-"}
                       </TableCell>
-
+                      <TableCell
+                        align="left"
+                        sx={{
+                          textAlign: "left",
+                          verticalAlign: "middle",
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        {getRobustLabel(ele?.robustPercentage)}
+                      </TableCell>
                       <TableCell
                         align="left"
                         sx={{

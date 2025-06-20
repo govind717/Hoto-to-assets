@@ -24,7 +24,7 @@ const HotoGP = () => {
     };
 
 
-    console.log("this is index state : ",state);
+    
      useEffect(()=>{
           if (state?.robustper !== "") {
             sessionStorage.setItem("gpTabNo", 2);
